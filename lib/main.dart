@@ -59,8 +59,9 @@ Future<void> main() async {
     );
   } else {
     StorageProvider.config[DynamicConfigKey.firstRun] = false;
+    // Save the full tag: "zh" alone reads back as Simplified Chinese.
     StorageProvider.config[ConfigKey.localeCode] =
-        (await LocaleSettings.useDeviceLocale()).languageCode;
+        (await LocaleSettings.useDeviceLocale()).languageTag;
   }
 
   if (GetPlatform.isDesktop) {
