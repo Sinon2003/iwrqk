@@ -116,9 +116,10 @@ class NetworkProvider {
       url,
       queryParameters: queryParameters,
       options: Options(
-          headers: !SettingsController.switchToAiSite.value
-              ?headers
-              :{"X-Site":"www.iwara.ai",...?headers}),
+        headers: !SettingsController.switchToAiSite.value
+            ? headers
+            : {"X-Site": "www.iwara.ai", ...?headers},
+      ),
     );
 
     return Response(
@@ -142,12 +143,28 @@ class NetworkProvider {
       url,
       queryParameters: queryParameters,
       options: Options(
-          headers: !SettingsController.switchToAiSite.value
-              ?headers
-              :{"X-Site":"www.iwara.ai",...?headers},
-          contentType: Headers.jsonContentType),
+        headers: !SettingsController.switchToAiSite.value
+            ? headers
+            : {"X-Site": "www.iwara.ai", ...?headers},
+        contentType: Headers.jsonContentType,
+      ),
       data: data,
     );
+
+    return Response(
+      data: tryToJson(response.data),
+      requestOptions: response.requestOptions,
+      statusCode: response.statusCode,
+      statusMessage: response.statusMessage,
+      headers: response.headers,
+      isRedirect: response.isRedirect,
+      redirects: response.redirects,
+    );
+  }
+
+  /// Posts multipart [data], such as a file upload.
+  Future<Response<dynamic>> postFormFullUrl(String url, FormData data) async {
+    final response = await _dio.post(url, data: data);
 
     return Response(
       data: tryToJson(response.data),

@@ -4,6 +4,10 @@ class IwaraConst {
 
   static const apiHost = "apiq.iwara.tv";
 
+  /// Receives uploads; the site posts avatars and profile headers here.
+  static const filesHost = "files.iwara.tv";
+  static const uploadImagePath = "/upload/image";
+
   static const salt = "mSvL05GfEmeEmsEYfGCnVpEjYgTJraJN";
 
   static const videoPageUrl = "https://www.iwara.tv/video/{id}";

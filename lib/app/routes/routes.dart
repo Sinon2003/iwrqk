@@ -27,6 +27,9 @@ abstract class AppRoutes {
 
   static const searchResult = '/searchResult';
 
+  static const accountSettings = '/accountSettings';
+  static const notifications = '/notifications';
+
   static const friends = '/friends';
   static const blockedTags = '/blockedTags';
   static const history = '/history';

@@ -23,6 +23,9 @@ class HomePage extends GetView<HomeController> {
           },
         ),
         drawer: const UserDrawer(),
+        onDrawerChanged: (opened) {
+          if (opened) controller.refreshUnreadCounts();
+        },
         body: PageView(
           physics: const NeverScrollableScrollPhysics(),
           controller: controller.pageController,

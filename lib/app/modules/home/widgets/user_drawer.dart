@@ -13,6 +13,29 @@ class UserDrawer extends StatelessWidget {
 
   const UserDrawer({super.key});
 
+  /// An entry with the unread [count] as a badge on its icon.
+  Widget _buildCountedItem(
+    BuildContext context, {
+    required String title,
+    required IconData icon,
+    required String routeName,
+    required int Function() count,
+  }) {
+    return Obx(() {
+      final unread = count();
+      return _buildUserItem(
+        context,
+        title: title,
+        icon: Badge(
+          isLabelVisible: unread > 0,
+          label: Text("$unread"),
+          child: Icon(icon, size: 24),
+        ),
+        routeName: routeName,
+      );
+    });
+  }
+
   Widget _buildUserItem(
     BuildContext context, {
     required title,
@@ -139,6 +162,22 @@ class UserDrawer extends StatelessWidget {
                 margin: const EdgeInsets.symmetric(horizontal: 16),
                 child: Column(
                   children: [
+                    _buildCountedItem(
+                      context,
+                      title: t.notification_list.title,
+                      icon: Icons.notifications,
+                      routeName: AppRoutes.notifications,
+                      count: () =>
+                          _userService.notificationsCounts?.notifications ?? 0,
+                    ),
+                    _buildCountedItem(
+                      context,
+                      title: t.messages.title,
+                      icon: Icons.mail,
+                      routeName: AppRoutes.conversationsPreview,
+                      count: () =>
+                          _userService.notificationsCounts?.messages ?? 0,
+                    ),
                     _buildUserItem(
                       context,
                       title: t.user.friends,
@@ -187,12 +226,22 @@ class UserDrawer extends StatelessWidget {
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 32),
-                      child: _buildUserItem(
-                        context,
-                        title: t.user.settings,
-                        icon: const Icon(Icons.settings, size: 24),
-                        routeName: AppRoutes.settings,
-                        requireLogin: false,
+                      child: Column(
+                        children: [
+                          _buildUserItem(
+                            context,
+                            title: t.account_settings.title,
+                            icon: const Icon(Icons.manage_accounts, size: 24),
+                            routeName: AppRoutes.accountSettings,
+                          ),
+                          _buildUserItem(
+                            context,
+                            title: t.user.settings,
+                            icon: const Icon(Icons.settings, size: 24),
+                            routeName: AppRoutes.settings,
+                            requireLogin: false,
+                          ),
+                        ],
                       ),
                     ),
                   ],

@@ -1,6 +1,14 @@
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
+import '../modules/account/account_settings/binding.dart';
+import '../modules/account/account_settings/page.dart';
+import '../modules/account/conversation_detail/binding.dart';
+import '../modules/account/conversation_detail/page.dart';
+import '../modules/account/conversations/binding.dart';
+import '../modules/account/conversations/page.dart';
+import '../modules/account/notifications/binding.dart';
+import '../modules/account/notifications/page.dart';
 import '../modules/account/blocked_tags/binding.dart';
 import '../modules/account/blocked_tags/page.dart';
 import '../modules/account/downloads/binding.dart';
@@ -152,6 +160,26 @@ abstract class AppPages {
       name: AppRoutes.favorites,
       page: () => const FavoritesPage(),
       binding: FavoritesBinding(),
+    ),
+    GetPage(
+      name: AppRoutes.accountSettings,
+      page: () => const AccountSettingsPage(),
+      binding: AccountSettingsBinding(),
+    ),
+    GetPage(
+      name: AppRoutes.notifications,
+      page: () => const NotificationsPage(),
+      binding: NotificationsBinding(),
+    ),
+    GetPage(
+      name: AppRoutes.conversationsPreview,
+      page: () => const ConversationsPage(),
+      binding: ConversationsBinding(),
+    ),
+    GetPage(
+      name: AppRoutes.conversationDetail,
+      page: () => const ConversationDetailPage(),
+      binding: ConversationDetailBinding(),
     ),
   ];
 }

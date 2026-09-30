@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:dio/dio.dart' show FormData, MultipartFile;
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:iwrqk/app/const/iwara.dart';
@@ -11,6 +12,7 @@ import '../models/account/conversations/conversation.dart';
 import '../models/account/conversations/message.dart';
 import '../models/account/friend_request.dart';
 import '../models/account/notifications/counts.dart';
+import '../models/account/notifications/notification.dart';
 import '../models/app_user.dart';
 import '../models/comment.dart';
 import '../models/forum/channel.dart';
@@ -197,13 +199,28 @@ class ApiProvider {
     return ApiResult(data: appUser, success: message == null, message: message);
   }
 
+  /// Updates the fields that are given. [avatar] is a file returned by
+  /// [uploadImage].
   static Future<ApiResult<void>> updateAppUser({
     required String userId,
     List<String>? tagBlacklist,
+    String? name,
+    Map<String, dynamic>? avatar,
+    bool? hideSensitive,
+    Map<String, dynamic>? notifications,
   }) {
     String? message;
     return networkProvider
-        .put("/user/$userId", data: {"tagBlacklist": ?tagBlacklist})
+        .put(
+          "/user/$userId",
+          data: {
+            "tagBlacklist": ?tagBlacklist,
+            "name": ?name,
+            "avatar": ?avatar,
+            "hideSensitive": ?hideSensitive,
+            "notifications": ?notifications,
+          },
+        )
         .then((value) {
           message = value.data["message"];
         })
@@ -293,8 +310,8 @@ class ApiProvider {
             for (var message in value.data["results"]) {
               messages.add(MessageModel.fromJson(message));
             }
-            first = value.data["first"];
-            last = value.data["last"];
+            first = value.data["first"] ?? "";
+            last = value.data["last"] ?? "";
           }
         })
         .catchError((e, stackTrace) {
@@ -313,6 +330,88 @@ class ApiProvider {
     );
   }
 
+  /// Starts a conversation with [userId] and returns its id.
+  static Future<ApiResult<String>> createConversation({
+    required String userId,
+    required String title,
+    required String body,
+  }) async {
+    String? message;
+    String? conversationId;
+    await networkProvider
+        .post(
+          "/user/$userId/conversations",
+          data: {"user": userId, "title": title, "body": body},
+        )
+        .then((value) {
+          message = value.data["message"];
+          conversationId = value.data["id"];
+        })
+        .catchError((e, stackTrace) {
+          message = e.toString();
+        });
+    return ApiResult(
+      data: conversationId,
+      success: message == null && conversationId != null,
+      message: message,
+    );
+  }
+
+  static Future<ApiResult<void>> deleteMessage(String messageId) async {
+    String? message;
+    await networkProvider
+        .delete("/message/$messageId")
+        .then((value) {
+          if (value.data is Map) message = value.data["message"];
+        })
+        .catchError((e, stackTrace) {
+          message = e.toString();
+        });
+    return ApiResult(data: null, success: message == null, message: message);
+  }
+
+  static Future<ApiResult<GroupResult<NotificationModel>>> getNotifications({
+    required String userId,
+    required int pageNum,
+  }) async {
+    String? message;
+    int count = 0;
+    List<NotificationModel> notifications = [];
+    await networkProvider
+        .get("/user/$userId/notifications", queryParameters: {"page": pageNum})
+        .then((value) {
+          message = value.data["message"];
+          if (message == null) {
+            count = value.data["count"] ?? 0;
+            notifications = (value.data["results"] as List)
+                .map((e) => NotificationModel.fromJson(e))
+                .toList();
+          }
+        })
+        .catchError((e, stackTrace) {
+          message = e.toString();
+        });
+    return ApiResult(
+      data: GroupResult(results: notifications, count: count),
+      success: message == null,
+      message: message,
+    );
+  }
+
+  /// Marks one notification as read, or all of them with "all".
+  static Future<ApiResult<void>> markNotificationRead(String id) async {
+    String? message;
+    await networkProvider
+        .post("/notifications/$id/read")
+        .then((value) {
+          if (value.data is Map) message = value.data["message"];
+        })
+        .catchError((e, stackTrace) {
+          message = e.toString();
+        });
+    return ApiResult(data: null, success: message == null, message: message);
+  }
+
   static Future<ApiResult<void>> sendMessage({
     required String conversationId,
     required String content,
@@ -329,6 +428,59 @@ class ApiProvider {
         });
 
     return ApiResult(data: null, success: message == null, message: message);
+  }
+
+  /// Updates the description ([body]) or the header of a profile. [header] is
+  /// a file returned by [uploadImage]; [removeHeader] clears it.
+  static Future<ApiResult<void>> updateProfile({
+    required String userName,
+    String? body,
+    Map<String, dynamic>? header,
+    bool removeHeader = false,
+  }) async {
+    String? message;
+    await networkProvider
+        .put(
+          "/profile/$userName",
+          data: {
+            "body": ?body,
+            if (removeHeader) "header": null else "header": ?header,
+          },
+        )
+        .then((value) {
+          message = value.data["message"];
+        })
+        .catchError((e, stackTrace) {
+          message = e.toString();
+        });
+    return ApiResult(data: null, success: message == null, message: message);
+  }
+
+  /// Uploads an image the way the site does before setting it as an avatar or
+  /// profile header, and returns the stored file.
+  static Future<ApiResult<Map<String, dynamic>>> uploadImage(
+    String filePath,
+  ) async {
+    String? message;
+    Map<String, dynamic>? file;
+    try {
+      final response = await networkProvider.postFormFullUrl(
+        "https://${IwaraConst.filesHost}${IwaraConst.uploadImagePath}",
+        FormData.fromMap({"file": await MultipartFile.fromFile(filePath)}),
+      );
+      final data = response.data;
+      if (response.statusCode == 201 && data is Map<String, dynamic>) {
+        file = data;
+      } else {
+        message = data is Map
+            ? (data["message"] ?? data["reason"] ?? "${response.statusCode}")
+                  .toString()
+            : "${response.statusCode}";
+      }
+    } catch (e) {
+      message = e.toString();
+    }
+    return ApiResult(data: file, success: message == null, message: message);
   }
 
   static Future<ApiResult<ProfileModel>> getProfile(String userName) async {
@@ -493,7 +645,7 @@ class ApiProvider {
     return ApiResult(data: image, success: message == null, message: message);
   }
 
-  static void sortResolutions(List<ResolutionModel> resolutions){
+  static void sortResolutions(List<ResolutionModel> resolutions) {
     resolutions.sort((a, b) {
       if (a.name == 'Source') return -1;
       if (b.name == 'Source') return 1;
@@ -1010,33 +1162,33 @@ class ApiProvider {
 
     await networkProvider
         .get(
-      "/search",
-      queryParameters: {
-        "query": keyword,
-        "page": pageNum,
-        "type": type.value,
-        if (orderType != null) "sort": orderType.value,
-      },
-    )
+          "/search",
+          queryParameters: {
+            "query": keyword,
+            "page": pageNum,
+            "type": type.value,
+            if (orderType != null) "sort": orderType.value,
+          },
+        )
         .then((value) {
-      message = value.data["message"];
+          message = value.data["message"];
 
-      if (message != null) {
-        if (message == "errors.notFound") {
-          message = null;
-          threads = [];
-          count = 0;
-        }
-      } else {
-        threads = (value.data["results"] as List)
-            .map((e) => ThreadModel.fromJson(e))
-            .toList();
-        count=value.data['count'];
-      }
-    })
+          if (message != null) {
+            if (message == "errors.notFound") {
+              message = null;
+              threads = [];
+              count = 0;
+            }
+          } else {
+            threads = (value.data["results"] as List)
+                .map((e) => ThreadModel.fromJson(e))
+                .toList();
+            count = value.data['count'];
+          }
+        })
         .catchError((e, stackTrace) {
-      message = e.toString();
-    });
+          message = e.toString();
+        });
 
     return ApiResult(
       data: GroupResult(count: count, results: threads),
@@ -1044,7 +1196,6 @@ class ApiProvider {
       message: message,
     );
   }
-
 
   static Future<ApiResult<void>> followUser({required String userId}) async {
     String? message;

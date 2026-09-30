@@ -6,23 +6,38 @@ import '../enums/result.dart';
 import '../enums/types.dart';
 import '../models/account/conversations/conversation.dart';
 import '../models/account/notifications/counts.dart';
+import '../models/account/notifications/notification.dart';
 import '../models/account/notifications/settings.dart';
 import '../models/playlist/light_playlist.dart';
+import '../models/profile.dart';
 import '../models/tag.dart';
 import '../models/user.dart';
 import '../providers/api_provider.dart';
+import '../../utils/display_util.dart';
 import 'account_service.dart';
 
 class UserService extends GetxService {
   final AccountService accountService = Get.find();
 
-  UserModel? user;
+  /// Reactive, so avatars and names shown with Obx follow profile edits.
+  final Rxn<UserModel> _user = Rxn<UserModel>();
+  UserModel? get user => _user.value;
+  set user(UserModel? value) => _user.value = value;
+
+  ProfileModel? profile;
+  bool hideSensitive = false;
 
   NotificationsSettings? notificationsSettings;
 
   List<TagModel> blockedTags = <TagModel>[];
 
-  NotificationsCountsModel? notificationsCounts;
+  /// Unread messages, notifications and friend requests; reactive so the
+  /// drawer badges follow it.
+  final Rxn<NotificationsCountsModel> _notificationsCounts = Rxn();
+  NotificationsCountsModel? get notificationsCounts =>
+      _notificationsCounts.value;
+  set notificationsCounts(NotificationsCountsModel? value) =>
+      _notificationsCounts.value = value;
 
   Future<bool> init() async {
     bool flag = false;
@@ -52,6 +67,8 @@ class UserService extends GetxService {
         flag = false;
       } else {
         user = value.data!.user;
+        profile = value.data!.profile;
+        hideSensitive = value.data!.hideSensitive;
         blockedTags = value.data!.tagBlacklist;
         notificationsSettings = value.data!.notifications;
         flag = true;
@@ -568,5 +585,137 @@ class UserService extends GetxService {
       }
     });
     return flag;
+  }
+
+  Future<ApiResult<GroupResult<NotificationModel>>> getNotifications(
+    int pageNum,
+  ) {
+    if (!accountService.isLogin || user == null) {
+      return Future.value(
+        ApiResult(data: null, message: t.account.require_login, success: false),
+      );
+    }
+    return ApiProvider.getNotifications(userId: user!.id, pageNum: pageNum);
+  }
+
+  /// Marks a notification, or all of them with "all", as read and refreshes
+  /// the unread counts.
+  Future<bool> markNotificationRead(String id) async {
+    final result = await ApiProvider.markNotificationRead(id);
+    if (!result.success) {
+      SmartDialog.showToast(DisplayUtil.getErrorMessage(result.message!));
+      return false;
+    }
+    getNotificationsCounts();
+    return true;
+  }
+
+  /// Starts a conversation with [userId] and returns its id.
+  Future<String?> createConversation({
+    required String userId,
+    required String title,
+    required String body,
+  }) async {
+    if (!accountService.isLogin) {
+      SmartDialog.showToast(t.account.require_login);
+      return null;
+    }
+    final result = await ApiProvider.createConversation(
+      userId: userId,
+      title: title,
+      body: body,
+    );
+    if (!result.success) {
+      SmartDialog.showToast(
+        DisplayUtil.getErrorMessage(result.message ?? t.notifications.error),
+      );
+      return null;
+    }
+    return result.data;
+  }
+
+  Future<bool> deleteMessage(String messageId) async {
+    final result = await ApiProvider.deleteMessage(messageId);
+    if (!result.success) {
+      SmartDialog.showToast(DisplayUtil.getErrorMessage(result.message!));
+    }
+    return result.success;
+  }
+
+  /// Applies an account or profile change, then reloads the user so every
+  /// page shows the new values.
+  Future<bool> _updateAccount(Future<ApiResult<void>> Function() update) async {
+    if (!accountService.isLogin || user == null) {
+      SmartDialog.showToast(t.account.require_login);
+      return false;
+    }
+    final result = await update();
+    if (!result.success) {
+      SmartDialog.showToast(DisplayUtil.getErrorMessage(result.message!));
+      return false;
+    }
+    await getUser();
+    return true;
+  }
+
+  Future<bool> updateName(String name) {
+    return _updateAccount(
+      () => ApiProvider.updateAppUser(userId: user!.id, name: name),
+    );
+  }
+
+  Future<bool> updateDescription(String body) {
+    return _updateAccount(
+      () => ApiProvider.updateProfile(userName: user!.username, body: body),
+    );
+  }
+
+  Future<bool> updateHideSensitive(bool value) {
+    return _updateAccount(
+      () => ApiProvider.updateAppUser(userId: user!.id, hideSensitive: value),
+    );
+  }
+
+  Future<bool> updateNotificationsSettings(NotificationsSettings settings) {
+    return _updateAccount(
+      () => ApiProvider.updateAppUser(
+        userId: user!.id,
+        notifications: settings.toJson(),
+      ),
+    );
+  }
+
+  /// Uploads the image at [filePath] and makes it the avatar.
+  Future<bool> updateAvatar(String filePath) {
+    return _updateAccount(() async {
+      final upload = await ApiProvider.uploadImage(filePath);
+      if (!upload.success) return upload;
+      return ApiProvider.updateAppUser(userId: user!.id, avatar: upload.data);
+    });
+  }
+
+  /// Uploads the image at [filePath] and makes it the profile header.
+  Future<bool> updateHeader(String filePath) {
+    return _updateAccount(() async {
+      final upload = await ApiProvider.uploadImage(filePath);
+      if (!upload.success) return upload;
+      return ApiProvider.updateProfile(
+        userName: user!.username,
+        header: upload.data,
+      );
+    });
+  }
+
+  Future<bool> removeHeader() async {
+    final removed = await _updateAccount(
+      () => ApiProvider.updateProfile(
+        userName: user!.username,
+        removeHeader: true,
+      ),
+    );
+    // The site deletes the header file in the background, so the reloaded
+    // profile can still have it for a while.
+    if (removed) profile?.header = null;
+    return removed;
   }
 }

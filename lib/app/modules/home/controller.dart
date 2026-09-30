@@ -7,7 +7,10 @@ import 'package:get/get.dart';
 import 'package:iwrqk/i18n/strings.g.dart';
 import 'package:listen_sharing_intent/listen_sharing_intent.dart';
 
+import '../../data/providers/api_provider.dart';
+import '../../data/services/account_service.dart';
 import '../../data/services/config_service.dart';
+import '../../data/services/user_service.dart';
 import '../../routes/pages.dart';
 import '../../utils/log_util.dart';
 import '../../utils/url_util.dart';
@@ -173,6 +176,17 @@ class HomeController extends GetxController {
 
   void openDrawer() {
     scaffoldKey.currentState!.openDrawer();
+  }
+
+  /// Refreshes the unread badges in the drawer, without a toast on failure.
+  void refreshUnreadCounts() {
+    final AccountService accountService = Get.find();
+    if (!accountService.isLogin) return;
+    ApiProvider.getNotificationsCounts().then((value) {
+      if (value.success) {
+        Get.find<UserService>().notificationsCounts = value.data;
+      }
+    });
   }
 
   void onBackPressed(BuildContext context) {
