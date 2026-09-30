@@ -1050,12 +1050,42 @@ class ApiProvider {
     await networkProvider
         .delete("/forum/post/$id")
         .then((value) {
-          message = value.data["message"];
+          // A successful delete may come back without a body.
+          if (value.data is Map) message = value.data["message"];
         })
         .catchError((e, stackTrace) {
           message = e.toString();
         });
 
+    return ApiResult(data: null, success: message == null, message: message);
+  }
+
+  static Future<ApiResult<void>> deleteThread({required String id}) async {
+    String? message;
+    await networkProvider
+        .delete("/forum/$id")
+        .then((value) {
+          if (value.data is Map) message = value.data["message"];
+        })
+        .catchError((e, stackTrace) {
+          message = e.toString();
+        });
+    return ApiResult(data: null, success: message == null, message: message);
+  }
+
+  static Future<ApiResult<void>> updateThreadTitle({
+    required String id,
+    required String title,
+  }) async {
+    String? message;
+    await networkProvider
+        .put("/forum/$id", data: {"title": title})
+        .then((value) {
+          if (value.data is Map) message = value.data["message"];
+        })
+        .catchError((e, stackTrace) {
+          message = e.toString();
+        });
     return ApiResult(data: null, success: message == null, message: message);
   }
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:iwrqk/i18n/strings.g.dart';
 
@@ -17,6 +18,9 @@ class Post extends StatefulWidget {
   final bool showDivider;
   final String starterUserName;
   final bool isMyComment;
+
+  /// The thread the post belongs to; its first post stands for the thread.
+  final String? threadId;
   final void Function(Map)? onUpdated;
 
   const Post({
@@ -26,6 +30,7 @@ class Post extends StatefulWidget {
     this.showDivider = true,
     required this.starterUserName,
     this.isMyComment = false,
+    this.threadId,
     this.onUpdated,
   });
 
@@ -35,6 +40,75 @@ class Post extends StatefulWidget {
 
 class _PostState extends State<Post>
     with AutomaticKeepAliveClientMixin, TranslationMixin {
+  bool get _isThreadStart => widget.index == 0 && widget.threadId != null;
+
+  Future<bool> _confirm(String message) async {
+    final confirmed = await Get.dialog<bool>(
+      AlertDialog(
+        content: Text(message),
+        actions: [
+          TextButton(
+            onPressed: () => Get.back(result: false),
+            child: Text(t.notifications.cancel),
+          ),
+          TextButton(
+            onPressed: () => Get.back(result: true),
+            child: Text(t.notifications.confirm),
+          ),
+        ],
+      ),
+    );
+    return confirmed == true;
+  }
+
+  /// Deletes the post; for the first post the whole thread goes too, as on
+  /// the site, and the thread page closes.
+  Future<void> _delete() async {
+    final confirmed = await _confirm(
+      _isThreadStart
+          ? t.thread.delete_thread_confirm
+          : t.message.are_you_sure_to_do_that,
+    );
+    if (!confirmed) return;
+    final UserService userService = Get.find();
+    if (!await userService.deletePost(id: widget.post.id)) return;
+    if (_isThreadStart) {
+      if (await userService.deleteThread(widget.threadId!)) {
+        SmartDialog.showToast(t.thread.thread_deleted);
+        Get.back();
+      }
+      return;
+    }
+    widget.onUpdated?.call({"state": "delete"});
+  }
+
+  Future<void> _editThreadTitle() async {
+    final textController = TextEditingController();
+    final title = await Get.dialog<String>(
+      AlertDialog(
+        title: Text(t.thread.edit_title),
+        content: TextField(controller: textController, autofocus: true),
+        actions: [
+          TextButton(
+            onPressed: () => Get.back(),
+            child: Text(t.notifications.cancel),
+          ),
+          TextButton(
+            onPressed: () => Get.back(result: textController.text.trim()),
+            child: Text(t.notifications.confirm),
+          ),
+        ],
+      ),
+    );
+    textController.dispose();
+    if (title == null || title.isEmpty) return;
+    final UserService userService = Get.find();
+    if (await userService.updateThreadTitle(widget.threadId!, title)) {
+      SmartDialog.showToast(t.thread.title_updated);
+      widget.onUpdated?.call({"state": "title", "title": title});
+    }
+  }
+
   Widget _buildStarterBadge(BuildContext context) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 4),
@@ -137,13 +211,15 @@ class _PostState extends State<Post>
                     },
                     child: Text(t.comment.edit_comment),
                   ),
+                  if (_isThreadStart)
+                    PopupMenuItem<String>(
+                      value: "edit_title",
+                      onTap: _editThreadTitle,
+                      child: Text(t.thread.edit_title),
+                    ),
                   PopupMenuItem<String>(
                     value: "delete",
-                    onTap: () {
-                      final UserService userService = Get.find();
-                      userService.deletePost(id: widget.post.id);
-                      widget.onUpdated?.call({"state": "delete"});
-                    },
+                    onTap: _delete,
                     child: Text(t.comment.delete_comment),
                   ),
                 ],

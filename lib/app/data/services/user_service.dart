@@ -565,6 +565,25 @@ class UserService extends GetxService {
     return flag;
   }
 
+  Future<bool> deleteThread(String threadId) async {
+    final result = await ApiProvider.deleteThread(id: threadId);
+    if (!result.success) {
+      SmartDialog.showToast(DisplayUtil.getErrorMessage(result.message!));
+    }
+    return result.success;
+  }
+
+  Future<bool> updateThreadTitle(String threadId, String title) async {
+    final result = await ApiProvider.updateThreadTitle(
+      id: threadId,
+      title: title,
+    );
+    if (!result.success) {
+      SmartDialog.showToast(DisplayUtil.getErrorMessage(result.message!));
+    }
+    return result.success;
+  }
+
   Future<bool> saveBlockedTags(List<String> blockedTags) async {
     bool flag = false;
     if (!accountService.isLogin) {

@@ -31,6 +31,9 @@ class PostList extends StatefulWidget {
 class _PostListState extends State<PostList> {
   late PostListController _controller;
 
+  /// Replaces [PostList.title] after the starter renames the thread.
+  String? _editedTitle;
+
   @override
   void initState() {
     super.initState();
@@ -66,11 +69,14 @@ class _PostListState extends State<PostList> {
                           isMyComment:
                               _controller.userService.user?.id ==
                               data[index].user.id,
+                          threadId: widget.threadId,
                           onUpdated: (Map data) {
                             if (data["state"] == "delete") {
                               _controller.deleteComment(index);
                             } else if (data["state"] == "edit") {
                               _controller.updateContent(index, data["content"]);
+                            } else if (data["state"] == "title") {
+                              setState(() => _editedTitle = data["title"]);
                             }
                           },
                         );
@@ -87,7 +93,7 @@ class _PostListState extends State<PostList> {
                                   16,
                                 ),
                                 child: Text(
-                                  widget.title,
+                                  _editedTitle ?? widget.title,
                                   style: Theme.of(context).textTheme.titleLarge,
                                 ),
                               ),
