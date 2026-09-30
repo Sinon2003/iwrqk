@@ -67,6 +67,9 @@ class _PlaylistDetailPageState extends State<PlaylistDetailPage> {
                               ),
                             );
                             break;
+                          case 'deletePlaylist':
+                            controller.deletePlaylist();
+                            break;
                           default:
                         }
                       },
@@ -83,6 +86,15 @@ class _PlaylistDetailPageState extends State<PlaylistDetailPage> {
                             PopupMenuItem<String>(
                               value: 'editTitle',
                               child: Text(t.playlist.edit_title),
+                            ),
+                            PopupMenuItem<String>(
+                              value: 'deletePlaylist',
+                              child: Text(
+                                t.playlist.delete,
+                                style: TextStyle(
+                                  color: Theme.of(context).colorScheme.error,
+                                ),
+                              ),
                             ),
                           ],
                     ),

@@ -1453,6 +1453,19 @@ class ApiProvider {
     return ApiResult(data: null, success: message == null, message: message);
   }
 
+  static Future<ApiResult<void>> deletePlaylist(String playlistId) async {
+    String? message;
+    await networkProvider
+        .delete("/playlist/$playlistId")
+        .then((value) {
+          if (value.data is Map) message = value.data["message"];
+        })
+        .catchError((e, stackTrace) {
+          message = e.toString();
+        });
+    return ApiResult(data: null, success: message == null, message: message);
+  }
+
   static Future<ApiResult<GroupResult<PlaylistModel>>> getPlaylists({
     required String userId,
     required int pageNum,

@@ -4,6 +4,7 @@ import 'package:iwrqk/i18n/strings.g.dart';
 
 import '../../../../components/network_image.dart';
 import '../../../../const/iwara.dart';
+import '../controller.dart';
 
 class PlaylistPreview extends StatelessWidget {
   final String playlistId;
@@ -22,11 +23,14 @@ class PlaylistPreview extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {
-        Get.toNamed(
+      onTap: () async {
+        final deleted = await Get.toNamed(
           "/playlistDetail?playlistId=$playlistId&requireMyself=$requireMyself",
           arguments: {"title": title},
         );
+        if (deleted == true && Get.isRegistered<PlaylistsPreviewController>()) {
+          Get.find<PlaylistsPreviewController>().refreshData();
+        }
       },
       child: Container(
         constraints: const BoxConstraints(maxHeight: 116),

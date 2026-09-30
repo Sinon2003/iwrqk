@@ -1,7 +1,11 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
+import 'package:iwrqk/i18n/strings.g.dart';
 
 import '../../../data/providers/api_provider.dart';
 import '../../../data/services/user_service.dart';
+import '../../../utils/display_util.dart';
 import 'widgets/playlist_detail_media_preview_list/controller.dart';
 
 class PlaylistDetailController extends GetxController {
@@ -74,6 +78,35 @@ class PlaylistDetailController extends GetxController {
     checkedList.clear();
     checkedCount = 0;
     await refreshPlaylist();
+  }
+
+  /// Deletes the playlist itself; the videos in it stay. Closes the page with
+  /// `true` so the playlists page reloads.
+  Future<void> deletePlaylist() async {
+    final confirmed = await Get.dialog<bool>(
+      AlertDialog(
+        title: Text(t.playlist.delete),
+        content: Text(t.playlist.delete_confirm),
+        actions: [
+          TextButton(
+            onPressed: () => Get.back(result: false),
+            child: Text(t.notifications.cancel),
+          ),
+          TextButton(
+            onPressed: () => Get.back(result: true),
+            child: Text(t.notifications.confirm),
+          ),
+        ],
+      ),
+    );
+    if (confirmed != true) return;
+    final result = await ApiProvider.deletePlaylist(playlistId);
+    if (!result.success) {
+      SmartDialog.showToast(DisplayUtil.getErrorMessage(result.message!));
+      return;
+    }
+    SmartDialog.showToast(t.message.playlist.playlist_deleted);
+    Get.back(result: true);
   }
 
   Future<void> refreshPlaylist() async {
