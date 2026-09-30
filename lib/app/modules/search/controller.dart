@@ -16,7 +16,10 @@ class SearchController extends GetxController {
   final RxList<SearchHistoryModel> _searchHistoryList =
       <SearchHistoryModel>[].obs;
 
+  final RxBool _editingHistory = false.obs;
+
   bool get clipsExpanded => _clipsExpanded.value;
+  bool get editingHistory => _editingHistory.value;
   bool get showSearchSuffix => _showSearchSuffix.value;
 
   set showSearchSuffix(bool value) {
@@ -35,10 +38,15 @@ class SearchController extends GetxController {
     List<SearchHistoryModel> list = StorageProvider.searchHistoryList.get();
     if (list.length <= maxExpandedClipsCount) {
       _clipsExpanded.value = true;
-    } else {
+    } else if (_searchHistoryList.length <= maxExpandedClipsCount) {
+      // Collapse only when the list grows past the limit, so deleting an item
+      // from an expanded list keeps it expanded.
       _clipsExpanded.value = false;
     }
     _searchHistoryList.value = list;
+    if (list.isEmpty) {
+      _editingHistory.value = false;
+    }
   }
 
   Future<void> addSearchHistoryItem(String text) async {
@@ -50,14 +58,29 @@ class SearchController extends GetxController {
     _refreshSearchHistoryList();
   }
 
-  Future<void> deleteSearchHistoryItem(int index) async {
-    await StorageProvider.searchHistoryList.deleteByIndex(index);
+  /// Deletes by keyword (unique in the list): on a quick repeated tap an index
+  /// could already point at the next item.
+  Future<void> deleteSearchHistoryItem(String keyword) async {
+    await StorageProvider.searchHistoryList.deleteWhere(
+      (item) => item.keyword == keyword,
+    );
     _refreshSearchHistoryList();
   }
 
   Future<void> clearSearchHistoryList() async {
     await StorageProvider.searchHistoryList.clean();
     _refreshSearchHistoryList();
+  }
+
+  /// Shows a delete button on every history item. The keyboard is hidden so
+  /// it does not cover the items.
+  void startEditingHistory() {
+    searchFocusNode.unfocus();
+    _editingHistory.value = true;
+  }
+
+  void stopEditingHistory() {
+    _editingHistory.value = false;
   }
 
   void onSearchTextChanged(String text) {
@@ -76,6 +99,7 @@ class SearchController extends GetxController {
   void submit() {
     String keyword = searchEditingController.text;
     if (keyword.isEmpty) return;
+    stopEditingHistory();
     Get.toNamed(AppRoutes.searchResult, arguments: keyword);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       addSearchHistoryItem(keyword);

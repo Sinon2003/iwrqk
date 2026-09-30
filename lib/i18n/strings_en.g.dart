@@ -1131,6 +1131,9 @@ class Translations$search$history$en {
 
 	/// en: 'Delete All'
 	String get delete => 'Delete All';
+
+	/// en: 'Done'
+	String get done => 'Done';
 }
 
 // Path: player.aspect_ratios
@@ -1463,6 +1466,7 @@ extension on Translations {
 			'search.threads' => 'Thread',
 			'search.search' => 'Search',
 			'search.history.delete' => 'Delete All',
+			'search.history.done' => 'Done',
 			'time.seconds_ago' => ({required Object time}) => '${time} seconds ago',
 			'time.minutes_ago' => ({required Object time}) => '${time} minutes ago',
 			'time.hours_ago' => ({required Object time}) => '${time} hours ago',

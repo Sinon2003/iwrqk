@@ -90,7 +90,8 @@
     "threads": "帖子",
     "search": "搜尋",
     "history": {
-      "delete": "刪除所有紀錄"
+      "delete": "刪除所有紀錄",
+      "done": "完成"
     }
   },
   "time": {

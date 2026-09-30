@@ -96,7 +96,8 @@
     "threads": "Thread",
     "search": "Search",
     "history": {
-      "delete": "Delete All"
+      "delete": "Delete All",
+      "done": "Done"
     }
   },
   "time": {

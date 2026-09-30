@@ -613,6 +613,7 @@ class _Translations$search$history$ja extends Translations$search$history$en {
 
 	// Translations
 	@override String get delete => 'すべての記録を削除';
+	@override String get done => '完了';
 }
 
 // Path: player.aspect_ratios
@@ -843,6 +844,7 @@ extension on TranslationsJa {
 			'search.threads' => '投稿',
 			'search.search' => '検索',
 			'search.history.delete' => 'すべての記録を削除',
+			'search.history.done' => '完了',
 			'time.seconds_ago' => ({required Object time}) => '${time} 秒前',
 			'time.minutes_ago' => ({required Object time}) => '${time} 分前',
 			'time.hours_ago' => ({required Object time}) => '${time} 時間前',

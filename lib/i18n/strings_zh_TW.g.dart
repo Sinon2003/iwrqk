@@ -613,6 +613,7 @@ class Translations$search$history$zh_TW extends Translations$search$history$en {
 
 	// Translations
 	@override String get delete => '刪除所有紀錄';
+	@override String get done => '完成';
 }
 
 // Path: player.aspect_ratios
@@ -843,6 +844,7 @@ extension on TranslationsZhTw {
 			'search.threads' => '帖子',
 			'search.search' => '搜尋',
 			'search.history.delete' => '刪除所有紀錄',
+			'search.history.done' => '完成',
 			'time.seconds_ago' => ({required Object time}) => '${time} 秒前',
 			'time.minutes_ago' => ({required Object time}) => '${time} 分鐘前',
 			'time.hours_ago' => ({required Object time}) => '${time} 小時前',
