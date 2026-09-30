@@ -76,7 +76,8 @@
     "notify_mention": "When someone mentions me",
     "security": "Account security",
     "manage_on_web": "Change email or password, or delete the account",
-    "manage_on_web_desc": "Opens the Iwara website"
+    "manage_on_web_desc": "Opens the Iwara website",
+    "blocked_users": "Blocked users"
   },
   "notification_list": {
     "title": "Notifications",
@@ -124,7 +125,11 @@
     "deleted_user": "Deleted user",
     "edit_profile": "Edit profile",
     "copy_link": "Copy profile link",
-    "open_in_browser": "Open in browser"
+    "open_in_browser": "Open in browser",
+    "block": "Block",
+    "unblock": "Unblock",
+    "user_blocked": "User blocked",
+    "user_unblocked": "User unblocked"
   },
   "sort": {
     "latest": "Latest",

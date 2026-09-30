@@ -321,6 +321,9 @@ class Translations$account_settings$en {
 
 	/// en: 'Opens the Iwara website'
 	String get manage_on_web_desc => 'Opens the Iwara website';
+
+	/// en: 'Blocked users'
+	String get blocked_users => 'Blocked users';
 }
 
 // Path: notification_list
@@ -474,6 +477,18 @@ class Translations$profile$en {
 
 	/// en: 'Open in browser'
 	String get open_in_browser => 'Open in browser';
+
+	/// en: 'Block'
+	String get block => 'Block';
+
+	/// en: 'Unblock'
+	String get unblock => 'Unblock';
+
+	/// en: 'User blocked'
+	String get user_blocked => 'User blocked';
+
+	/// en: 'User unblocked'
+	String get user_unblocked => 'User unblocked';
 }
 
 // Path: sort
@@ -1702,6 +1717,7 @@ extension on Translations {
 			'account_settings.security' => 'Account security',
 			'account_settings.manage_on_web' => 'Change email or password, or delete the account',
 			'account_settings.manage_on_web_desc' => 'Opens the Iwara website',
+			'account_settings.blocked_users' => 'Blocked users',
 			'notification_list.title' => 'Notifications',
 			'notification_list.mark_read' => 'Mark as read',
 			'notification_list.mark_all_read' => 'Mark all as read',
@@ -1744,6 +1760,10 @@ extension on Translations {
 			'profile.edit_profile' => 'Edit profile',
 			'profile.copy_link' => 'Copy profile link',
 			'profile.open_in_browser' => 'Open in browser',
+			'profile.block' => 'Block',
+			'profile.unblock' => 'Unblock',
+			'profile.user_blocked' => 'User blocked',
+			'profile.user_unblocked' => 'User unblocked',
 			'sort.latest' => 'Latest',
 			'sort.trending' => 'Trending',
 			'sort.popularity' => 'Popularity',

@@ -32,6 +32,7 @@ abstract class AppRoutes {
 
   static const friends = '/friends';
   static const blockedTags = '/blockedTags';
+  static const blockedUsers = '/blockedUsers';
   static const history = '/history';
   static const downloads = '/downloads';
   static const favorites = '/favorite';

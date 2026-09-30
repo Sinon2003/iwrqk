@@ -70,7 +70,8 @@
     "notify_mention": "メンションされたとき",
     "security": "アカウントのセキュリティ",
     "manage_on_web": "メールアドレス・パスワードの変更、アカウント削除",
-    "manage_on_web_desc": "Iwara のウェブサイトで行います"
+    "manage_on_web_desc": "Iwara のウェブサイトで行います",
+    "blocked_users": "ブロックしたユーザー"
   },
   "notification_list": {
     "title": "通知",
@@ -118,7 +119,11 @@
     "deleted_user": "削除されたユーザー",
     "edit_profile": "プロフィールを編集",
     "copy_link": "プロフィールのリンクをコピー",
-    "open_in_browser": "ブラウザで開く"
+    "open_in_browser": "ブラウザで開く",
+    "block": "ブロック",
+    "unblock": "ブロック解除",
+    "user_blocked": "ユーザーをブロックしました",
+    "user_unblocked": "ブロックを解除しました"
   },
   "sort": {
     "latest": "最新",

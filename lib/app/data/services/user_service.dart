@@ -144,6 +144,38 @@ class UserService extends GetxService {
     return flag;
   }
 
+  /// The site lets premium members and staff block users.
+  bool get canBlockUsers {
+    final user = this.user;
+    return user != null &&
+        (user.premium ||
+            const {
+              "janitor",
+              "moderator",
+              "officer",
+              "admin",
+            }.contains(user.role));
+  }
+
+  Future<bool> setUserBlocked(String userId, bool blocked) async {
+    final result = await ApiProvider.setUserBlocked(
+      userId: userId,
+      blocked: blocked,
+    );
+    if (!result.success) SmartDialog.showToast(result.message!);
+    return result.success;
+  }
+
+  /// Null when the status could not be loaded.
+  Future<bool?> isUserBlocked(String userId) async {
+    final result = await ApiProvider.getUserBlocked(userId: userId);
+    return result.success ? result.data : null;
+  }
+
+  Future<ApiResult<GroupResult<UserModel>>> getBlockedUsers(int pageNum) {
+    return ApiProvider.getBlockedUsers(pageNum: pageNum);
+  }
+
   Future<ApiResult<FriendRelationType>> getFriendRelation(String userId) async {
     bool flag = false;
     FriendRelationType? relation;

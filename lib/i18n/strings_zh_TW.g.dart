@@ -195,6 +195,7 @@ class Translations$account_settings$zh_TW extends Translations$account_settings$
 	@override String get security => '帳號安全';
 	@override String get manage_on_web => '修改電子郵件、密碼或刪除帳號';
 	@override String get manage_on_web_desc => '在 Iwara 網頁上操作';
+	@override String get blocked_users => '封鎖的使用者';
 }
 
 // Path: notification_list
@@ -264,6 +265,10 @@ class Translations$profile$zh_TW extends Translations$profile$en {
 	@override String get edit_profile => '編輯資料';
 	@override String get copy_link => '複製主頁連結';
 	@override String get open_in_browser => '在瀏覽器中開啟';
+	@override String get block => '封鎖';
+	@override String get unblock => '解除封鎖';
+	@override String get user_blocked => '已封鎖該使用者';
+	@override String get user_unblocked => '已解除封鎖';
 }
 
 // Path: sort
@@ -947,6 +952,7 @@ extension on TranslationsZhTw {
 			'account_settings.security' => '帳號安全',
 			'account_settings.manage_on_web' => '修改電子郵件、密碼或刪除帳號',
 			'account_settings.manage_on_web_desc' => '在 Iwara 網頁上操作',
+			'account_settings.blocked_users' => '封鎖的使用者',
 			'notification_list.title' => '通知',
 			'notification_list.mark_read' => '標為已讀',
 			'notification_list.mark_all_read' => '全部標為已讀',
@@ -989,6 +995,10 @@ extension on TranslationsZhTw {
 			'profile.edit_profile' => '編輯資料',
 			'profile.copy_link' => '複製主頁連結',
 			'profile.open_in_browser' => '在瀏覽器中開啟',
+			'profile.block' => '封鎖',
+			'profile.unblock' => '解除封鎖',
+			'profile.user_blocked' => '已封鎖該使用者',
+			'profile.user_unblocked' => '已解除封鎖',
 			'sort.latest' => '最新',
 			'sort.trending' => '趨勢',
 			'sort.popularity' => '熱門',

@@ -70,7 +70,8 @@
     "notify_mention": "有人提到我時",
     "security": "帳號安全",
     "manage_on_web": "修改電子郵件、密碼或刪除帳號",
-    "manage_on_web_desc": "在 Iwara 網頁上操作"
+    "manage_on_web_desc": "在 Iwara 網頁上操作",
+    "blocked_users": "封鎖的使用者"
   },
   "notification_list": {
     "title": "通知",
@@ -118,7 +119,11 @@
     "deleted_user": "已註銷的使用者",
     "edit_profile": "編輯資料",
     "copy_link": "複製主頁連結",
-    "open_in_browser": "在瀏覽器中開啟"
+    "open_in_browser": "在瀏覽器中開啟",
+    "block": "封鎖",
+    "unblock": "解除封鎖",
+    "user_blocked": "已封鎖該使用者",
+    "user_unblocked": "已解除封鎖"
   },
   "sort": {
     "latest": "最新",

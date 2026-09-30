@@ -195,6 +195,7 @@ class _Translations$account_settings$ja extends Translations$account_settings$en
 	@override String get security => 'アカウントのセキュリティ';
 	@override String get manage_on_web => 'メールアドレス・パスワードの変更、アカウント削除';
 	@override String get manage_on_web_desc => 'Iwara のウェブサイトで行います';
+	@override String get blocked_users => 'ブロックしたユーザー';
 }
 
 // Path: notification_list
@@ -264,6 +265,10 @@ class _Translations$profile$ja extends Translations$profile$en {
 	@override String get edit_profile => 'プロフィールを編集';
 	@override String get copy_link => 'プロフィールのリンクをコピー';
 	@override String get open_in_browser => 'ブラウザで開く';
+	@override String get block => 'ブロック';
+	@override String get unblock => 'ブロック解除';
+	@override String get user_blocked => 'ユーザーをブロックしました';
+	@override String get user_unblocked => 'ブロックを解除しました';
 }
 
 // Path: sort
@@ -947,6 +952,7 @@ extension on TranslationsJa {
 			'account_settings.security' => 'アカウントのセキュリティ',
 			'account_settings.manage_on_web' => 'メールアドレス・パスワードの変更、アカウント削除',
 			'account_settings.manage_on_web_desc' => 'Iwara のウェブサイトで行います',
+			'account_settings.blocked_users' => 'ブロックしたユーザー',
 			'notification_list.title' => '通知',
 			'notification_list.mark_read' => '既読にする',
 			'notification_list.mark_all_read' => 'すべて既読にする',
@@ -989,6 +995,10 @@ extension on TranslationsJa {
 			'profile.edit_profile' => 'プロフィールを編集',
 			'profile.copy_link' => 'プロフィールのリンクをコピー',
 			'profile.open_in_browser' => 'ブラウザで開く',
+			'profile.block' => 'ブロック',
+			'profile.unblock' => 'ブロック解除',
+			'profile.user_blocked' => 'ユーザーをブロックしました',
+			'profile.user_unblocked' => 'ブロックを解除しました',
 			'sort.latest' => '最新',
 			'sort.trending' => 'トレンド',
 			'sort.popularity' => '人気順',

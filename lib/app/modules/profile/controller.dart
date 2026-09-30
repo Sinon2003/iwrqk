@@ -1,4 +1,6 @@
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
+import 'package:iwrqk/i18n/strings.g.dart';
 
 import '../../data/enums/result.dart';
 import '../../data/enums/types.dart';
@@ -26,6 +28,9 @@ class ProfileController extends GetxController
   String? fetchWorksPreviewMessage;
   final RxBool _isFetchingWorksPreview = false.obs;
   bool get isFetchingWorksPreview => _isFetchingWorksPreview.value;
+
+  /// Whether you have blocked this user; only loaded when you can block.
+  bool blocked = false;
 
   @override
   void onInit() {
@@ -91,6 +96,22 @@ class ProfileController extends GetxController
       change(null, status: RxStatus.success());
 
       fetchWorksPreview();
+      _fetchBlocked();
+    }
+  }
+
+  Future<void> _fetchBlocked() async {
+    final userId = profile.user!.id;
+    if (!userService.canBlockUsers || userId == userService.user?.id) return;
+    blocked = await userService.isUserBlocked(userId) ?? blocked;
+  }
+
+  Future<void> toggleBlocked() async {
+    if (await userService.setUserBlocked(profile.user!.id, !blocked)) {
+      blocked = !blocked;
+      SmartDialog.showToast(
+        blocked ? t.profile.user_blocked : t.profile.user_unblocked,
+      );
     }
   }
 

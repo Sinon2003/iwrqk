@@ -70,7 +70,8 @@
     "notify_mention": "有人提到我时",
     "security": "账号安全",
     "manage_on_web": "修改邮箱、密码或注销账号",
-    "manage_on_web_desc": "在 Iwara 网页上操作"
+    "manage_on_web_desc": "在 Iwara 网页上操作",
+    "blocked_users": "屏蔽的用户"
   },
   "notification_list": {
     "title": "通知",
@@ -118,7 +119,11 @@
     "deleted_user": "已注销用户",
     "edit_profile": "编辑资料",
     "copy_link": "复制主页链接",
-    "open_in_browser": "在浏览器中打开"
+    "open_in_browser": "在浏览器中打开",
+    "block": "屏蔽",
+    "unblock": "取消屏蔽",
+    "user_blocked": "已屏蔽该用户",
+    "user_unblocked": "已取消屏蔽"
   },
   "sort": {
     "latest": "最新",

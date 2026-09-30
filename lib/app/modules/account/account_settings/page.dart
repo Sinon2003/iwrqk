@@ -180,6 +180,12 @@ class AccountSettingsPage extends GetView<AccountSettingsController> {
         title: Text(t.user.blocked_tags),
         onTap: () => Get.toNamed(AppRoutes.blockedTags),
       ),
+      if (controller.canBlockUsers)
+        ListTile(
+          leading: const Icon(Icons.person_off),
+          title: Text(t.account_settings.blocked_users),
+          onTap: () => Get.toNamed(AppRoutes.blockedUsers),
+        ),
     ];
   }
 

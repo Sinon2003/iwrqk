@@ -26,6 +26,7 @@ class AccountSettingsController extends GetxController with StateMixin {
   String get description => _description.value;
   bool get hideSensitive => _hideSensitive.value;
   NotificationsSettings? get notifications => _notifications.value;
+  bool get canBlockUsers => _userService.canBlockUsers;
 
   @override
   void onInit() {

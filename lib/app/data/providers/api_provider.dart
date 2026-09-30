@@ -1273,6 +1273,83 @@ class ApiProvider {
     return ApiResult(data: null, success: message == null, message: message);
   }
 
+  /// Blocks or unblocks [userId]. The site only lets premium members and
+  /// staff block users.
+  static Future<ApiResult<void>> setUserBlocked({
+    required String userId,
+    required bool blocked,
+  }) async {
+    String? message;
+
+    final path = "/user/$userId/block";
+    await (blocked ? networkProvider.post(path) : networkProvider.delete(path))
+        .then((value) {
+          if ((value.statusCode ?? 0) >= 300) {
+            message = value.data is Map
+                ? value.data["message"]
+                : "${value.statusCode}";
+          }
+        })
+        .catchError((e, stackTrace) {
+          message = e.toString();
+        });
+
+    return ApiResult(data: null, success: message == null, message: message);
+  }
+
+  static Future<ApiResult<bool>> getUserBlocked({
+    required String userId,
+  }) async {
+    String? message;
+    bool blocked = false;
+
+    await networkProvider
+        .get("/user/$userId/block")
+        .then((value) {
+          if (value.data is bool) {
+            blocked = value.data;
+          } else {
+            message = value.data is Map ? value.data["message"] : null;
+            message ??= "${value.statusCode}";
+          }
+        })
+        .catchError((e, stackTrace) {
+          message = e.toString();
+        });
+
+    return ApiResult(data: blocked, success: message == null, message: message);
+  }
+
+  static Future<ApiResult<GroupResult<UserModel>>> getBlockedUsers({
+    required int pageNum,
+  }) async {
+    String? message;
+    List<UserModel> users = [];
+    int count = 0;
+
+    await networkProvider
+        .get("/user/blocked", queryParameters: {"page": pageNum})
+        .then((value) {
+          if (value.data["message"] != null) {
+            message = value.data["message"];
+          } else {
+            count = value.data["count"];
+            for (var user in value.data["results"]) {
+              users.add(UserModel.fromJson(user));
+            }
+          }
+        })
+        .catchError((e, stackTrace) {
+          message = e.toString();
+        });
+
+    return ApiResult(
+      data: GroupResult(results: users, count: count),
+      success: message == null,
+      message: message,
+    );
+  }
+
   static Future<ApiResult<GroupResult<UserModel>>> getFriends({
     required String userId,
     required int pageNum,

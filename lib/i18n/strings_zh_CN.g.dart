@@ -195,6 +195,7 @@ class Translations$account_settings$zh_CN extends Translations$account_settings$
 	@override String get security => '账号安全';
 	@override String get manage_on_web => '修改邮箱、密码或注销账号';
 	@override String get manage_on_web_desc => '在 Iwara 网页上操作';
+	@override String get blocked_users => '屏蔽的用户';
 }
 
 // Path: notification_list
@@ -264,6 +265,10 @@ class Translations$profile$zh_CN extends Translations$profile$en {
 	@override String get edit_profile => '编辑资料';
 	@override String get copy_link => '复制主页链接';
 	@override String get open_in_browser => '在浏览器中打开';
+	@override String get block => '屏蔽';
+	@override String get unblock => '取消屏蔽';
+	@override String get user_blocked => '已屏蔽该用户';
+	@override String get user_unblocked => '已取消屏蔽';
 }
 
 // Path: sort
@@ -947,6 +952,7 @@ extension on TranslationsZhCn {
 			'account_settings.security' => '账号安全',
 			'account_settings.manage_on_web' => '修改邮箱、密码或注销账号',
 			'account_settings.manage_on_web_desc' => '在 Iwara 网页上操作',
+			'account_settings.blocked_users' => '屏蔽的用户',
 			'notification_list.title' => '通知',
 			'notification_list.mark_read' => '标为已读',
 			'notification_list.mark_all_read' => '全部标为已读',
@@ -989,6 +995,10 @@ extension on TranslationsZhCn {
 			'profile.edit_profile' => '编辑资料',
 			'profile.copy_link' => '复制主页链接',
 			'profile.open_in_browser' => '在浏览器中打开',
+			'profile.block' => '屏蔽',
+			'profile.unblock' => '取消屏蔽',
+			'profile.user_blocked' => '已屏蔽该用户',
+			'profile.user_unblocked' => '已取消屏蔽',
 			'sort.latest' => '最新',
 			'sort.trending' => '流行',
 			'sort.popularity' => '人气',

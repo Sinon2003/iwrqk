@@ -11,6 +11,8 @@ import '../modules/account/notifications/binding.dart';
 import '../modules/account/notifications/page.dart';
 import '../modules/account/blocked_tags/binding.dart';
 import '../modules/account/blocked_tags/page.dart';
+import '../modules/account/blocked_users/binding.dart';
+import '../modules/account/blocked_users/page.dart';
 import '../modules/account/downloads/binding.dart';
 import '../modules/account/downloads/page.dart';
 import '../modules/account/favorites/binding.dart';
@@ -145,6 +147,11 @@ abstract class AppPages {
       name: AppRoutes.blockedTags,
       page: () => const BlockedTagsPage(),
       binding: BlockedTagsBinding(),
+    ),
+    GetPage(
+      name: AppRoutes.blockedUsers,
+      page: () => const BlockedUsersPage(),
+      binding: BlockedUsersBinding(),
     ),
     GetPage(
       name: AppRoutes.history,

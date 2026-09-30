@@ -488,6 +488,15 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                       child: Text(t.profile.open_in_browser),
                     ),
+                    if (!_isMyself && _controller.userService.canBlockUsers)
+                      PopupMenuItem(
+                        onTap: _controller.toggleBlocked,
+                        child: Text(
+                          _controller.blocked
+                              ? t.profile.unblock
+                              : t.profile.block,
+                        ),
+                      ),
                   ],
                 ),
               ],
