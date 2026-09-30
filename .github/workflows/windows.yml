@@ -81,6 +81,9 @@ jobs:
           tag: ${{ github.ref_name }}
           prerelease: contains(github.ref, 'pre')
           allowUpdates: true
+          # If the release already exists, only add files: keep its title and notes.
+          omitNameDuringUpdate: true
+          omitBodyDuringUpdate: true
           artifactErrorsFailBuild: true
           replacesArtifacts: false
           removeArtifacts: false

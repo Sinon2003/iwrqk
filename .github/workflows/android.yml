@@ -82,6 +82,9 @@ jobs:
           tag: ${{ github.ref_name }}
           artifacts: "build/app/outputs/apk/release/*.apk"
           allowUpdates: true
+          # If the release already exists, only add files: keep its title and notes.
+          omitNameDuringUpdate: true
+          omitBodyDuringUpdate: true
           prerelease: contains(github.ref, 'pre')
           artifactErrorsFailBuild: true
           removeArtifacts: false

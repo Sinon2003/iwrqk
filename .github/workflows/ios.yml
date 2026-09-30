@@ -53,6 +53,9 @@ jobs:
           tag: ${{ github.ref_name }}
           artifacts: "build/ios/ipa/*.ipa"
           allowUpdates: true
+          # If the release already exists, only add files: keep its title and notes.
+          omitNameDuringUpdate: true
+          omitBodyDuringUpdate: true
           replacesArtifacts: false
           prerelease: contains(github.ref, 'pre')
           artifactErrorsFailBuild: true
