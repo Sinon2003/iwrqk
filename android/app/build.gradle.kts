@@ -3,7 +3,6 @@ import java.util.Properties
 
 plugins {
     id("com.android.application")
-    id("kotlin-android")
     // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
     id("dev.flutter.flutter-gradle-plugin")
 }
@@ -41,10 +40,6 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
 
-    kotlinOptions {
-        jvmTarget = "17"
-    }
-
     defaultConfig {
         // Distinct from upstream's "com.iwrqk.app" so this fork installs alongside the original app.
         // The namespace (Kotlin package) intentionally stays "com.iwrqk.app".
@@ -56,7 +51,6 @@ android {
         versionCode = flutter.versionCode
         versionName = flutter.versionName
         multiDexEnabled = true
-        setProperty("archivesBaseName", "iwrqk-${flutter.versionName}+${flutter.versionCode}")
     }
 
     splits {
@@ -98,8 +92,6 @@ android {
             if (canSign) {
                 signingConfig = signingConfigs.getByName("debug")
             }
-            isMinifyEnabled = true
-            isShrinkResources = true
         }
     }
 }
@@ -115,6 +107,16 @@ androidComponents {
         //     val versionCode = variant.versionCode.orNull ?: 1
         //     output.outputFileName.set("iwrqk-$versionName+$versionCode$suffix.apk")
         // }
+    }
+}
+
+base {
+    archivesName = "iwrqk-${flutter.versionName}+${flutter.versionCode}"
+}
+
+kotlin {
+    compilerOptions {
+        jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17
     }
 }
 

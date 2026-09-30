@@ -7,8 +7,9 @@
 ## 环境与依赖
 
 - [pubspec.yaml](../../pubspec.yaml) 的 Dart 约束为 `^3.11.0-93.1.beta`；当前 [pubspec.lock](../../pubspec.lock) 记录 Flutter 下限 `>=3.38.4`。
-- 开发基线为 Flutter `3.47.5` stable / Dart `3.13.4`：依赖解析、静态分析和 Android debug 构建均已在该版本验证，`pubspec.lock` 也按它更新。[mise.toml](../../mise.toml) 与现有 CI 仍选择 `beta` 频道且未锁定版本，尚未与基线对齐；排查构建差异时先确认实际使用的 Flutter 版本，不随意切换 SDK 或整体升级依赖。
-- 保留 `pubspec.lock` 和 `third_party/dart_discord_rpc` 的本地路径依赖；新增依赖应说明必要性及受影响平台。
+- 开发基线为 Flutter `3.47.5` stable / Dart `3.13.4`，[mise.toml](../../mise.toml) 与 CI 工作流均锁定该版本，`pubspec.lock` 按它解析。排查构建差异时先确认实际使用的 Flutter 版本，不随意切换 SDK 或整体升级依赖。
+- Android 构建工具与 Flutter 3.47.5 模板一致：Gradle 9.3.1、AGP 9.1.0、Kotlin 2.4.0，JDK 17 及以上（CI 使用 17）。`android/gradle.properties` 保留 `android.newDsl=false` 与 `android.builtInKotlin=false` 以兼容尚未迁移的插件；Kotlin 插件由 Flutter Gradle 插件按需应用，应用模块不再显式声明。根 [android/build.gradle.kts](../../android/build.gradle.kts) 会把插件模块的 compileSdk 至少提到 App 的值，因为部分插件仍声明旧版本，会被 AGP 9 的 AAR 元数据检查拒绝；只影响编译期，不改变 minSdk / targetSdk。
+- 保留 `pubspec.lock`、`third_party/dart_discord_rpc` 的本地路径依赖，以及 `third_party/flutter_inappwebview_android` 的依赖覆盖（AGP 9 兼容修补，移除条件见其 `IWRQK_PATCH.md`）；新增依赖应说明必要性及受影响平台。
 
 从仓库根目录运行，按需要选择命令：
 
@@ -51,7 +52,7 @@
 
 | 平台 | 现有构建命令 | 相关条件 |
 | --- | --- | --- |
-| Android | `flutter build apk --release` | CI 使用 JDK 17；应用配置 `minSdk = 24` |
+| Android | `flutter build apk --release` | CI 使用 JDK 17；应用配置 `minSdk = 24`；release 启用 R8 代码与资源压缩，debug 不压缩 |
 | Windows | `flutter build windows --release` | 在 Windows 上构建，分发整个 Release 产物目录 |
 | iOS | `flutter build ios --release --no-codesign` | 需要 macOS / Xcode；当前工作流打包的是未签名产物 |
 
