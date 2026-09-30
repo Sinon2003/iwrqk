@@ -69,6 +69,11 @@ dev_dependencies:
   flutter_launcher_icons: ^0.14.4
   change_app_package_name: ^1.5.0
 
+dependency_overrides:
+  # AGP 9 compatible copy of 1.1.3; see third_party/flutter_inappwebview_android/IWRQK_PATCH.md
+  flutter_inappwebview_android:
+    path: third_party/flutter_inappwebview_android
+
 flutter:
   uses-material-design: true
 
