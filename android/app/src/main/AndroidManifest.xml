@@ -21,10 +21,14 @@
         </intent>
     </queries>
 
+    <!-- requestLegacyExternalStorage: on Android 10, downloads are written to user-chosen folders
+         by file path, which scoped storage would block. Ignored on Android 11+, where
+         MANAGE_EXTERNAL_STORAGE is used instead. open_file 4 also merges this attribute. -->
     <application
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher"
-        android:label="IwrQk">
+        android:label="IwrQk"
+        android:requestLegacyExternalStorage="true">
         <activity
             android:name=".MainActivity"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
