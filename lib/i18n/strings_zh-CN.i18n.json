@@ -62,7 +62,8 @@
     "online": "在线",
     "message": "私信",
     "guestbook": "留言板",
-    "view_more": "查看更多"
+    "view_more": "查看更多",
+    "deleted_user": "已注销用户"
   },
   "sort": {
     "latest": "最新",

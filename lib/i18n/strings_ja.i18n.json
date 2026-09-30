@@ -62,7 +62,8 @@
     "online": "オンライン",
     "message": "メッセージ",
     "guestbook": "ゲストブック",
-    "view_more": "もっと見る"
+    "view_more": "もっと見る",
+    "deleted_user": "削除されたユーザー"
   },
   "sort": {
     "latest": "最新",

@@ -45,8 +45,13 @@ class UserComment extends StatefulWidget {
 
 class _UserCommentState extends State<UserComment>
     with AutomaticKeepAliveClientMixin, TranslationMixin {
-  void _gotoUserProfile(String userName) {
-    Get.toNamed("/profile?userName=$userName");
+  void _gotoUserProfile(UserModel user) {
+    if (user.isDeleted) return;
+    Get.toNamed("/profile?userName=${user.username}");
+  }
+
+  bool _isUploader(UserModel user) {
+    return !user.isDeleted && user.username == widget.uploaderUserName;
   }
 
   Widget _buildUploaderBadge(BuildContext context, [bool small = false]) {
@@ -70,7 +75,7 @@ class _UserCommentState extends State<UserComment>
   Widget _buildUserWidget(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        _gotoUserProfile(widget.comment.user.username);
+        _gotoUserProfile(widget.comment.user);
       },
       child: Row(
         children: [
@@ -89,7 +94,7 @@ class _UserCommentState extends State<UserComment>
                   child: Padding(
                     padding: const EdgeInsets.only(left: 12),
                     child: Text(
-                      widget.comment.user.name,
+                      DisplayUtil.getDisplayUserName(widget.comment.user.name),
                       style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
@@ -98,7 +103,7 @@ class _UserCommentState extends State<UserComment>
                     ),
                   ),
                 ),
-                if (widget.uploaderUserName == widget.comment.user.username)
+                if (_isUploader(widget.comment.user))
                   _buildUploaderBadge(context),
               ],
             ),
@@ -199,10 +204,10 @@ class _UserCommentState extends State<UserComment>
           TextSpan(
             children: [
               TextSpan(
-                text: user.name,
+                text: DisplayUtil.getDisplayUserName(user.name),
                 style: TextStyle(color: Theme.of(context).colorScheme.primary),
               ),
-              if (widget.uploaderUserName == user.username)
+              if (_isUploader(user))
                 WidgetSpan(
                   alignment: PlaceholderAlignment.middle,
                   child: _buildUploaderBadge(context, true),

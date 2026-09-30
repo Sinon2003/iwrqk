@@ -29,7 +29,11 @@ class _SearchPostState extends State<SearchPost>
   void initState() {
     super.initState();
     Get.lazyPut(
-      () => SearchPostsController(widget.keyword, mediaType: MediaType.thread, orderType: widget.orderType),
+      () => SearchPostsController(
+        widget.keyword,
+        mediaType: MediaType.thread,
+        orderType: widget.orderType,
+      ),
       tag: widget.tag,
     );
     _controller = Get.find<SearchPostsController>(tag: widget.tag);
@@ -65,13 +69,13 @@ class _SearchPostState extends State<SearchPost>
 
 class Thread extends StatelessWidget {
   final ThreadModel thread;
-  final bodyMaxShowLength=200;
+  final bodyMaxShowLength = 200;
   const Thread({super.key, required this.thread});
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: (){
+      onTap: () {
         Get.toNamed(
           "/thread?channelName=Search&threadId=${thread.id}",
           arguments: {'threadModel': thread},
@@ -91,7 +95,7 @@ class Thread extends StatelessWidget {
                 ),
               ),
               title: Text(
-                thread.user.name,
+                DisplayUtil.getDisplayUserName(thread.user.name),
                 style: const TextStyle(fontSize: 14),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
@@ -110,12 +114,16 @@ class Thread extends StatelessWidget {
                 children: [
                   Text(
                     thread.title,
-                    style: const TextStyle(fontWeight: FontWeight.bold,fontSize: 20),
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
+                    ),
                   ),
                   Text(
-                      (thread.lastPost?.body.length??0)<bodyMaxShowLength
-                          ?(thread.lastPost?.body??"")
-                          :"${thread.lastPost?.body.substring(0,bodyMaxShowLength)}..."),
+                    (thread.lastPost?.body.length ?? 0) < bodyMaxShowLength
+                        ? (thread.lastPost?.body ?? "")
+                        : "${thread.lastPost?.body.substring(0, bodyMaxShowLength)}...",
+                  ),
                 ],
               ),
             ),

@@ -56,6 +56,7 @@ class _PostState extends State<Post>
   Widget _buildUserWidget(BuildContext context) {
     return GestureDetector(
       onTap: () {
+        if (widget.post.user.isDeleted) return;
         Get.toNamed("/profile?userName=${widget.post.user.username}");
       },
       child: Row(
@@ -75,7 +76,7 @@ class _PostState extends State<Post>
                   child: Padding(
                     padding: const EdgeInsets.only(left: 12),
                     child: Text(
-                      widget.post.user.name,
+                      DisplayUtil.getDisplayUserName(widget.post.user.name),
                       style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
@@ -85,7 +86,8 @@ class _PostState extends State<Post>
                     ),
                   ),
                 ),
-                if (widget.starterUserName == widget.post.user.username)
+                if (!widget.post.user.isDeleted &&
+                    widget.starterUserName == widget.post.user.username)
                   _buildStarterBadge(context),
               ],
             ),

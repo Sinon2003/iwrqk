@@ -183,6 +183,7 @@ class Translations$profile$zh_CN extends Translations$profile$en {
 	@override String get message => '私信';
 	@override String get guestbook => '留言板';
 	@override String get view_more => '查看更多';
+	@override String get deleted_user => '已注销用户';
 }
 
 // Path: sort
@@ -823,6 +824,7 @@ extension on TranslationsZhCn {
 			'profile.message' => '私信',
 			'profile.guestbook' => '留言板',
 			'profile.view_more' => '查看更多',
+			'profile.deleted_user' => '已注销用户',
 			'sort.latest' => '最新',
 			'sort.trending' => '流行',
 			'sort.popularity' => '人气',

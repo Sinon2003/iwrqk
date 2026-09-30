@@ -24,6 +24,7 @@ import '../../data/services/discord_rpc_service.dart';
 import '../../data/services/download_service.dart';
 import '../../data/services/plugin/pl_player/service_locator.dart';
 import '../../data/services/user_service.dart';
+import '../../utils/display_util.dart';
 import '../../utils/log_util.dart';
 import '../account/downloads/widgets/downloads_media_preview_list/controller.dart';
 import 'repository.dart';
@@ -418,16 +419,17 @@ class MediaDetailController extends GetxController
         } else {
           final int durationSeconds =
               plPlayerController.duration.value.inSeconds;
+          final String artist = DisplayUtil.getDisplayUserName(media.user.name);
           videoPlayerServiceHandler.onVideoChange({
             "id": media.id,
             "title": media.title,
-            "artist": media.user.name,
+            "artist": artist,
             "duration": durationSeconds,
             if (media.hasCover()) "cover": media.getCoverUrl(),
           });
           discordRpcService.onVideoChange(
             title: media.title,
-            artist: media.user.name,
+            artist: artist,
             durationSeconds: durationSeconds,
           );
         }

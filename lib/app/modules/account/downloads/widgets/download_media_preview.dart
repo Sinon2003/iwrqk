@@ -94,7 +94,7 @@ class DownloadMediaPreview extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.only(left: 2, right: 2),
                       child: Text(
-                        media.uploader.name,
+                        DisplayUtil.getDisplayUserName(media.uploader.name),
                         style: TextStyle(
                           fontSize: 12.5,
                           color: Theme.of(context).colorScheme.outline,

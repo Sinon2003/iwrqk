@@ -96,7 +96,9 @@ class ForumTabPage extends GetView<ForumTabController> {
                     ),
                   ),
                   subtitle: Text(
-                    channel.lastThread!.user.name,
+                    DisplayUtil.getDisplayUserName(
+                      channel.lastThread!.user.name,
+                    ),
                     style: Theme.of(context).textTheme.bodySmall,
                   ),
                 ),

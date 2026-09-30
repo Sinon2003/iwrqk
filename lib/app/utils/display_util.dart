@@ -17,6 +17,11 @@ abstract class DisplayUtil {
     }
   }
 
+  /// Deleted accounts have no name, so show a placeholder instead.
+  static String getDisplayUserName(String name) {
+    return name.isEmpty ? t.profile.deleted_user : name;
+  }
+
   static String getDisplayDate(DateTime dateTime) {
     Duration difference = DateTime.now().difference(dateTime);
 

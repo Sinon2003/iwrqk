@@ -293,6 +293,9 @@ class Translations$profile$en {
 
 	/// en: 'View more'
 	String get view_more => 'View more';
+
+	/// en: 'Deleted user'
+	String get deleted_user => 'Deleted user';
 }
 
 // Path: sort
@@ -1445,6 +1448,7 @@ extension on Translations {
 			'profile.message' => 'Message',
 			'profile.guestbook' => 'Guestbook',
 			'profile.view_more' => 'View more',
+			'profile.deleted_user' => 'Deleted user',
 			'sort.latest' => 'Latest',
 			'sort.trending' => 'Trending',
 			'sort.popularity' => 'Popularity',

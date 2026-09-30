@@ -240,7 +240,7 @@ class MediaFlatPreview extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.only(left: 2, right: 2),
                       child: Text(
-                        media.user.name,
+                        DisplayUtil.getDisplayUserName(media.user.name),
                         maxLines: 1,
                         style: TextStyle(
                           fontSize: 12.5,

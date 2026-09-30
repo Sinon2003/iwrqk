@@ -32,6 +32,10 @@ class UserModel {
     required this.updatedAt,
   });
 
+  /// Disabled (deleted) accounts have no name or username, and no profile to
+  /// open.
+  bool get isDeleted => username.isEmpty;
+
   String get avatarUrl {
     if (avatar == null) return IwaraConst.defaultAvatarUrl;
 
@@ -58,8 +62,9 @@ class UserModel {
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
       id: json['id'],
-      name: json['name'],
-      username: json['username'],
+      // Disabled accounts come back with a null name and username.
+      name: json['name'] ?? '',
+      username: json['username'] ?? '',
       status: json['status'],
       role: json['role'],
       followedBy: json['followedBy'],

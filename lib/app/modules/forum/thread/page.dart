@@ -39,7 +39,7 @@ class _ThreadPageState extends State<ThreadPage> {
         ),
       ),
       title: Text(
-        _controller.thread.user.name,
+        DisplayUtil.getDisplayUserName(_controller.thread.user.name),
         style: const TextStyle(fontSize: 14),
         maxLines: 1,
         overflow: TextOverflow.ellipsis,

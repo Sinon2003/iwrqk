@@ -215,7 +215,7 @@ class HistoryMediaPreview extends StatelessWidget {
                 ),
               ),
               TextSpan(
-                text: media.uploader.name,
+                text: DisplayUtil.getDisplayUserName(media.uploader.name),
                 style: TextStyle(
                   fontSize: 12.5,
                   color: Theme.of(context).colorScheme.outline,

@@ -183,6 +183,7 @@ class _Translations$profile$ja extends Translations$profile$en {
 	@override String get message => 'メッセージ';
 	@override String get guestbook => 'ゲストブック';
 	@override String get view_more => 'もっと見る';
+	@override String get deleted_user => '削除されたユーザー';
 }
 
 // Path: sort
@@ -823,6 +824,7 @@ extension on TranslationsJa {
 			'profile.message' => 'メッセージ',
 			'profile.guestbook' => 'ゲストブック',
 			'profile.view_more' => 'もっと見る',
+			'profile.deleted_user' => '削除されたユーザー',
 			'sort.latest' => '最新',
 			'sort.trending' => 'トレンド',
 			'sort.popularity' => '人気順',

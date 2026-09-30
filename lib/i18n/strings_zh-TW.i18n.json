@@ -62,7 +62,8 @@
     "online": "在線上",
     "message": "私訊",
     "guestbook": "留言板",
-    "view_more": "查看更多"
+    "view_more": "查看更多",
+    "deleted_user": "已註銷的使用者"
   },
   "sort": {
     "latest": "最新",

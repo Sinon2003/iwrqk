@@ -63,7 +63,7 @@ class _ThreadPreviewListState extends State<ThreadPreviewList> {
                   ),
                 ),
                 title: Text(
-                  thread.user.name,
+                  DisplayUtil.getDisplayUserName(thread.user.name),
                   maxLines: 1,
                   style: Theme.of(context).textTheme.titleSmall,
                   overflow: TextOverflow.ellipsis,

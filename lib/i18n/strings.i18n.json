@@ -68,7 +68,8 @@
     "online": "Online",
     "message": "Message",
     "guestbook": "Guestbook",
-    "view_more": "View more"
+    "view_more": "View more",
+    "deleted_user": "Deleted user"
   },
   "sort": {
     "latest": "Latest",

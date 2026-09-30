@@ -545,7 +545,9 @@ class _MediaDetailPageState extends State<MediaDetailPage>
           subtitle: GestureDetector(
             onTap: gotoProfile,
             child: Text(
-              '@${_controller.media.user.username}',
+              _controller.media.user.isDeleted
+                  ? ''
+                  : '@${_controller.media.user.username}',
               style: TextStyle(fontSize: 12.5, color: colorScheme.outline),
               overflow: TextOverflow.ellipsis,
               maxLines: 1,
@@ -554,7 +556,7 @@ class _MediaDetailPageState extends State<MediaDetailPage>
           title: GestureDetector(
             onTap: gotoProfile,
             child: Text(
-              _controller.media.user.name,
+              DisplayUtil.getDisplayUserName(_controller.media.user.name),
               style: Theme.of(context).textTheme.titleMedium,
               overflow: TextOverflow.ellipsis,
               maxLines: 1,
@@ -568,6 +570,7 @@ class _MediaDetailPageState extends State<MediaDetailPage>
   }
 
   void gotoProfile() {
+    if (_controller.media.user.isDeleted) return;
     HapticFeedback.lightImpact();
     Get.toNamed("/profile?userName=${_controller.media.user.username}");
   }
@@ -580,7 +583,11 @@ class _MediaDetailPageState extends State<MediaDetailPage>
           padding: const EdgeInsets.fromLTRB(20, 10, 10, 5),
           alignment: Alignment.centerLeft,
           child: AutoSizeText(
-            t.media.more_from(username: _controller.media.user.name),
+            t.media.more_from(
+              username: DisplayUtil.getDisplayUserName(
+                _controller.media.user.name,
+              ),
+            ),
             maxLines: 1,
             style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
           ),
