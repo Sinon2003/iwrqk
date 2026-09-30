@@ -176,6 +176,12 @@ class HomeController extends GetxController {
   }
 
   void onBackPressed(BuildContext context) {
+    // The page's PopScope also stops the back key from closing the drawer.
+    final ScaffoldState? scaffold = scaffoldKey.currentState;
+    if (scaffold != null && scaffold.isDrawerOpen) {
+      scaffold.closeDrawer();
+      return;
+    }
     if (_lastPressedAt == null ||
         DateTime.now().difference(_lastPressedAt!) >
             const Duration(seconds: 2)) {
