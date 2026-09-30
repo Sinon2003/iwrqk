@@ -62,7 +62,7 @@
 | Windows | `flutter build windows --release` | 在 Windows 上构建，分发整个 Release 产物目录 |
 | iOS | `flutter build ios --release --no-codesign` | 需要 macOS / Xcode；当前工作流打包的是未签名产物 |
 
-Android 签名从环境变量或被忽略的 `android/keystore.properties` 读取；具体行为见 [build.gradle.kts](../../android/app/build.gradle.kts)，缺少完整签名配置时 release 会回退到 debug 签名。当前 `applicationId` 为 `com.iwrqk.app.fork`，与 namespace `com.iwrqk.app` 不同，修改时考虑既有安装和数据。
+Android 签名从环境变量或被忽略的 `android/keystore.properties` 读取；具体行为见 [build.gradle.kts](../../android/app/build.gradle.kts)，缺少完整签名配置时 release 会回退到 debug 签名。当前 `applicationId` 为 `com.iwrqk.app.sinon`，与 namespace `com.iwrqk.app` 不同，修改时考虑既有安装和数据。
 
 工作流包含 GitHub Release 写入步骤。Android / Windows 的手动入口主要上传产物，iOS 工作流的发布步骤没有同样的标签条件；执行前阅读目标工作流，避免把它当作纯构建检查。接管正式发布还需核对版本、签名、更新源与发布目标。
 

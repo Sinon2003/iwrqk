@@ -43,7 +43,7 @@ android {
     defaultConfig {
         // Distinct from upstream's "com.iwrqk.app" so this fork installs alongside the original app.
         // The namespace (Kotlin package) intentionally stays "com.iwrqk.app".
-        applicationId = "com.iwrqk.app.fork"
+        applicationId = "com.iwrqk.app.sinon"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
         minSdk = 24
