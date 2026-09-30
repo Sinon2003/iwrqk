@@ -41,7 +41,8 @@
     "multiple_selection_mode": "Multiple selection mode",
     "delete": "Delete",
     "delete_all": "Delete all",
-    "site_history": "Watch history on the site"
+    "cloud_history": "Cloud",
+    "local_history": "This device"
   },
   "account": {
     "captcha": "Captcha",

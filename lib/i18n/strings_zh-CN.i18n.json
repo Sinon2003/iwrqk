@@ -35,7 +35,8 @@
     "multiple_selection_mode": "多选模式",
     "delete": "删除",
     "delete_all": "删除所有",
-    "site_history": "网站观看记录"
+    "cloud_history": "云端",
+    "local_history": "本机"
   },
   "account": {
     "captcha": "验证码",

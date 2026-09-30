@@ -34,7 +34,6 @@ abstract class AppRoutes {
   static const blockedTags = '/blockedTags';
   static const blockedUsers = '/blockedUsers';
   static const history = '/history';
-  static const siteHistory = '/siteHistory';
   static const downloads = '/downloads';
   static const favorites = '/favorite';
 

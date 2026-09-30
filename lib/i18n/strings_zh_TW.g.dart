@@ -145,7 +145,8 @@ class Translations$records$zh_TW extends Translations$records$en {
 	@override String get multiple_selection_mode => '多選模式';
 	@override String get delete => '刪除';
 	@override String get delete_all => '刪除所有';
-	@override String get site_history => '網站觀看紀錄';
+	@override String get cloud_history => '雲端';
+	@override String get local_history => '本機';
 }
 
 // Path: account
@@ -923,7 +924,8 @@ extension on TranslationsZhTw {
 			'records.multiple_selection_mode' => '多選模式',
 			'records.delete' => '刪除',
 			'records.delete_all' => '刪除所有',
-			'records.site_history' => '網站觀看紀錄',
+			'records.cloud_history' => '雲端',
+			'records.local_history' => '本機',
 			'account.captcha' => '驗證碼',
 			'account.login' => '登入',
 			'account.logout' => '登出',
