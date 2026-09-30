@@ -22,6 +22,7 @@ lib/
     const/                     站点地址、配置、颜色与界面常量
     utils/                     路径、日志、代理、URL、显示等工具
   i18n/                        Slang JSON 源文件及生成的 Dart 文件
+test/                          单元测试（flutter test）
 third_party/dart_discord_rpc/   通过 path 引用的本地插件
 third_party/flutter_inappwebview_android/  依赖覆盖：兼容 AGP 9 的上游副本
 android/ ios/ windows/         平台工程；有对应构建工作流

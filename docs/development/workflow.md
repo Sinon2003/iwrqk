@@ -25,6 +25,7 @@
 | Android 真机调试（主要方式） | `flutter run -d <设备 ID>`，ID 取自 `flutter devices`；也可在 Android Studio 中选择设备后启动 Debug |
 | 其他平台调试 | 如 `flutter run -d windows`；Windows 桌面端不是主要目标，需要时再安装桌面构建工具链并执行 `flutter config --enable-windows-desktop` |
 | 静态分析 | `flutter analyze`；已解析依赖且本次未改依赖时可用 `flutter analyze --no-pub` |
+| 单元测试 | `flutter test`，或指定文件如 `flutter test test/translate_provider_test.dart` |
 | 翻译生成 | `dart run slang` |
 
 `mise` 只是任务快捷入口，不是执行上述命令的前提。当前 `mise run watch` 引用了 `build_runner`，但根 `pubspec.yaml` 没有此依赖；不能把它当作可用的常规生成步骤。`mise run format` 会格式化全仓，`mise run updateDeps` 会升级主要依赖版本，日常修复应使用定向命令。
@@ -37,7 +38,7 @@
 4. Dart 改动运行静态分析，并检查是否引入新诊断。历史问题单独记录，不扩大修改范围或降低检查规则来获得表面通过。
 5. 按受影响行为选择测试、运行或目标平台构建，最后检查 diff。说明已验证结果和因环境限制未验证的部分。
 
-当前没有应用 `test/`、`integration_test/` 或 `*_test.dart` 用例，虽然已声明 `flutter_test`。对解析、状态转换、缓存兼容等可隔离逻辑的修复补回归测试；有测试后再执行 `flutter test` 或指定相关测试文件。自动化暂时覆盖不到的平台行为，记录人工复现和验证结果。
+单元测试位于 `test/`，目前覆盖翻译的文本切分、语言映射与各翻译源响应解析；尚无 `integration_test/`。对解析、状态转换、缓存兼容等可隔离逻辑补回归测试，把被测的纯函数标记为 `@visibleForTesting` 暴露。自动化暂时覆盖不到的平台行为，记录人工复现和验证结果。
 
 | 改动范围 | 重点回归 |
 | --- | --- |
@@ -46,6 +47,7 @@
 | 播放 / 画中画 | 播放暂停、清晰度、全屏、前后台、退出再进入；按平台检查画中画、窗口恢复和后台音频 |
 | 下载 / 存储 | 创建、暂停、恢复、取消、完成、重启恢复、文件路径与旧记录读取 |
 | 翻译 / 主题 / 布局 | 生成结果、语言切换、长文案、亮暗主题和相关屏幕尺寸 |
+| 翻译 | 默认源翻译、收起与再展开、长按或菜单中换源、设置里的默认源与启用列表、长文本、翻译失败提示 |
 | 纯文档 | 链接、命令与源码事实、Markdown 格式及 diff；无需运行 Flutter 测试或打包 |
 
 这张表用于挑选与本次修改相关的场景，不要求每次执行全量回归。
