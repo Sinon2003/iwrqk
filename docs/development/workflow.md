@@ -54,17 +54,16 @@
 
 ## 构建与发布现状
 
-[.github/workflows/](../../.github/workflows/) 中的有效工作流是 Android、Windows、iOS 构建：Android 由 `v*` 标签触发，也可手动运行；Windows、iOS 不在维护范围，只能手动运行，且目前构建失败（Windows 的 `flutter_inappwebview_windows` 不兼容新版 MSVC 移除的 `<experimental/coroutine>`）。当前未配置独立的 PR 分析 / 测试工作流。`release.yml.tmp` 是保留文件，不是有效 workflow。
+[.github/workflows/](../../.github/workflows/) 中的有效工作流是 Android、Windows 构建：Android 由 `v*` 标签触发，也可手动运行；Windows 不在维护范围，只能手动运行，且目前构建失败（`flutter_inappwebview_windows` 不兼容新版 MSVC 移除的 `<experimental/coroutine>`）。当前未配置独立的 PR 分析 / 测试工作流。`release.yml.tmp` 是保留文件，不是有效 workflow。
 
 | 平台 | 现有构建命令 | 相关条件 |
 | --- | --- | --- |
 | Android | `flutter build apk --release` | CI 使用 JDK 17；应用配置 `minSdk = 24`；release 启用 R8 代码与资源压缩，debug 不压缩 |
 | Windows | `flutter build windows --release` | 在 Windows 上构建，分发整个 Release 产物目录 |
-| iOS | `flutter build ios --release --no-codesign` | 需要 macOS / Xcode；当前工作流打包的是未签名产物 |
 
 Android 签名从环境变量或被忽略的 `android/keystore.properties` 读取；具体行为见 [build.gradle.kts](../../android/app/build.gradle.kts)，缺少完整签名配置时 release 会回退到 debug 签名。Android 工作流在仓库没有配置签名 secrets（`ENCODED_KEYSTORE` 等）时跳过构建，避免把临时密钥签名的 APK 附到 Release。目前 Release 中的 APK 在开发机构建后上传，使用开发机的 debug 签名，与此前的测试安装一致；更换签名后，已安装的用户无法直接覆盖升级。当前 `applicationId` 为 `com.iwrqk.app.sinon`，与 namespace `com.iwrqk.app` 不同，修改时考虑既有安装和数据。
 
-工作流包含 GitHub Release 写入步骤。手动运行时 Android / Windows 只上传产物，iOS 的发布步骤也限定在标签上；执行前仍应阅读目标工作流。接管正式发布还需核对版本、签名、更新源与发布目标。
+工作流包含 GitHub Release 写入步骤。手动运行时 Android / Windows 只上传产物；执行前仍应阅读目标工作流。接管正式发布还需核对版本、签名、更新源与发布目标。
 
 ## 本地资料与手册维护
 

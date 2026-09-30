@@ -25,7 +25,7 @@ lib/
 test/                          单元测试（flutter test）
 third_party/dart_discord_rpc/   通过 path 引用的本地插件
 third_party/flutter_inappwebview_android/  依赖覆盖：兼容 AGP 9 的上游副本
-android/ ios/ windows/         平台工程；有对应构建工作流
+android/ windows/             平台工程；有对应构建工作流（不维护 iOS，已移除 ios/）
 linux/ macos/ web/             其他平台工程；可用性需分别验证
 assets/launcher/              应用图标源素材
 doc/                          README 使用的截图和图标

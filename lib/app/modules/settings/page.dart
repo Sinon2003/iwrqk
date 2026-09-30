@@ -611,8 +611,8 @@ class SettingsPage extends GetView<SettingsController> {
           _buildBackgroundPlaySetting(context),
           if (GetPlatform.isWindows || GetPlatform.isLinux)
             _buildDiscordRichPresenceSetting(context),
-          if (!GetPlatform.isIOS) SettingTitle(title: t.settings.download),
-          if (!GetPlatform.isIOS) _buildDownloadPathSetting(context),
+          SettingTitle(title: t.settings.download),
+          _buildDownloadPathSetting(context),
           if (GetPlatform.isAndroid) _buildMediaScanSetting(context),
           SettingTitle(title: t.settings.experimental),
           _buildAcceleratedTransferSetting(context),

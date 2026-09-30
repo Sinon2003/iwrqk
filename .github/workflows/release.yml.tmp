@@ -23,11 +23,6 @@ jobs:
             flutter_channel: "beta"
             artifact_name: release-apk
             artifact_path: build/app/outputs/apk/release/*.apk
-          - target: ios
-            os: macos-14
-            flutter_channel: "beta"
-            artifact_name: release-ios
-            artifact_path: build/ios/ipa/*.ipa
 
     runs-on: ${{ matrix.os }}
     steps:
@@ -58,10 +53,6 @@ jobs:
       - name: Install Flutter dependencies
         run: flutter pub get
 
-      - name: Build resolve Swift dependencies (iOS)
-        if: matrix.target == 'ios'
-        run: xcodebuild -resolvePackageDependencies -workspace ios/Runner.xcworkspace -scheme Runner -configuration Release
-
       - name: Get app version
         id: get_version
         shell: bash
@@ -75,18 +66,6 @@ jobs:
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
           KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
-
-      - name: Build release (iOS)
-        if: matrix.target == 'ios'
-        run: flutter build ios --release --no-codesign
-
-      - name: Build ipa (iOS)
-        if: matrix.target == 'ios'
-        run: |
-          mkdir -p build/ios/ipa/Payload
-          cd build/ios/ipa/
-          mv ../iphoneos/Runner.app Payload
-          zip -9 ${APP_PACK_NAME}-${{ steps.get_version.outputs.version }}.ipa -r Payload
 
       - name: Publish artifacts
         uses: actions/upload-artifact@v4
@@ -121,7 +100,7 @@ jobs:
       - name: Publish release
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "/tmp/artifacts/release-apk/*.apk,/tmp/artifacts/release-ios/*.ipa"
+          artifacts: "/tmp/artifacts/release-apk/*.apk"
           tag: ${{ github.ref_name }}
           prerelease: contains(github.ref, 'pre')
           allowUpdates: true

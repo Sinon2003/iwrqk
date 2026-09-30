@@ -14,11 +14,6 @@ Future<void> landScape() async {
       await document.documentElement?.requestFullscreen();
     } else if (Platform.isAndroid) {
       await AutoOrientation.landscapeAutoMode(forceSensor: true);
-    } else if (Platform.isIOS) {
-      await SystemChrome.setPreferredOrientations([
-        DeviceOrientation.landscapeLeft,
-        DeviceOrientation.landscapeRight,
-      ]);
     } else if (Platform.isMacOS || Platform.isWindows || Platform.isLinux) {
       await const MethodChannel(
         'com.alexmercerind/media_kit_video',
@@ -40,7 +35,7 @@ Future<void> verticalScreen() async {
 }
 
 Future<void> enterFullScreen() async {
-  if(Platform.isWindows){
+  if (Platform.isWindows) {
     await windowManager.setFullScreen(true);
     return;
   }
@@ -49,7 +44,7 @@ Future<void> enterFullScreen() async {
 
 //退出全屏显示
 Future<void> exitFullScreen() async {
-  if(Platform.isWindows){
+  if (Platform.isWindows) {
     await windowManager.setFullScreen(false);
     return;
   }
@@ -58,9 +53,8 @@ Future<void> exitFullScreen() async {
   try {
     if (kIsWeb) {
       document.exitFullscreen();
-    } else if (Platform.isAndroid || Platform.isIOS) {
-      if (Platform.isAndroid &&
-          (await DeviceInfoPlugin().androidInfo).version.sdkInt < 29) {
+    } else if (Platform.isAndroid) {
+      if ((await DeviceInfoPlugin().androidInfo).version.sdkInt < 29) {
         mode = SystemUiMode.manual;
       }
       await SystemChrome.setEnabledSystemUIMode(

@@ -207,7 +207,7 @@ class HomeController extends GetxController {
   }
 
   void _initSharingIntent() {
-    if (!(GetPlatform.isAndroid || GetPlatform.isIOS)) {
+    if (!GetPlatform.isAndroid) {
       return;
     }
 
