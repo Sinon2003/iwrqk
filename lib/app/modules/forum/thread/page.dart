@@ -114,7 +114,7 @@ class _ThreadPageState extends State<ThreadPage> {
             child: PostList(
               tag: postsListTag,
               title: _controller.thread.title,
-              starterUserName: _controller.thread.user.name,
+              starterUserName: _controller.thread.user.username,
               channelName: _controller.channelName,
               threadId: _controller.thread.id,
               scrollController: _controller.scrollController,
