@@ -34,6 +34,19 @@ subprojects {
         }
     }
 }
+// Plugins migrated to AGP 9 built-in Kotlin no longer set a Kotlin jvmTarget, because built-in Kotlin
+// derives it from compileOptions. With android.builtInKotlin=false, Flutter applies KGP instead, which
+// defaults to the JDK version and then fails as inconsistent with the Java target. Align them here.
+subprojects {
+    tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
+        val javaTarget =
+            project.extensions.findByType<com.android.build.api.dsl.LibraryExtension>()
+                ?.compileOptions?.targetCompatibility ?: return@configureEach
+        compilerOptions.jvmTarget.set(
+            org.jetbrains.kotlin.gradle.dsl.JvmTarget.fromTarget(javaTarget.toString()),
+        )
+    }
+}
 subprojects {
     project.evaluationDependsOn(":app")
 }
