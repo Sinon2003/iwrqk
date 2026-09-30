@@ -44,6 +44,9 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 
+# Local progress tracker for long tasks (see AGENTS.md).
+/TODO.md
+
 # Local secrets (test accounts, signing passwords, tokens). Never commit.
 # Only the *.example.json templates are tracked.
 /secrets/*
