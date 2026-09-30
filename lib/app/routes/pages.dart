@@ -9,6 +9,8 @@ import '../modules/account/conversations/binding.dart';
 import '../modules/account/conversations/page.dart';
 import '../modules/account/notifications/binding.dart';
 import '../modules/account/notifications/page.dart';
+import '../modules/account/site_history/binding.dart';
+import '../modules/account/site_history/page.dart';
 import '../modules/account/blocked_tags/binding.dart';
 import '../modules/account/blocked_tags/page.dart';
 import '../modules/account/blocked_users/binding.dart';
@@ -157,6 +159,11 @@ abstract class AppPages {
       name: AppRoutes.history,
       page: () => const HistoryPage(),
       binding: HistoryBinding(),
+    ),
+    GetPage(
+      name: AppRoutes.siteHistory,
+      page: () => const SiteHistoryPage(),
+      binding: SiteHistoryBinding(),
     ),
     GetPage(
       name: AppRoutes.downloads,

@@ -40,7 +40,8 @@
     "selected_num": "$num selected",
     "multiple_selection_mode": "Multiple selection mode",
     "delete": "Delete",
-    "delete_all": "Delete all"
+    "delete_all": "Delete all",
+    "site_history": "Watch history on the site"
   },
   "account": {
     "captcha": "Captcha",

@@ -207,6 +207,9 @@ class Translations$records$en {
 
 	/// en: 'Delete all'
 	String get delete_all => 'Delete all';
+
+	/// en: 'Watch history on the site'
+	String get site_history => 'Watch history on the site';
 }
 
 // Path: account
@@ -1679,6 +1682,7 @@ extension on Translations {
 			'records.multiple_selection_mode' => 'Multiple selection mode',
 			'records.delete' => 'Delete',
 			'records.delete_all' => 'Delete all',
+			'records.site_history' => 'Watch history on the site',
 			'account.captcha' => 'Captcha',
 			'account.login' => 'Login',
 			'account.logout' => 'Logout',

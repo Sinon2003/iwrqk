@@ -8,6 +8,7 @@ import '../models/account/conversations/conversation.dart';
 import '../models/account/notifications/counts.dart';
 import '../models/account/notifications/notification.dart';
 import '../models/account/notifications/settings.dart';
+import '../models/media/media.dart';
 import '../models/playlist/light_playlist.dart';
 import '../models/profile.dart';
 import '../models/tag.dart';
@@ -174,6 +175,17 @@ class UserService extends GetxService {
 
   Future<ApiResult<GroupResult<UserModel>>> getBlockedUsers(int pageNum) {
     return ApiProvider.getBlockedUsers(pageNum: pageNum);
+  }
+
+  Future<ApiResult<GroupResult<MediaModel>>> getSiteHistory(
+    MediaType type,
+    int pageNum,
+  ) {
+    return ApiProvider.getSiteHistory(
+      userId: user!.id,
+      type: type,
+      currentPage: pageNum,
+    );
   }
 
   Future<ApiResult<FriendRelationType>> getFriendRelation(String userId) async {

@@ -145,6 +145,7 @@ class _Translations$records$ja extends Translations$records$en {
 	@override String get multiple_selection_mode => '複数選択モード';
 	@override String get delete => '削除';
 	@override String get delete_all => 'すべて削除';
+	@override String get site_history => 'サイトの視聴履歴';
 }
 
 // Path: account
@@ -918,6 +919,7 @@ extension on TranslationsJa {
 			'records.multiple_selection_mode' => '複数選択モード',
 			'records.delete' => '削除',
 			'records.delete_all' => 'すべて削除',
+			'records.site_history' => 'サイトの視聴履歴',
 			'account.captcha' => 'キャプチャ',
 			'account.login' => 'ログイン',
 			'account.logout' => 'ログアウト',

@@ -794,6 +794,53 @@ class ApiProvider {
     );
   }
 
+  /// What [userId] has watched, as the site records it across devices.
+  static Future<ApiResult<GroupResult<MediaModel>>> getSiteHistory({
+    required String userId,
+    required MediaType type,
+    required int currentPage,
+  }) async {
+    String? message;
+    int count = 0;
+    List<MediaModel> media = [];
+
+    final typeName = type == MediaType.video ? "video" : "image";
+    await networkProvider
+        .get(
+          "/user/$userId/history/$typeName",
+          queryParameters: {"page": currentPage},
+        )
+        .then((value) {
+          message = value.data["message"];
+          if (message != null) return;
+
+          final results = value.data["results"] as List;
+          // Removed videos and images may come back without content.
+          final contents = results
+              .map((e) => e["content"])
+              .whereType<Map<String, dynamic>>()
+              .toList();
+          count =
+              (value.data["count"] as int) - (results.length - contents.length);
+          media = contents
+              .map<MediaModel>(
+                (e) => type == MediaType.video
+                    ? VideoModel.fromJson(e)
+                    : ImageModel.fromJson(e),
+              )
+              .toList();
+        })
+        .catchError((e, stackTrace) {
+          message = e.toString();
+        });
+
+    return ApiResult(
+      data: GroupResult(count: count, results: media),
+      success: message == null,
+      message: message,
+    );
+  }
+
   static Future<ApiResult<GroupResult<UserModel>>> getUsers({
     required String path,
     required Map<String, dynamic> queryParameters,

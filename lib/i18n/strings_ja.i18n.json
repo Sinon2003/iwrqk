@@ -34,7 +34,8 @@
     "selected_num": "選択済み $num 項目",
     "multiple_selection_mode": "複数選択モード",
     "delete": "削除",
-    "delete_all": "すべて削除"
+    "delete_all": "すべて削除",
+    "site_history": "サイトの視聴履歴"
   },
   "account": {
     "captcha": "キャプチャ",

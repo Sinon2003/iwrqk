@@ -34,7 +34,8 @@
     "selected_num": "已選擇 $num 項",
     "multiple_selection_mode": "多選模式",
     "delete": "刪除",
-    "delete_all": "刪除所有"
+    "delete_all": "刪除所有",
+    "site_history": "網站觀看紀錄"
   },
   "account": {
     "captcha": "驗證碼",
