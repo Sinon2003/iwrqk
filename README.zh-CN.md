@@ -12,6 +12,8 @@ IwrQk 是一款基于 Flutter 的跨平台应用，适配新版 Iwara（一个�
 
 本项目是 [iwrqk/iwrqk](https://github.com/iwrqk/iwrqk)（已归档，不再维护）的延续开发版本，并沿用 [GPL-3.0](./LICENSE) 开源协议。
 
+**目前只维护 Android 版。** iOS、Windows、macOS、Linux 等其他平台仍沿用原项目的代码，尚未同步更新和测试，后续再维护。
+
 ## 🚩 功能
 
 - ✅ 下载管理（仅支持视频）

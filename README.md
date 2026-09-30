@@ -12,6 +12,8 @@ Now with [Material Design 3](https://m3.material.io/).
 
 This project continues the development of [iwrqk/iwrqk](https://github.com/iwrqk/iwrqk) (archived), which is no longer maintained, and remains licensed under [GPL-3.0](./LICENSE).
 
+**Only the Android app is maintained for now.** The other platforms (iOS, Windows, macOS, Linux) still use the original project's code and have not been updated or tested yet; they will be maintained later.
+
 ## 🚩 Features
 
 - ✅ Download manager (Only for videos)
