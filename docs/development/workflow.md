@@ -12,7 +12,7 @@
 - 暂缓的大版本升级：
   - animations 3、dynamic_color 2、cached_network_image 4、flutter_smart_dialog 5.2 及以上都依赖 `material_ui`。它是从 Flutter 拆出的 Material 库，类型与 `package:flutter/material.dart` 不同。App 依赖 GetX 的 `GetMaterialApp`，暂不能迁移，混用两套 Material 会带来主题问题且没有功能收益，因此用版本约束挡住，等整体迁移时一起处理。
   - permission_handler 13 要求 compileSdk 37 与 AGP 9.1.1 以上。它会使所有插件按 37 编译，而我们只使用 `isGranted`，因此等 Flutter 默认 compileSdk 升到 37 后再升级。
-- 构建中途失败后，Gradle 取消的并行任务可能留下损坏的 Kotlin 增量编译状态，表现为插件模块内的符号"找不到"、`GeneratedPluginRegistrant` 找不到插件类等。遇到这类与代码无关的错误，先执行 `flutter clean` 再完整构建。
+- 插件源码位于带版本号的 pub 缓存路径，构建目录却按模块名固定，所以升级插件后 Kotlin 增量编译会复用过期状态，报出插件模块内符号"找不到"、`GeneratedPluginRegistrant` 找不到插件类等与代码无关的错误。因此 `android/gradle.properties` 设置了 `kotlin.incremental=false`；插件只在升级时变化，全量编译的代价很小。若仍遇到同类错误，先执行 `flutter clean` 再完整构建。
 - 保留 `pubspec.lock`、`third_party/dart_discord_rpc` 的本地路径依赖，以及 `third_party/flutter_inappwebview_android` 的依赖覆盖（AGP 9 兼容修补，移除条件见其 `IWRQK_PATCH.md`）；新增依赖应说明必要性及受影响平台。
 
 从仓库根目录运行，按需要选择命令：
