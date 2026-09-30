@@ -47,6 +47,58 @@
     "forgot_password": "パスワードを忘れた",
     "require_login": "ログインしてください"
   },
+  "account_settings": {
+    "title": "アカウント設定",
+    "profile": "プロフィール",
+    "avatar": "アバター",
+    "header": "プロフィールヘッダー",
+    "remove_header": "ヘッダーを削除",
+    "tap_to_change": "タップして変更",
+    "not_set": "未設定",
+    "avatar_updated": "アバターを更新しました",
+    "header_updated": "ヘッダーを更新しました",
+    "header_removed": "ヘッダーを削除しました。サイト側でファイルが削除されるまで時間がかかる場合があります",
+    "name_updated": "名前を更新しました",
+    "description_updated": "自己紹介を更新しました",
+    "saved": "保存しました",
+    "content": "コンテンツ設定",
+    "hide_sensitive": "センシティブなコンテンツを非表示",
+    "hide_sensitive_desc": "センシティブなタグが付いた動画と画像を非表示にします",
+    "notifications": "通知設定",
+    "notify_comment": "自分のコンテンツにコメントされたとき",
+    "notify_reply": "自分のコメントに返信されたとき",
+    "notify_mention": "メンションされたとき",
+    "security": "アカウントのセキュリティ",
+    "manage_on_web": "メールアドレス・パスワードの変更、アカウント削除",
+    "manage_on_web_desc": "Iwara のウェブサイトで行います"
+  },
+  "notification_list": {
+    "title": "通知",
+    "mark_read": "既読にする",
+    "mark_all_read": "すべて既読にする",
+    "your_profile": "あなたのプロフィール",
+    "their_profile": "相手のプロフィール",
+    "new_comment": "$user が $item にコメントしました",
+    "new_reply": "$user が $item でのあなたのコメントに返信しました",
+    "video_ready": "あなたの動画 $item が公開されました",
+    "warning": "警告を受け取りました。詳細はウェブサイトで確認してください",
+    "tag_approved": "提案したタグ $item が承認されました",
+    "joined_creator_program": "クリエイタープログラムに参加しました",
+    "review_approved": "コンテンツが承認されました",
+    "review_rejected": "コンテンツが却下されました",
+    "unknown": "新しい通知"
+  },
+  "messages": {
+    "title": "メッセージ",
+    "new_conversation": "メッセージを送る",
+    "conversation_title": "タイトル",
+    "message_hint": "メッセージを入力",
+    "send": "送信",
+    "load_older": "以前のメッセージを読み込む",
+    "delete_message": "メッセージを削除",
+    "delete_confirm": "このメッセージを削除しますか？",
+    "fields_required": "タイトルとメッセージを入力してください"
+  },
   "profile": {
     "profile": "プロフィール",
     "follow": "フォロー",
@@ -63,7 +115,10 @@
     "message": "メッセージ",
     "guestbook": "ゲストブック",
     "view_more": "もっと見る",
-    "deleted_user": "削除されたユーザー"
+    "deleted_user": "削除されたユーザー",
+    "edit_profile": "プロフィールを編集",
+    "copy_link": "プロフィールのリンクをコピー",
+    "open_in_browser": "ブラウザで開く"
   },
   "sort": {
     "latest": "最新",
@@ -186,7 +241,9 @@
     "select": "プレイリストの選択",
     "edit_title": "タイトルを編集",
     "videos_count": "$numVideo 本のビデオ",
-    "videos_count_plural": "$numVideo 本のビデオ"
+    "videos_count_plural": "$numVideo 本のビデオ",
+    "delete": "プレイリストを削除",
+    "delete_confirm": "このプレイリストを削除しますか？中の動画は削除されません。"
   },
   "channel": {
     "administration": "管理者",
@@ -205,6 +262,12 @@
     "create_thread": "スレッドの作成",
     "title": "タイトル",
     "content": "内容"
+  },
+  "thread": {
+    "edit_title": "タイトルを編集",
+    "delete_thread_confirm": "最初の投稿です。削除するとスレッド全体が削除されます。続けますか？",
+    "thread_deleted": "スレッドを削除しました",
+    "title_updated": "タイトルを更新しました"
   },
   "notifications": {
     "ok": "OK",
@@ -366,7 +429,8 @@
     "playlist": {
       "empty_playlist_title": "プレイリストのタイトルは空であってはいけません。",
       "playlist_created": "プレイリストが作成されました。",
-      "playlist_title_edited": "プレイリストのタイトルが編集されました。"
+      "playlist_title_edited": "プレイリストのタイトルが編集されました。",
+      "playlist_deleted": "プレイリストを削除しました。"
     },
     "download": {
       "no_provide_storage_permission": "ストレージの許可がありません。",

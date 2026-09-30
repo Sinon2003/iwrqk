@@ -53,6 +53,58 @@
     "forgot_password": "Forgot password?",
     "require_login": "You must be logged in to do that."
   },
+  "account_settings": {
+    "title": "Account settings",
+    "profile": "Profile",
+    "avatar": "Avatar",
+    "header": "Profile header",
+    "remove_header": "Remove header",
+    "tap_to_change": "Tap to change",
+    "not_set": "Not set",
+    "avatar_updated": "Avatar updated",
+    "header_updated": "Profile header updated",
+    "header_removed": "Profile header removed. The site may take a while to delete the file.",
+    "name_updated": "Name updated",
+    "description_updated": "Description updated",
+    "saved": "Saved",
+    "content": "Content preferences",
+    "hide_sensitive": "Hide sensitive content",
+    "hide_sensitive_desc": "Hide videos and images with a tag the site considers sensitive",
+    "notifications": "Notification settings",
+    "notify_comment": "When someone comments on my content",
+    "notify_reply": "When someone replies to my comments",
+    "notify_mention": "When someone mentions me",
+    "security": "Account security",
+    "manage_on_web": "Change email or password, or delete the account",
+    "manage_on_web_desc": "Opens the Iwara website"
+  },
+  "notification_list": {
+    "title": "Notifications",
+    "mark_read": "Mark as read",
+    "mark_all_read": "Mark all as read",
+    "your_profile": "your profile",
+    "their_profile": "their profile",
+    "new_comment": "$user commented on $item",
+    "new_reply": "$user replied to your comment on $item",
+    "video_ready": "Your video $item is now published",
+    "warning": "You received a warning; see the website for details",
+    "tag_approved": "Your suggested tag $item was approved",
+    "joined_creator_program": "You joined the Creator Program",
+    "review_approved": "Your content was approved",
+    "review_rejected": "Your content was rejected",
+    "unknown": "New notification"
+  },
+  "messages": {
+    "title": "Messages",
+    "new_conversation": "Send a message",
+    "conversation_title": "Title",
+    "message_hint": "Write a message",
+    "send": "Send",
+    "load_older": "Load earlier messages",
+    "delete_message": "Delete message",
+    "delete_confirm": "Delete this message?",
+    "fields_required": "Enter a title and a message"
+  },
   "profile": {
     "profile": "Profile",
     "follow": "Follow",
@@ -69,7 +121,10 @@
     "message": "Message",
     "guestbook": "Guestbook",
     "view_more": "View more",
-    "deleted_user": "Deleted user"
+    "deleted_user": "Deleted user",
+    "edit_profile": "Edit profile",
+    "copy_link": "Copy profile link",
+    "open_in_browser": "Open in browser"
   },
   "sort": {
     "latest": "Latest",
@@ -192,7 +247,9 @@
     "select": "Select playlist",
     "edit_title": "Edit title",
     "videos_count": "$numVideo video",
-    "videos_count_plural": "$numVideo videos"
+    "videos_count_plural": "$numVideo videos",
+    "delete": "Delete playlist",
+    "delete_confirm": "Delete this playlist? The videos in it are not deleted."
   },
   "channel": {
     "administration": "Administration",
@@ -211,6 +268,12 @@
     "create_thread": "Create thread",
     "title": "Title",
     "content": "Content"
+  },
+  "thread": {
+    "edit_title": "Edit title",
+    "delete_thread_confirm": "This is the first post; deleting it deletes the whole thread. Continue?",
+    "thread_deleted": "Thread deleted",
+    "title_updated": "Title updated"
   },
   "notifications": {
     "ok": "OK",
@@ -372,7 +435,8 @@
     "playlist": {
       "empty_playlist_title": "Playlist title can not be empty.",
       "playlist_created": "Playlist created.",
-      "playlist_title_edited": "Playlist title edited."
+      "playlist_title_edited": "Playlist title edited.",
+      "playlist_deleted": "Playlist deleted."
     },
     "download": {
       "no_provide_storage_permission": "No storage permission provided.",

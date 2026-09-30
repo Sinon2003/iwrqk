@@ -47,6 +47,58 @@
     "forgot_password": "忘記密碼",
     "require_login": "請先登入"
   },
+  "account_settings": {
+    "title": "帳號設定",
+    "profile": "個人資料",
+    "avatar": "頭像",
+    "header": "背景圖",
+    "remove_header": "移除背景圖",
+    "tap_to_change": "點擊更換",
+    "not_set": "未填寫",
+    "avatar_updated": "頭像已更新",
+    "header_updated": "背景圖已更新",
+    "header_removed": "背景圖已移除，網站刪除檔案可能需要一段時間",
+    "name_updated": "暱稱已更新",
+    "description_updated": "簡介已更新",
+    "saved": "已儲存",
+    "content": "內容偏好",
+    "hide_sensitive": "隱藏敏感內容",
+    "hide_sensitive_desc": "隱藏帶有敏感標籤的影片和圖片",
+    "notifications": "通知設定",
+    "notify_comment": "有人評論我的內容時",
+    "notify_reply": "有人回覆我的評論時",
+    "notify_mention": "有人提到我時",
+    "security": "帳號安全",
+    "manage_on_web": "修改電子郵件、密碼或刪除帳號",
+    "manage_on_web_desc": "在 Iwara 網頁上操作"
+  },
+  "notification_list": {
+    "title": "通知",
+    "mark_read": "標為已讀",
+    "mark_all_read": "全部標為已讀",
+    "your_profile": "你的主頁",
+    "their_profile": "對方的主頁",
+    "new_comment": "$user 在 $item 發表了新評論",
+    "new_reply": "$user 回覆了你在 $item 的評論",
+    "video_ready": "你的影片 $item 已發布",
+    "warning": "你收到了一個警告，詳情請在網頁查看",
+    "tag_approved": "你建議的標籤 $item 已獲批准",
+    "joined_creator_program": "你已加入創作者計畫",
+    "review_approved": "你的內容已通過審核",
+    "review_rejected": "你的內容未通過審核",
+    "unknown": "新通知"
+  },
+  "messages": {
+    "title": "私訊",
+    "new_conversation": "發私訊",
+    "conversation_title": "標題",
+    "message_hint": "輸入訊息",
+    "send": "發送",
+    "load_older": "載入更早的訊息",
+    "delete_message": "刪除訊息",
+    "delete_confirm": "確定刪除這則訊息？",
+    "fields_required": "請填寫標題和內容"
+  },
   "profile": {
     "profile": "個人檔案",
     "follow": "追蹤",
@@ -63,7 +115,10 @@
     "message": "私訊",
     "guestbook": "留言板",
     "view_more": "查看更多",
-    "deleted_user": "已註銷的使用者"
+    "deleted_user": "已註銷的使用者",
+    "edit_profile": "編輯資料",
+    "copy_link": "複製主頁連結",
+    "open_in_browser": "在瀏覽器中開啟"
   },
   "sort": {
     "latest": "最新",
@@ -186,7 +241,9 @@
     "select": "選擇播放清單",
     "edit_title": "編輯標題",
     "videos_count": "$numVideo 個影片",
-    "videos_count_plural": "$numVideo 個影片"
+    "videos_count_plural": "$numVideo 個影片",
+    "delete": "刪除播放清單",
+    "delete_confirm": "確定刪除這個播放清單嗎？清單裡的影片不會被刪除。"
   },
   "channel": {
     "administration": "管理者",
@@ -205,6 +262,12 @@
     "create_thread": "發帖",
     "title": "標題",
     "content": "內容"
+  },
+  "thread": {
+    "edit_title": "編輯標題",
+    "delete_thread_confirm": "這是首帖，刪除後整個主題都會被刪除，確定嗎？",
+    "thread_deleted": "主題已刪除",
+    "title_updated": "標題已更新"
   },
   "notifications": {
     "ok": "好的",
@@ -366,7 +429,8 @@
     "playlist": {
       "empty_playlist_title": "播放列表標題不能為空。",
       "playlist_created": "播放列表已創建。",
-      "playlist_title_edited": "播放列表標題已修改。"
+      "playlist_title_edited": "播放列表標題已修改。",
+      "playlist_deleted": "播放清單已刪除。"
     },
     "download": {
       "no_provide_storage_permission": "未提供存儲權限。",

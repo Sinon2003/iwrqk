@@ -45,6 +45,9 @@ class TranslationsJa extends Translations with BaseTranslations<AppLocale, Trans
 	@override late final _Translations$refresh$ja refresh = _Translations$refresh$ja._(_root);
 	@override late final _Translations$records$ja records = _Translations$records$ja._(_root);
 	@override late final _Translations$account$ja account = _Translations$account$ja._(_root);
+	@override late final _Translations$account_settings$ja account_settings = _Translations$account_settings$ja._(_root);
+	@override late final _Translations$notification_list$ja notification_list = _Translations$notification_list$ja._(_root);
+	@override late final _Translations$messages$ja messages = _Translations$messages$ja._(_root);
 	@override late final _Translations$profile$ja profile = _Translations$profile$ja._(_root);
 	@override late final _Translations$sort$ja sort = _Translations$sort$ja._(_root);
 	@override late final _Translations$filter$ja filter = _Translations$filter$ja._(_root);
@@ -60,6 +63,7 @@ class TranslationsJa extends Translations with BaseTranslations<AppLocale, Trans
 	@override late final _Translations$playlist$ja playlist = _Translations$playlist$ja._(_root);
 	@override late final _Translations$channel$ja channel = _Translations$channel$ja._(_root);
 	@override late final _Translations$create_thread$ja create_thread = _Translations$create_thread$ja._(_root);
+	@override late final _Translations$thread$ja thread = _Translations$thread$ja._(_root);
 	@override late final _Translations$notifications$ja notifications = _Translations$notifications$ja._(_root);
 	@override late final _Translations$translation$ja translation = _Translations$translation$ja._(_root);
 	@override late final _Translations$settings$ja settings = _Translations$settings$ja._(_root);
@@ -161,6 +165,79 @@ class _Translations$account$ja extends Translations$account$en {
 	@override String get require_login => 'ログインしてください';
 }
 
+// Path: account_settings
+class _Translations$account_settings$ja extends Translations$account_settings$en {
+	_Translations$account_settings$ja._(TranslationsJa root) : this._root = root, super.internal(root);
+
+	final TranslationsJa _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'アカウント設定';
+	@override String get profile => 'プロフィール';
+	@override String get avatar => 'アバター';
+	@override String get header => 'プロフィールヘッダー';
+	@override String get remove_header => 'ヘッダーを削除';
+	@override String get tap_to_change => 'タップして変更';
+	@override String get not_set => '未設定';
+	@override String get avatar_updated => 'アバターを更新しました';
+	@override String get header_updated => 'ヘッダーを更新しました';
+	@override String get header_removed => 'ヘッダーを削除しました。サイト側でファイルが削除されるまで時間がかかる場合があります';
+	@override String get name_updated => '名前を更新しました';
+	@override String get description_updated => '自己紹介を更新しました';
+	@override String get saved => '保存しました';
+	@override String get content => 'コンテンツ設定';
+	@override String get hide_sensitive => 'センシティブなコンテンツを非表示';
+	@override String get hide_sensitive_desc => 'センシティブなタグが付いた動画と画像を非表示にします';
+	@override String get notifications => '通知設定';
+	@override String get notify_comment => '自分のコンテンツにコメントされたとき';
+	@override String get notify_reply => '自分のコメントに返信されたとき';
+	@override String get notify_mention => 'メンションされたとき';
+	@override String get security => 'アカウントのセキュリティ';
+	@override String get manage_on_web => 'メールアドレス・パスワードの変更、アカウント削除';
+	@override String get manage_on_web_desc => 'Iwara のウェブサイトで行います';
+}
+
+// Path: notification_list
+class _Translations$notification_list$ja extends Translations$notification_list$en {
+	_Translations$notification_list$ja._(TranslationsJa root) : this._root = root, super.internal(root);
+
+	final TranslationsJa _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => '通知';
+	@override String get mark_read => '既読にする';
+	@override String get mark_all_read => 'すべて既読にする';
+	@override String get your_profile => 'あなたのプロフィール';
+	@override String get their_profile => '相手のプロフィール';
+	@override String new_comment({required Object user, required Object item}) => '${user} が ${item} にコメントしました';
+	@override String new_reply({required Object user, required Object item}) => '${user} が ${item} でのあなたのコメントに返信しました';
+	@override String video_ready({required Object item}) => 'あなたの動画 ${item} が公開されました';
+	@override String get warning => '警告を受け取りました。詳細はウェブサイトで確認してください';
+	@override String tag_approved({required Object item}) => '提案したタグ ${item} が承認されました';
+	@override String get joined_creator_program => 'クリエイタープログラムに参加しました';
+	@override String get review_approved => 'コンテンツが承認されました';
+	@override String get review_rejected => 'コンテンツが却下されました';
+	@override String get unknown => '新しい通知';
+}
+
+// Path: messages
+class _Translations$messages$ja extends Translations$messages$en {
+	_Translations$messages$ja._(TranslationsJa root) : this._root = root, super.internal(root);
+
+	final TranslationsJa _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'メッセージ';
+	@override String get new_conversation => 'メッセージを送る';
+	@override String get conversation_title => 'タイトル';
+	@override String get message_hint => 'メッセージを入力';
+	@override String get send => '送信';
+	@override String get load_older => '以前のメッセージを読み込む';
+	@override String get delete_message => 'メッセージを削除';
+	@override String get delete_confirm => 'このメッセージを削除しますか？';
+	@override String get fields_required => 'タイトルとメッセージを入力してください';
+}
+
 // Path: profile
 class _Translations$profile$ja extends Translations$profile$en {
 	_Translations$profile$ja._(TranslationsJa root) : this._root = root, super.internal(root);
@@ -184,6 +261,9 @@ class _Translations$profile$ja extends Translations$profile$en {
 	@override String get guestbook => 'ゲストブック';
 	@override String get view_more => 'もっと見る';
 	@override String get deleted_user => '削除されたユーザー';
+	@override String get edit_profile => 'プロフィールを編集';
+	@override String get copy_link => 'プロフィールのリンクをコピー';
+	@override String get open_in_browser => 'ブラウザで開く';
 }
 
 // Path: sort
@@ -381,6 +461,8 @@ class _Translations$playlist$ja extends Translations$playlist$en {
 	@override String get edit_title => 'タイトルを編集';
 	@override String videos_count({required Object numVideo}) => '${numVideo} 本のビデオ';
 	@override String videos_count_plural({required Object numVideo}) => '${numVideo} 本のビデオ';
+	@override String get delete => 'プレイリストを削除';
+	@override String get delete_confirm => 'このプレイリストを削除しますか？中の動画は削除されません。';
 }
 
 // Path: channel
@@ -413,6 +495,19 @@ class _Translations$create_thread$ja extends Translations$create_thread$en {
 	@override String get create_thread => 'スレッドの作成';
 	@override String get title => 'タイトル';
 	@override String get content => '内容';
+}
+
+// Path: thread
+class _Translations$thread$ja extends Translations$thread$en {
+	_Translations$thread$ja._(TranslationsJa root) : this._root = root, super.internal(root);
+
+	final TranslationsJa _root; // ignore: unused_field
+
+	// Translations
+	@override String get edit_title => 'タイトルを編集';
+	@override String get delete_thread_confirm => '最初の投稿です。削除するとスレッド全体が削除されます。続けますか？';
+	@override String get thread_deleted => 'スレッドを削除しました';
+	@override String get title_updated => 'タイトルを更新しました';
 }
 
 // Path: notifications
@@ -739,6 +834,7 @@ class _Translations$message$playlist$ja extends Translations$message$playlist$en
 	@override String get empty_playlist_title => 'プレイリストのタイトルは空であってはいけません。';
 	@override String get playlist_created => 'プレイリストが作成されました。';
 	@override String get playlist_title_edited => 'プレイリストのタイトルが編集されました。';
+	@override String get playlist_deleted => 'プレイリストを削除しました。';
 }
 
 // Path: message.download
@@ -825,6 +921,52 @@ extension on TranslationsJa {
 			'account.password' => 'パスワード',
 			'account.forgot_password' => 'パスワードを忘れた',
 			'account.require_login' => 'ログインしてください',
+			'account_settings.title' => 'アカウント設定',
+			'account_settings.profile' => 'プロフィール',
+			'account_settings.avatar' => 'アバター',
+			'account_settings.header' => 'プロフィールヘッダー',
+			'account_settings.remove_header' => 'ヘッダーを削除',
+			'account_settings.tap_to_change' => 'タップして変更',
+			'account_settings.not_set' => '未設定',
+			'account_settings.avatar_updated' => 'アバターを更新しました',
+			'account_settings.header_updated' => 'ヘッダーを更新しました',
+			'account_settings.header_removed' => 'ヘッダーを削除しました。サイト側でファイルが削除されるまで時間がかかる場合があります',
+			'account_settings.name_updated' => '名前を更新しました',
+			'account_settings.description_updated' => '自己紹介を更新しました',
+			'account_settings.saved' => '保存しました',
+			'account_settings.content' => 'コンテンツ設定',
+			'account_settings.hide_sensitive' => 'センシティブなコンテンツを非表示',
+			'account_settings.hide_sensitive_desc' => 'センシティブなタグが付いた動画と画像を非表示にします',
+			'account_settings.notifications' => '通知設定',
+			'account_settings.notify_comment' => '自分のコンテンツにコメントされたとき',
+			'account_settings.notify_reply' => '自分のコメントに返信されたとき',
+			'account_settings.notify_mention' => 'メンションされたとき',
+			'account_settings.security' => 'アカウントのセキュリティ',
+			'account_settings.manage_on_web' => 'メールアドレス・パスワードの変更、アカウント削除',
+			'account_settings.manage_on_web_desc' => 'Iwara のウェブサイトで行います',
+			'notification_list.title' => '通知',
+			'notification_list.mark_read' => '既読にする',
+			'notification_list.mark_all_read' => 'すべて既読にする',
+			'notification_list.your_profile' => 'あなたのプロフィール',
+			'notification_list.their_profile' => '相手のプロフィール',
+			'notification_list.new_comment' => ({required Object user, required Object item}) => '${user} が ${item} にコメントしました',
+			'notification_list.new_reply' => ({required Object user, required Object item}) => '${user} が ${item} でのあなたのコメントに返信しました',
+			'notification_list.video_ready' => ({required Object item}) => 'あなたの動画 ${item} が公開されました',
+			'notification_list.warning' => '警告を受け取りました。詳細はウェブサイトで確認してください',
+			'notification_list.tag_approved' => ({required Object item}) => '提案したタグ ${item} が承認されました',
+			'notification_list.joined_creator_program' => 'クリエイタープログラムに参加しました',
+			'notification_list.review_approved' => 'コンテンツが承認されました',
+			'notification_list.review_rejected' => 'コンテンツが却下されました',
+			'notification_list.unknown' => '新しい通知',
+			'messages.title' => 'メッセージ',
+			'messages.new_conversation' => 'メッセージを送る',
+			'messages.conversation_title' => 'タイトル',
+			'messages.message_hint' => 'メッセージを入力',
+			'messages.send' => '送信',
+			'messages.load_older' => '以前のメッセージを読み込む',
+			'messages.delete_message' => 'メッセージを削除',
+			'messages.delete_confirm' => 'このメッセージを削除しますか？',
+			'messages.fields_required' => 'タイトルとメッセージを入力してください',
 			'profile.profile' => 'プロフィール',
 			'profile.follow' => 'フォロー',
 			'profile.followers' => 'フォロワー',
@@ -841,6 +983,9 @@ extension on TranslationsJa {
 			'profile.guestbook' => 'ゲストブック',
 			'profile.view_more' => 'もっと見る',
 			'profile.deleted_user' => '削除されたユーザー',
+			'profile.edit_profile' => 'プロフィールを編集',
+			'profile.copy_link' => 'プロフィールのリンクをコピー',
+			'profile.open_in_browser' => 'ブラウザで開く',
 			'sort.latest' => '最新',
 			'sort.trending' => 'トレンド',
 			'sort.popularity' => '人気順',
@@ -936,6 +1081,8 @@ extension on TranslationsJa {
 			'playlist.edit_title' => 'タイトルを編集',
 			'playlist.videos_count' => ({required Object numVideo}) => '${numVideo} 本のビデオ',
 			'playlist.videos_count_plural' => ({required Object numVideo}) => '${numVideo} 本のビデオ',
+			'playlist.delete' => 'プレイリストを削除',
+			'playlist.delete_confirm' => 'このプレイリストを削除しますか？中の動画は削除されません。',
 			'channel.administration' => '管理者',
 			'channel.announcements' => 'お知らせ',
 			'channel.feedback' => 'フィードバック',
@@ -950,6 +1097,10 @@ extension on TranslationsJa {
 			'create_thread.create_thread' => 'スレッドの作成',
 			'create_thread.title' => 'タイトル',
 			'create_thread.content' => '内容',
+			'thread.edit_title' => 'タイトルを編集',
+			'thread.delete_thread_confirm' => '最初の投稿です。削除するとスレッド全体が削除されます。続けますか？',
+			'thread.thread_deleted' => 'スレッドを削除しました',
+			'thread.title_updated' => 'タイトルを更新しました',
 			'notifications.ok' => 'OK',
 			'notifications.success' => '成功',
 			'notifications.error' => 'エラー',
@@ -1081,6 +1232,7 @@ extension on TranslationsJa {
 			'message.playlist.empty_playlist_title' => 'プレイリストのタイトルは空であってはいけません。',
 			'message.playlist.playlist_created' => 'プレイリストが作成されました。',
 			'message.playlist.playlist_title_edited' => 'プレイリストのタイトルが編集されました。',
+			'message.playlist.playlist_deleted' => 'プレイリストを削除しました。',
 			'message.download.no_provide_storage_permission' => 'ストレージの許可がありません。',
 			'message.download.task_already_exists' => 'ダウンロードタスクはすでに存在します。',
 			'message.download.task_created' => 'ダウンロードタスクが作成されました。',

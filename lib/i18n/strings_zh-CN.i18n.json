@@ -47,6 +47,58 @@
     "forgot_password": "忘记密码",
     "require_login": "请先登录"
   },
+  "account_settings": {
+    "title": "账号设置",
+    "profile": "个人资料",
+    "avatar": "头像",
+    "header": "背景图",
+    "remove_header": "移除背景图",
+    "tap_to_change": "点击更换",
+    "not_set": "未填写",
+    "avatar_updated": "头像已更新",
+    "header_updated": "背景图已更新",
+    "header_removed": "背景图已移除，网站删除文件可能需要一段时间",
+    "name_updated": "昵称已更新",
+    "description_updated": "简介已更新",
+    "saved": "已保存",
+    "content": "内容偏好",
+    "hide_sensitive": "隐藏敏感内容",
+    "hide_sensitive_desc": "隐藏带有敏感标签的视频和图片",
+    "notifications": "通知设置",
+    "notify_comment": "有人评论我的内容时",
+    "notify_reply": "有人回复我的评论时",
+    "notify_mention": "有人提到我时",
+    "security": "账号安全",
+    "manage_on_web": "修改邮箱、密码或注销账号",
+    "manage_on_web_desc": "在 Iwara 网页上操作"
+  },
+  "notification_list": {
+    "title": "通知",
+    "mark_read": "标为已读",
+    "mark_all_read": "全部标为已读",
+    "your_profile": "你的主页",
+    "their_profile": "对方的主页",
+    "new_comment": "$user 在 $item 发表了新评论",
+    "new_reply": "$user 回复了你在 $item 的评论",
+    "video_ready": "你的视频 $item 已发布",
+    "warning": "你收到了一个警告，详情请在网页查看",
+    "tag_approved": "你建议的标签 $item 已获批准",
+    "joined_creator_program": "你已加入创作者计划",
+    "review_approved": "你的内容已通过审核",
+    "review_rejected": "你的内容未通过审核",
+    "unknown": "新通知"
+  },
+  "messages": {
+    "title": "私信",
+    "new_conversation": "发私信",
+    "conversation_title": "标题",
+    "message_hint": "输入消息",
+    "send": "发送",
+    "load_older": "加载更早的消息",
+    "delete_message": "删除消息",
+    "delete_confirm": "确定删除这条消息？",
+    "fields_required": "请填写标题和内容"
+  },
   "profile": {
     "profile": "个人资料",
     "follow": "关注",
@@ -63,7 +115,10 @@
     "message": "私信",
     "guestbook": "留言板",
     "view_more": "查看更多",
-    "deleted_user": "已注销用户"
+    "deleted_user": "已注销用户",
+    "edit_profile": "编辑资料",
+    "copy_link": "复制主页链接",
+    "open_in_browser": "在浏览器中打开"
   },
   "sort": {
     "latest": "最新",
@@ -186,7 +241,9 @@
     "select": "选择播放列表",
     "edit_title": "编辑标题",
     "videos_count": "$numVideo 个视频",
-    "videos_count_plural": "$numVideo 个视频"
+    "videos_count_plural": "$numVideo 个视频",
+    "delete": "删除播放列表",
+    "delete_confirm": "确定删除这个播放列表吗？列表里的视频不会被删除。"
   },
   "channel": {
     "administration": "管理者",
@@ -205,6 +262,12 @@
     "create_thread": "发帖",
     "title": "标题",
     "content": "内容"
+  },
+  "thread": {
+    "edit_title": "编辑标题",
+    "delete_thread_confirm": "这是首帖，删除后整个主题都会被删除，确定吗？",
+    "thread_deleted": "主题已删除",
+    "title_updated": "标题已更新"
   },
   "notifications": {
     "ok": "好的",
@@ -366,7 +429,8 @@
     "playlist": {
       "empty_playlist_title": "播放列表标题不能为空。",
       "playlist_created": "播放列表已创建。",
-      "playlist_title_edited": "播放列表标题已修改。"
+      "playlist_title_edited": "播放列表标题已修改。",
+      "playlist_deleted": "播放列表已删除。"
     },
     "download": {
       "no_provide_storage_permission": "未提供存储权限。",

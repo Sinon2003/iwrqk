@@ -45,6 +45,9 @@ class TranslationsZhTw extends Translations with BaseTranslations<AppLocale, Tra
 	@override late final Translations$refresh$zh_TW refresh = Translations$refresh$zh_TW.internal(_root);
 	@override late final Translations$records$zh_TW records = Translations$records$zh_TW.internal(_root);
 	@override late final Translations$account$zh_TW account = Translations$account$zh_TW.internal(_root);
+	@override late final Translations$account_settings$zh_TW account_settings = Translations$account_settings$zh_TW.internal(_root);
+	@override late final Translations$notification_list$zh_TW notification_list = Translations$notification_list$zh_TW.internal(_root);
+	@override late final Translations$messages$zh_TW messages = Translations$messages$zh_TW.internal(_root);
 	@override late final Translations$profile$zh_TW profile = Translations$profile$zh_TW.internal(_root);
 	@override late final Translations$sort$zh_TW sort = Translations$sort$zh_TW.internal(_root);
 	@override late final Translations$filter$zh_TW filter = Translations$filter$zh_TW.internal(_root);
@@ -60,6 +63,7 @@ class TranslationsZhTw extends Translations with BaseTranslations<AppLocale, Tra
 	@override late final Translations$playlist$zh_TW playlist = Translations$playlist$zh_TW.internal(_root);
 	@override late final Translations$channel$zh_TW channel = Translations$channel$zh_TW.internal(_root);
 	@override late final Translations$create_thread$zh_TW create_thread = Translations$create_thread$zh_TW.internal(_root);
+	@override late final Translations$thread$zh_TW thread = Translations$thread$zh_TW.internal(_root);
 	@override late final Translations$notifications$zh_TW notifications = Translations$notifications$zh_TW.internal(_root);
 	@override late final Translations$translation$zh_TW translation = Translations$translation$zh_TW.internal(_root);
 	@override late final Translations$settings$zh_TW settings = Translations$settings$zh_TW.internal(_root);
@@ -161,6 +165,79 @@ class Translations$account$zh_TW extends Translations$account$en {
 	@override String get require_login => '請先登入';
 }
 
+// Path: account_settings
+class Translations$account_settings$zh_TW extends Translations$account_settings$en {
+	Translations$account_settings$zh_TW.internal(TranslationsZhTw root) : this._root = root, super.internal(root);
+
+	final TranslationsZhTw _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => '帳號設定';
+	@override String get profile => '個人資料';
+	@override String get avatar => '頭像';
+	@override String get header => '背景圖';
+	@override String get remove_header => '移除背景圖';
+	@override String get tap_to_change => '點擊更換';
+	@override String get not_set => '未填寫';
+	@override String get avatar_updated => '頭像已更新';
+	@override String get header_updated => '背景圖已更新';
+	@override String get header_removed => '背景圖已移除，網站刪除檔案可能需要一段時間';
+	@override String get name_updated => '暱稱已更新';
+	@override String get description_updated => '簡介已更新';
+	@override String get saved => '已儲存';
+	@override String get content => '內容偏好';
+	@override String get hide_sensitive => '隱藏敏感內容';
+	@override String get hide_sensitive_desc => '隱藏帶有敏感標籤的影片和圖片';
+	@override String get notifications => '通知設定';
+	@override String get notify_comment => '有人評論我的內容時';
+	@override String get notify_reply => '有人回覆我的評論時';
+	@override String get notify_mention => '有人提到我時';
+	@override String get security => '帳號安全';
+	@override String get manage_on_web => '修改電子郵件、密碼或刪除帳號';
+	@override String get manage_on_web_desc => '在 Iwara 網頁上操作';
+}
+
+// Path: notification_list
+class Translations$notification_list$zh_TW extends Translations$notification_list$en {
+	Translations$notification_list$zh_TW.internal(TranslationsZhTw root) : this._root = root, super.internal(root);
+
+	final TranslationsZhTw _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => '通知';
+	@override String get mark_read => '標為已讀';
+	@override String get mark_all_read => '全部標為已讀';
+	@override String get your_profile => '你的主頁';
+	@override String get their_profile => '對方的主頁';
+	@override String new_comment({required Object user, required Object item}) => '${user} 在 ${item} 發表了新評論';
+	@override String new_reply({required Object user, required Object item}) => '${user} 回覆了你在 ${item} 的評論';
+	@override String video_ready({required Object item}) => '你的影片 ${item} 已發布';
+	@override String get warning => '你收到了一個警告，詳情請在網頁查看';
+	@override String tag_approved({required Object item}) => '你建議的標籤 ${item} 已獲批准';
+	@override String get joined_creator_program => '你已加入創作者計畫';
+	@override String get review_approved => '你的內容已通過審核';
+	@override String get review_rejected => '你的內容未通過審核';
+	@override String get unknown => '新通知';
+}
+
+// Path: messages
+class Translations$messages$zh_TW extends Translations$messages$en {
+	Translations$messages$zh_TW.internal(TranslationsZhTw root) : this._root = root, super.internal(root);
+
+	final TranslationsZhTw _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => '私訊';
+	@override String get new_conversation => '發私訊';
+	@override String get conversation_title => '標題';
+	@override String get message_hint => '輸入訊息';
+	@override String get send => '發送';
+	@override String get load_older => '載入更早的訊息';
+	@override String get delete_message => '刪除訊息';
+	@override String get delete_confirm => '確定刪除這則訊息？';
+	@override String get fields_required => '請填寫標題和內容';
+}
+
 // Path: profile
 class Translations$profile$zh_TW extends Translations$profile$en {
 	Translations$profile$zh_TW.internal(TranslationsZhTw root) : this._root = root, super.internal(root);
@@ -184,6 +261,9 @@ class Translations$profile$zh_TW extends Translations$profile$en {
 	@override String get guestbook => '留言板';
 	@override String get view_more => '查看更多';
 	@override String get deleted_user => '已註銷的使用者';
+	@override String get edit_profile => '編輯資料';
+	@override String get copy_link => '複製主頁連結';
+	@override String get open_in_browser => '在瀏覽器中開啟';
 }
 
 // Path: sort
@@ -381,6 +461,8 @@ class Translations$playlist$zh_TW extends Translations$playlist$en {
 	@override String get edit_title => '編輯標題';
 	@override String videos_count({required Object numVideo}) => '${numVideo} 個影片';
 	@override String videos_count_plural({required Object numVideo}) => '${numVideo} 個影片';
+	@override String get delete => '刪除播放清單';
+	@override String get delete_confirm => '確定刪除這個播放清單嗎？清單裡的影片不會被刪除。';
 }
 
 // Path: channel
@@ -413,6 +495,19 @@ class Translations$create_thread$zh_TW extends Translations$create_thread$en {
 	@override String get create_thread => '發帖';
 	@override String get title => '標題';
 	@override String get content => '內容';
+}
+
+// Path: thread
+class Translations$thread$zh_TW extends Translations$thread$en {
+	Translations$thread$zh_TW.internal(TranslationsZhTw root) : this._root = root, super.internal(root);
+
+	final TranslationsZhTw _root; // ignore: unused_field
+
+	// Translations
+	@override String get edit_title => '編輯標題';
+	@override String get delete_thread_confirm => '這是首帖，刪除後整個主題都會被刪除，確定嗎？';
+	@override String get thread_deleted => '主題已刪除';
+	@override String get title_updated => '標題已更新';
 }
 
 // Path: notifications
@@ -739,6 +834,7 @@ class Translations$message$playlist$zh_TW extends Translations$message$playlist$
 	@override String get empty_playlist_title => '播放列表標題不能為空。';
 	@override String get playlist_created => '播放列表已創建。';
 	@override String get playlist_title_edited => '播放列表標題已修改。';
+	@override String get playlist_deleted => '播放清單已刪除。';
 }
 
 // Path: message.download
@@ -825,6 +921,52 @@ extension on TranslationsZhTw {
 			'account.password' => '密碼',
 			'account.forgot_password' => '忘記密碼',
 			'account.require_login' => '請先登入',
+			'account_settings.title' => '帳號設定',
+			'account_settings.profile' => '個人資料',
+			'account_settings.avatar' => '頭像',
+			'account_settings.header' => '背景圖',
+			'account_settings.remove_header' => '移除背景圖',
+			'account_settings.tap_to_change' => '點擊更換',
+			'account_settings.not_set' => '未填寫',
+			'account_settings.avatar_updated' => '頭像已更新',
+			'account_settings.header_updated' => '背景圖已更新',
+			'account_settings.header_removed' => '背景圖已移除，網站刪除檔案可能需要一段時間',
+			'account_settings.name_updated' => '暱稱已更新',
+			'account_settings.description_updated' => '簡介已更新',
+			'account_settings.saved' => '已儲存',
+			'account_settings.content' => '內容偏好',
+			'account_settings.hide_sensitive' => '隱藏敏感內容',
+			'account_settings.hide_sensitive_desc' => '隱藏帶有敏感標籤的影片和圖片',
+			'account_settings.notifications' => '通知設定',
+			'account_settings.notify_comment' => '有人評論我的內容時',
+			'account_settings.notify_reply' => '有人回覆我的評論時',
+			'account_settings.notify_mention' => '有人提到我時',
+			'account_settings.security' => '帳號安全',
+			'account_settings.manage_on_web' => '修改電子郵件、密碼或刪除帳號',
+			'account_settings.manage_on_web_desc' => '在 Iwara 網頁上操作',
+			'notification_list.title' => '通知',
+			'notification_list.mark_read' => '標為已讀',
+			'notification_list.mark_all_read' => '全部標為已讀',
+			'notification_list.your_profile' => '你的主頁',
+			'notification_list.their_profile' => '對方的主頁',
+			'notification_list.new_comment' => ({required Object user, required Object item}) => '${user} 在 ${item} 發表了新評論',
+			'notification_list.new_reply' => ({required Object user, required Object item}) => '${user} 回覆了你在 ${item} 的評論',
+			'notification_list.video_ready' => ({required Object item}) => '你的影片 ${item} 已發布',
+			'notification_list.warning' => '你收到了一個警告，詳情請在網頁查看',
+			'notification_list.tag_approved' => ({required Object item}) => '你建議的標籤 ${item} 已獲批准',
+			'notification_list.joined_creator_program' => '你已加入創作者計畫',
+			'notification_list.review_approved' => '你的內容已通過審核',
+			'notification_list.review_rejected' => '你的內容未通過審核',
+			'notification_list.unknown' => '新通知',
+			'messages.title' => '私訊',
+			'messages.new_conversation' => '發私訊',
+			'messages.conversation_title' => '標題',
+			'messages.message_hint' => '輸入訊息',
+			'messages.send' => '發送',
+			'messages.load_older' => '載入更早的訊息',
+			'messages.delete_message' => '刪除訊息',
+			'messages.delete_confirm' => '確定刪除這則訊息？',
+			'messages.fields_required' => '請填寫標題和內容',
 			'profile.profile' => '個人檔案',
 			'profile.follow' => '追蹤',
 			'profile.followers' => '粉絲',
@@ -841,6 +983,9 @@ extension on TranslationsZhTw {
 			'profile.guestbook' => '留言板',
 			'profile.view_more' => '查看更多',
 			'profile.deleted_user' => '已註銷的使用者',
+			'profile.edit_profile' => '編輯資料',
+			'profile.copy_link' => '複製主頁連結',
+			'profile.open_in_browser' => '在瀏覽器中開啟',
 			'sort.latest' => '最新',
 			'sort.trending' => '趨勢',
 			'sort.popularity' => '熱門',
@@ -936,6 +1081,8 @@ extension on TranslationsZhTw {
 			'playlist.edit_title' => '編輯標題',
 			'playlist.videos_count' => ({required Object numVideo}) => '${numVideo} 個影片',
 			'playlist.videos_count_plural' => ({required Object numVideo}) => '${numVideo} 個影片',
+			'playlist.delete' => '刪除播放清單',
+			'playlist.delete_confirm' => '確定刪除這個播放清單嗎？清單裡的影片不會被刪除。',
 			'channel.administration' => '管理者',
 			'channel.announcements' => '公告',
 			'channel.feedback' => '回饋',
@@ -950,6 +1097,10 @@ extension on TranslationsZhTw {
 			'create_thread.create_thread' => '發帖',
 			'create_thread.title' => '標題',
 			'create_thread.content' => '內容',
+			'thread.edit_title' => '編輯標題',
+			'thread.delete_thread_confirm' => '這是首帖，刪除後整個主題都會被刪除，確定嗎？',
+			'thread.thread_deleted' => '主題已刪除',
+			'thread.title_updated' => '標題已更新',
 			'notifications.ok' => '好的',
 			'notifications.success' => '成功',
 			'notifications.error' => '錯誤',
@@ -1081,6 +1232,7 @@ extension on TranslationsZhTw {
 			'message.playlist.empty_playlist_title' => '播放列表標題不能為空。',
 			'message.playlist.playlist_created' => '播放列表已創建。',
 			'message.playlist.playlist_title_edited' => '播放列表標題已修改。',
+			'message.playlist.playlist_deleted' => '播放清單已刪除。',
 			'message.download.no_provide_storage_permission' => '未提供存儲權限。',
 			'message.download.task_already_exists' => '下載任務已存在。',
 			'message.download.task_created' => '下載任務已創建。',

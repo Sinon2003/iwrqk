@@ -45,6 +45,9 @@ class TranslationsZhCn extends Translations with BaseTranslations<AppLocale, Tra
 	@override late final Translations$refresh$zh_CN refresh = Translations$refresh$zh_CN.internal(_root);
 	@override late final Translations$records$zh_CN records = Translations$records$zh_CN.internal(_root);
 	@override late final Translations$account$zh_CN account = Translations$account$zh_CN.internal(_root);
+	@override late final Translations$account_settings$zh_CN account_settings = Translations$account_settings$zh_CN.internal(_root);
+	@override late final Translations$notification_list$zh_CN notification_list = Translations$notification_list$zh_CN.internal(_root);
+	@override late final Translations$messages$zh_CN messages = Translations$messages$zh_CN.internal(_root);
 	@override late final Translations$profile$zh_CN profile = Translations$profile$zh_CN.internal(_root);
 	@override late final Translations$sort$zh_CN sort = Translations$sort$zh_CN.internal(_root);
 	@override late final Translations$filter$zh_CN filter = Translations$filter$zh_CN.internal(_root);
@@ -60,6 +63,7 @@ class TranslationsZhCn extends Translations with BaseTranslations<AppLocale, Tra
 	@override late final Translations$playlist$zh_CN playlist = Translations$playlist$zh_CN.internal(_root);
 	@override late final Translations$channel$zh_CN channel = Translations$channel$zh_CN.internal(_root);
 	@override late final Translations$create_thread$zh_CN create_thread = Translations$create_thread$zh_CN.internal(_root);
+	@override late final Translations$thread$zh_CN thread = Translations$thread$zh_CN.internal(_root);
 	@override late final Translations$notifications$zh_CN notifications = Translations$notifications$zh_CN.internal(_root);
 	@override late final Translations$translation$zh_CN translation = Translations$translation$zh_CN.internal(_root);
 	@override late final Translations$settings$zh_CN settings = Translations$settings$zh_CN.internal(_root);
@@ -161,6 +165,79 @@ class Translations$account$zh_CN extends Translations$account$en {
 	@override String get require_login => '请先登录';
 }
 
+// Path: account_settings
+class Translations$account_settings$zh_CN extends Translations$account_settings$en {
+	Translations$account_settings$zh_CN.internal(TranslationsZhCn root) : this._root = root, super.internal(root);
+
+	final TranslationsZhCn _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => '账号设置';
+	@override String get profile => '个人资料';
+	@override String get avatar => '头像';
+	@override String get header => '背景图';
+	@override String get remove_header => '移除背景图';
+	@override String get tap_to_change => '点击更换';
+	@override String get not_set => '未填写';
+	@override String get avatar_updated => '头像已更新';
+	@override String get header_updated => '背景图已更新';
+	@override String get header_removed => '背景图已移除，网站删除文件可能需要一段时间';
+	@override String get name_updated => '昵称已更新';
+	@override String get description_updated => '简介已更新';
+	@override String get saved => '已保存';
+	@override String get content => '内容偏好';
+	@override String get hide_sensitive => '隐藏敏感内容';
+	@override String get hide_sensitive_desc => '隐藏带有敏感标签的视频和图片';
+	@override String get notifications => '通知设置';
+	@override String get notify_comment => '有人评论我的内容时';
+	@override String get notify_reply => '有人回复我的评论时';
+	@override String get notify_mention => '有人提到我时';
+	@override String get security => '账号安全';
+	@override String get manage_on_web => '修改邮箱、密码或注销账号';
+	@override String get manage_on_web_desc => '在 Iwara 网页上操作';
+}
+
+// Path: notification_list
+class Translations$notification_list$zh_CN extends Translations$notification_list$en {
+	Translations$notification_list$zh_CN.internal(TranslationsZhCn root) : this._root = root, super.internal(root);
+
+	final TranslationsZhCn _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => '通知';
+	@override String get mark_read => '标为已读';
+	@override String get mark_all_read => '全部标为已读';
+	@override String get your_profile => '你的主页';
+	@override String get their_profile => '对方的主页';
+	@override String new_comment({required Object user, required Object item}) => '${user} 在 ${item} 发表了新评论';
+	@override String new_reply({required Object user, required Object item}) => '${user} 回复了你在 ${item} 的评论';
+	@override String video_ready({required Object item}) => '你的视频 ${item} 已发布';
+	@override String get warning => '你收到了一个警告，详情请在网页查看';
+	@override String tag_approved({required Object item}) => '你建议的标签 ${item} 已获批准';
+	@override String get joined_creator_program => '你已加入创作者计划';
+	@override String get review_approved => '你的内容已通过审核';
+	@override String get review_rejected => '你的内容未通过审核';
+	@override String get unknown => '新通知';
+}
+
+// Path: messages
+class Translations$messages$zh_CN extends Translations$messages$en {
+	Translations$messages$zh_CN.internal(TranslationsZhCn root) : this._root = root, super.internal(root);
+
+	final TranslationsZhCn _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => '私信';
+	@override String get new_conversation => '发私信';
+	@override String get conversation_title => '标题';
+	@override String get message_hint => '输入消息';
+	@override String get send => '发送';
+	@override String get load_older => '加载更早的消息';
+	@override String get delete_message => '删除消息';
+	@override String get delete_confirm => '确定删除这条消息？';
+	@override String get fields_required => '请填写标题和内容';
+}
+
 // Path: profile
 class Translations$profile$zh_CN extends Translations$profile$en {
 	Translations$profile$zh_CN.internal(TranslationsZhCn root) : this._root = root, super.internal(root);
@@ -184,6 +261,9 @@ class Translations$profile$zh_CN extends Translations$profile$en {
 	@override String get guestbook => '留言板';
 	@override String get view_more => '查看更多';
 	@override String get deleted_user => '已注销用户';
+	@override String get edit_profile => '编辑资料';
+	@override String get copy_link => '复制主页链接';
+	@override String get open_in_browser => '在浏览器中打开';
 }
 
 // Path: sort
@@ -381,6 +461,8 @@ class Translations$playlist$zh_CN extends Translations$playlist$en {
 	@override String get edit_title => '编辑标题';
 	@override String videos_count({required Object numVideo}) => '${numVideo} 个视频';
 	@override String videos_count_plural({required Object numVideo}) => '${numVideo} 个视频';
+	@override String get delete => '删除播放列表';
+	@override String get delete_confirm => '确定删除这个播放列表吗？列表里的视频不会被删除。';
 }
 
 // Path: channel
@@ -413,6 +495,19 @@ class Translations$create_thread$zh_CN extends Translations$create_thread$en {
 	@override String get create_thread => '发帖';
 	@override String get title => '标题';
 	@override String get content => '内容';
+}
+
+// Path: thread
+class Translations$thread$zh_CN extends Translations$thread$en {
+	Translations$thread$zh_CN.internal(TranslationsZhCn root) : this._root = root, super.internal(root);
+
+	final TranslationsZhCn _root; // ignore: unused_field
+
+	// Translations
+	@override String get edit_title => '编辑标题';
+	@override String get delete_thread_confirm => '这是首帖，删除后整个主题都会被删除，确定吗？';
+	@override String get thread_deleted => '主题已删除';
+	@override String get title_updated => '标题已更新';
 }
 
 // Path: notifications
@@ -739,6 +834,7 @@ class Translations$message$playlist$zh_CN extends Translations$message$playlist$
 	@override String get empty_playlist_title => '播放列表标题不能为空。';
 	@override String get playlist_created => '播放列表已创建。';
 	@override String get playlist_title_edited => '播放列表标题已修改。';
+	@override String get playlist_deleted => '播放列表已删除。';
 }
 
 // Path: message.download
@@ -825,6 +921,52 @@ extension on TranslationsZhCn {
 			'account.password' => '密码',
 			'account.forgot_password' => '忘记密码',
 			'account.require_login' => '请先登录',
+			'account_settings.title' => '账号设置',
+			'account_settings.profile' => '个人资料',
+			'account_settings.avatar' => '头像',
+			'account_settings.header' => '背景图',
+			'account_settings.remove_header' => '移除背景图',
+			'account_settings.tap_to_change' => '点击更换',
+			'account_settings.not_set' => '未填写',
+			'account_settings.avatar_updated' => '头像已更新',
+			'account_settings.header_updated' => '背景图已更新',
+			'account_settings.header_removed' => '背景图已移除，网站删除文件可能需要一段时间',
+			'account_settings.name_updated' => '昵称已更新',
+			'account_settings.description_updated' => '简介已更新',
+			'account_settings.saved' => '已保存',
+			'account_settings.content' => '内容偏好',
+			'account_settings.hide_sensitive' => '隐藏敏感内容',
+			'account_settings.hide_sensitive_desc' => '隐藏带有敏感标签的视频和图片',
+			'account_settings.notifications' => '通知设置',
+			'account_settings.notify_comment' => '有人评论我的内容时',
+			'account_settings.notify_reply' => '有人回复我的评论时',
+			'account_settings.notify_mention' => '有人提到我时',
+			'account_settings.security' => '账号安全',
+			'account_settings.manage_on_web' => '修改邮箱、密码或注销账号',
+			'account_settings.manage_on_web_desc' => '在 Iwara 网页上操作',
+			'notification_list.title' => '通知',
+			'notification_list.mark_read' => '标为已读',
+			'notification_list.mark_all_read' => '全部标为已读',
+			'notification_list.your_profile' => '你的主页',
+			'notification_list.their_profile' => '对方的主页',
+			'notification_list.new_comment' => ({required Object user, required Object item}) => '${user} 在 ${item} 发表了新评论',
+			'notification_list.new_reply' => ({required Object user, required Object item}) => '${user} 回复了你在 ${item} 的评论',
+			'notification_list.video_ready' => ({required Object item}) => '你的视频 ${item} 已发布',
+			'notification_list.warning' => '你收到了一个警告，详情请在网页查看',
+			'notification_list.tag_approved' => ({required Object item}) => '你建议的标签 ${item} 已获批准',
+			'notification_list.joined_creator_program' => '你已加入创作者计划',
+			'notification_list.review_approved' => '你的内容已通过审核',
+			'notification_list.review_rejected' => '你的内容未通过审核',
+			'notification_list.unknown' => '新通知',
+			'messages.title' => '私信',
+			'messages.new_conversation' => '发私信',
+			'messages.conversation_title' => '标题',
+			'messages.message_hint' => '输入消息',
+			'messages.send' => '发送',
+			'messages.load_older' => '加载更早的消息',
+			'messages.delete_message' => '删除消息',
+			'messages.delete_confirm' => '确定删除这条消息？',
+			'messages.fields_required' => '请填写标题和内容',
 			'profile.profile' => '个人资料',
 			'profile.follow' => '关注',
 			'profile.followers' => '粉丝',
@@ -841,6 +983,9 @@ extension on TranslationsZhCn {
 			'profile.guestbook' => '留言板',
 			'profile.view_more' => '查看更多',
 			'profile.deleted_user' => '已注销用户',
+			'profile.edit_profile' => '编辑资料',
+			'profile.copy_link' => '复制主页链接',
+			'profile.open_in_browser' => '在浏览器中打开',
 			'sort.latest' => '最新',
 			'sort.trending' => '流行',
 			'sort.popularity' => '人气',
@@ -936,6 +1081,8 @@ extension on TranslationsZhCn {
 			'playlist.edit_title' => '编辑标题',
 			'playlist.videos_count' => ({required Object numVideo}) => '${numVideo} 个视频',
 			'playlist.videos_count_plural' => ({required Object numVideo}) => '${numVideo} 个视频',
+			'playlist.delete' => '删除播放列表',
+			'playlist.delete_confirm' => '确定删除这个播放列表吗？列表里的视频不会被删除。',
 			'channel.administration' => '管理者',
 			'channel.announcements' => '公告',
 			'channel.feedback' => '反馈',
@@ -950,6 +1097,10 @@ extension on TranslationsZhCn {
 			'create_thread.create_thread' => '发帖',
 			'create_thread.title' => '标题',
 			'create_thread.content' => '内容',
+			'thread.edit_title' => '编辑标题',
+			'thread.delete_thread_confirm' => '这是首帖，删除后整个主题都会被删除，确定吗？',
+			'thread.thread_deleted' => '主题已删除',
+			'thread.title_updated' => '标题已更新',
 			'notifications.ok' => '好的',
 			'notifications.success' => '成功',
 			'notifications.error' => '错误',
@@ -1081,6 +1232,7 @@ extension on TranslationsZhCn {
 			'message.playlist.empty_playlist_title' => '播放列表标题不能为空。',
 			'message.playlist.playlist_created' => '播放列表已创建。',
 			'message.playlist.playlist_title_edited' => '播放列表标题已修改。',
+			'message.playlist.playlist_deleted' => '播放列表已删除。',
 			'message.download.no_provide_storage_permission' => '未提供存储权限。',
 			'message.download.task_already_exists' => '下载任务已存在。',
 			'message.download.task_created' => '下载任务已创建。',

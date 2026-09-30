@@ -53,6 +53,9 @@ class Translations with BaseTranslations<AppLocale, Translations> {
 	late final Translations$refresh$en refresh = Translations$refresh$en.internal(_root);
 	late final Translations$records$en records = Translations$records$en.internal(_root);
 	late final Translations$account$en account = Translations$account$en.internal(_root);
+	late final Translations$account_settings$en account_settings = Translations$account_settings$en.internal(_root);
+	late final Translations$notification_list$en notification_list = Translations$notification_list$en.internal(_root);
+	late final Translations$messages$en messages = Translations$messages$en.internal(_root);
 	late final Translations$profile$en profile = Translations$profile$en.internal(_root);
 	late final Translations$sort$en sort = Translations$sort$en.internal(_root);
 	late final Translations$filter$en filter = Translations$filter$en.internal(_root);
@@ -68,6 +71,7 @@ class Translations with BaseTranslations<AppLocale, Translations> {
 	late final Translations$playlist$en playlist = Translations$playlist$en.internal(_root);
 	late final Translations$channel$en channel = Translations$channel$en.internal(_root);
 	late final Translations$create_thread$en create_thread = Translations$create_thread$en.internal(_root);
+	late final Translations$thread$en thread = Translations$thread$en.internal(_root);
 	late final Translations$notifications$en notifications = Translations$notifications$en.internal(_root);
 	late final Translations$translation$en translation = Translations$translation$en.internal(_root);
 	late final Translations$settings$en settings = Translations$settings$en.internal(_root);
@@ -241,6 +245,171 @@ class Translations$account$en {
 	String get require_login => 'You must be logged in to do that.';
 }
 
+// Path: account_settings
+class Translations$account_settings$en {
+	Translations$account_settings$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Account settings'
+	String get title => 'Account settings';
+
+	/// en: 'Profile'
+	String get profile => 'Profile';
+
+	/// en: 'Avatar'
+	String get avatar => 'Avatar';
+
+	/// en: 'Profile header'
+	String get header => 'Profile header';
+
+	/// en: 'Remove header'
+	String get remove_header => 'Remove header';
+
+	/// en: 'Tap to change'
+	String get tap_to_change => 'Tap to change';
+
+	/// en: 'Not set'
+	String get not_set => 'Not set';
+
+	/// en: 'Avatar updated'
+	String get avatar_updated => 'Avatar updated';
+
+	/// en: 'Profile header updated'
+	String get header_updated => 'Profile header updated';
+
+	/// en: 'Profile header removed. The site may take a while to delete the file.'
+	String get header_removed => 'Profile header removed. The site may take a while to delete the file.';
+
+	/// en: 'Name updated'
+	String get name_updated => 'Name updated';
+
+	/// en: 'Description updated'
+	String get description_updated => 'Description updated';
+
+	/// en: 'Saved'
+	String get saved => 'Saved';
+
+	/// en: 'Content preferences'
+	String get content => 'Content preferences';
+
+	/// en: 'Hide sensitive content'
+	String get hide_sensitive => 'Hide sensitive content';
+
+	/// en: 'Hide videos and images with a tag the site considers sensitive'
+	String get hide_sensitive_desc => 'Hide videos and images with a tag the site considers sensitive';
+
+	/// en: 'Notification settings'
+	String get notifications => 'Notification settings';
+
+	/// en: 'When someone comments on my content'
+	String get notify_comment => 'When someone comments on my content';
+
+	/// en: 'When someone replies to my comments'
+	String get notify_reply => 'When someone replies to my comments';
+
+	/// en: 'When someone mentions me'
+	String get notify_mention => 'When someone mentions me';
+
+	/// en: 'Account security'
+	String get security => 'Account security';
+
+	/// en: 'Change email or password, or delete the account'
+	String get manage_on_web => 'Change email or password, or delete the account';
+
+	/// en: 'Opens the Iwara website'
+	String get manage_on_web_desc => 'Opens the Iwara website';
+}
+
+// Path: notification_list
+class Translations$notification_list$en {
+	Translations$notification_list$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Notifications'
+	String get title => 'Notifications';
+
+	/// en: 'Mark as read'
+	String get mark_read => 'Mark as read';
+
+	/// en: 'Mark all as read'
+	String get mark_all_read => 'Mark all as read';
+
+	/// en: 'your profile'
+	String get your_profile => 'your profile';
+
+	/// en: 'their profile'
+	String get their_profile => 'their profile';
+
+	/// en: '$user commented on $item'
+	String new_comment({required Object user, required Object item}) => '${user} commented on ${item}';
+
+	/// en: '$user replied to your comment on $item'
+	String new_reply({required Object user, required Object item}) => '${user} replied to your comment on ${item}';
+
+	/// en: 'Your video $item is now published'
+	String video_ready({required Object item}) => 'Your video ${item} is now published';
+
+	/// en: 'You received a warning; see the website for details'
+	String get warning => 'You received a warning; see the website for details';
+
+	/// en: 'Your suggested tag $item was approved'
+	String tag_approved({required Object item}) => 'Your suggested tag ${item} was approved';
+
+	/// en: 'You joined the Creator Program'
+	String get joined_creator_program => 'You joined the Creator Program';
+
+	/// en: 'Your content was approved'
+	String get review_approved => 'Your content was approved';
+
+	/// en: 'Your content was rejected'
+	String get review_rejected => 'Your content was rejected';
+
+	/// en: 'New notification'
+	String get unknown => 'New notification';
+}
+
+// Path: messages
+class Translations$messages$en {
+	Translations$messages$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Messages'
+	String get title => 'Messages';
+
+	/// en: 'Send a message'
+	String get new_conversation => 'Send a message';
+
+	/// en: 'Title'
+	String get conversation_title => 'Title';
+
+	/// en: 'Write a message'
+	String get message_hint => 'Write a message';
+
+	/// en: 'Send'
+	String get send => 'Send';
+
+	/// en: 'Load earlier messages'
+	String get load_older => 'Load earlier messages';
+
+	/// en: 'Delete message'
+	String get delete_message => 'Delete message';
+
+	/// en: 'Delete this message?'
+	String get delete_confirm => 'Delete this message?';
+
+	/// en: 'Enter a title and a message'
+	String get fields_required => 'Enter a title and a message';
+}
+
 // Path: profile
 class Translations$profile$en {
 	Translations$profile$en.internal(this._root);
@@ -296,6 +465,15 @@ class Translations$profile$en {
 
 	/// en: 'Deleted user'
 	String get deleted_user => 'Deleted user';
+
+	/// en: 'Edit profile'
+	String get edit_profile => 'Edit profile';
+
+	/// en: 'Copy profile link'
+	String get copy_link => 'Copy profile link';
+
+	/// en: 'Open in browser'
+	String get open_in_browser => 'Open in browser';
 }
 
 // Path: sort
@@ -669,6 +847,12 @@ class Translations$playlist$en {
 
 	/// en: '$numVideo videos'
 	String videos_count_plural({required Object numVideo}) => '${numVideo} videos';
+
+	/// en: 'Delete playlist'
+	String get delete => 'Delete playlist';
+
+	/// en: 'Delete this playlist? The videos in it are not deleted.'
+	String get delete_confirm => 'Delete this playlist? The videos in it are not deleted.';
 }
 
 // Path: channel
@@ -729,6 +913,27 @@ class Translations$create_thread$en {
 
 	/// en: 'Content'
 	String get content => 'Content';
+}
+
+// Path: thread
+class Translations$thread$en {
+	Translations$thread$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Edit title'
+	String get edit_title => 'Edit title';
+
+	/// en: 'This is the first post; deleting it deletes the whole thread. Continue?'
+	String get delete_thread_confirm => 'This is the first post; deleting it deletes the whole thread. Continue?';
+
+	/// en: 'Thread deleted'
+	String get thread_deleted => 'Thread deleted';
+
+	/// en: 'Title updated'
+	String get title_updated => 'Title updated';
 }
 
 // Path: notifications
@@ -1346,6 +1551,9 @@ class Translations$message$playlist$en {
 
 	/// en: 'Playlist title edited.'
 	String get playlist_title_edited => 'Playlist title edited.';
+
+	/// en: 'Playlist deleted.'
+	String get playlist_deleted => 'Playlist deleted.';
 }
 
 // Path: message.download
@@ -1462,6 +1670,52 @@ extension on Translations {
 			'account.password' => 'Password',
 			'account.forgot_password' => 'Forgot password?',
 			'account.require_login' => 'You must be logged in to do that.',
+			'account_settings.title' => 'Account settings',
+			'account_settings.profile' => 'Profile',
+			'account_settings.avatar' => 'Avatar',
+			'account_settings.header' => 'Profile header',
+			'account_settings.remove_header' => 'Remove header',
+			'account_settings.tap_to_change' => 'Tap to change',
+			'account_settings.not_set' => 'Not set',
+			'account_settings.avatar_updated' => 'Avatar updated',
+			'account_settings.header_updated' => 'Profile header updated',
+			'account_settings.header_removed' => 'Profile header removed. The site may take a while to delete the file.',
+			'account_settings.name_updated' => 'Name updated',
+			'account_settings.description_updated' => 'Description updated',
+			'account_settings.saved' => 'Saved',
+			'account_settings.content' => 'Content preferences',
+			'account_settings.hide_sensitive' => 'Hide sensitive content',
+			'account_settings.hide_sensitive_desc' => 'Hide videos and images with a tag the site considers sensitive',
+			'account_settings.notifications' => 'Notification settings',
+			'account_settings.notify_comment' => 'When someone comments on my content',
+			'account_settings.notify_reply' => 'When someone replies to my comments',
+			'account_settings.notify_mention' => 'When someone mentions me',
+			'account_settings.security' => 'Account security',
+			'account_settings.manage_on_web' => 'Change email or password, or delete the account',
+			'account_settings.manage_on_web_desc' => 'Opens the Iwara website',
+			'notification_list.title' => 'Notifications',
+			'notification_list.mark_read' => 'Mark as read',
+			'notification_list.mark_all_read' => 'Mark all as read',
+			'notification_list.your_profile' => 'your profile',
+			'notification_list.their_profile' => 'their profile',
+			'notification_list.new_comment' => ({required Object user, required Object item}) => '${user} commented on ${item}',
+			'notification_list.new_reply' => ({required Object user, required Object item}) => '${user} replied to your comment on ${item}',
+			'notification_list.video_ready' => ({required Object item}) => 'Your video ${item} is now published',
+			'notification_list.warning' => 'You received a warning; see the website for details',
+			'notification_list.tag_approved' => ({required Object item}) => 'Your suggested tag ${item} was approved',
+			'notification_list.joined_creator_program' => 'You joined the Creator Program',
+			'notification_list.review_approved' => 'Your content was approved',
+			'notification_list.review_rejected' => 'Your content was rejected',
+			'notification_list.unknown' => 'New notification',
+			'messages.title' => 'Messages',
+			'messages.new_conversation' => 'Send a message',
+			'messages.conversation_title' => 'Title',
+			'messages.message_hint' => 'Write a message',
+			'messages.send' => 'Send',
+			'messages.load_older' => 'Load earlier messages',
+			'messages.delete_message' => 'Delete message',
+			'messages.delete_confirm' => 'Delete this message?',
+			'messages.fields_required' => 'Enter a title and a message',
 			'profile.profile' => 'Profile',
 			'profile.follow' => 'Follow',
 			'profile.followers' => 'Followers',
@@ -1478,6 +1732,9 @@ extension on Translations {
 			'profile.guestbook' => 'Guestbook',
 			'profile.view_more' => 'View more',
 			'profile.deleted_user' => 'Deleted user',
+			'profile.edit_profile' => 'Edit profile',
+			'profile.copy_link' => 'Copy profile link',
+			'profile.open_in_browser' => 'Open in browser',
 			'sort.latest' => 'Latest',
 			'sort.trending' => 'Trending',
 			'sort.popularity' => 'Popularity',
@@ -1573,6 +1830,8 @@ extension on Translations {
 			'playlist.edit_title' => 'Edit title',
 			'playlist.videos_count' => ({required Object numVideo}) => '${numVideo} video',
 			'playlist.videos_count_plural' => ({required Object numVideo}) => '${numVideo} videos',
+			'playlist.delete' => 'Delete playlist',
+			'playlist.delete_confirm' => 'Delete this playlist? The videos in it are not deleted.',
 			'channel.administration' => 'Administration',
 			'channel.announcements' => 'Announcements',
 			'channel.feedback' => 'Feedback',
@@ -1587,6 +1846,10 @@ extension on Translations {
 			'create_thread.create_thread' => 'Create thread',
 			'create_thread.title' => 'Title',
 			'create_thread.content' => 'Content',
+			'thread.edit_title' => 'Edit title',
+			'thread.delete_thread_confirm' => 'This is the first post; deleting it deletes the whole thread. Continue?',
+			'thread.thread_deleted' => 'Thread deleted',
+			'thread.title_updated' => 'Title updated',
 			'notifications.ok' => 'OK',
 			'notifications.success' => 'Success',
 			'notifications.error' => 'Error',
@@ -1718,6 +1981,7 @@ extension on Translations {
 			'message.playlist.empty_playlist_title' => 'Playlist title can not be empty.',
 			'message.playlist.playlist_created' => 'Playlist created.',
 			'message.playlist.playlist_title_edited' => 'Playlist title edited.',
+			'message.playlist.playlist_deleted' => 'Playlist deleted.',
 			'message.download.no_provide_storage_permission' => 'No storage permission provided.',
 			'message.download.task_already_exists' => 'Download task already exists.',
 			'message.download.task_created' => 'Download task created.',
