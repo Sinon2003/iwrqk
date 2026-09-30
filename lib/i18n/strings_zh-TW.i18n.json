@@ -456,7 +456,10 @@
       "already_latest_version": "已經是最新版本",
       "current_version": "當前版本：$version",
       "latest_version": "最新版本：$version",
-      "view_update": "查看更新"
+      "downloading": "正在下載：$percent%",
+      "download_in_background": "背景下載",
+      "download_failed": "更新下載失敗",
+      "install_failed": "無法開啟安裝程式"
     }
   },
   "error": {

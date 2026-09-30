@@ -874,7 +874,10 @@ class Translations$message$update$zh_TW extends Translations$message$update$en {
 	@override String get already_latest_version => '已經是最新版本';
 	@override String current_version({required Object version}) => '當前版本：${version}';
 	@override String latest_version({required Object version}) => '最新版本：${version}';
-	@override String get view_update => '查看更新';
+	@override String downloading({required Object percent}) => '正在下載：${percent}%';
+	@override String get download_in_background => '背景下載';
+	@override String get download_failed => '更新下載失敗';
+	@override String get install_failed => '無法開啟安裝程式';
 }
 
 // Path: error.account
@@ -1266,7 +1269,10 @@ extension on TranslationsZhTw {
 			'message.update.already_latest_version' => '已經是最新版本',
 			'message.update.current_version' => ({required Object version}) => '當前版本：${version}',
 			'message.update.latest_version' => ({required Object version}) => '最新版本：${version}',
-			'message.update.view_update' => '查看更新',
+			'message.update.downloading' => ({required Object percent}) => '正在下載：${percent}%',
+			'message.update.download_in_background' => '背景下載',
+			'message.update.download_failed' => '更新下載失敗',
+			'message.update.install_failed' => '無法開啟安裝程式',
 			'error.retry' => '載入失敗，點擊重試',
 			'error.fetch_failed' => '無法獲取影片連結',
 			'error.fetch_user_info_failed' => '無法獲取使用者資訊',

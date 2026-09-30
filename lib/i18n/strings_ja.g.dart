@@ -874,7 +874,10 @@ class _Translations$message$update$ja extends Translations$message$update$en {
 	@override String get already_latest_version => 'すでに最新バージョンです';
 	@override String current_version({required Object version}) => '現在のバージョン：${version}';
 	@override String latest_version({required Object version}) => '最新バージョン：${version}';
-	@override String get view_update => '更新を表示';
+	@override String downloading({required Object percent}) => 'ダウンロード中：${percent}%';
+	@override String get download_in_background => 'バックグラウンドで続行';
+	@override String get download_failed => 'アップデートをダウンロードできませんでした';
+	@override String get install_failed => 'インストーラーを開けませんでした';
 }
 
 // Path: error.account
@@ -1266,7 +1269,10 @@ extension on TranslationsJa {
 			'message.update.already_latest_version' => 'すでに最新バージョンです',
 			'message.update.current_version' => ({required Object version}) => '現在のバージョン：${version}',
 			'message.update.latest_version' => ({required Object version}) => '最新バージョン：${version}',
-			'message.update.view_update' => '更新を表示',
+			'message.update.downloading' => ({required Object percent}) => 'ダウンロード中：${percent}%',
+			'message.update.download_in_background' => 'バックグラウンドで続行',
+			'message.update.download_failed' => 'アップデートをダウンロードできませんでした',
+			'message.update.install_failed' => 'インストーラーを開けませんでした',
 			'error.retry' => '読み込みに失敗しました。再試行する',
 			'error.fetch_failed' => 'ビデオリンクを取得できません',
 			'error.fetch_user_info_failed' => 'ユーザー情報を取得できません',

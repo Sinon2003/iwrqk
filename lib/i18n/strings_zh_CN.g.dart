@@ -874,7 +874,10 @@ class Translations$message$update$zh_CN extends Translations$message$update$en {
 	@override String get already_latest_version => '已是最新版本';
 	@override String current_version({required Object version}) => '当前版本：${version}';
 	@override String latest_version({required Object version}) => '最新版本：${version}';
-	@override String get view_update => '查看更新';
+	@override String downloading({required Object percent}) => '正在下载：${percent}%';
+	@override String get download_in_background => '后台下载';
+	@override String get download_failed => '更新下载失败';
+	@override String get install_failed => '无法打开安装程序';
 }
 
 // Path: error.account
@@ -1266,7 +1269,10 @@ extension on TranslationsZhCn {
 			'message.update.already_latest_version' => '已是最新版本',
 			'message.update.current_version' => ({required Object version}) => '当前版本：${version}',
 			'message.update.latest_version' => ({required Object version}) => '最新版本：${version}',
-			'message.update.view_update' => '查看更新',
+			'message.update.downloading' => ({required Object percent}) => '正在下载：${percent}%',
+			'message.update.download_in_background' => '后台下载',
+			'message.update.download_failed' => '更新下载失败',
+			'message.update.install_failed' => '无法打开安装程序',
 			'error.retry' => '加载失败，点击重试',
 			'error.fetch_failed' => '无法获取视频链接',
 			'error.fetch_user_info_failed' => '无法获取用户信息',

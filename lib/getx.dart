@@ -8,6 +8,7 @@ import 'app/data/services/config_service.dart';
 import 'app/data/services/discord_rpc_service.dart';
 import 'app/data/services/download_service.dart';
 import 'app/data/services/preview_service.dart';
+import 'app/data/services/update_service.dart';
 import 'app/data/services/user_service.dart';
 import 'app/modules/forum/thread/widgets/edit_post_bottom_sheet/controller.dart';
 import 'app/modules/media_detail/widgets/add_to_playlist/controller.dart';
@@ -21,6 +22,7 @@ void initGetx() {
   Get.put(DownloadService());
   Get.put(PreviewService());
   Get.put(UserService());
+  Get.put(UpdateService());
 
   Get.create(() => LoadingDialogController());
   Get.create(() => FilterController());

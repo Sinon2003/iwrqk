@@ -456,7 +456,10 @@
       "already_latest_version": "すでに最新バージョンです",
       "current_version": "現在のバージョン：$version",
       "latest_version": "最新バージョン：$version",
-      "view_update": "更新を表示"
+      "downloading": "ダウンロード中：$percent%",
+      "download_in_background": "バックグラウンドで続行",
+      "download_failed": "アップデートをダウンロードできませんでした",
+      "install_failed": "インストーラーを開けませんでした"
     }
   },
   "error": {

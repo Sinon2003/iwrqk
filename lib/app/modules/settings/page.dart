@@ -9,6 +9,7 @@ import '../../components/translation_engine_picker.dart';
 import '../../data/enums/translation_display_mode.dart';
 import '../../data/enums/translation_engine.dart';
 import '../../data/providers/storage_provider.dart';
+import '../../data/services/update_service.dart';
 import '../../utils/log_util.dart';
 import '../../utils/quality_picker.dart';
 import '../home/controller.dart';
@@ -509,13 +510,19 @@ class SettingsPage extends GetView<SettingsController> {
   }
 
   Widget _buildCheckUpdateButton(BuildContext context) {
-    return _buildButton(
-      context,
-      title: t.settings.check_update,
-      description: t.settings.check_update_desc,
-      iconData: Icons.system_update_alt,
-      onPressed: controller.checkLatestVersion,
-    );
+    final UpdateService updateService = Get.find();
+    return Obx(() {
+      final progress = updateService.progress.value;
+      return _buildButton(
+        context,
+        title: t.settings.check_update,
+        description: progress == null
+            ? t.settings.check_update_desc
+            : t.message.update.downloading(percent: (progress * 100).floor()),
+        iconData: Icons.system_update_alt,
+        onPressed: controller.checkLatestVersion,
+      );
+    });
   }
 
   Widget _buildLicenseButton(BuildContext context) {

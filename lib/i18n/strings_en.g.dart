@@ -1636,8 +1636,17 @@ class Translations$message$update$en {
 	/// en: 'Latest version: $version'
 	String latest_version({required Object version}) => 'Latest version: ${version}';
 
-	/// en: 'View update'
-	String get view_update => 'View update';
+	/// en: 'Downloading: $percent%'
+	String downloading({required Object percent}) => 'Downloading: ${percent}%';
+
+	/// en: 'Hide'
+	String get download_in_background => 'Hide';
+
+	/// en: 'Could not download the update'
+	String get download_failed => 'Could not download the update';
+
+	/// en: 'Could not open the installer'
+	String get install_failed => 'Could not open the installer';
 }
 
 // Path: error.account
@@ -2039,7 +2048,10 @@ extension on Translations {
 			'message.update.already_latest_version' => 'Already the latest version',
 			'message.update.current_version' => ({required Object version}) => 'Current version: ${version}',
 			'message.update.latest_version' => ({required Object version}) => 'Latest version: ${version}',
-			'message.update.view_update' => 'View update',
+			'message.update.downloading' => ({required Object percent}) => 'Downloading: ${percent}%',
+			'message.update.download_in_background' => 'Hide',
+			'message.update.download_failed' => 'Could not download the update',
+			'message.update.install_failed' => 'Could not open the installer',
 			'error.retry' => 'Load failed, click to retry.',
 			'error.fetch_failed' => 'Failed to fetch video links.',
 			'error.fetch_user_info_failed' => 'Failed to fetch user info.',

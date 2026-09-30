@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 
 import '../../const/config.dart';
 import '../enums/result.dart';
+import '../models/app_release.dart';
 
 class ConfigProvider {
   static late Dio _dio;
@@ -15,15 +16,31 @@ class ConfigProvider {
     };
   }
 
-  static Future<ApiResult<String>> getLatestVersion() async {
+  /// The newest release, which may be a prerelease.
+  static Future<ApiResult<AppRelease>> getLatestRelease() async {
     String? message;
-    String? data;
+    AppRelease? release;
     try {
       final response = await _dio.get(ConfigConst.checkUpdateUrl);
-      data = response.data[0]["tag_name"];
+      release = AppRelease.fromJson(response.data[0]);
     } catch (e) {
       message = e.toString();
     }
-    return ApiResult(data: data, message: message, success: message == null);
+    return ApiResult(data: release, message: message, success: message == null);
+  }
+
+  /// Downloads [url] to [path], reporting the bytes received and the total.
+  static Future<void> download(
+    String url,
+    String path, {
+    required void Function(int received, int total) onProgress,
+    CancelToken? cancelToken,
+  }) {
+    return _dio.download(
+      url,
+      path,
+      onReceiveProgress: onProgress,
+      cancelToken: cancelToken,
+    );
   }
 }
