@@ -116,10 +116,7 @@ class SettingsController extends GetxController {
   bool get enablePreview => configService.enablePreview;
 
   static final RxBool switchToAiSite =
-      ((StorageProvider.config[StorageKey.toAiSite] ?? false)==true).obs;
-
-
-
+      ((StorageProvider.config[StorageKey.toAiSite] ?? false) == true).obs;
 
   set enablePreview(bool value) {
     configService.enablePreview = value;
@@ -166,7 +163,7 @@ class SettingsController extends GetxController {
     String? result;
 
     try {
-      result = await FilePicker.platform.getDirectoryPath();
+      result = await FilePicker.getDirectoryPath();
     } on Exception catch (e) {
       LogUtil.error('Pick download path failed', e);
     }
