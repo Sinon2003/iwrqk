@@ -52,7 +52,7 @@ flowchart LR
 - `ApiProvider.login()` 和 `getAccessToken()` 直接使用 `package:http`，绕开上述 Dio 拦截链；代码保留了兼容性说明，统一客户端前要验证登录、过期刷新和失败重试。
 - `NetworkProvider` 接受小于 500 的 HTTP 状态，业务失败仍需检查响应状态、响应体及 `ApiResult.success`。
 - GET / POST 的完整 URL 方法会转换部分 HTML 包裹的 JSON，并根据设置添加 `X-Site`；PUT / DELETE 没有同样的处理。站点切换修复要检查各请求路径，不能假设行为一致。
-- 内容翻译由 [TranslateProvider](../../lib/app/data/providers/translate_provider.dart) 调用免 Key 的网页翻译接口，翻译源见 [TranslationEngine](../../lib/app/data/enums/translation_engine.dart)（Google、火山、腾讯交互翻译、Yandex）。目标语言跟随 App 语言并按各源映射；长文本按行切分，每个源有各自的单次上限。这些都是非官方接口，可能随时变化，失败时提示并写日志。默认源与启用列表存于 `ConfigService`，默认源始终处于启用状态。界面状态由 [TranslationMixin](../../lib/app/components/translation_mixin.dart) 管理：按源缓存、收起与展开、换源。视频简介、评论、论坛帖子共用这一套。
+- 内容翻译由 [TranslateProvider](../../lib/app/data/providers/translate_provider.dart) 调用免 Key 的网页翻译接口，翻译源见 [TranslationEngine](../../lib/app/data/enums/translation_engine.dart)（Google、火山、腾讯交互翻译、Yandex）。目标语言跟随 App 语言并按各源映射；长文本按行切分，每个源有各自的单次上限。这些都是非官方接口，可能随时变化，失败时提示并写日志。默认源、启用列表与显示方式（替换原文或显示在原文下方，默认替换）存于 `ConfigService`，默认源始终处于启用状态。界面状态由 [TranslationMixin](../../lib/app/components/translation_mixin.dart) 管理：按源缓存、收起与展开（替换模式下为显示原文）、换源；译文由 [TranslatedContent](../../lib/app/components/translated_content.dart) 显示。视频简介、评论、论坛帖子共用这一套。
 - 更新检查有独立 provider。更新地址在 [const/config.dart](../../lib/app/const/config.dart)，指向本仓库 `Sinon2003/iwrqk` 的 GitHub Releases。[ConfigProvider](../../lib/app/data/providers/config_provider.dart) 取列表第一项的 `tag_name`，设置页去掉 `v` 后按段比较整数：发布标签须为 `vX.Y.Z` 纯数字格式，预发布版本也会被当作最新版本，没有任何 Release 时提示检查失败。
 
 ## 存储与配置
