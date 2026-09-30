@@ -2,7 +2,9 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:iwrqk/i18n/strings.g.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../components/buttons/follow_button/widget.dart';
 import '../../components/buttons/friend_button/widget.dart';
@@ -10,6 +12,8 @@ import '../../components/load_fail.dart';
 import '../../components/media_preview/media_preview.dart';
 import '../../components/network_image.dart';
 import '../../data/enums/types.dart';
+import '../../routes/pages.dart';
+import '../../utils/clipboard_util.dart';
 import '../../utils/display_util.dart';
 import 'controller.dart';
 import 'guestbook/page.dart';
@@ -89,10 +93,101 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  Widget _buildHeader() {
-    // bool isMyself = controller.profile.user!.username ==
-    //     controller.userService.user?.username;
+  bool get _isMyself =>
+      _controller.profile.user!.id == _controller.userService.user?.id;
 
+  String get _profileUrl =>
+      "https://www.iwara.tv/profile/${_controller.profile.user!.username}";
+
+  Widget _buildActionButtons() {
+    if (_isMyself) {
+      return SizedBox(
+        width: double.infinity,
+        child: FilledButton.tonalIcon(
+          onPressed: () async {
+            await Get.toNamed(AppRoutes.accountSettings);
+            _controller.loadData();
+          },
+          icon: const Icon(Icons.edit, size: 18),
+          label: Text(t.profile.edit_profile),
+        ),
+      );
+    }
+    return Row(
+      mainAxisSize: MainAxisSize.max,
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: [
+        Expanded(
+          child: FollowButton(isSmall: true, user: _controller.profile.user!),
+        ),
+        const SizedBox(width: 8),
+        Expanded(
+          child: FriendButton(isSmall: true, user: _controller.profile.user!),
+        ),
+      ],
+    );
+  }
+
+  /// Asks for a title and a first message, then opens the new conversation.
+  Future<void> _startConversation() async {
+    final titleController = TextEditingController();
+    final bodyController = TextEditingController();
+    final send = await Get.dialog<bool>(
+      AlertDialog(
+        title: Text(t.messages.new_conversation),
+        content: SizedBox(
+          width: Get.width * 0.8,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                controller: titleController,
+                decoration: InputDecoration(
+                  labelText: t.messages.conversation_title,
+                ),
+              ),
+              const SizedBox(height: 8),
+              TextField(
+                controller: bodyController,
+                minLines: 3,
+                maxLines: 8,
+                decoration: InputDecoration(labelText: t.messages.message_hint),
+              ),
+            ],
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Get.back(result: false),
+            child: Text(t.notifications.cancel),
+          ),
+          TextButton(
+            onPressed: () => Get.back(result: true),
+            child: Text(t.messages.send),
+          ),
+        ],
+      ),
+    );
+    final title = titleController.text.trim();
+    final body = bodyController.text.trim();
+    titleController.dispose();
+    bodyController.dispose();
+    if (send != true) return;
+    if (title.isEmpty || body.isEmpty) {
+      SmartDialog.showToast(t.messages.fields_required);
+      return;
+    }
+    final id = await _controller.userService.createConversation(
+      userId: _controller.profile.user!.id,
+      title: title,
+      body: body,
+    );
+    if (id != null) {
+      Get.toNamed("/conversationDetail?id=$id", arguments: {"title": title});
+    }
+  }
+
+  Widget _buildHeader() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -162,25 +257,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 8),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Expanded(
-                            child: FollowButton(
-                              isSmall: true,
-                              user: _controller.profile.user!,
-                            ),
-                          ),
-                          const SizedBox(width: 8),
-                          Expanded(
-                            child: FriendButton(
-                              isSmall: true,
-                              user: _controller.profile.user!,
-                            ),
-                          ),
-                        ],
-                      ),
+                      child: _buildActionButtons(),
                     ),
                   ],
                 ),
@@ -391,8 +468,28 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
               titleSpacing: 0,
               actions: [
-                IconButton(onPressed: () {}, icon: const Icon(Icons.message)),
-                IconButton(onPressed: () {}, icon: const Icon(Icons.more_vert)),
+                if (!_isMyself)
+                  IconButton(
+                    tooltip: t.messages.new_conversation,
+                    onPressed: _startConversation,
+                    icon: const Icon(Icons.message),
+                  ),
+                PopupMenuButton<String>(
+                  icon: const Icon(Icons.more_vert),
+                  itemBuilder: (context) => [
+                    PopupMenuItem(
+                      onTap: () => ClipboardUtil.copy(_profileUrl),
+                      child: Text(t.profile.copy_link),
+                    ),
+                    PopupMenuItem(
+                      onTap: () => launchUrlString(
+                        _profileUrl,
+                        mode: LaunchMode.externalApplication,
+                      ),
+                      child: Text(t.profile.open_in_browser),
+                    ),
+                  ],
+                ),
               ],
             ),
           ];
