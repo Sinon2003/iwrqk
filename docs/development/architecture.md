@@ -70,9 +70,14 @@ flowchart LR
 
 ## 播放、下载与平台行为
 
-- [媒体详情](../../lib/app/modules/media_detail/controller.dart) 负责在线 / 离线媒体加载、清晰度、收藏、历史和播放入口；[pl_player](../../lib/app/components/plugin/pl_player/controller.dart) 基于 `media_kit` 管理播放器、控制栏、流订阅和定时器，音频会话在 `data/services/plugin/pl_player/`。
+- [媒体详情](../../lib/app/modules/media_detail/controller.dart) 负责在线 / 离线媒体加载、清晰度、收藏、历史和播放入口，并像网页端一样记录播放过的 1/16 段，离开页面时上报观看（`POST video/{id}/view`），这也构成网站端的观看记录；[pl_player](../../lib/app/components/plugin/pl_player/controller.dart) 基于 `media_kit` 管理播放器、控制栏、流订阅和定时器，音频会话在 `data/services/plugin/pl_player/`。
 - Android 画中画使用 `floating`；Windows 画中画在媒体详情中通过 `window_manager` 调整并恢复窗口。退出详情、全屏切换、前后台切换都涉及资源生命周期。
 - [DownloadService](../../lib/app/data/services/download_service.dart) 使用 `background_downloader`，注册顶层状态 / 进度回调，并维护任务状态与持久记录。回调带有 `@pragma('vm:entry-point')`；修改下载逻辑时检查后台回调、权限、路径和任务恢复。下载按文件路径写入用户选择的目录：Android 11+ 依赖 `MANAGE_EXTERNAL_STORAGE`，Android 10 依赖 manifest 中的 `requestLegacyExternalStorage`；目录选择不能改用返回 `content://` 的 SAF 方式。
+- 实验性"加速下载与播放"（`ConfigService.acceleratedTransfer`，默认关）由 [ParallelRangeProxy](../../lib/app/utils/parallel_range_proxy.dart) 实现：在 127.0.0.1 起本机 HTTP 服务，把 Iwara 视频文件拆成多个 Range 请求并行获取，再按顺序交给播放器或下载器；读取方断开（播放器每次跳转都会）即停止取数。视频服务器对 HEAD 返回 405 且不带 `Accept-Ranges`，所以不能用 `background_downloader` 自带的 `ParallelDownloadTask`。
+    - 本机地址内含上游 URL，端口固定为 38291（被占用时换随机端口）。`DownloadService` 启动时若有未完成的加速任务会先启动代理，恢复 / 重试时按当前端口改写任务地址。
+    - 下载器经明文 HTTP 访问代理，manifest 引用的 `res/xml/network_security_config.xml` 仅对 127.0.0.1 放开明文。
+    - 加速模式下播放器直连本机代理（清空 mpv 的 `http-proxy`），代理向上游的请求沿用应用代理（`HttpOverrides`）或系统 VPN。
+    - 代理运行在应用进程内，进程结束后加速下载会失败，回到应用后可重试续传。
 - [DiscordRpcService](../../lib/app/data/services/discord_rpc_service.dart) 通过本地插件发布播放状态，目前仅在 Windows / Linux 启用，由设置控制。
 
 平台目录、条件导出或单项插件适配都不代表整个应用已验证。当前源码有 `dart:io` 和多项原生插件，Web 等平台需单独验证。

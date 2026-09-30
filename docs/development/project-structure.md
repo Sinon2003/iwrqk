@@ -47,10 +47,11 @@ secrets/                      被忽略的本地凭据；仅提交示例模板
 | 首页、订阅、视频、图集、论坛标签页 | [modules/home/controller.dart](../../lib/app/modules/home/controller.dart)、`modules/tabs/` |
 | 媒体列表、筛选、分页、搜索结果 | `components/media_preview/media_preview_grid/`、`components/iwr_refresh/`、`modules/search/`、`modules/search_result/` |
 | 视频 / 图集详情、播放、评论、收藏 | [modules/media_detail/controller.dart](../../lib/app/modules/media_detail/controller.dart)、`components/comments_list/`、`components/plugin/pl_player/` |
-| 登录、注册、收藏、历史、下载、好友、屏蔽标签 | `modules/account/`；共享行为见 `data/services/` |
+| 登录、注册、账号设置、通知、私信、收藏、历史（本机 / 网站记录）、下载、好友、屏蔽标签 / 用户 | `modules/account/`；共享行为见 `data/services/` |
 | 用户主页与上传内容 | `modules/profile/` |
 | 播放列表与论坛帖子 | `modules/playlists/`、`modules/forum/` |
 | 设置、主题、语言、代理、站点切换 | [modules/settings/controller.dart](../../lib/app/modules/settings/controller.dart)、[data/services/config_service.dart](../../lib/app/data/services/config_service.dart) |
+| 实验性加速下载与播放 | [utils/parallel_range_proxy.dart](../../lib/app/utils/parallel_range_proxy.dart)，接入点在 `components/plugin/pl_player/controller.dart` 与 `data/services/download_service.dart` |
 
 ## 文件职责与入口选择
 
