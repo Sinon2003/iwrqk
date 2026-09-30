@@ -10,7 +10,7 @@ Now with [Material Design 3](https://m3.material.io/).
 
 ## 📌 Origin
 
-This project continues the development of [iwrqk/iwrqk](https://github.com/iwrqk/iwrqk) (archived), which is no longer maintained. The code base was taken from [h-sumiya/iwrqk](https://github.com/h-sumiya/iwrqk), the last maintained fork of the original project, and remains licensed under [GPL-3.0](./LICENSE).
+This project continues the development of [iwrqk/iwrqk](https://github.com/iwrqk/iwrqk) (archived), which is no longer maintained, and remains licensed under [GPL-3.0](./LICENSE).
 
 ## 🚩 Features
 
