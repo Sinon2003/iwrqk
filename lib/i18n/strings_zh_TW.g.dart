@@ -447,6 +447,8 @@ class Translations$translation$zh_TW extends Translations$translation$en {
 	@override String get choose_engine => '選擇翻譯來源';
 	@override String get default_tag => '預設';
 	@override String failed({required Object engine}) => '翻譯失敗（${engine}）';
+	@override String get show_original => '顯示原文';
+	@override late final Translations$translation$display_modes$zh_TW display_modes = Translations$translation$display_modes$zh_TW.internal(_root);
 }
 
 // Path: settings
@@ -476,6 +478,8 @@ class Translations$settings$zh_TW extends Translations$settings$en {
 	@override String default_translation_engine_desc({required Object engine}) => '目前：${engine}';
 	@override String get enabled_translation_engines => '啟用的翻譯來源';
 	@override String enabled_translation_engines_desc({required Object engines}) => '長按翻譯時可選：${engines}';
+	@override String get translation_display_mode => '翻譯顯示方式';
+	@override String translation_display_mode_desc({required Object mode}) => '目前：${mode}';
 	@override String get animated_preview => '動畫預覽';
 	@override String get animated_preview_desc => '在懸停或長按時顯示可用的影片動畫預覽';
 	@override String get network => '網路設定';
@@ -656,6 +660,17 @@ class Translations$translation$engine_notes$zh_TW extends Translations$translati
 	@override String get volcengine => '中國大陸可直連，速度快';
 	@override String get tencent => '中國大陸可直連';
 	@override String get yandex => '不支援輸出繁體中文';
+}
+
+// Path: translation.display_modes
+class Translations$translation$display_modes$zh_TW extends Translations$translation$display_modes$en {
+	Translations$translation$display_modes$zh_TW.internal(TranslationsZhTw root) : this._root = root, super.internal(root);
+
+	final TranslationsZhTw _root; // ignore: unused_field
+
+	// Translations
+	@override String get below => '顯示在原文下方';
+	@override String get replace => '取代原文';
 }
 
 // Path: message.account
@@ -956,6 +971,9 @@ extension on TranslationsZhTw {
 			'translation.choose_engine' => '選擇翻譯來源',
 			'translation.default_tag' => '預設',
 			'translation.failed' => ({required Object engine}) => '翻譯失敗（${engine}）',
+			'translation.show_original' => '顯示原文',
+			'translation.display_modes.below' => '顯示在原文下方',
+			'translation.display_modes.replace' => '取代原文',
 			'settings.appearance' => '外觀設定',
 			'settings.theme' => '主題',
 			'settings.theme_desc' => '設定該軟體的主題',
@@ -976,6 +994,8 @@ extension on TranslationsZhTw {
 			'settings.default_translation_engine_desc' => ({required Object engine}) => '目前：${engine}',
 			'settings.enabled_translation_engines' => '啟用的翻譯來源',
 			'settings.enabled_translation_engines_desc' => ({required Object engines}) => '長按翻譯時可選：${engines}',
+			'settings.translation_display_mode' => '翻譯顯示方式',
+			'settings.translation_display_mode_desc' => ({required Object mode}) => '目前：${mode}',
 			'settings.animated_preview' => '動畫預覽',
 			'settings.animated_preview_desc' => '在懸停或長按時顯示可用的影片動畫預覽',
 			'settings.network' => '網路設定',

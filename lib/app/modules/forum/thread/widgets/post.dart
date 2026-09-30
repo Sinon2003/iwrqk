@@ -196,10 +196,17 @@ class _PostState extends State<Post>
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          IwrMarkdown(selectable: true, data: widget.post.body),
-          if (hasTranslation && translationVisible)
+          if (showTranslationInPlace)
             TranslatedContent(
-              padding: const EdgeInsets.only(top: 12),
+              translatedContent: translatedContent!,
+              engine: translationEngine!,
+              onCollapse: hideTranslation,
+              inPlace: true,
+            )
+          else
+            IwrMarkdown(selectable: true, data: widget.post.body),
+          if (showTranslationBelow)
+            TranslatedContent(
               translatedContent: translatedContent!,
               engine: translationEngine!,
               onCollapse: hideTranslation,

@@ -6,6 +6,7 @@ import 'package:iwrqk/i18n/strings.g.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 import '../../components/translation_engine_picker.dart';
+import '../../data/enums/translation_display_mode.dart';
 import '../../data/enums/translation_engine.dart';
 import '../../data/providers/storage_provider.dart';
 import '../../utils/log_util.dart';
@@ -426,6 +427,32 @@ class SettingsPage extends GetView<SettingsController> {
     );
   }
 
+  Widget _buildTranslationDisplayModeSetting(BuildContext context) {
+    String modeName(TranslationDisplayMode mode) => switch (mode) {
+      TranslationDisplayMode.below => t.translation.display_modes.below,
+      TranslationDisplayMode.replace => t.translation.display_modes.replace,
+    };
+
+    return Obx(
+      () => _buildMultiSetting<TranslationDisplayMode>(
+        context,
+        title: t.settings.translation_display_mode,
+        description: t.settings.translation_display_mode_desc(
+          mode: modeName(controller.configService.translationDisplayMode),
+        ),
+        iconData: Icons.view_agenda,
+        currentOption: controller.configService.translationDisplayMode,
+        options: {
+          for (final mode in TranslationDisplayMode.values)
+            mode: modeName(mode),
+        },
+        onSelected: (value) {
+          controller.configService.translationDisplayMode = value;
+        },
+      ),
+    );
+  }
+
   Widget _buildCheckUpdateButton(BuildContext context) {
     return _buildButton(
       context,
@@ -519,6 +546,7 @@ class SettingsPage extends GetView<SettingsController> {
           SettingTitle(title: t.settings.translation),
           _buildTranslationEngineSetting(context),
           _buildEnabledTranslationEnginesSetting(context),
+          _buildTranslationDisplayModeSetting(context),
           SettingTitle(title: t.settings.network),
           _buildEnableProxySetting(context),
           _buildSetProxyButton(context),

@@ -240,7 +240,12 @@
     "translating": "Translating…",
     "choose_engine": "Choose translation source",
     "default_tag": "Default",
-    "failed": "Translation failed ($engine)"
+    "failed": "Translation failed ($engine)",
+    "show_original": "Show original",
+    "display_modes": {
+      "below": "Below the original",
+      "replace": "Replace the original"
+    }
   },
   "settings": {
     "appearance": "Appearance",
@@ -263,6 +268,8 @@
     "default_translation_engine_desc": "Current: $engine",
     "enabled_translation_engines": "Enabled translation sources",
     "enabled_translation_engines_desc": "Offered when long-pressing Translate: $engines",
+    "translation_display_mode": "Translation display",
+    "translation_display_mode_desc": "Current: $mode",
     "animated_preview": "Animated preview",
     "animated_preview_desc": "Show animated video preview on hover or long press (when available)",
     "network": "Network",

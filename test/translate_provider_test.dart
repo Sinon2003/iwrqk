@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:iwrqk/app/data/enums/translation_display_mode.dart';
 import 'package:iwrqk/app/data/enums/translation_engine.dart';
 import 'package:iwrqk/app/data/providers/translate_provider.dart';
 import 'package:iwrqk/i18n/strings.g.dart';
@@ -138,5 +139,14 @@ void main() {
     );
     expect(TranslationEngine.fromName('unknown'), isNull);
     expect(TranslationEngine.fromName(null), isNull);
+  });
+
+  test('display mode fromName resolves stored names', () {
+    expect(
+      TranslationDisplayMode.fromName('replace'),
+      TranslationDisplayMode.replace,
+    );
+    expect(TranslationDisplayMode.fromName('unknown'), isNull);
+    expect(TranslationDisplayMode.fromName(null), isNull);
   });
 }

@@ -791,6 +791,11 @@ class Translations$translation$en {
 
 	/// en: 'Translation failed ($engine)'
 	String failed({required Object engine}) => 'Translation failed (${engine})';
+
+	/// en: 'Show original'
+	String get show_original => 'Show original';
+
+	late final Translations$translation$display_modes$en display_modes = Translations$translation$display_modes$en.internal(_root);
 }
 
 // Path: settings
@@ -860,6 +865,12 @@ class Translations$settings$en {
 
 	/// en: 'Offered when long-pressing Translate: $engines'
 	String enabled_translation_engines_desc({required Object engines}) => 'Offered when long-pressing Translate: ${engines}';
+
+	/// en: 'Translation display'
+	String get translation_display_mode => 'Translation display';
+
+	/// en: 'Current: $mode'
+	String translation_display_mode_desc({required Object mode}) => 'Current: ${mode}';
 
 	/// en: 'Animated preview'
 	String get animated_preview => 'Animated preview';
@@ -1206,6 +1217,21 @@ class Translations$translation$engine_notes$en {
 
 	/// en: 'No Traditional Chinese output'
 	String get yandex => 'No Traditional Chinese output';
+}
+
+// Path: translation.display_modes
+class Translations$translation$display_modes$en {
+	Translations$translation$display_modes$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Below the original'
+	String get below => 'Below the original';
+
+	/// en: 'Replace the original'
+	String get replace => 'Replace the original';
 }
 
 // Path: message.account
@@ -1580,6 +1606,9 @@ extension on Translations {
 			'translation.choose_engine' => 'Choose translation source',
 			'translation.default_tag' => 'Default',
 			'translation.failed' => ({required Object engine}) => 'Translation failed (${engine})',
+			'translation.show_original' => 'Show original',
+			'translation.display_modes.below' => 'Below the original',
+			'translation.display_modes.replace' => 'Replace the original',
 			'settings.appearance' => 'Appearance',
 			'settings.theme' => 'Theme',
 			'settings.theme_desc' => 'Change the theme of the App',
@@ -1600,6 +1629,8 @@ extension on Translations {
 			'settings.default_translation_engine_desc' => ({required Object engine}) => 'Current: ${engine}',
 			'settings.enabled_translation_engines' => 'Enabled translation sources',
 			'settings.enabled_translation_engines_desc' => ({required Object engines}) => 'Offered when long-pressing Translate: ${engines}',
+			'settings.translation_display_mode' => 'Translation display',
+			'settings.translation_display_mode_desc' => ({required Object mode}) => 'Current: ${mode}',
 			'settings.animated_preview' => 'Animated preview',
 			'settings.animated_preview_desc' => 'Show animated video preview on hover or long press (when available)',
 			'settings.network' => 'Network',

@@ -234,7 +234,12 @@
     "translating": "翻译中…",
     "choose_engine": "选择翻译源",
     "default_tag": "默认",
-    "failed": "翻译失败（$engine）"
+    "failed": "翻译失败（$engine）",
+    "show_original": "显示原文",
+    "display_modes": {
+      "below": "显示在原文下方",
+      "replace": "替换原文"
+    }
   },
   "settings": {
     "appearance": "外观设置",
@@ -257,6 +262,8 @@
     "default_translation_engine_desc": "当前：$engine",
     "enabled_translation_engines": "启用的翻译源",
     "enabled_translation_engines_desc": "长按翻译时可选：$engines",
+    "translation_display_mode": "翻译显示方式",
+    "translation_display_mode_desc": "当前：$mode",
     "animated_preview": "动画预览",
     "animated_preview_desc": "在悬停或长按时显示可用的视频动画预览",
     "network": "网络设置",

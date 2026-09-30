@@ -135,18 +135,23 @@ class _MeidaDescriptionState extends State<MeidaDescription>
                   if (widget.media.body != null)
                     SizedBox(
                       width: double.infinity,
-                      child: IwrMarkdown(
-                        selectable: true,
-                        data: widget.media.body ?? "",
-                      ),
+                      child: showTranslationInPlace
+                          ? TranslatedContent(
+                              translatedContent: translatedContent!,
+                              engine: translationEngine!,
+                              inPlace: true,
+                            )
+                          : IwrMarkdown(
+                              selectable: true,
+                              data: widget.media.body ?? "",
+                            ),
                     ),
                   if (widget.media.body != null) ...[
                     _buildTranslateButton(context, widget.media.body!),
                     const SizedBox(height: 8),
                   ],
-                  if (hasTranslation && translationVisible)
+                  if (showTranslationBelow)
                     TranslatedContent(
-                      padding: const EdgeInsets.only(top: 12),
                       translatedContent: translatedContent!,
                       engine: translationEngine!,
                     ),

@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:iwrqk/i18n/strings.g.dart';
 
 import '../../const/widget.dart';
+import '../enums/translation_display_mode.dart';
 import '../enums/translation_engine.dart';
 import '../models/account/settings/filter_setting.dart';
 import '../providers/storage_provider.dart';
@@ -33,6 +34,7 @@ abstract class ConfigKey {
 
   static const String translationEngine = "translationEngine";
   static const String enabledTranslationEngines = "enabledTranslationEngines";
+  static const String translationDisplayMode = "translationDisplayMode";
 }
 
 class ConfigService extends GetxService {
@@ -99,6 +101,15 @@ class ConfigService extends GetxService {
     setting[ConfigKey.enabledTranslationEngines] = _enabledTranslationEngines
         .map((engine) => engine.name)
         .toList();
+  }
+
+  final Rx<TranslationDisplayMode> _translationDisplayMode =
+      TranslationDisplayMode.replace.obs;
+  TranslationDisplayMode get translationDisplayMode =>
+      _translationDisplayMode.value;
+  set translationDisplayMode(TranslationDisplayMode mode) {
+    _translationDisplayMode.value = mode;
+    setting[ConfigKey.translationDisplayMode] = mode.name;
   }
 
   final RxDouble _gridChildAspectRatio = 1.0.obs;
@@ -195,5 +206,10 @@ class ConfigService extends GetxService {
           .where(enabled.contains)
           .toList();
     }
+    _translationDisplayMode.value =
+        TranslationDisplayMode.fromName(
+          setting.get(ConfigKey.translationDisplayMode),
+        ) ??
+        TranslationDisplayMode.replace;
   }
 }

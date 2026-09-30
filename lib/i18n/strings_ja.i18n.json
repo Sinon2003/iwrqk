@@ -234,7 +234,12 @@
     "translating": "翻訳中…",
     "choose_engine": "翻訳元を選択",
     "default_tag": "既定",
-    "failed": "翻訳に失敗しました（$engine）"
+    "failed": "翻訳に失敗しました（$engine）",
+    "show_original": "原文を表示",
+    "display_modes": {
+      "below": "原文の下に表示",
+      "replace": "原文と置き換える"
+    }
   },
   "settings": {
     "appearance": "外観設定",
@@ -257,6 +262,8 @@
     "default_translation_engine_desc": "現在：$engine",
     "enabled_translation_engines": "有効な翻訳元",
     "enabled_translation_engines_desc": "翻訳ボタンの長押しで選択可能：$engines",
+    "translation_display_mode": "翻訳の表示方法",
+    "translation_display_mode_desc": "現在：$mode",
     "animated_preview": "動画プレビュー",
     "animated_preview_desc": "ホバー（PC）または長押し（タッチ）でアニメーションプレビューを表示します",
     "network": "ネットワーク設定",

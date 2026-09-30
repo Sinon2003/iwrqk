@@ -9,24 +9,48 @@ class TranslatedContent extends StatelessWidget {
   final String translatedContent;
   final TranslationEngine engine;
 
-  /// Shows a collapse button in the header when set.
+  /// Shows a button in the header when set: collapse below the original, or
+  /// show the original again when [inPlace].
   final VoidCallback? onCollapse;
-  final EdgeInsetsGeometry? padding;
+
+  /// Shown in place of the original instead of below it.
+  final bool inPlace;
+  final bool selectable;
 
   const TranslatedContent({
     super.key,
     required this.translatedContent,
     required this.engine,
     this.onCollapse,
-    this.padding,
+    this.inPlace = false,
+    this.selectable = true,
   });
+
+  Widget _buildCollapseButton(BuildContext context) {
+    if (inPlace) {
+      return TextButton(
+        onPressed: onCollapse,
+        style: TextButton.styleFrom(visualDensity: VisualDensity.compact),
+        child: Text(t.translation.show_original),
+      );
+    }
+    return IconButton(
+      onPressed: onCollapse,
+      tooltip: t.translation.hide,
+      visualDensity: VisualDensity.compact,
+      icon: Icon(
+        Icons.expand_less,
+        color: Theme.of(context).colorScheme.outline,
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const SizedBox(height: 8),
+        if (!inPlace) const SizedBox(height: 8),
         Row(
           children: [
             Expanded(
@@ -63,22 +87,13 @@ class TranslatedContent extends StatelessWidget {
                 ),
               ),
             ),
-            if (onCollapse != null)
-              IconButton(
-                onPressed: onCollapse,
-                tooltip: t.translation.hide,
-                visualDensity: VisualDensity.compact,
-                icon: Icon(
-                  Icons.expand_less,
-                  color: Theme.of(context).colorScheme.outline,
-                ),
-              ),
+            if (onCollapse != null) _buildCollapseButton(context),
           ],
         ),
         const Divider(),
         SizedBox(
           width: double.infinity,
-          child: IwrMarkdown(selectable: true, data: translatedContent),
+          child: IwrMarkdown(selectable: selectable, data: translatedContent),
         ),
       ],
     );

@@ -231,16 +231,25 @@ class _UserCommentState extends State<UserComment>
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          IwrMarkdown(
-            selectable: !widget.canJumpToDetail,
-            data: widget.comment.body,
-          ),
-          if (hasTranslation && translationVisible)
+          if (showTranslationInPlace)
             TranslatedContent(
-              padding: const EdgeInsets.only(top: 12),
               translatedContent: translatedContent!,
               engine: translationEngine!,
               onCollapse: hideTranslation,
+              inPlace: true,
+              selectable: !widget.canJumpToDetail,
+            )
+          else
+            IwrMarkdown(
+              selectable: !widget.canJumpToDetail,
+              data: widget.comment.body,
+            ),
+          if (showTranslationBelow)
+            TranslatedContent(
+              translatedContent: translatedContent!,
+              engine: translationEngine!,
+              onCollapse: hideTranslation,
+              selectable: !widget.canJumpToDetail,
             ),
           _buildBottomWidget(context),
           if (!(widget.comment.children.isEmpty || widget.showReplies == false))

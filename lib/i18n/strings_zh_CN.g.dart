@@ -447,6 +447,8 @@ class Translations$translation$zh_CN extends Translations$translation$en {
 	@override String get choose_engine => '选择翻译源';
 	@override String get default_tag => '默认';
 	@override String failed({required Object engine}) => '翻译失败（${engine}）';
+	@override String get show_original => '显示原文';
+	@override late final Translations$translation$display_modes$zh_CN display_modes = Translations$translation$display_modes$zh_CN.internal(_root);
 }
 
 // Path: settings
@@ -476,6 +478,8 @@ class Translations$settings$zh_CN extends Translations$settings$en {
 	@override String default_translation_engine_desc({required Object engine}) => '当前：${engine}';
 	@override String get enabled_translation_engines => '启用的翻译源';
 	@override String enabled_translation_engines_desc({required Object engines}) => '长按翻译时可选：${engines}';
+	@override String get translation_display_mode => '翻译显示方式';
+	@override String translation_display_mode_desc({required Object mode}) => '当前：${mode}';
 	@override String get animated_preview => '动画预览';
 	@override String get animated_preview_desc => '在悬停或长按时显示可用的视频动画预览';
 	@override String get network => '网络设置';
@@ -656,6 +660,17 @@ class Translations$translation$engine_notes$zh_CN extends Translations$translati
 	@override String get volcengine => '国内可直连，速度快';
 	@override String get tencent => '国内可直连';
 	@override String get yandex => '不支持输出繁体中文';
+}
+
+// Path: translation.display_modes
+class Translations$translation$display_modes$zh_CN extends Translations$translation$display_modes$en {
+	Translations$translation$display_modes$zh_CN.internal(TranslationsZhCn root) : this._root = root, super.internal(root);
+
+	final TranslationsZhCn _root; // ignore: unused_field
+
+	// Translations
+	@override String get below => '显示在原文下方';
+	@override String get replace => '替换原文';
 }
 
 // Path: message.account
@@ -956,6 +971,9 @@ extension on TranslationsZhCn {
 			'translation.choose_engine' => '选择翻译源',
 			'translation.default_tag' => '默认',
 			'translation.failed' => ({required Object engine}) => '翻译失败（${engine}）',
+			'translation.show_original' => '显示原文',
+			'translation.display_modes.below' => '显示在原文下方',
+			'translation.display_modes.replace' => '替换原文',
 			'settings.appearance' => '外观设置',
 			'settings.theme' => '主题',
 			'settings.theme_desc' => '设置应用的主题',
@@ -976,6 +994,8 @@ extension on TranslationsZhCn {
 			'settings.default_translation_engine_desc' => ({required Object engine}) => '当前：${engine}',
 			'settings.enabled_translation_engines' => '启用的翻译源',
 			'settings.enabled_translation_engines_desc' => ({required Object engines}) => '长按翻译时可选：${engines}',
+			'settings.translation_display_mode' => '翻译显示方式',
+			'settings.translation_display_mode_desc' => ({required Object mode}) => '当前：${mode}',
 			'settings.animated_preview' => '动画预览',
 			'settings.animated_preview_desc' => '在悬停或长按时显示可用的视频动画预览',
 			'settings.network' => '网络设置',

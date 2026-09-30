@@ -447,6 +447,8 @@ class _Translations$translation$ja extends Translations$translation$en {
 	@override String get choose_engine => '翻訳元を選択';
 	@override String get default_tag => '既定';
 	@override String failed({required Object engine}) => '翻訳に失敗しました（${engine}）';
+	@override String get show_original => '原文を表示';
+	@override late final _Translations$translation$display_modes$ja display_modes = _Translations$translation$display_modes$ja._(_root);
 }
 
 // Path: settings
@@ -476,6 +478,8 @@ class _Translations$settings$ja extends Translations$settings$en {
 	@override String default_translation_engine_desc({required Object engine}) => '現在：${engine}';
 	@override String get enabled_translation_engines => '有効な翻訳元';
 	@override String enabled_translation_engines_desc({required Object engines}) => '翻訳ボタンの長押しで選択可能：${engines}';
+	@override String get translation_display_mode => '翻訳の表示方法';
+	@override String translation_display_mode_desc({required Object mode}) => '現在：${mode}';
 	@override String get animated_preview => '動画プレビュー';
 	@override String get animated_preview_desc => 'ホバー（PC）または長押し（タッチ）でアニメーションプレビューを表示します';
 	@override String get network => 'ネットワーク設定';
@@ -656,6 +660,17 @@ class _Translations$translation$engine_notes$ja extends Translations$translation
 	@override String get volcengine => '高速、中国本土から直接接続可能';
 	@override String get tencent => '中国本土から直接接続可能';
 	@override String get yandex => '繁体字中国語には出力できません';
+}
+
+// Path: translation.display_modes
+class _Translations$translation$display_modes$ja extends Translations$translation$display_modes$en {
+	_Translations$translation$display_modes$ja._(TranslationsJa root) : this._root = root, super.internal(root);
+
+	final TranslationsJa _root; // ignore: unused_field
+
+	// Translations
+	@override String get below => '原文の下に表示';
+	@override String get replace => '原文と置き換える';
 }
 
 // Path: message.account
@@ -956,6 +971,9 @@ extension on TranslationsJa {
 			'translation.choose_engine' => '翻訳元を選択',
 			'translation.default_tag' => '既定',
 			'translation.failed' => ({required Object engine}) => '翻訳に失敗しました（${engine}）',
+			'translation.show_original' => '原文を表示',
+			'translation.display_modes.below' => '原文の下に表示',
+			'translation.display_modes.replace' => '原文と置き換える',
 			'settings.appearance' => '外観設定',
 			'settings.theme' => 'テーマ',
 			'settings.theme_desc' => 'アプリのテーマを設定します',
@@ -976,6 +994,8 @@ extension on TranslationsJa {
 			'settings.default_translation_engine_desc' => ({required Object engine}) => '現在：${engine}',
 			'settings.enabled_translation_engines' => '有効な翻訳元',
 			'settings.enabled_translation_engines_desc' => ({required Object engines}) => '翻訳ボタンの長押しで選択可能：${engines}',
+			'settings.translation_display_mode' => '翻訳の表示方法',
+			'settings.translation_display_mode_desc' => ({required Object mode}) => '現在：${mode}',
 			'settings.animated_preview' => '動画プレビュー',
 			'settings.animated_preview_desc' => 'ホバー（PC）または長押し（タッチ）でアニメーションプレビューを表示します',
 			'settings.network' => 'ネットワーク設定',
