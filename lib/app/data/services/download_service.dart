@@ -444,9 +444,17 @@ class DownloadService extends GetxService {
   }
 
   Future<String?> retryTask(String taskId) async {
-    final task = await bg.FileDownloader().taskForId(taskId);
+    final task =
+        await bg.FileDownloader().taskForId(taskId) ??
+        (await getTask(taskId))?.task;
     if (task is bg.DownloadTask) {
-      await bg.FileDownloader().resume(await _withLiveProxy(task));
+      final liveTask = await _withLiveProxy(task);
+      // The downloader only keeps resume data for failures after the first
+      // megabyte; earlier ones start over.
+      if (!await bg.FileDownloader().resume(liveTask) &&
+          !await bg.FileDownloader().enqueue(liveTask)) {
+        return null;
+      }
       return taskId;
     }
     return null;
