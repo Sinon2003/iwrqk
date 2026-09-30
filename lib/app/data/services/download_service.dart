@@ -128,6 +128,9 @@ class DownloadService extends GetxService {
   }
 
   void _handleProgressUpdate(bg.TaskProgressUpdate update) {
+    // Negative values only mark a state change such as pausing; the last
+    // real progress stays on display.
+    if (update.progress.isNegative) return;
     final progress = _convertBgProgress(update.progress);
 
     _downloadTasksStatus.putIfAbsent(
