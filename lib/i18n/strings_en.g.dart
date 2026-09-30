@@ -1094,6 +1094,9 @@ class Translations$message$en {
 	/// en: 'Restart the App to apply the changes.'
 	String get restart_required => 'Restart the App to apply the changes.';
 
+	/// en: 'Copied to clipboard'
+	String get copied => 'Copied to clipboard';
+
 	/// en: 'Please type the host'
 	String get please_type_host => 'Please type the host';
 
@@ -1690,6 +1693,7 @@ extension on Translations {
 			'message.exit_app' => 'Press again to exit the App',
 			'message.are_you_sure_to_do_that' => 'Are you sure to do that?',
 			'message.restart_required' => 'Restart the App to apply the changes.',
+			'message.copied' => 'Copied to clipboard',
 			'message.please_type_host' => 'Please type the host',
 			'message.please_type_port' => 'Please type the port',
 			'message.account.login_success' => 'Login success.',

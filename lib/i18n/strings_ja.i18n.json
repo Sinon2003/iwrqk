@@ -333,6 +333,7 @@
     "exit_app": "アプリを終了するにはもう一度押してください",
     "are_you_sure_to_do_that": "それを行うことを確認していますか？",
     "restart_required": "再起動後に有効",
+    "copied": "クリップボードにコピーしました",
     "please_type_host": "ホスト名を入力してください",
     "please_type_port": "ポートを入力してください",
     "account": {

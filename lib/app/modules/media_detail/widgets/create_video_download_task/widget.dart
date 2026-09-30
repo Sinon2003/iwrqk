@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:iwrqk/i18n/strings.g.dart';
 
 import '../../../../data/models/offline/offline_media.dart';
 import '../../../../data/models/resolution.dart';
+import '../../../../utils/clipboard_util.dart';
 import 'controller.dart';
 
 class CreateVideoDownloadDialog
@@ -48,9 +48,7 @@ class CreateVideoDownloadDialog
                   if (controller.currentResolutionIndex != index) {
                     controller.currentResolutionIndex = index;
                   } else {
-                    Clipboard.setData(
-                      ClipboardData(text: resolutions[index].src.downloadUrl),
-                    );
+                    ClipboardUtil.copy(resolutions[index].src.downloadUrl);
                   }
                 },
               ),

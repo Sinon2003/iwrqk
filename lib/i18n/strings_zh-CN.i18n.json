@@ -333,6 +333,7 @@
     "exit_app": "再按一次退出应用",
     "are_you_sure_to_do_that": "你确定要这么做吗？",
     "restart_required": "重启后生效",
+    "copied": "已复制到剪贴板",
     "please_type_host": "请输入主机名",
     "please_type_port": "请输入端口",
     "account": {

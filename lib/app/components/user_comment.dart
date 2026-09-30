@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:iwrqk/i18n/strings.g.dart';
 
@@ -7,6 +6,7 @@ import '../data/enums/types.dart';
 import '../data/models/comment.dart';
 import '../data/models/user.dart';
 import '../data/services/user_service.dart';
+import '../utils/clipboard_util.dart';
 import '../utils/display_util.dart';
 import 'edit_comment_bottom_sheet/widget.dart';
 import 'iwr_markdown.dart';
@@ -365,9 +365,7 @@ class _UserCommentState extends State<UserComment>
             onTap: () {
               _jumpToDetail();
             },
-            onLongPress: () {
-              Clipboard.setData(ClipboardData(text: widget.comment.body));
-            },
+            onLongPress: () => ClipboardUtil.copy(widget.comment.body),
             child: child,
           )
         : child;

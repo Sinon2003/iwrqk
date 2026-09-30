@@ -584,6 +584,7 @@ class Translations$message$zh_TW extends Translations$message$en {
 	@override String get exit_app => '再按一次退出該軟體';
 	@override String get are_you_sure_to_do_that => '你確定要這麼做嗎？';
 	@override String get restart_required => '重啟後生效';
+	@override String get copied => '已複製到剪貼簿';
 	@override String get please_type_host => '請輸入主機名';
 	@override String get please_type_port => '請輸入端口';
 	@override late final Translations$message$account$zh_TW account = Translations$message$account$zh_TW.internal(_root);
@@ -1055,6 +1056,7 @@ extension on TranslationsZhTw {
 			'message.exit_app' => '再按一次退出該軟體',
 			'message.are_you_sure_to_do_that' => '你確定要這麼做嗎？',
 			'message.restart_required' => '重啟後生效',
+			'message.copied' => '已複製到剪貼簿',
 			'message.please_type_host' => '請輸入主機名',
 			'message.please_type_port' => '請輸入端口',
 			'message.account.login_success' => '登入成功！',

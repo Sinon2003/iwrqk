@@ -584,6 +584,7 @@ class _Translations$message$ja extends Translations$message$en {
 	@override String get exit_app => 'アプリを終了するにはもう一度押してください';
 	@override String get are_you_sure_to_do_that => 'それを行うことを確認していますか？';
 	@override String get restart_required => '再起動後に有効';
+	@override String get copied => 'クリップボードにコピーしました';
 	@override String get please_type_host => 'ホスト名を入力してください';
 	@override String get please_type_port => 'ポートを入力してください';
 	@override late final _Translations$message$account$ja account = _Translations$message$account$ja._(_root);
@@ -1055,6 +1056,7 @@ extension on TranslationsJa {
 			'message.exit_app' => 'アプリを終了するにはもう一度押してください',
 			'message.are_you_sure_to_do_that' => 'それを行うことを確認していますか？',
 			'message.restart_required' => '再起動後に有効',
+			'message.copied' => 'クリップボードにコピーしました',
 			'message.please_type_host' => 'ホスト名を入力してください',
 			'message.please_type_port' => 'ポートを入力してください',
 			'message.account.login_success' => 'ログイン成功！',

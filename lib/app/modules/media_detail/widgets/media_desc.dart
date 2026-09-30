@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 import '../../../components/iwr_markdown.dart';
 import '../../../components/translated_content.dart';
 import '../../../components/translation_mixin.dart';
 import '../../../data/models/media/media.dart';
+import '../../../utils/clipboard_util.dart';
 import '../../../utils/display_util.dart';
 
 class MeidaDescription extends StatefulWidget {
@@ -40,9 +40,7 @@ class _MeidaDescriptionState extends State<MeidaDescription>
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       color: Theme.of(context).colorScheme.primaryContainer,
       child: InkWell(
-        onTap: () {
-          Clipboard.setData(ClipboardData(text: tag.id));
-        },
+        onTap: () => ClipboardUtil.copy(tag.id),
         child: Container(
           padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
           child: Text(

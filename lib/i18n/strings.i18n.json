@@ -339,6 +339,7 @@
     "exit_app": "Press again to exit the App",
     "are_you_sure_to_do_that": "Are you sure to do that?",
     "restart_required": "Restart the App to apply the changes.",
+    "copied": "Copied to clipboard",
     "please_type_host": "Please type the host",
     "please_type_port": "Please type the port",
     "account": {
