@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:iwrqk/i18n/strings.g.dart';
 
 import '../../const/widget.dart';
+import '../../utils/quality_picker.dart';
 import '../enums/translation_display_mode.dart';
 import '../enums/translation_engine.dart';
 import '../models/account/settings/filter_setting.dart';
@@ -37,6 +38,9 @@ abstract class ConfigKey {
   static const String translationDisplayMode = "translationDisplayMode";
 
   static const String acceleratedTransfer = "acceleratedTransfer";
+
+  static const String preferredQuality = "preferredQuality";
+  static const String playbackThroughput = "playbackThroughput";
 }
 
 class ConfigService extends GetxService {
@@ -121,6 +125,35 @@ class ConfigService extends GetxService {
   set acceleratedTransfer(bool value) {
     _acceleratedTransfer.value = value;
     setting[ConfigKey.acceleratedTransfer] = value;
+  }
+
+  /// Which resolution to play; see [QualityPicker] for the values.
+  final RxString _preferredQuality = QualityPicker.auto.obs;
+  String get preferredQuality => _preferredQuality.value;
+  set preferredQuality(String value) {
+    _preferredQuality.value = value;
+    setting[ConfigKey.preferredQuality] = value;
+  }
+
+  /// Learned download speed of videos in bytes per second, for choosing the
+  /// resolution automatically; null until a playback was measured.
+  double? _playbackThroughput;
+  double? get playbackThroughput => _playbackThroughput;
+
+  void recordPlaybackSpeed(double bytesPerSecond) {
+    _playbackThroughput = QualityPicker.blend(
+      _playbackThroughput,
+      bytesPerSecond,
+    );
+    setting[ConfigKey.playbackThroughput] = _playbackThroughput;
+  }
+
+  void recordPlaybackStall(String resolution) {
+    _playbackThroughput = QualityPicker.afterStall(
+      _playbackThroughput,
+      resolution,
+    );
+    setting[ConfigKey.playbackThroughput] = _playbackThroughput;
   }
 
   final RxDouble _gridChildAspectRatio = 1.0.obs;
@@ -227,5 +260,12 @@ class ConfigService extends GetxService {
       ConfigKey.acceleratedTransfer,
       defaultValue: false,
     );
+
+    _preferredQuality.value = setting.get(
+      ConfigKey.preferredQuality,
+      defaultValue: QualityPicker.auto,
+    );
+    _playbackThroughput = (setting.get(ConfigKey.playbackThroughput) as num?)
+        ?.toDouble();
   }
 }

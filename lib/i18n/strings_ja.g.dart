@@ -607,6 +607,15 @@ class _Translations$settings$ja extends Translations$settings$en {
 	@override String get experimental => '実験的な機能';
 	@override String get accelerated_transfer => 'ダウンロードと再生の高速化';
 	@override String get accelerated_transfer_desc => 'オンライン再生とダウンロードをローカルプロキシ経由にし、複数の接続で分割して同時に取得します。接続ごとに速度制限のある回線で速くなりますが、接続数が増え、失敗することがあります。ダウンロード中はアプリを開いたままにしてください';
+	@override String get preferred_quality => '優先する画質';
+	@override String get quality_auto => '自動';
+	@override String get quality_highest => '画質優先';
+	@override String get quality_smoothest => '滑らかさ優先';
+	@override String quality_fixed({required Object name}) => '${name} に固定';
+	@override String get quality_auto_desc => '最近の実測速度で滑らかに再生できる最高画質';
+	@override String get quality_highest_desc => '常に最高画質';
+	@override String get quality_smoothest_desc => '常に最低画質。遅い回線向け';
+	@override String quality_fixed_desc({required Object name}) => '${name} があればそれを、なければ一段下の画質';
 }
 
 // Path: theme
@@ -1182,6 +1191,15 @@ extension on TranslationsJa {
 			'settings.experimental' => '実験的な機能',
 			'settings.accelerated_transfer' => 'ダウンロードと再生の高速化',
 			'settings.accelerated_transfer_desc' => 'オンライン再生とダウンロードをローカルプロキシ経由にし、複数の接続で分割して同時に取得します。接続ごとに速度制限のある回線で速くなりますが、接続数が増え、失敗することがあります。ダウンロード中はアプリを開いたままにしてください',
+			'settings.preferred_quality' => '優先する画質',
+			'settings.quality_auto' => '自動',
+			'settings.quality_highest' => '画質優先',
+			'settings.quality_smoothest' => '滑らかさ優先',
+			'settings.quality_fixed' => ({required Object name}) => '${name} に固定',
+			'settings.quality_auto_desc' => '最近の実測速度で滑らかに再生できる最高画質',
+			'settings.quality_highest_desc' => '常に最高画質',
+			'settings.quality_smoothest_desc' => '常に最低画質。遅い回線向け',
+			'settings.quality_fixed_desc' => ({required Object name}) => '${name} があればそれを、なければ一段下の画質',
 			'theme.system' => 'システムに従う',
 			'theme.light' => 'ライト',
 			'theme.dark' => 'ダーク',

@@ -10,6 +10,7 @@ import 'package:window_manager/window_manager.dart';
 
 import '../../components/comments_list/controller.dart';
 import '../../components/plugin/pl_player/index.dart';
+import '../../components/plugin/pl_player/utils/playback_monitor.dart';
 import '../../data/enums/types.dart';
 import '../../data/models/download_task.dart';
 import '../../data/models/media/media.dart';
@@ -27,6 +28,7 @@ import '../../data/services/plugin/pl_player/service_locator.dart';
 import '../../data/services/user_service.dart';
 import '../../utils/display_util.dart';
 import '../../utils/log_util.dart';
+import '../../utils/quality_picker.dart';
 import '../account/downloads/widgets/downloads_media_preview_list/controller.dart';
 import 'repository.dart';
 import 'widgets/header_control.dart';
@@ -66,6 +68,7 @@ class MediaDetailController extends GetxController
 
   List<ResolutionModel> resolutions = [];
   int resolutionIndex = 0;
+  PlaybackMonitor? _playbackMonitor;
 
   final RxBool _isLoading = true.obs;
   final RxBool _isFectchingResolution = false.obs;
@@ -452,6 +455,21 @@ class MediaDetailController extends GetxController
       );
     }
 
+    // Online playback teaches the automatic resolution choice how fast
+    // videos download here, and steps it down after a stall.
+    _playbackMonitor?.dispose();
+    _playbackMonitor = null;
+    final player = plPlayerController.videoPlayerController;
+    if (!isOffline && player != null) {
+      final resolution = resolutions[resolutionIndex].name;
+      _playbackMonitor = PlaybackMonitor(
+        player,
+        onSpeed: configService.recordPlaybackSpeed,
+        onStall: () => configService.recordPlaybackStall(resolution),
+        lastSeekAt: () => plPlayerController.lastSeekAt,
+      )..start();
+    }
+
     plPlayerController.width.listen((value) {
       if (value > 0 && plPlayerController.height.value > 0) {
         aspectRatio = Rational(value, plPlayerController.height.value);
@@ -479,12 +497,10 @@ class MediaDetailController extends GetxController
           if (value.success) {
             if (value.data!.isNotEmpty) {
               resolutions = value.data!;
-              resolutionIndex = min(
-                setting.get(
-                  PLPlayerConfigKey.qualityIndexSaved,
-                  defaultValue: 99,
-                ),
-                resolutions.length - 1,
+              resolutionIndex = QualityPicker.pick(
+                [for (final resolution in resolutions) resolution.name],
+                configService.preferredQuality,
+                throughput: configService.playbackThroughput,
               );
               playerInit();
               return;
@@ -576,6 +592,7 @@ class MediaDetailController extends GetxController
 
   @override
   void onClose() {
+    _playbackMonitor?.dispose();
     if (canUseWindowsPip && isWindowsPipMode) {
       unawaited(exitWindowsPip());
     }

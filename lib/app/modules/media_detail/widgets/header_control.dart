@@ -429,13 +429,10 @@ class _HeaderControlState extends State<HeaderControl> {
                           onTap: () async {
                             int index = resolutions.indexOf(i);
 
+                            // Only this video; the default is the preferred
+                            // quality in the app settings.
                             widget.videoDetailCtr!.resolutionIndex = index;
                             widget.videoDetailCtr!.updatePlayer();
-
-                            setting[PLPlayerConfigKey.qualityIndexSaved] =
-                                index == resolutions.length - 1
-                                ? 99 /* Source is always the last, use 99 to represent it */
-                                : index;
 
                             Get.back();
                           },

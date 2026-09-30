@@ -37,7 +37,6 @@ abstract class PLPlayerConfigKey {
   static const String cacheVideoFit = 'cacheVideoFit';
   static const String playSpeedDefault = 'playSpeedDefault';
   static const String longPressSpeedDefault = 'longPressSpeedDefault';
-  static const String qualityIndexSaved = 'qualityIndexSaved';
 
   static const String enableQuickDouble = 'enableQuickDouble';
   static const String enableBackgroundPlay = 'enableBackgroundPlay';

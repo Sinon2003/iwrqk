@@ -10,6 +10,7 @@ import '../../data/enums/translation_display_mode.dart';
 import '../../data/enums/translation_engine.dart';
 import '../../data/providers/storage_provider.dart';
 import '../../utils/log_util.dart';
+import '../../utils/quality_picker.dart';
 import '../home/controller.dart';
 import 'controller.dart';
 import 'widgets/custom_color_page.dart';
@@ -239,6 +240,45 @@ class SettingsPage extends GetView<SettingsController> {
         value: controller.configService.acceleratedTransfer,
         onChanged: (value) {
           controller.configService.acceleratedTransfer = value;
+        },
+      ),
+    );
+  }
+
+  Widget _buildPreferredQualitySetting(BuildContext context) {
+    String optionName(String option) => switch (option) {
+      QualityPicker.auto => t.settings.quality_auto,
+      QualityPicker.highest => t.settings.quality_highest,
+      QualityPicker.smoothest => t.settings.quality_smoothest,
+      _ => t.settings.quality_fixed(name: option),
+    };
+    String optionDescription(String option) => switch (option) {
+      QualityPicker.auto => t.settings.quality_auto_desc,
+      QualityPicker.highest => t.settings.quality_highest_desc,
+      QualityPicker.smoothest => t.settings.quality_smoothest_desc,
+      _ => t.settings.quality_fixed_desc(name: option),
+    };
+
+    return Obx(
+      () => _buildMultiSetting<String>(
+        context,
+        title: t.settings.preferred_quality,
+        description: optionDescription(
+          controller.configService.preferredQuality,
+        ),
+        iconData: Icons.high_quality,
+        currentOption: controller.configService.preferredQuality,
+        options: {
+          for (final option in [
+            QualityPicker.auto,
+            QualityPicker.highest,
+            QualityPicker.smoothest,
+            ...QualityPicker.fixedChoices,
+          ])
+            option: optionName(option),
+        },
+        onSelected: (value) {
+          controller.configService.preferredQuality = value;
         },
       ),
     );
@@ -566,6 +606,7 @@ class SettingsPage extends GetView<SettingsController> {
           _buildEnableProxySetting(context),
           _buildSetProxyButton(context),
           SettingTitle(title: t.settings.player),
+          _buildPreferredQualitySetting(context),
           _buildAutoPlaySetting(context),
           _buildBackgroundPlaySetting(context),
           if (GetPlatform.isWindows || GetPlatform.isLinux)

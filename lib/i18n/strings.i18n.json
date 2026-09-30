@@ -364,7 +364,16 @@
     "third_party_license_desc": "View the license of third party libraries",
     "experimental": "Experimental",
     "accelerated_transfer": "Accelerated downloads and playback",
-    "accelerated_transfer_desc": "Plays and downloads videos through a local proxy that fetches several parts at once. Faster where each connection is throttled; uses more connections and may fail. Keep the app open while downloading"
+    "accelerated_transfer_desc": "Plays and downloads videos through a local proxy that fetches several parts at once. Faster where each connection is throttled; uses more connections and may fail. Keep the app open while downloading",
+    "preferred_quality": "Preferred quality",
+    "quality_auto": "Auto",
+    "quality_highest": "Best quality",
+    "quality_smoothest": "Smoothest",
+    "quality_fixed": "Always $name",
+    "quality_auto_desc": "The best quality that played smoothly at your recent speed",
+    "quality_highest_desc": "Always the highest quality",
+    "quality_smoothest_desc": "Always the lowest quality, for slow connections",
+    "quality_fixed_desc": "$name when the video has it, otherwise the next one below"
   },
   "theme": {
     "system": "System",

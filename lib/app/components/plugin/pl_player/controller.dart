@@ -604,8 +604,12 @@ class PlPlayerController {
     loadingSubs?.cancel();
   }
 
+  /// When playback last jumped, as waiting for data right after is expected.
+  DateTime? lastSeekAt;
+
   /// 跳转至指定位置
   Future<void> seekTo(Duration position, {type = 'seek'}) async {
+    lastSeekAt = DateTime.now();
     // if (position >= duration.value) {
     //   position = duration.value - const Duration(milliseconds: 100);
     // }

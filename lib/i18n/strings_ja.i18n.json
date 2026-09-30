@@ -358,7 +358,16 @@
     "third_party_license_desc": "サードパーティのライブラリのライセンスを確認します",
     "experimental": "実験的な機能",
     "accelerated_transfer": "ダウンロードと再生の高速化",
-    "accelerated_transfer_desc": "オンライン再生とダウンロードをローカルプロキシ経由にし、複数の接続で分割して同時に取得します。接続ごとに速度制限のある回線で速くなりますが、接続数が増え、失敗することがあります。ダウンロード中はアプリを開いたままにしてください"
+    "accelerated_transfer_desc": "オンライン再生とダウンロードをローカルプロキシ経由にし、複数の接続で分割して同時に取得します。接続ごとに速度制限のある回線で速くなりますが、接続数が増え、失敗することがあります。ダウンロード中はアプリを開いたままにしてください",
+    "preferred_quality": "優先する画質",
+    "quality_auto": "自動",
+    "quality_highest": "画質優先",
+    "quality_smoothest": "滑らかさ優先",
+    "quality_fixed": "$name に固定",
+    "quality_auto_desc": "最近の実測速度で滑らかに再生できる最高画質",
+    "quality_highest_desc": "常に最高画質",
+    "quality_smoothest_desc": "常に最低画質。遅い回線向け",
+    "quality_fixed_desc": "$name があればそれを、なければ一段下の画質"
   },
   "theme": {
     "system": "システムに従う",

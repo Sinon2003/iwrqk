@@ -607,6 +607,15 @@ class Translations$settings$zh_CN extends Translations$settings$en {
 	@override String get experimental => '实验性功能';
 	@override String get accelerated_transfer => '加速下载与播放';
 	@override String get accelerated_transfer_desc => '在线播放和下载经由本机代理，多个连接并行分段获取。适合单连接限速的线路，连接数更多，可能失败；下载时需保持应用运行';
+	@override String get preferred_quality => '优先清晰度';
+	@override String get quality_auto => '自动';
+	@override String get quality_highest => '画质优先';
+	@override String get quality_smoothest => '流畅优先';
+	@override String quality_fixed({required Object name}) => '指定 ${name}';
+	@override String get quality_auto_desc => '按最近实测的网速，选能流畅播放的最高清晰度';
+	@override String get quality_highest_desc => '总是选最高清晰度';
+	@override String get quality_smoothest_desc => '总是选最低清晰度，适合慢速网络';
+	@override String quality_fixed_desc({required Object name}) => '有 ${name} 时播放 ${name}，没有则选低一档';
 }
 
 // Path: theme
@@ -1182,6 +1191,15 @@ extension on TranslationsZhCn {
 			'settings.experimental' => '实验性功能',
 			'settings.accelerated_transfer' => '加速下载与播放',
 			'settings.accelerated_transfer_desc' => '在线播放和下载经由本机代理，多个连接并行分段获取。适合单连接限速的线路，连接数更多，可能失败；下载时需保持应用运行',
+			'settings.preferred_quality' => '优先清晰度',
+			'settings.quality_auto' => '自动',
+			'settings.quality_highest' => '画质优先',
+			'settings.quality_smoothest' => '流畅优先',
+			'settings.quality_fixed' => ({required Object name}) => '指定 ${name}',
+			'settings.quality_auto_desc' => '按最近实测的网速，选能流畅播放的最高清晰度',
+			'settings.quality_highest_desc' => '总是选最高清晰度',
+			'settings.quality_smoothest_desc' => '总是选最低清晰度，适合慢速网络',
+			'settings.quality_fixed_desc' => ({required Object name}) => '有 ${name} 时播放 ${name}，没有则选低一档',
 			'theme.system' => '跟随系统',
 			'theme.light' => '浅色',
 			'theme.dark' => '深色',
