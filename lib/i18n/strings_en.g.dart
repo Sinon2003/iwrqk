@@ -265,9 +265,6 @@ class Translations$account_settings$en {
 	/// en: 'Profile header'
 	String get header => 'Profile header';
 
-	/// en: 'Remove header'
-	String get remove_header => 'Remove header';
-
 	/// en: 'Tap to change'
 	String get tap_to_change => 'Tap to change';
 
@@ -279,9 +276,6 @@ class Translations$account_settings$en {
 
 	/// en: 'Profile header updated'
 	String get header_updated => 'Profile header updated';
-
-	/// en: 'Profile header removed. The site may take a while to delete the file.'
-	String get header_removed => 'Profile header removed. The site may take a while to delete the file.';
 
 	/// en: 'Name updated'
 	String get name_updated => 'Name updated';
@@ -1698,12 +1692,10 @@ extension on Translations {
 			'account_settings.profile' => 'Profile',
 			'account_settings.avatar' => 'Avatar',
 			'account_settings.header' => 'Profile header',
-			'account_settings.remove_header' => 'Remove header',
 			'account_settings.tap_to_change' => 'Tap to change',
 			'account_settings.not_set' => 'Not set',
 			'account_settings.avatar_updated' => 'Avatar updated',
 			'account_settings.header_updated' => 'Profile header updated',
-			'account_settings.header_removed' => 'Profile header removed. The site may take a while to delete the file.',
 			'account_settings.name_updated' => 'Name updated',
 			'account_settings.description_updated' => 'Description updated',
 			'account_settings.saved' => 'Saved',

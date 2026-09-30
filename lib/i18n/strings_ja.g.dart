@@ -176,12 +176,10 @@ class _Translations$account_settings$ja extends Translations$account_settings$en
 	@override String get profile => 'プロフィール';
 	@override String get avatar => 'アバター';
 	@override String get header => 'プロフィールヘッダー';
-	@override String get remove_header => 'ヘッダーを削除';
 	@override String get tap_to_change => 'タップして変更';
 	@override String get not_set => '未設定';
 	@override String get avatar_updated => 'アバターを更新しました';
 	@override String get header_updated => 'ヘッダーを更新しました';
-	@override String get header_removed => 'ヘッダーを削除しました。サイト側でファイルが削除されるまで時間がかかる場合があります';
 	@override String get name_updated => '名前を更新しました';
 	@override String get description_updated => '自己紹介を更新しました';
 	@override String get saved => '保存しました';
@@ -933,12 +931,10 @@ extension on TranslationsJa {
 			'account_settings.profile' => 'プロフィール',
 			'account_settings.avatar' => 'アバター',
 			'account_settings.header' => 'プロフィールヘッダー',
-			'account_settings.remove_header' => 'ヘッダーを削除',
 			'account_settings.tap_to_change' => 'タップして変更',
 			'account_settings.not_set' => '未設定',
 			'account_settings.avatar_updated' => 'アバターを更新しました',
 			'account_settings.header_updated' => 'ヘッダーを更新しました',
-			'account_settings.header_removed' => 'ヘッダーを削除しました。サイト側でファイルが削除されるまで時間がかかる場合があります',
 			'account_settings.name_updated' => '名前を更新しました',
 			'account_settings.description_updated' => '自己紹介を更新しました',
 			'account_settings.saved' => '保存しました',

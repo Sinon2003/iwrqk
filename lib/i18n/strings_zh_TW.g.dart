@@ -176,12 +176,10 @@ class Translations$account_settings$zh_TW extends Translations$account_settings$
 	@override String get profile => '個人資料';
 	@override String get avatar => '頭像';
 	@override String get header => '背景圖';
-	@override String get remove_header => '移除背景圖';
 	@override String get tap_to_change => '點擊更換';
 	@override String get not_set => '未填寫';
 	@override String get avatar_updated => '頭像已更新';
 	@override String get header_updated => '背景圖已更新';
-	@override String get header_removed => '背景圖已移除，網站刪除檔案可能需要一段時間';
 	@override String get name_updated => '暱稱已更新';
 	@override String get description_updated => '簡介已更新';
 	@override String get saved => '已儲存';
@@ -933,12 +931,10 @@ extension on TranslationsZhTw {
 			'account_settings.profile' => '個人資料',
 			'account_settings.avatar' => '頭像',
 			'account_settings.header' => '背景圖',
-			'account_settings.remove_header' => '移除背景圖',
 			'account_settings.tap_to_change' => '點擊更換',
 			'account_settings.not_set' => '未填寫',
 			'account_settings.avatar_updated' => '頭像已更新',
 			'account_settings.header_updated' => '背景圖已更新',
-			'account_settings.header_removed' => '背景圖已移除，網站刪除檔案可能需要一段時間',
 			'account_settings.name_updated' => '暱稱已更新',
 			'account_settings.description_updated' => '簡介已更新',
 			'account_settings.saved' => '已儲存',

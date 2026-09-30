@@ -125,13 +125,6 @@ class AccountSettingsPage extends GetView<AccountSettingsController> {
         title: Text(t.account_settings.header),
         subtitle: Text(t.account_settings.tap_to_change),
         onTap: controller.changeHeader,
-        trailing: controller.hasHeader
-            ? IconButton(
-                tooltip: t.account_settings.remove_header,
-                icon: const Icon(Icons.delete_outline),
-                onPressed: controller.removeHeader,
-              )
-            : null,
       ),
       ListTile(
         leading: const Icon(Icons.badge),

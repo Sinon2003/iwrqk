@@ -756,17 +756,4 @@ class UserService extends GetxService {
       );
     });
   }
-
-  Future<bool> removeHeader() async {
-    final removed = await _updateAccount(
-      () => ApiProvider.updateProfile(
-        userName: user!.username,
-        removeHeader: true,
-      ),
-    );
-    // The site deletes the header file in the background, so the reloaded
-    // profile can still have it for a while.
-    if (removed) profile?.header = null;
-    return removed;
-  }
 }

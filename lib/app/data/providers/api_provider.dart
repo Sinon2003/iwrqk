@@ -432,22 +432,16 @@ class ApiProvider {
   }
 
   /// Updates the description ([body]) or the header of a profile. [header] is
-  /// a file returned by [uploadImage]; [removeHeader] clears it.
+  /// a file returned by [uploadImage]. The site offers no way to remove a
+  /// header: it ignores `"header": null`.
   static Future<ApiResult<void>> updateProfile({
     required String userName,
     String? body,
     Map<String, dynamic>? header,
-    bool removeHeader = false,
   }) async {
     String? message;
     await networkProvider
-        .put(
-          "/profile/$userName",
-          data: {
-            "body": ?body,
-            if (removeHeader) "header": null else "header": ?header,
-          },
-        )
+        .put("/profile/$userName", data: {"body": ?body, "header": ?header})
         .then((value) {
           message = value.data["message"];
         })

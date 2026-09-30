@@ -14,7 +14,6 @@ class AccountSettingsController extends GetxController with StateMixin {
   final RxString _name = "".obs;
   final RxString _avatarUrl = IwaraConst.defaultAvatarUrl.obs;
   final RxString _headerUrl = IwaraConst.defaultBannerUrl.obs;
-  final RxBool _hasHeader = false.obs;
   final RxString _description = "".obs;
   final RxBool _hideSensitive = false.obs;
   final Rxn<NotificationsSettings> _notifications = Rxn();
@@ -22,7 +21,6 @@ class AccountSettingsController extends GetxController with StateMixin {
   String get name => _name.value;
   String get avatarUrl => _avatarUrl.value;
   String get headerUrl => _headerUrl.value;
-  bool get hasHeader => _hasHeader.value;
   String get description => _description.value;
   bool get hideSensitive => _hideSensitive.value;
   NotificationsSettings? get notifications => _notifications.value;
@@ -50,7 +48,6 @@ class AccountSettingsController extends GetxController with StateMixin {
     _avatarUrl.value = user.avatarUrl;
     _headerUrl.value =
         _userService.profile?.bannerUrl ?? IwaraConst.defaultBannerUrl;
-    _hasHeader.value = _userService.profile?.header != null;
     _description.value = _userService.profile?.body ?? "";
     _hideSensitive.value = _userService.hideSensitive;
     _notifications.value = _userService.notificationsSettings;
@@ -88,10 +85,6 @@ class AccountSettingsController extends GetxController with StateMixin {
       () => _userService.updateHeader(path),
       t.account_settings.header_updated,
     );
-  }
-
-  Future<void> removeHeader() async {
-    await _run(_userService.removeHeader, t.account_settings.header_removed);
   }
 
   Future<void> changeName(String value) async {
