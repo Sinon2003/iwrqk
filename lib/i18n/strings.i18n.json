@@ -362,7 +362,10 @@
     "check_update": "Check Update",
     "check_update_desc": "Check if there is a new version available",
     "third_party_license": "Third Party License",
-    "third_party_license_desc": "View the license of third party libraries"
+    "third_party_license_desc": "View the license of third party libraries",
+    "experimental": "Experimental",
+    "accelerated_transfer": "Accelerated downloads and playback",
+    "accelerated_transfer_desc": "Plays and downloads videos through a local proxy that fetches several parts at once. Faster where each connection is throttled; uses more connections and may fail. Keep the app open while downloading"
   },
   "theme": {
     "system": "System",

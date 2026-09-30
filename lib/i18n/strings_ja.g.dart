@@ -605,6 +605,9 @@ class _Translations$settings$ja extends Translations$settings$en {
 	@override String get check_update_desc => '新しいバージョンが利用可能かどうかを確認します';
 	@override String get third_party_license => 'サードパーティのライセンス';
 	@override String get third_party_license_desc => 'サードパーティのライブラリのライセンスを確認します';
+	@override String get experimental => '実験的な機能';
+	@override String get accelerated_transfer => 'ダウンロードと再生の高速化';
+	@override String get accelerated_transfer_desc => 'オンライン再生とダウンロードをローカルプロキシ経由にし、複数の接続で分割して同時に取得します。接続ごとに速度制限のある回線で速くなりますが、接続数が増え、失敗することがあります。ダウンロード中はアプリを開いたままにしてください';
 }
 
 // Path: theme
@@ -1178,6 +1181,9 @@ extension on TranslationsJa {
 			'settings.check_update_desc' => '新しいバージョンが利用可能かどうかを確認します',
 			'settings.third_party_license' => 'サードパーティのライセンス',
 			'settings.third_party_license_desc' => 'サードパーティのライブラリのライセンスを確認します',
+			'settings.experimental' => '実験的な機能',
+			'settings.accelerated_transfer' => 'ダウンロードと再生の高速化',
+			'settings.accelerated_transfer_desc' => 'オンライン再生とダウンロードをローカルプロキシ経由にし、複数の接続で分割して同時に取得します。接続ごとに速度制限のある回線で速くなりますが、接続数が増え、失敗することがあります。ダウンロード中はアプリを開いたままにしてください',
 			'theme.system' => 'システムに従う',
 			'theme.light' => 'ライト',
 			'theme.dark' => 'ダーク',

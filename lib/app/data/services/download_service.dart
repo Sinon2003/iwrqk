@@ -11,11 +11,13 @@ import 'package:permission_handler/permission_handler.dart';
 
 import '../../utils/directory_extension.dart';
 import '../../utils/log_util.dart';
+import '../../utils/parallel_range_proxy.dart';
 import '../../utils/path_util.dart';
 import '../enums/download_task_status.dart';
 import '../models/download_task.dart';
 import '../models/offline/download_task_media.dart';
 import '../providers/storage_provider.dart';
+import 'config_service.dart';
 
 @pragma('vm:entry-point')
 void iwrDownloadStatusCallback(bg.TaskStatusUpdate update) {
@@ -61,8 +63,32 @@ class DownloadService extends GetxService {
       taskStatusCallback: iwrDownloadStatusCallback,
       taskProgressCallback: iwrDownloadProgressCallback,
     );
-    bg.FileDownloader().start();
+    _startDownloader();
     _getTasksStatusFromRecords();
+  }
+
+  /// Unfinished accelerated downloads that the downloader restarts read from
+  /// the local proxy, so it has to be listening first.
+  Future<void> _startDownloader() async {
+    final records = await bg.FileDownloader().database.allRecords();
+    if (records.any(
+      (record) =>
+          record.status.isNotFinalState &&
+          ParallelRangeProxy.upstreamOf(record.task.url) != null,
+    )) {
+      await ParallelRangeProxy.instance.start();
+    }
+    await bg.FileDownloader().start();
+  }
+
+  /// Accelerated downloads read from the local proxy, which listens on
+  /// another port if its usual one was taken after a restart.
+  Future<bg.DownloadTask> _withLiveProxy(bg.DownloadTask task) async {
+    final upstream = ParallelRangeProxy.upstreamOf(task.url);
+    if (upstream == null || !ParallelRangeProxy.instance.serves(upstream)) {
+      return task;
+    }
+    return task.copyWith(url: await ParallelRangeProxy.instance.wrap(upstream));
   }
 
   @override
@@ -279,8 +305,17 @@ class DownloadService extends GetxService {
       }
     }
 
+    // Experimental: download from the local proxy, which fetches the file in
+    // parallel ranges. The downloader's own parallel tasks need HEAD and
+    // Accept-Ranges, which the video servers do not provide.
+    var url = downloadUrl;
+    if (Get.find<ConfigService>().acceleratedTransfer &&
+        ParallelRangeProxy.instance.serves(url)) {
+      url = await ParallelRangeProxy.instance.wrap(url);
+    }
+
     var task = bg.DownloadTask(
-      url: downloadUrl,
+      url: url,
       filename: fileName,
       directory: path.path,
       baseDirectory: bg.BaseDirectory.root,
@@ -402,7 +437,7 @@ class DownloadService extends GetxService {
   Future<String?> resumeTask(String taskId) async {
     final task = await bg.FileDownloader().taskForId(taskId);
     if (task is bg.DownloadTask) {
-      await bg.FileDownloader().resume(task);
+      await bg.FileDownloader().resume(await _withLiveProxy(task));
       return taskId;
     }
     return null;
@@ -411,7 +446,7 @@ class DownloadService extends GetxService {
   Future<String?> retryTask(String taskId) async {
     final task = await bg.FileDownloader().taskForId(taskId);
     if (task is bg.DownloadTask) {
-      await bg.FileDownloader().resume(task);
+      await bg.FileDownloader().resume(await _withLiveProxy(task));
       return taskId;
     }
     return null;

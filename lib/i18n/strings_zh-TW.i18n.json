@@ -356,7 +356,10 @@
     "check_update": "檢查更新",
     "check_update_desc": "檢查是否有新版本可用",
     "third_party_license": "第三方庫許可",
-    "third_party_license_desc": "查看第三方庫的許可證"
+    "third_party_license_desc": "查看第三方庫的許可證",
+    "experimental": "實驗性功能",
+    "accelerated_transfer": "加速下載與播放",
+    "accelerated_transfer_desc": "線上播放和下載經由本機代理，多個連線並行分段取得。適合單一連線限速的線路，連線數更多，可能失敗；下載時需保持應用程式執行"
   },
   "theme": {
     "system": "跟隨系統",

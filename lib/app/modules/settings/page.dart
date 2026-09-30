@@ -229,6 +229,21 @@ class SettingsPage extends GetView<SettingsController> {
     );
   }
 
+  Widget _buildAcceleratedTransferSetting(BuildContext context) {
+    return Obx(
+      () => _buildSwitchSetting(
+        context,
+        title: t.settings.accelerated_transfer,
+        description: t.settings.accelerated_transfer_desc,
+        iconData: Icons.speed,
+        value: controller.configService.acceleratedTransfer,
+        onChanged: (value) {
+          controller.configService.acceleratedTransfer = value;
+        },
+      ),
+    );
+  }
+
   Widget _buildAutoPlaySetting(BuildContext context) {
     return Obx(
       () => _buildSwitchSetting(
@@ -558,6 +573,8 @@ class SettingsPage extends GetView<SettingsController> {
           if (!GetPlatform.isIOS) SettingTitle(title: t.settings.download),
           if (!GetPlatform.isIOS) _buildDownloadPathSetting(context),
           if (GetPlatform.isAndroid) _buildMediaScanSetting(context),
+          SettingTitle(title: t.settings.experimental),
+          _buildAcceleratedTransferSetting(context),
           SettingTitle(title: t.settings.logging),
           _buildLoggingSetting(context),
           __buildClearLogsButton(context),

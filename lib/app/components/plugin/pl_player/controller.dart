@@ -13,9 +13,11 @@ import 'package:media_kit_video/media_kit_video.dart';
 import 'package:screen_brightness/screen_brightness.dart';
 
 import '../../../data/providers/storage_provider.dart';
+import '../../../data/services/config_service.dart';
 import '../../../data/services/discord_rpc_service.dart';
 import '../../../data/services/plugin/pl_player/service_locator.dart';
 import '../../../utils/log_util.dart';
+import '../../../utils/parallel_range_proxy.dart';
 import 'index.dart';
 
 class PlPlayerController {
@@ -409,6 +411,27 @@ class PlPlayerController {
       }
     }
 
+    // Experimental: online videos go through the local parallel proxy, which
+    // fetches upstream itself (through the app proxy, if any), and the player
+    // reads further ahead so several ranges stay in flight. The proxy sends
+    // no custom headers, so sources that need them play directly.
+    String? videoSource = dataSource.videoSource;
+    final bool accelerated =
+        Get.find<ConfigService>().acceleratedTransfer &&
+        dataSource.type == DataSourceType.network &&
+        (dataSource.httpHeaders?.isEmpty ?? true) &&
+        videoSource != null &&
+        ParallelRangeProxy.instance.serves(videoSource);
+    if (accelerated) {
+      videoSource = await ParallelRangeProxy.instance.wrap(videoSource);
+      await pp.setProperty("http-proxy", "");
+      await pp.setProperty("demuxer-readahead-secs", "60");
+      await pp.setProperty("demuxer-max-bytes", "${64 * 1024 * 1024}");
+    } else {
+      await pp.setProperty("demuxer-readahead-secs", "1");
+      await pp.setProperty("demuxer-max-bytes", "${5 * 1024 * 1024}");
+    }
+
     await pp.setProperty('demuxer-lavf-o', 'allowed_extensions=[ts,key]');
 
     _videoController =
@@ -433,7 +456,7 @@ class PlPlayerController {
       );
     }
     await player.open(
-      Media(dataSource.videoSource!, httpHeaders: dataSource.httpHeaders),
+      Media(videoSource!, httpHeaders: dataSource.httpHeaders),
       play: false,
     );
     // 音轨

@@ -23,11 +23,13 @@
 
     <!-- requestLegacyExternalStorage: on Android 10, downloads are written to user-chosen folders
          by file path, which scoped storage would block. Ignored on Android 11+, where
-         MANAGE_EXTERNAL_STORAGE is used instead. open_file 4 also merges this attribute. -->
+         MANAGE_EXTERNAL_STORAGE is used instead. open_file 4 also merges this attribute.
+         networkSecurityConfig: allows plain HTTP to 127.0.0.1 only, for the local download proxy. -->
     <application
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher"
         android:label="IwrQk"
+        android:networkSecurityConfig="@xml/network_security_config"
         android:requestLegacyExternalStorage="true">
         <activity
             android:name=".MainActivity"

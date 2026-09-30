@@ -605,6 +605,9 @@ class Translations$settings$zh_CN extends Translations$settings$en {
 	@override String get check_update_desc => '检查是否有新版本可用';
 	@override String get third_party_license => '第三方库许可';
 	@override String get third_party_license_desc => '查看第三方库的许可证';
+	@override String get experimental => '实验性功能';
+	@override String get accelerated_transfer => '加速下载与播放';
+	@override String get accelerated_transfer_desc => '在线播放和下载经由本机代理，多个连接并行分段获取。适合单连接限速的线路，连接数更多，可能失败；下载时需保持应用运行';
 }
 
 // Path: theme
@@ -1178,6 +1181,9 @@ extension on TranslationsZhCn {
 			'settings.check_update_desc' => '检查是否有新版本可用',
 			'settings.third_party_license' => '第三方库许可',
 			'settings.third_party_license_desc' => '查看第三方库的许可证',
+			'settings.experimental' => '实验性功能',
+			'settings.accelerated_transfer' => '加速下载与播放',
+			'settings.accelerated_transfer_desc' => '在线播放和下载经由本机代理，多个连接并行分段获取。适合单连接限速的线路，连接数更多，可能失败；下载时需保持应用运行',
 			'theme.system' => '跟随系统',
 			'theme.light' => '浅色',
 			'theme.dark' => '深色',

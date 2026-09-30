@@ -1166,6 +1166,15 @@ class Translations$settings$en {
 
 	/// en: 'View the license of third party libraries'
 	String get third_party_license_desc => 'View the license of third party libraries';
+
+	/// en: 'Experimental'
+	String get experimental => 'Experimental';
+
+	/// en: 'Accelerated downloads and playback'
+	String get accelerated_transfer => 'Accelerated downloads and playback';
+
+	/// en: 'Plays and downloads videos through a local proxy that fetches several parts at once. Faster where each connection is throttled; uses more connections and may fail. Keep the app open while downloading'
+	String get accelerated_transfer_desc => 'Plays and downloads videos through a local proxy that fetches several parts at once. Faster where each connection is throttled; uses more connections and may fail. Keep the app open while downloading';
 }
 
 // Path: theme
@@ -1927,6 +1936,9 @@ extension on Translations {
 			'settings.check_update_desc' => 'Check if there is a new version available',
 			'settings.third_party_license' => 'Third Party License',
 			'settings.third_party_license_desc' => 'View the license of third party libraries',
+			'settings.experimental' => 'Experimental',
+			'settings.accelerated_transfer' => 'Accelerated downloads and playback',
+			'settings.accelerated_transfer_desc' => 'Plays and downloads videos through a local proxy that fetches several parts at once. Faster where each connection is throttled; uses more connections and may fail. Keep the app open while downloading',
 			'theme.system' => 'System',
 			'theme.light' => 'Light',
 			'theme.dark' => 'Dark',

@@ -35,6 +35,8 @@ abstract class ConfigKey {
   static const String translationEngine = "translationEngine";
   static const String enabledTranslationEngines = "enabledTranslationEngines";
   static const String translationDisplayMode = "translationDisplayMode";
+
+  static const String acceleratedTransfer = "acceleratedTransfer";
 }
 
 class ConfigService extends GetxService {
@@ -110,6 +112,15 @@ class ConfigService extends GetxService {
   set translationDisplayMode(TranslationDisplayMode mode) {
     _translationDisplayMode.value = mode;
     setting[ConfigKey.translationDisplayMode] = mode.name;
+  }
+
+  /// Experimental: plays and downloads videos through a local proxy that
+  /// fetches several ranges at once.
+  final RxBool _acceleratedTransfer = false.obs;
+  bool get acceleratedTransfer => _acceleratedTransfer.value;
+  set acceleratedTransfer(bool value) {
+    _acceleratedTransfer.value = value;
+    setting[ConfigKey.acceleratedTransfer] = value;
   }
 
   final RxDouble _gridChildAspectRatio = 1.0.obs;
@@ -211,5 +222,10 @@ class ConfigService extends GetxService {
           setting.get(ConfigKey.translationDisplayMode),
         ) ??
         TranslationDisplayMode.replace;
+
+    _acceleratedTransfer.value = setting.get(
+      ConfigKey.acceleratedTransfer,
+      defaultValue: false,
+    );
   }
 }
