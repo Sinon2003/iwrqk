@@ -32,23 +32,35 @@ jobs:
           java-version: "17"
           cache: gradle
 
+      # Without the signing secrets, APKs would be signed with a throwaway key
+      # and could not update existing installs, so nothing is built.
       - name: Decode keystore
+        id: keystore
         run: |
+          if [ -z "$ENCODED_KEYSTORE" ]; then
+            echo "::notice::No signing key configured; skipping the Android build."
+            echo "configured=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
           echo "$ENCODED_KEYSTORE" | base64 -di > "${{ github.workspace }}/android/app/keystore.jks"
           ls -l "${{ github.workspace }}/android/app/keystore.jks"
+          echo "configured=true" >> "$GITHUB_OUTPUT"
         env:
           ENCODED_KEYSTORE: ${{ secrets.ENCODED_KEYSTORE }}
 
       - name: Flutter pub get
+        if: steps.keystore.outputs.configured == 'true'
         run: flutter pub get
 
       - name: Get app version
+        if: steps.keystore.outputs.configured == 'true'
         id: get_version
         shell: bash
         run: |
           echo "version=$(grep -m1 version: pubspec.yaml | awk '{print $2}' | sed 's/\"//g')" >> $GITHUB_OUTPUT
 
       - name: Build APK (release)
+        if: steps.keystore.outputs.configured == 'true'
         run: flutter build apk --release
         env:
           KEYSTORE: ${{ github.workspace }}/android/app/keystore.jks
@@ -57,14 +69,14 @@ jobs:
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
 
       - name: Upload APK artifact (manual trigger)
-        if: github.event_name == 'workflow_dispatch'
+        if: steps.keystore.outputs.configured == 'true' && github.event_name == 'workflow_dispatch'
         uses: actions/upload-artifact@v4
         with:
           name: android-apk
           path: build/app/outputs/apk/release/*.apk
 
       - name: Publish release (append APK)
-        if: github.event_name != 'workflow_dispatch'
+        if: steps.keystore.outputs.configured == 'true' && github.event_name != 'workflow_dispatch'
         uses: ncipollo/release-action@v1
         with:
           tag: ${{ github.ref_name }}
