@@ -16,22 +16,22 @@ class TranslationsZhTw extends Translations with BaseTranslations<AppLocale, Tra
 	/// Constructing via the enum [AppLocale.build] is preferred.
 	TranslationsZhTw({Map<String, Node>? overrides, PluralResolver? cardinalResolver, PluralResolver? ordinalResolver, TranslationMetadata<AppLocale, Translations>? meta})
 		: assert(overrides == null, 'Set "translation_overrides: true" in order to enable this feature.'),
-		  $meta = meta ?? TranslationMetadata(
+		  _meta = meta ?? TranslationMetadata(
 		    locale: AppLocale.zhTw,
 		    overrides: overrides ?? {},
 		    cardinalResolver: cardinalResolver,
 		    ordinalResolver: ordinalResolver,
 		  ),
 		  super(cardinalResolver: cardinalResolver, ordinalResolver: ordinalResolver) {
-		super.$meta.setFlatMapFunction($meta.getTranslation); // copy base translations to super.$meta
-		$meta.setFlatMapFunction(_flatMapFunction);
+		_meta.setFlatMapFunction(_flatMapFunction);
 	}
 
 	/// Metadata for the translations of <zh-TW>.
-	@override final TranslationMetadata<AppLocale, Translations> $meta;
+	final TranslationMetadata<AppLocale, Translations> _meta;
+	@override TranslationMetadata<AppLocale, Translations> get $meta => _meta;
 
 	/// Access flat map
-	@override dynamic operator[](String key) => $meta.getTranslation(key) ?? super.$meta.getTranslation(key);
+	@override dynamic operator[](String key) => _meta.getTranslation(key) ?? super[key];
 
 	late final TranslationsZhTw _root = this; // ignore: unused_field
 
@@ -39,40 +39,40 @@ class TranslationsZhTw extends Translations with BaseTranslations<AppLocale, Tra
 	TranslationsZhTw $copyWith({TranslationMetadata<AppLocale, Translations>? meta}) => TranslationsZhTw(meta: meta ?? this.$meta);
 
 	// Translations
-	@override late final _TranslationsNavZhTw nav = _TranslationsNavZhTw._(_root);
-	@override late final _TranslationsRulesZhTw rules = _TranslationsRulesZhTw._(_root);
-	@override late final _TranslationsCommonZhTw common = _TranslationsCommonZhTw._(_root);
-	@override late final _TranslationsRefreshZhTw refresh = _TranslationsRefreshZhTw._(_root);
-	@override late final _TranslationsRecordsZhTw records = _TranslationsRecordsZhTw._(_root);
-	@override late final _TranslationsAccountZhTw account = _TranslationsAccountZhTw._(_root);
-	@override late final _TranslationsProfileZhTw profile = _TranslationsProfileZhTw._(_root);
-	@override late final _TranslationsSortZhTw sort = _TranslationsSortZhTw._(_root);
-	@override late final _TranslationsFilterZhTw filter = _TranslationsFilterZhTw._(_root);
-	@override late final _TranslationsSearchZhTw search = _TranslationsSearchZhTw._(_root);
-	@override late final _TranslationsTimeZhTw time = _TranslationsTimeZhTw._(_root);
-	@override late final _TranslationsMediaZhTw media = _TranslationsMediaZhTw._(_root);
-	@override late final _TranslationsPlayerZhTw player = _TranslationsPlayerZhTw._(_root);
-	@override late final _TranslationsCommentZhTw comment = _TranslationsCommentZhTw._(_root);
-	@override late final _TranslationsUserZhTw user = _TranslationsUserZhTw._(_root);
-	@override late final _TranslationsFriendZhTw friend = _TranslationsFriendZhTw._(_root);
-	@override late final _TranslationsBlockedTagsZhTw blocked_tags = _TranslationsBlockedTagsZhTw._(_root);
-	@override late final _TranslationsDownloadZhTw download = _TranslationsDownloadZhTw._(_root);
-	@override late final _TranslationsPlaylistZhTw playlist = _TranslationsPlaylistZhTw._(_root);
-	@override late final _TranslationsChannelZhTw channel = _TranslationsChannelZhTw._(_root);
-	@override late final _TranslationsCreateThreadZhTw create_thread = _TranslationsCreateThreadZhTw._(_root);
-	@override late final _TranslationsNotificationsZhTw notifications = _TranslationsNotificationsZhTw._(_root);
-	@override late final _TranslationsSettingsZhTw settings = _TranslationsSettingsZhTw._(_root);
-	@override late final _TranslationsThemeZhTw theme = _TranslationsThemeZhTw._(_root);
-	@override late final _TranslationsColorsZhTw colors = _TranslationsColorsZhTw._(_root);
-	@override late final _TranslationsDisplayModeZhTw display_mode = _TranslationsDisplayModeZhTw._(_root);
-	@override late final _TranslationsProxyZhTw proxy = _TranslationsProxyZhTw._(_root);
-	@override late final _TranslationsMessageZhTw message = _TranslationsMessageZhTw._(_root);
-	@override late final _TranslationsErrorZhTw error = _TranslationsErrorZhTw._(_root);
+	@override late final Translations$nav$zh_TW nav = Translations$nav$zh_TW.internal(_root);
+	@override late final Translations$rules$zh_TW rules = Translations$rules$zh_TW.internal(_root);
+	@override late final Translations$common$zh_TW common = Translations$common$zh_TW.internal(_root);
+	@override late final Translations$refresh$zh_TW refresh = Translations$refresh$zh_TW.internal(_root);
+	@override late final Translations$records$zh_TW records = Translations$records$zh_TW.internal(_root);
+	@override late final Translations$account$zh_TW account = Translations$account$zh_TW.internal(_root);
+	@override late final Translations$profile$zh_TW profile = Translations$profile$zh_TW.internal(_root);
+	@override late final Translations$sort$zh_TW sort = Translations$sort$zh_TW.internal(_root);
+	@override late final Translations$filter$zh_TW filter = Translations$filter$zh_TW.internal(_root);
+	@override late final Translations$search$zh_TW search = Translations$search$zh_TW.internal(_root);
+	@override late final Translations$time$zh_TW time = Translations$time$zh_TW.internal(_root);
+	@override late final Translations$media$zh_TW media = Translations$media$zh_TW.internal(_root);
+	@override late final Translations$player$zh_TW player = Translations$player$zh_TW.internal(_root);
+	@override late final Translations$comment$zh_TW comment = Translations$comment$zh_TW.internal(_root);
+	@override late final Translations$user$zh_TW user = Translations$user$zh_TW.internal(_root);
+	@override late final Translations$friend$zh_TW friend = Translations$friend$zh_TW.internal(_root);
+	@override late final Translations$blocked_tags$zh_TW blocked_tags = Translations$blocked_tags$zh_TW.internal(_root);
+	@override late final Translations$download$zh_TW download = Translations$download$zh_TW.internal(_root);
+	@override late final Translations$playlist$zh_TW playlist = Translations$playlist$zh_TW.internal(_root);
+	@override late final Translations$channel$zh_TW channel = Translations$channel$zh_TW.internal(_root);
+	@override late final Translations$create_thread$zh_TW create_thread = Translations$create_thread$zh_TW.internal(_root);
+	@override late final Translations$notifications$zh_TW notifications = Translations$notifications$zh_TW.internal(_root);
+	@override late final Translations$settings$zh_TW settings = Translations$settings$zh_TW.internal(_root);
+	@override late final Translations$theme$zh_TW theme = Translations$theme$zh_TW.internal(_root);
+	@override late final Translations$colors$zh_TW colors = Translations$colors$zh_TW.internal(_root);
+	@override late final Translations$display_mode$zh_TW display_mode = Translations$display_mode$zh_TW.internal(_root);
+	@override late final Translations$proxy$zh_TW proxy = Translations$proxy$zh_TW.internal(_root);
+	@override late final Translations$message$zh_TW message = Translations$message$zh_TW.internal(_root);
+	@override late final Translations$error$zh_TW error = Translations$error$zh_TW.internal(_root);
 }
 
 // Path: nav
-class _TranslationsNavZhTw extends TranslationsNavEn {
-	_TranslationsNavZhTw._(TranslationsZhTw root) : this._root = root, super.internal(root);
+class Translations$nav$zh_TW extends Translations$nav$en {
+	Translations$nav$zh_TW.internal(TranslationsZhTw root) : this._root = root, super.internal(root);
 
 	final TranslationsZhTw _root; // ignore: unused_field
 
@@ -85,8 +85,8 @@ class _TranslationsNavZhTw extends TranslationsNavEn {
 }
 
 // Path: rules
-class _TranslationsRulesZhTw extends TranslationsRulesEn {
-	_TranslationsRulesZhTw._(TranslationsZhTw root) : this._root = root, super.internal(root);
+class Translations$rules$zh_TW extends Translations$rules$en {
+	Translations$rules$zh_TW.internal(TranslationsZhTw root) : this._root = root, super.internal(root);
 
 	final TranslationsZhTw _root; // ignore: unused_field
 
@@ -97,8 +97,8 @@ class _TranslationsRulesZhTw extends TranslationsRulesEn {
 }
 
 // Path: common
-class _TranslationsCommonZhTw extends TranslationsCommonEn {
-	_TranslationsCommonZhTw._(TranslationsZhTw root) : this._root = root, super.internal(root);
+class Translations$common$zh_TW extends Translations$common$en {
+	Translations$common$zh_TW.internal(TranslationsZhTw root) : this._root = root, super.internal(root);
 
 	final TranslationsZhTw _root; // ignore: unused_field
 
@@ -112,8 +112,8 @@ class _TranslationsCommonZhTw extends TranslationsCommonEn {
 }
 
 // Path: refresh
-class _TranslationsRefreshZhTw extends TranslationsRefreshEn {
-	_TranslationsRefreshZhTw._(TranslationsZhTw root) : this._root = root, super.internal(root);
+class Translations$refresh$zh_TW extends Translations$refresh$en {
+	Translations$refresh$zh_TW.internal(TranslationsZhTw root) : this._root = root, super.internal(root);
 
 	final TranslationsZhTw _root; // ignore: unused_field
 
@@ -128,8 +128,8 @@ class _TranslationsRefreshZhTw extends TranslationsRefreshEn {
 }
 
 // Path: records
-class _TranslationsRecordsZhTw extends TranslationsRecordsEn {
-	_TranslationsRecordsZhTw._(TranslationsZhTw root) : this._root = root, super.internal(root);
+class Translations$records$zh_TW extends Translations$records$en {
+	Translations$records$zh_TW.internal(TranslationsZhTw root) : this._root = root, super.internal(root);
 
 	final TranslationsZhTw _root; // ignore: unused_field
 
@@ -143,8 +143,8 @@ class _TranslationsRecordsZhTw extends TranslationsRecordsEn {
 }
 
 // Path: account
-class _TranslationsAccountZhTw extends TranslationsAccountEn {
-	_TranslationsAccountZhTw._(TranslationsZhTw root) : this._root = root, super.internal(root);
+class Translations$account$zh_TW extends Translations$account$en {
+	Translations$account$zh_TW.internal(TranslationsZhTw root) : this._root = root, super.internal(root);
 
 	final TranslationsZhTw _root; // ignore: unused_field
 
@@ -161,8 +161,8 @@ class _TranslationsAccountZhTw extends TranslationsAccountEn {
 }
 
 // Path: profile
-class _TranslationsProfileZhTw extends TranslationsProfileEn {
-	_TranslationsProfileZhTw._(TranslationsZhTw root) : this._root = root, super.internal(root);
+class Translations$profile$zh_TW extends Translations$profile$en {
+	Translations$profile$zh_TW.internal(TranslationsZhTw root) : this._root = root, super.internal(root);
 
 	final TranslationsZhTw _root; // ignore: unused_field
 
@@ -185,23 +185,23 @@ class _TranslationsProfileZhTw extends TranslationsProfileEn {
 }
 
 // Path: sort
-class _TranslationsSortZhTw extends TranslationsSortEn {
-	_TranslationsSortZhTw._(TranslationsZhTw root) : this._root = root, super.internal(root);
+class Translations$sort$zh_TW extends Translations$sort$en {
+	Translations$sort$zh_TW.internal(TranslationsZhTw root) : this._root = root, super.internal(root);
 
 	final TranslationsZhTw _root; // ignore: unused_field
 
 	// Translations
-	@override String get relevance => '関連性';
 	@override String get latest => '最新';
 	@override String get trending => '趨勢';
 	@override String get popularity => '熱門';
 	@override String get most_views => '最多觀看';
 	@override String get most_likes => '最多按讚';
+	@override String get relevance => '相關度';
 }
 
 // Path: filter
-class _TranslationsFilterZhTw extends TranslationsFilterEn {
-	_TranslationsFilterZhTw._(TranslationsZhTw root) : this._root = root, super.internal(root);
+class Translations$filter$zh_TW extends Translations$filter$en {
+	Translations$filter$zh_TW.internal(TranslationsZhTw root) : this._root = root, super.internal(root);
 
 	final TranslationsZhTw _root; // ignore: unused_field
 
@@ -220,21 +220,21 @@ class _TranslationsFilterZhTw extends TranslationsFilterEn {
 }
 
 // Path: search
-class _TranslationsSearchZhTw extends TranslationsSearchEn {
-	_TranslationsSearchZhTw._(TranslationsZhTw root) : this._root = root, super.internal(root);
+class Translations$search$zh_TW extends Translations$search$en {
+	Translations$search$zh_TW.internal(TranslationsZhTw root) : this._root = root, super.internal(root);
 
 	final TranslationsZhTw _root; // ignore: unused_field
 
 	// Translations
 	@override String get users => '使用者';
+	@override String get threads => '帖子';
 	@override String get search => '搜尋';
-	@override String get threads => "帖子";
-	@override late final _TranslationsSearchHistoryZhTw history = _TranslationsSearchHistoryZhTw._(_root);
+	@override late final Translations$search$history$zh_TW history = Translations$search$history$zh_TW.internal(_root);
 }
 
 // Path: time
-class _TranslationsTimeZhTw extends TranslationsTimeEn {
-	_TranslationsTimeZhTw._(TranslationsZhTw root) : this._root = root, super.internal(root);
+class Translations$time$zh_TW extends Translations$time$en {
+	Translations$time$zh_TW.internal(TranslationsZhTw root) : this._root = root, super.internal(root);
 
 	final TranslationsZhTw _root; // ignore: unused_field
 
@@ -246,8 +246,8 @@ class _TranslationsTimeZhTw extends TranslationsTimeEn {
 }
 
 // Path: media
-class _TranslationsMediaZhTw extends TranslationsMediaEn {
-	_TranslationsMediaZhTw._(TranslationsZhTw root) : this._root = root, super.internal(root);
+class Translations$media$zh_TW extends Translations$media$en {
+	Translations$media$zh_TW.internal(TranslationsZhTw root) : this._root = root, super.internal(root);
 
 	final TranslationsZhTw _root; // ignore: unused_field
 
@@ -265,8 +265,8 @@ class _TranslationsMediaZhTw extends TranslationsMediaEn {
 }
 
 // Path: player
-class _TranslationsPlayerZhTw extends TranslationsPlayerEn {
-	_TranslationsPlayerZhTw._(TranslationsZhTw root) : this._root = root, super.internal(root);
+class Translations$player$zh_TW extends Translations$player$en {
+	Translations$player$zh_TW.internal(TranslationsZhTw root) : this._root = root, super.internal(root);
 
 	final TranslationsZhTw _root; // ignore: unused_field
 
@@ -278,14 +278,14 @@ class _TranslationsPlayerZhTw extends TranslationsPlayerEn {
 	@override String get select_playback_speed => '選擇播放速度';
 	@override String get aspect_ratio => '長寬比';
 	@override String get select_aspect_ratio => '選擇長寬比';
-	@override late final _TranslationsPlayerAspectRatiosZhTw aspect_ratios = _TranslationsPlayerAspectRatiosZhTw._(_root);
+	@override late final Translations$player$aspect_ratios$zh_TW aspect_ratios = Translations$player$aspect_ratios$zh_TW.internal(_root);
 	@override String seconds({required Object value}) => '${value} 秒';
 	@override String get double_speed => '2 倍';
 }
 
 // Path: comment
-class _TranslationsCommentZhTw extends TranslationsCommentEn {
-	_TranslationsCommentZhTw._(TranslationsZhTw root) : this._root = root, super.internal(root);
+class Translations$comment$zh_TW extends Translations$comment$en {
+	Translations$comment$zh_TW.internal(TranslationsZhTw root) : this._root = root, super.internal(root);
 
 	final TranslationsZhTw _root; // ignore: unused_field
 
@@ -301,8 +301,8 @@ class _TranslationsCommentZhTw extends TranslationsCommentEn {
 }
 
 // Path: user
-class _TranslationsUserZhTw extends TranslationsUserEn {
-	_TranslationsUserZhTw._(TranslationsZhTw root) : this._root = root, super.internal(root);
+class Translations$user$zh_TW extends Translations$user$en {
+	Translations$user$zh_TW.internal(TranslationsZhTw root) : this._root = root, super.internal(root);
 
 	final TranslationsZhTw _root; // ignore: unused_field
 
@@ -319,8 +319,8 @@ class _TranslationsUserZhTw extends TranslationsUserEn {
 }
 
 // Path: friend
-class _TranslationsFriendZhTw extends TranslationsFriendEn {
-	_TranslationsFriendZhTw._(TranslationsZhTw root) : this._root = root, super.internal(root);
+class Translations$friend$zh_TW extends Translations$friend$en {
+	Translations$friend$zh_TW.internal(TranslationsZhTw root) : this._root = root, super.internal(root);
 
 	final TranslationsZhTw _root; // ignore: unused_field
 
@@ -334,8 +334,8 @@ class _TranslationsFriendZhTw extends TranslationsFriendEn {
 }
 
 // Path: blocked_tags
-class _TranslationsBlockedTagsZhTw extends TranslationsBlockedTagsEn {
-	_TranslationsBlockedTagsZhTw._(TranslationsZhTw root) : this._root = root, super.internal(root);
+class Translations$blocked_tags$zh_TW extends Translations$blocked_tags$en {
+	Translations$blocked_tags$zh_TW.internal(TranslationsZhTw root) : this._root = root, super.internal(root);
 
 	final TranslationsZhTw _root; // ignore: unused_field
 
@@ -345,8 +345,8 @@ class _TranslationsBlockedTagsZhTw extends TranslationsBlockedTagsEn {
 }
 
 // Path: download
-class _TranslationsDownloadZhTw extends TranslationsDownloadEn {
-	_TranslationsDownloadZhTw._(TranslationsZhTw root) : this._root = root, super.internal(root);
+class Translations$download$zh_TW extends Translations$download$en {
+	Translations$download$zh_TW.internal(TranslationsZhTw root) : this._root = root, super.internal(root);
 
 	final TranslationsZhTw _root; // ignore: unused_field
 
@@ -367,8 +367,8 @@ class _TranslationsDownloadZhTw extends TranslationsDownloadEn {
 }
 
 // Path: playlist
-class _TranslationsPlaylistZhTw extends TranslationsPlaylistEn {
-	_TranslationsPlaylistZhTw._(TranslationsZhTw root) : this._root = root, super.internal(root);
+class Translations$playlist$zh_TW extends Translations$playlist$en {
+	Translations$playlist$zh_TW.internal(TranslationsZhTw root) : this._root = root, super.internal(root);
 
 	final TranslationsZhTw _root; // ignore: unused_field
 
@@ -382,8 +382,8 @@ class _TranslationsPlaylistZhTw extends TranslationsPlaylistEn {
 }
 
 // Path: channel
-class _TranslationsChannelZhTw extends TranslationsChannelEn {
-	_TranslationsChannelZhTw._(TranslationsZhTw root) : this._root = root, super.internal(root);
+class Translations$channel$zh_TW extends Translations$channel$en {
+	Translations$channel$zh_TW.internal(TranslationsZhTw root) : this._root = root, super.internal(root);
 
 	final TranslationsZhTw _root; // ignore: unused_field
 
@@ -402,8 +402,8 @@ class _TranslationsChannelZhTw extends TranslationsChannelEn {
 }
 
 // Path: create_thread
-class _TranslationsCreateThreadZhTw extends TranslationsCreateThreadEn {
-	_TranslationsCreateThreadZhTw._(TranslationsZhTw root) : this._root = root, super.internal(root);
+class Translations$create_thread$zh_TW extends Translations$create_thread$en {
+	Translations$create_thread$zh_TW.internal(TranslationsZhTw root) : this._root = root, super.internal(root);
 
 	final TranslationsZhTw _root; // ignore: unused_field
 
@@ -414,8 +414,8 @@ class _TranslationsCreateThreadZhTw extends TranslationsCreateThreadEn {
 }
 
 // Path: notifications
-class _TranslationsNotificationsZhTw extends TranslationsNotificationsEn {
-	_TranslationsNotificationsZhTw._(TranslationsZhTw root) : this._root = root, super.internal(root);
+class Translations$notifications$zh_TW extends Translations$notifications$en {
+	Translations$notifications$zh_TW.internal(TranslationsZhTw root) : this._root = root, super.internal(root);
 
 	final TranslationsZhTw _root; // ignore: unused_field
 
@@ -430,8 +430,8 @@ class _TranslationsNotificationsZhTw extends TranslationsNotificationsEn {
 }
 
 // Path: settings
-class _TranslationsSettingsZhTw extends TranslationsSettingsEn {
-	_TranslationsSettingsZhTw._(TranslationsZhTw root) : this._root = root, super.internal(root);
+class Translations$settings$zh_TW extends Translations$settings$en {
+	Translations$settings$zh_TW.internal(TranslationsZhTw root) : this._root = root, super.internal(root);
 
 	final TranslationsZhTw _root; // ignore: unused_field
 
@@ -449,6 +449,8 @@ class _TranslationsSettingsZhTw extends TranslationsSettingsEn {
 	@override String get display_mode_desc => '設定該軟體的顯示模式';
 	@override String get work_mode => '工作模式';
 	@override String get work_mode_desc => '隱藏所有 NSFW 內容的封面';
+	@override String get to_ai_site => '切換到AI站點內容';
+	@override String get to_ai_site_desc => '切換到AI站點查看AIGC內容';
 	@override String get animated_preview => '動畫預覽';
 	@override String get animated_preview_desc => '在懸停或長按時顯示可用的影片動畫預覽';
 	@override String get network => '網路設定';
@@ -479,13 +481,11 @@ class _TranslationsSettingsZhTw extends TranslationsSettingsEn {
 	@override String get check_update_desc => '檢查是否有新版本可用';
 	@override String get third_party_license => '第三方庫許可';
 	@override String get third_party_license_desc => '查看第三方庫的許可證';
-	@override String get to_ai_site => '切換到AI站點內容';
-	@override String get to_ai_site_desc => '切換到AI站點查看AIGC內容';
 }
 
 // Path: theme
-class _TranslationsThemeZhTw extends TranslationsThemeEn {
-	_TranslationsThemeZhTw._(TranslationsZhTw root) : this._root = root, super.internal(root);
+class Translations$theme$zh_TW extends Translations$theme$en {
+	Translations$theme$zh_TW.internal(TranslationsZhTw root) : this._root = root, super.internal(root);
 
 	final TranslationsZhTw _root; // ignore: unused_field
 
@@ -496,8 +496,8 @@ class _TranslationsThemeZhTw extends TranslationsThemeEn {
 }
 
 // Path: colors
-class _TranslationsColorsZhTw extends TranslationsColorsEn {
-	_TranslationsColorsZhTw._(TranslationsZhTw root) : this._root = root, super.internal(root);
+class Translations$colors$zh_TW extends Translations$colors$en {
+	Translations$colors$zh_TW.internal(TranslationsZhTw root) : this._root = root, super.internal(root);
 
 	final TranslationsZhTw _root; // ignore: unused_field
 
@@ -523,8 +523,8 @@ class _TranslationsColorsZhTw extends TranslationsColorsEn {
 }
 
 // Path: display_mode
-class _TranslationsDisplayModeZhTw extends TranslationsDisplayModeEn {
-	_TranslationsDisplayModeZhTw._(TranslationsZhTw root) : this._root = root, super.internal(root);
+class Translations$display_mode$zh_TW extends Translations$display_mode$en {
+	Translations$display_mode$zh_TW.internal(TranslationsZhTw root) : this._root = root, super.internal(root);
 
 	final TranslationsZhTw _root; // ignore: unused_field
 
@@ -535,8 +535,8 @@ class _TranslationsDisplayModeZhTw extends TranslationsDisplayModeEn {
 }
 
 // Path: proxy
-class _TranslationsProxyZhTw extends TranslationsProxyEn {
-	_TranslationsProxyZhTw._(TranslationsZhTw root) : this._root = root, super.internal(root);
+class Translations$proxy$zh_TW extends Translations$proxy$en {
+	Translations$proxy$zh_TW.internal(TranslationsZhTw root) : this._root = root, super.internal(root);
 
 	final TranslationsZhTw _root; // ignore: unused_field
 
@@ -546,8 +546,8 @@ class _TranslationsProxyZhTw extends TranslationsProxyEn {
 }
 
 // Path: message
-class _TranslationsMessageZhTw extends TranslationsMessageEn {
-	_TranslationsMessageZhTw._(TranslationsZhTw root) : this._root = root, super.internal(root);
+class Translations$message$zh_TW extends Translations$message$en {
+	Translations$message$zh_TW.internal(TranslationsZhTw root) : this._root = root, super.internal(root);
 
 	final TranslationsZhTw _root; // ignore: unused_field
 
@@ -557,18 +557,18 @@ class _TranslationsMessageZhTw extends TranslationsMessageEn {
 	@override String get restart_required => '重啟後生效';
 	@override String get please_type_host => '請輸入主機名';
 	@override String get please_type_port => '請輸入端口';
-	@override late final _TranslationsMessageAccountZhTw account = _TranslationsMessageAccountZhTw._(_root);
-	@override late final _TranslationsMessageCommentZhTw comment = _TranslationsMessageCommentZhTw._(_root);
-	@override late final _TranslationsMessageCreateThreadZhTw create_thread = _TranslationsMessageCreateThreadZhTw._(_root);
-	@override late final _TranslationsMessageBlockedTagsZhTw blocked_tags = _TranslationsMessageBlockedTagsZhTw._(_root);
-	@override late final _TranslationsMessagePlaylistZhTw playlist = _TranslationsMessagePlaylistZhTw._(_root);
-	@override late final _TranslationsMessageDownloadZhTw download = _TranslationsMessageDownloadZhTw._(_root);
-	@override late final _TranslationsMessageUpdateZhTw update = _TranslationsMessageUpdateZhTw._(_root);
+	@override late final Translations$message$account$zh_TW account = Translations$message$account$zh_TW.internal(_root);
+	@override late final Translations$message$comment$zh_TW comment = Translations$message$comment$zh_TW.internal(_root);
+	@override late final Translations$message$create_thread$zh_TW create_thread = Translations$message$create_thread$zh_TW.internal(_root);
+	@override late final Translations$message$blocked_tags$zh_TW blocked_tags = Translations$message$blocked_tags$zh_TW.internal(_root);
+	@override late final Translations$message$playlist$zh_TW playlist = Translations$message$playlist$zh_TW.internal(_root);
+	@override late final Translations$message$download$zh_TW download = Translations$message$download$zh_TW.internal(_root);
+	@override late final Translations$message$update$zh_TW update = Translations$message$update$zh_TW.internal(_root);
 }
 
 // Path: error
-class _TranslationsErrorZhTw extends TranslationsErrorEn {
-	_TranslationsErrorZhTw._(TranslationsZhTw root) : this._root = root, super.internal(root);
+class Translations$error$zh_TW extends Translations$error$en {
+	Translations$error$zh_TW.internal(TranslationsZhTw root) : this._root = root, super.internal(root);
 
 	final TranslationsZhTw _root; // ignore: unused_field
 
@@ -578,12 +578,12 @@ class _TranslationsErrorZhTw extends TranslationsErrorEn {
 	@override String get fetch_user_info_failed => '無法獲取使用者資訊';
 	@override String get invalid_path => '無效的路徑';
 	@override String get intercept_app_exit => '攔截應用程式退出';
-	@override late final _TranslationsErrorAccountZhTw account = _TranslationsErrorAccountZhTw._(_root);
+	@override late final Translations$error$account$zh_TW account = Translations$error$account$zh_TW.internal(_root);
 }
 
 // Path: search.history
-class _TranslationsSearchHistoryZhTw extends TranslationsSearchHistoryEn {
-	_TranslationsSearchHistoryZhTw._(TranslationsZhTw root) : this._root = root, super.internal(root);
+class Translations$search$history$zh_TW extends Translations$search$history$en {
+	Translations$search$history$zh_TW.internal(TranslationsZhTw root) : this._root = root, super.internal(root);
 
 	final TranslationsZhTw _root; // ignore: unused_field
 
@@ -592,8 +592,8 @@ class _TranslationsSearchHistoryZhTw extends TranslationsSearchHistoryEn {
 }
 
 // Path: player.aspect_ratios
-class _TranslationsPlayerAspectRatiosZhTw extends TranslationsPlayerAspectRatiosEn {
-	_TranslationsPlayerAspectRatiosZhTw._(TranslationsZhTw root) : this._root = root, super.internal(root);
+class Translations$player$aspect_ratios$zh_TW extends Translations$player$aspect_ratios$en {
+	Translations$player$aspect_ratios$zh_TW.internal(TranslationsZhTw root) : this._root = root, super.internal(root);
 
 	final TranslationsZhTw _root; // ignore: unused_field
 
@@ -607,8 +607,8 @@ class _TranslationsPlayerAspectRatiosZhTw extends TranslationsPlayerAspectRatios
 }
 
 // Path: message.account
-class _TranslationsMessageAccountZhTw extends TranslationsMessageAccountEn {
-	_TranslationsMessageAccountZhTw._(TranslationsZhTw root) : this._root = root, super.internal(root);
+class Translations$message$account$zh_TW extends Translations$message$account$en {
+	Translations$message$account$zh_TW.internal(TranslationsZhTw root) : this._root = root, super.internal(root);
 
 	final TranslationsZhTw _root; // ignore: unused_field
 
@@ -624,8 +624,8 @@ class _TranslationsMessageAccountZhTw extends TranslationsMessageAccountEn {
 }
 
 // Path: message.comment
-class _TranslationsMessageCommentZhTw extends TranslationsMessageCommentEn {
-	_TranslationsMessageCommentZhTw._(TranslationsZhTw root) : this._root = root, super.internal(root);
+class Translations$message$comment$zh_TW extends Translations$message$comment$en {
+	Translations$message$comment$zh_TW.internal(TranslationsZhTw root) : this._root = root, super.internal(root);
 
 	final TranslationsZhTw _root; // ignore: unused_field
 
@@ -636,8 +636,8 @@ class _TranslationsMessageCommentZhTw extends TranslationsMessageCommentEn {
 }
 
 // Path: message.create_thread
-class _TranslationsMessageCreateThreadZhTw extends TranslationsMessageCreateThreadEn {
-	_TranslationsMessageCreateThreadZhTw._(TranslationsZhTw root) : this._root = root, super.internal(root);
+class Translations$message$create_thread$zh_TW extends Translations$message$create_thread$en {
+	Translations$message$create_thread$zh_TW.internal(TranslationsZhTw root) : this._root = root, super.internal(root);
 
 	final TranslationsZhTw _root; // ignore: unused_field
 
@@ -650,8 +650,8 @@ class _TranslationsMessageCreateThreadZhTw extends TranslationsMessageCreateThre
 }
 
 // Path: message.blocked_tags
-class _TranslationsMessageBlockedTagsZhTw extends TranslationsMessageBlockedTagsEn {
-	_TranslationsMessageBlockedTagsZhTw._(TranslationsZhTw root) : this._root = root, super.internal(root);
+class Translations$message$blocked_tags$zh_TW extends Translations$message$blocked_tags$en {
+	Translations$message$blocked_tags$zh_TW.internal(TranslationsZhTw root) : this._root = root, super.internal(root);
 
 	final TranslationsZhTw _root; // ignore: unused_field
 
@@ -662,8 +662,8 @@ class _TranslationsMessageBlockedTagsZhTw extends TranslationsMessageBlockedTags
 }
 
 // Path: message.playlist
-class _TranslationsMessagePlaylistZhTw extends TranslationsMessagePlaylistEn {
-	_TranslationsMessagePlaylistZhTw._(TranslationsZhTw root) : this._root = root, super.internal(root);
+class Translations$message$playlist$zh_TW extends Translations$message$playlist$en {
+	Translations$message$playlist$zh_TW.internal(TranslationsZhTw root) : this._root = root, super.internal(root);
 
 	final TranslationsZhTw _root; // ignore: unused_field
 
@@ -674,8 +674,8 @@ class _TranslationsMessagePlaylistZhTw extends TranslationsMessagePlaylistEn {
 }
 
 // Path: message.download
-class _TranslationsMessageDownloadZhTw extends TranslationsMessageDownloadEn {
-	_TranslationsMessageDownloadZhTw._(TranslationsZhTw root) : this._root = root, super.internal(root);
+class Translations$message$download$zh_TW extends Translations$message$download$en {
+	Translations$message$download$zh_TW.internal(TranslationsZhTw root) : this._root = root, super.internal(root);
 
 	final TranslationsZhTw _root; // ignore: unused_field
 
@@ -687,8 +687,8 @@ class _TranslationsMessageDownloadZhTw extends TranslationsMessageDownloadEn {
 }
 
 // Path: message.update
-class _TranslationsMessageUpdateZhTw extends TranslationsMessageUpdateEn {
-	_TranslationsMessageUpdateZhTw._(TranslationsZhTw root) : this._root = root, super.internal(root);
+class Translations$message$update$zh_TW extends Translations$message$update$en {
+	Translations$message$update$zh_TW.internal(TranslationsZhTw root) : this._root = root, super.internal(root);
 
 	final TranslationsZhTw _root; // ignore: unused_field
 
@@ -702,8 +702,8 @@ class _TranslationsMessageUpdateZhTw extends TranslationsMessageUpdateEn {
 }
 
 // Path: error.account
-class _TranslationsErrorAccountZhTw extends TranslationsErrorAccountEn {
-	_TranslationsErrorAccountZhTw._(TranslationsZhTw root) : this._root = root, super.internal(root);
+class Translations$error$account$zh_TW extends Translations$error$account$en {
+	Translations$error$account$zh_TW.internal(TranslationsZhTw root) : this._root = root, super.internal(root);
 
 	final TranslationsZhTw _root; // ignore: unused_field
 
@@ -777,6 +777,7 @@ extension on TranslationsZhTw {
 			'sort.popularity' => '熱門',
 			'sort.most_views' => '最多觀看',
 			'sort.most_likes' => '最多按讚',
+			'sort.relevance' => '相關度',
 			'filter.all' => '全部',
 			'filter.filter' => '篩選',
 			'filter.rating' => '分級',
@@ -789,6 +790,7 @@ extension on TranslationsZhTw {
 			'filter.select_year' => '選擇年份',
 			'filter.select_month' => '選擇月份',
 			'search.users' => '使用者',
+			'search.threads' => '帖子',
 			'search.search' => '搜尋',
 			'search.history.delete' => '刪除所有紀錄',
 			'time.seconds_ago' => ({required Object time}) => '${time} 秒前',
@@ -898,6 +900,8 @@ extension on TranslationsZhTw {
 			'settings.display_mode_desc' => '設定該軟體的顯示模式',
 			'settings.work_mode' => '工作模式',
 			'settings.work_mode_desc' => '隱藏所有 NSFW 內容的封面',
+			'settings.to_ai_site' => '切換到AI站點內容',
+			'settings.to_ai_site_desc' => '切換到AI站點查看AIGC內容',
 			'settings.animated_preview' => '動畫預覽',
 			'settings.animated_preview_desc' => '在懸停或長按時顯示可用的影片動畫預覽',
 			'settings.network' => '網路設定',
@@ -928,8 +932,6 @@ extension on TranslationsZhTw {
 			'settings.check_update_desc' => '檢查是否有新版本可用',
 			'settings.third_party_license' => '第三方庫許可',
 			'settings.third_party_license_desc' => '查看第三方庫的許可證',
-			'settings.to_ai_site' => '切換到AI站點內容',
-			'settings.to_ai_site_desc' => '切換到AI站點查看AIGC內容',
 			'theme.system' => '跟隨系統',
 			'theme.light' => '淺色',
 			'theme.dark' => '深色',

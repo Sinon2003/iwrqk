@@ -75,7 +75,8 @@
     "trending": "Trending",
     "popularity": "Popularity",
     "most_views": "Most views",
-    "most_likes": "Most likes"
+    "most_likes": "Most likes",
+    "relevance": "Relevance"
   },
   "filter": {
     "all": "All",
@@ -92,6 +93,7 @@
   },
   "search": {
     "users": "Users",
+    "threads": "Thread",
     "search": "Search",
     "history": {
       "delete": "Delete All"
@@ -231,6 +233,8 @@
     "display_mode_desc": "Change the display mode of the App",
     "work_mode": "Work Mode",
     "work_mode_desc": "Hide all covers of NSFW content",
+    "to_ai_site": "Switch to AI site content",
+    "to_ai_site_desc": "Switch to AI site to see AIGC contents",
     "animated_preview": "Animated preview",
     "animated_preview_desc": "Show animated video preview on hover or long press (when available)",
     "network": "Network",

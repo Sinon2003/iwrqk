@@ -20,20 +20,21 @@ class Translations with BaseTranslations<AppLocale, Translations> {
 	/// Constructing via the enum [AppLocale.build] is preferred.
 	Translations({Map<String, Node>? overrides, PluralResolver? cardinalResolver, PluralResolver? ordinalResolver, TranslationMetadata<AppLocale, Translations>? meta})
 		: assert(overrides == null, 'Set "translation_overrides: true" in order to enable this feature.'),
-		  $meta = meta ?? TranslationMetadata(
+		  _meta = meta ?? TranslationMetadata(
 		    locale: AppLocale.en,
 		    overrides: overrides ?? {},
 		    cardinalResolver: cardinalResolver,
 		    ordinalResolver: ordinalResolver,
 		  ) {
-		$meta.setFlatMapFunction(_flatMapFunction);
+		_meta.setFlatMapFunction(_flatMapFunction);
 	}
 
 	/// Metadata for the translations of <en>.
-	@override final TranslationMetadata<AppLocale, Translations> $meta;
+	final TranslationMetadata<AppLocale, Translations> _meta;
+	@override TranslationMetadata<AppLocale, Translations> get $meta => _meta;
 
 	/// Access flat map
-	dynamic operator[](String key) => $meta.getTranslation(key);
+	dynamic operator[](String key) => _meta.getTranslation(key);
 
 	late final Translations _root = this; // ignore: unused_field
 
@@ -46,40 +47,40 @@ class Translations with BaseTranslations<AppLocale, Translations> {
 		'zh-CN': '简体中文',
 		'zh-TW': '繁體中文',
 	};
-	late final TranslationsRulesEn rules = TranslationsRulesEn.internal(_root);
-	late final TranslationsNavEn nav = TranslationsNavEn.internal(_root);
-	late final TranslationsCommonEn common = TranslationsCommonEn.internal(_root);
-	late final TranslationsRefreshEn refresh = TranslationsRefreshEn.internal(_root);
-	late final TranslationsRecordsEn records = TranslationsRecordsEn.internal(_root);
-	late final TranslationsAccountEn account = TranslationsAccountEn.internal(_root);
-	late final TranslationsProfileEn profile = TranslationsProfileEn.internal(_root);
-	late final TranslationsSortEn sort = TranslationsSortEn.internal(_root);
-	late final TranslationsFilterEn filter = TranslationsFilterEn.internal(_root);
-	late final TranslationsSearchEn search = TranslationsSearchEn.internal(_root);
-	late final TranslationsTimeEn time = TranslationsTimeEn.internal(_root);
-	late final TranslationsMediaEn media = TranslationsMediaEn.internal(_root);
-	late final TranslationsPlayerEn player = TranslationsPlayerEn.internal(_root);
-	late final TranslationsCommentEn comment = TranslationsCommentEn.internal(_root);
-	late final TranslationsUserEn user = TranslationsUserEn.internal(_root);
-	late final TranslationsFriendEn friend = TranslationsFriendEn.internal(_root);
-	late final TranslationsBlockedTagsEn blocked_tags = TranslationsBlockedTagsEn.internal(_root);
-	late final TranslationsDownloadEn download = TranslationsDownloadEn.internal(_root);
-	late final TranslationsPlaylistEn playlist = TranslationsPlaylistEn.internal(_root);
-	late final TranslationsChannelEn channel = TranslationsChannelEn.internal(_root);
-	late final TranslationsCreateThreadEn create_thread = TranslationsCreateThreadEn.internal(_root);
-	late final TranslationsNotificationsEn notifications = TranslationsNotificationsEn.internal(_root);
-	late final TranslationsSettingsEn settings = TranslationsSettingsEn.internal(_root);
-	late final TranslationsThemeEn theme = TranslationsThemeEn.internal(_root);
-	late final TranslationsColorsEn colors = TranslationsColorsEn.internal(_root);
-	late final TranslationsDisplayModeEn display_mode = TranslationsDisplayModeEn.internal(_root);
-	late final TranslationsProxyEn proxy = TranslationsProxyEn.internal(_root);
-	late final TranslationsMessageEn message = TranslationsMessageEn.internal(_root);
-	late final TranslationsErrorEn error = TranslationsErrorEn.internal(_root);
+	late final Translations$rules$en rules = Translations$rules$en.internal(_root);
+	late final Translations$nav$en nav = Translations$nav$en.internal(_root);
+	late final Translations$common$en common = Translations$common$en.internal(_root);
+	late final Translations$refresh$en refresh = Translations$refresh$en.internal(_root);
+	late final Translations$records$en records = Translations$records$en.internal(_root);
+	late final Translations$account$en account = Translations$account$en.internal(_root);
+	late final Translations$profile$en profile = Translations$profile$en.internal(_root);
+	late final Translations$sort$en sort = Translations$sort$en.internal(_root);
+	late final Translations$filter$en filter = Translations$filter$en.internal(_root);
+	late final Translations$search$en search = Translations$search$en.internal(_root);
+	late final Translations$time$en time = Translations$time$en.internal(_root);
+	late final Translations$media$en media = Translations$media$en.internal(_root);
+	late final Translations$player$en player = Translations$player$en.internal(_root);
+	late final Translations$comment$en comment = Translations$comment$en.internal(_root);
+	late final Translations$user$en user = Translations$user$en.internal(_root);
+	late final Translations$friend$en friend = Translations$friend$en.internal(_root);
+	late final Translations$blocked_tags$en blocked_tags = Translations$blocked_tags$en.internal(_root);
+	late final Translations$download$en download = Translations$download$en.internal(_root);
+	late final Translations$playlist$en playlist = Translations$playlist$en.internal(_root);
+	late final Translations$channel$en channel = Translations$channel$en.internal(_root);
+	late final Translations$create_thread$en create_thread = Translations$create_thread$en.internal(_root);
+	late final Translations$notifications$en notifications = Translations$notifications$en.internal(_root);
+	late final Translations$settings$en settings = Translations$settings$en.internal(_root);
+	late final Translations$theme$en theme = Translations$theme$en.internal(_root);
+	late final Translations$colors$en colors = Translations$colors$en.internal(_root);
+	late final Translations$display_mode$en display_mode = Translations$display_mode$en.internal(_root);
+	late final Translations$proxy$en proxy = Translations$proxy$en.internal(_root);
+	late final Translations$message$en message = Translations$message$en.internal(_root);
+	late final Translations$error$en error = Translations$error$en.internal(_root);
 }
 
 // Path: rules
-class TranslationsRulesEn {
-	TranslationsRulesEn.internal(this._root);
+class Translations$rules$en {
+	Translations$rules$en.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -96,8 +97,8 @@ class TranslationsRulesEn {
 }
 
 // Path: nav
-class TranslationsNavEn {
-	TranslationsNavEn.internal(this._root);
+class Translations$nav$en {
+	Translations$nav$en.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -120,8 +121,8 @@ class TranslationsNavEn {
 }
 
 // Path: common
-class TranslationsCommonEn {
-	TranslationsCommonEn.internal(this._root);
+class Translations$common$en {
+	Translations$common$en.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -147,8 +148,8 @@ class TranslationsCommonEn {
 }
 
 // Path: refresh
-class TranslationsRefreshEn {
-	TranslationsRefreshEn.internal(this._root);
+class Translations$refresh$en {
+	Translations$refresh$en.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -177,8 +178,8 @@ class TranslationsRefreshEn {
 }
 
 // Path: records
-class TranslationsRecordsEn {
-	TranslationsRecordsEn.internal(this._root);
+class Translations$records$en {
+	Translations$records$en.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -204,8 +205,8 @@ class TranslationsRecordsEn {
 }
 
 // Path: account
-class TranslationsAccountEn {
-	TranslationsAccountEn.internal(this._root);
+class Translations$account$en {
+	Translations$account$en.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -240,8 +241,8 @@ class TranslationsAccountEn {
 }
 
 // Path: profile
-class TranslationsProfileEn {
-	TranslationsProfileEn.internal(this._root);
+class Translations$profile$en {
+	Translations$profile$en.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -294,15 +295,12 @@ class TranslationsProfileEn {
 }
 
 // Path: sort
-class TranslationsSortEn {
-	TranslationsSortEn.internal(this._root);
+class Translations$sort$en {
+	Translations$sort$en.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
 	// Translations
-
-	/// en: 'Relevance'
-	String get relevance => 'Relevance';
 
 	/// en: 'Latest'
 	String get latest => 'Latest';
@@ -318,11 +316,14 @@ class TranslationsSortEn {
 
 	/// en: 'Most likes'
 	String get most_likes => 'Most likes';
+
+	/// en: 'Relevance'
+	String get relevance => 'Relevance';
 }
 
 // Path: filter
-class TranslationsFilterEn {
-	TranslationsFilterEn.internal(this._root);
+class Translations$filter$en {
+	Translations$filter$en.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -363,8 +364,8 @@ class TranslationsFilterEn {
 }
 
 // Path: search
-class TranslationsSearchEn {
-	TranslationsSearchEn.internal(this._root);
+class Translations$search$en {
+	Translations$search$en.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -373,18 +374,18 @@ class TranslationsSearchEn {
 	/// en: 'Users'
 	String get users => 'Users';
 
+	/// en: 'Thread'
+	String get threads => 'Thread';
+
 	/// en: 'Search'
 	String get search => 'Search';
 
-	/// en: 'Posts'
-  String get threads => "Thread";
-
-	late final TranslationsSearchHistoryEn history = TranslationsSearchHistoryEn.internal(_root);
+	late final Translations$search$history$en history = Translations$search$history$en.internal(_root);
 }
 
 // Path: time
-class TranslationsTimeEn {
-	TranslationsTimeEn.internal(this._root);
+class Translations$time$en {
+	Translations$time$en.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -404,8 +405,8 @@ class TranslationsTimeEn {
 }
 
 // Path: media
-class TranslationsMediaEn {
-	TranslationsMediaEn.internal(this._root);
+class Translations$media$en {
+	Translations$media$en.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -443,8 +444,8 @@ class TranslationsMediaEn {
 }
 
 // Path: player
-class TranslationsPlayerEn {
-	TranslationsPlayerEn.internal(this._root);
+class Translations$player$en {
+	Translations$player$en.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -471,7 +472,7 @@ class TranslationsPlayerEn {
 	/// en: 'Select aspect ratio'
 	String get select_aspect_ratio => 'Select aspect ratio';
 
-	late final TranslationsPlayerAspectRatiosEn aspect_ratios = TranslationsPlayerAspectRatiosEn.internal(_root);
+	late final Translations$player$aspect_ratios$en aspect_ratios = Translations$player$aspect_ratios$en.internal(_root);
 
 	/// en: '${value}s'
 	String seconds({required Object value}) => '${value}s';
@@ -481,8 +482,8 @@ class TranslationsPlayerEn {
 }
 
 // Path: comment
-class TranslationsCommentEn {
-	TranslationsCommentEn.internal(this._root);
+class Translations$comment$en {
+	Translations$comment$en.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -514,8 +515,8 @@ class TranslationsCommentEn {
 }
 
 // Path: user
-class TranslationsUserEn {
-	TranslationsUserEn.internal(this._root);
+class Translations$user$en {
+	Translations$user$en.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -550,8 +551,8 @@ class TranslationsUserEn {
 }
 
 // Path: friend
-class TranslationsFriendEn {
-	TranslationsFriendEn.internal(this._root);
+class Translations$friend$en {
+	Translations$friend$en.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -577,8 +578,8 @@ class TranslationsFriendEn {
 }
 
 // Path: blocked_tags
-class TranslationsBlockedTagsEn {
-	TranslationsBlockedTagsEn.internal(this._root);
+class Translations$blocked_tags$en {
+	Translations$blocked_tags$en.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -592,8 +593,8 @@ class TranslationsBlockedTagsEn {
 }
 
 // Path: download
-class TranslationsDownloadEn {
-	TranslationsDownloadEn.internal(this._root);
+class Translations$download$en {
+	Translations$download$en.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -640,8 +641,8 @@ class TranslationsDownloadEn {
 }
 
 // Path: playlist
-class TranslationsPlaylistEn {
-	TranslationsPlaylistEn.internal(this._root);
+class Translations$playlist$en {
+	Translations$playlist$en.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -667,8 +668,8 @@ class TranslationsPlaylistEn {
 }
 
 // Path: channel
-class TranslationsChannelEn {
-	TranslationsChannelEn.internal(this._root);
+class Translations$channel$en {
+	Translations$channel$en.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -709,8 +710,8 @@ class TranslationsChannelEn {
 }
 
 // Path: create_thread
-class TranslationsCreateThreadEn {
-	TranslationsCreateThreadEn.internal(this._root);
+class Translations$create_thread$en {
+	Translations$create_thread$en.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -727,8 +728,8 @@ class TranslationsCreateThreadEn {
 }
 
 // Path: notifications
-class TranslationsNotificationsEn {
-	TranslationsNotificationsEn.internal(this._root);
+class Translations$notifications$en {
+	Translations$notifications$en.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -757,8 +758,8 @@ class TranslationsNotificationsEn {
 }
 
 // Path: settings
-class TranslationsSettingsEn {
-	TranslationsSettingsEn.internal(this._root);
+class Translations$settings$en {
+	Translations$settings$en.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -802,6 +803,12 @@ class TranslationsSettingsEn {
 
 	/// en: 'Hide all covers of NSFW content'
 	String get work_mode_desc => 'Hide all covers of NSFW content';
+
+	/// en: 'Switch to AI site content'
+	String get to_ai_site => 'Switch to AI site content';
+
+	/// en: 'Switch to AI site to see AIGC contents'
+	String get to_ai_site_desc => 'Switch to AI site to see AIGC contents';
 
 	/// en: 'Animated preview'
 	String get animated_preview => 'Animated preview';
@@ -892,15 +899,11 @@ class TranslationsSettingsEn {
 
 	/// en: 'View the license of third party libraries'
 	String get third_party_license_desc => 'View the license of third party libraries';
-
-  String get to_ai_site => "Switch to AI site content";
-
-  String get to_ai_site_desc => "Switch to AI site to see AIGC contents";
 }
 
 // Path: theme
-class TranslationsThemeEn {
-	TranslationsThemeEn.internal(this._root);
+class Translations$theme$en {
+	Translations$theme$en.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -917,8 +920,8 @@ class TranslationsThemeEn {
 }
 
 // Path: colors
-class TranslationsColorsEn {
-	TranslationsColorsEn.internal(this._root);
+class Translations$colors$en {
+	Translations$colors$en.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -980,8 +983,8 @@ class TranslationsColorsEn {
 }
 
 // Path: display_mode
-class TranslationsDisplayModeEn {
-	TranslationsDisplayModeEn.internal(this._root);
+class Translations$display_mode$en {
+	Translations$display_mode$en.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -998,8 +1001,8 @@ class TranslationsDisplayModeEn {
 }
 
 // Path: proxy
-class TranslationsProxyEn {
-	TranslationsProxyEn.internal(this._root);
+class Translations$proxy$en {
+	Translations$proxy$en.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -1013,8 +1016,8 @@ class TranslationsProxyEn {
 }
 
 // Path: message
-class TranslationsMessageEn {
-	TranslationsMessageEn.internal(this._root);
+class Translations$message$en {
+	Translations$message$en.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -1035,18 +1038,18 @@ class TranslationsMessageEn {
 	/// en: 'Please type the port'
 	String get please_type_port => 'Please type the port';
 
-	late final TranslationsMessageAccountEn account = TranslationsMessageAccountEn.internal(_root);
-	late final TranslationsMessageCommentEn comment = TranslationsMessageCommentEn.internal(_root);
-	late final TranslationsMessageCreateThreadEn create_thread = TranslationsMessageCreateThreadEn.internal(_root);
-	late final TranslationsMessageBlockedTagsEn blocked_tags = TranslationsMessageBlockedTagsEn.internal(_root);
-	late final TranslationsMessagePlaylistEn playlist = TranslationsMessagePlaylistEn.internal(_root);
-	late final TranslationsMessageDownloadEn download = TranslationsMessageDownloadEn.internal(_root);
-	late final TranslationsMessageUpdateEn update = TranslationsMessageUpdateEn.internal(_root);
+	late final Translations$message$account$en account = Translations$message$account$en.internal(_root);
+	late final Translations$message$comment$en comment = Translations$message$comment$en.internal(_root);
+	late final Translations$message$create_thread$en create_thread = Translations$message$create_thread$en.internal(_root);
+	late final Translations$message$blocked_tags$en blocked_tags = Translations$message$blocked_tags$en.internal(_root);
+	late final Translations$message$playlist$en playlist = Translations$message$playlist$en.internal(_root);
+	late final Translations$message$download$en download = Translations$message$download$en.internal(_root);
+	late final Translations$message$update$en update = Translations$message$update$en.internal(_root);
 }
 
 // Path: error
-class TranslationsErrorEn {
-	TranslationsErrorEn.internal(this._root);
+class Translations$error$en {
+	Translations$error$en.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -1067,12 +1070,12 @@ class TranslationsErrorEn {
 	/// en: 'Intercept app exit'
 	String get intercept_app_exit => 'Intercept app exit';
 
-	late final TranslationsErrorAccountEn account = TranslationsErrorAccountEn.internal(_root);
+	late final Translations$error$account$en account = Translations$error$account$en.internal(_root);
 }
 
 // Path: search.history
-class TranslationsSearchHistoryEn {
-	TranslationsSearchHistoryEn.internal(this._root);
+class Translations$search$history$en {
+	Translations$search$history$en.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -1083,8 +1086,8 @@ class TranslationsSearchHistoryEn {
 }
 
 // Path: player.aspect_ratios
-class TranslationsPlayerAspectRatiosEn {
-	TranslationsPlayerAspectRatiosEn.internal(this._root);
+class Translations$player$aspect_ratios$en {
+	Translations$player$aspect_ratios$en.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -1110,8 +1113,8 @@ class TranslationsPlayerAspectRatiosEn {
 }
 
 // Path: message.account
-class TranslationsMessageAccountEn {
-	TranslationsMessageAccountEn.internal(this._root);
+class Translations$message$account$en {
+	Translations$message$account$en.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -1143,8 +1146,8 @@ class TranslationsMessageAccountEn {
 }
 
 // Path: message.comment
-class TranslationsMessageCommentEn {
-	TranslationsMessageCommentEn.internal(this._root);
+class Translations$message$comment$en {
+	Translations$message$comment$en.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -1161,8 +1164,8 @@ class TranslationsMessageCommentEn {
 }
 
 // Path: message.create_thread
-class TranslationsMessageCreateThreadEn {
-	TranslationsMessageCreateThreadEn.internal(this._root);
+class Translations$message$create_thread$en {
+	Translations$message$create_thread$en.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -1185,8 +1188,8 @@ class TranslationsMessageCreateThreadEn {
 }
 
 // Path: message.blocked_tags
-class TranslationsMessageBlockedTagsEn {
-	TranslationsMessageBlockedTagsEn.internal(this._root);
+class Translations$message$blocked_tags$en {
+	Translations$message$blocked_tags$en.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -1203,8 +1206,8 @@ class TranslationsMessageBlockedTagsEn {
 }
 
 // Path: message.playlist
-class TranslationsMessagePlaylistEn {
-	TranslationsMessagePlaylistEn.internal(this._root);
+class Translations$message$playlist$en {
+	Translations$message$playlist$en.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -1221,8 +1224,8 @@ class TranslationsMessagePlaylistEn {
 }
 
 // Path: message.download
-class TranslationsMessageDownloadEn {
-	TranslationsMessageDownloadEn.internal(this._root);
+class Translations$message$download$en {
+	Translations$message$download$en.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -1242,8 +1245,8 @@ class TranslationsMessageDownloadEn {
 }
 
 // Path: message.update
-class TranslationsMessageUpdateEn {
-	TranslationsMessageUpdateEn.internal(this._root);
+class Translations$message$update$en {
+	Translations$message$update$en.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -1269,8 +1272,8 @@ class TranslationsMessageUpdateEn {
 }
 
 // Path: error.account
-class TranslationsErrorAccountEn {
-	TranslationsErrorAccountEn.internal(this._root);
+class Translations$error$account$en {
+	Translations$error$account$en.internal(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -1354,6 +1357,7 @@ extension on Translations {
 			'sort.popularity' => 'Popularity',
 			'sort.most_views' => 'Most views',
 			'sort.most_likes' => 'Most likes',
+			'sort.relevance' => 'Relevance',
 			'filter.all' => 'All',
 			'filter.filter' => 'Filter',
 			'filter.rating' => 'Rating',
@@ -1366,6 +1370,7 @@ extension on Translations {
 			'filter.select_year' => 'Select year',
 			'filter.select_month' => 'Select month',
 			'search.users' => 'Users',
+			'search.threads' => 'Thread',
 			'search.search' => 'Search',
 			'search.history.delete' => 'Delete All',
 			'time.seconds_ago' => ({required Object time}) => '${time} seconds ago',
@@ -1475,6 +1480,8 @@ extension on Translations {
 			'settings.display_mode_desc' => 'Change the display mode of the App',
 			'settings.work_mode' => 'Work Mode',
 			'settings.work_mode_desc' => 'Hide all covers of NSFW content',
+			'settings.to_ai_site' => 'Switch to AI site content',
+			'settings.to_ai_site_desc' => 'Switch to AI site to see AIGC contents',
 			'settings.animated_preview' => 'Animated preview',
 			'settings.animated_preview_desc' => 'Show animated video preview on hover or long press (when available)',
 			'settings.network' => 'Network',

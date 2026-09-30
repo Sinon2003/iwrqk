@@ -69,7 +69,8 @@
     "trending": "トレンド",
     "popularity": "人気順",
     "most_views": "閲覧数",
-    "most_likes": "お気に入り数"
+    "most_likes": "お気に入り数",
+    "relevance": "関連性"
   },
   "filter": {
     "all": "すべて",
@@ -86,6 +87,7 @@
   },
   "search": {
     "users": "ユーザー",
+    "threads": "投稿",
     "search": "検索",
     "history": {
       "delete": "すべての記録を削除"
@@ -225,6 +227,8 @@
     "display_mode_desc": "アプリの表示モードを設定します",
     "work_mode": "作業モード",
     "work_mode_desc": "NSFW コンテンツのカバーを非表示にします",
+    "to_ai_site": "AIサイトのコンテンツに切り替える",
+    "to_ai_site_desc": "AIサイトに切り替えてAIGCコンテンツを表示します",
     "animated_preview": "動画プレビュー",
     "animated_preview_desc": "ホバー（PC）または長押し（タッチ）でアニメーションプレビューを表示します",
     "network": "ネットワーク設定",
