@@ -51,7 +51,8 @@ class _HeaderControlState extends State<HeaderControl> {
     final controller = widget.controller!;
     final RxBool showWindowsPipButton =
         (GetPlatform.isWindows &&
-        (widget.videoDetailCtr?.canUseWindowsPip ?? false)).obs;
+                (widget.videoDetailCtr?.canUseWindowsPip ?? false))
+            .obs;
     const TextStyle textStyle = TextStyle(color: Colors.white, fontSize: 12);
     return AppBar(
       backgroundColor: Colors.transparent,
@@ -94,11 +95,18 @@ class _HeaderControlState extends State<HeaderControl> {
           ),
           SizedBox(width: buttonSpace),
           Expanded(
-            child: Text(widget.videoDetailCtr?.media.title??"",
-                style: titleStyle,
-                overflow: TextOverflow.ellipsis,
-                maxLines: 1,
-                textAlign: TextAlign.left,   ),
+            // Offline pages have no media loaded, only the download record.
+            child: Text(
+              widget.videoDetailCtr == null
+                  ? ""
+                  : widget.videoDetailCtr!.isOffline
+                  ? widget.videoDetailCtr!.taskData.offlineMedia.title
+                  : widget.videoDetailCtr!.media.title,
+              style: titleStyle,
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1,
+              textAlign: TextAlign.left,
+            ),
           ),
           SizedBox(width: buttonSpace),
           if (GetPlatform.isAndroid || showWindowsPipButton.value) ...<Widget>[

@@ -409,9 +409,9 @@ class DownloadService extends GetxService {
 
   Future<String?> getTaskFilePath(String taskId) async {
     final record = await getTask(taskId);
-    if (record == null) return null;
-    final task = record.task;
-    return Directory(task.directory).file(task.filename).path;
+    // Tasks keep their directory without the leading separator; filePath()
+    // puts the base directory back in front.
+    return record?.task.filePath();
   }
 
   Future<void> pauseTask(String taskId) async {
