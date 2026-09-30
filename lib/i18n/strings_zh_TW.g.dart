@@ -400,7 +400,7 @@ class Translations$user$zh_TW extends Translations$user$en {
 	@override String get downloads => '下載記錄';
 	@override String get favorites => '收藏';
 	@override String get playlists => '播放清單';
-	@override String get settings => '設置';
+	@override String get settings => '系統設定';
 	@override String get about => '關於';
 }
 
@@ -1063,7 +1063,7 @@ extension on TranslationsZhTw {
 			'user.downloads' => '下載記錄',
 			'user.favorites' => '收藏',
 			'user.playlists' => '播放清單',
-			'user.settings' => '設置',
+			'user.settings' => '系統設定',
 			'user.about' => '關於',
 			'friend.friend_requests' => '好友請求',
 			'friend.add_friend' => '新增好友',

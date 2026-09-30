@@ -400,7 +400,7 @@ class _Translations$user$ja extends Translations$user$en {
 	@override String get downloads => 'ダウンロード';
 	@override String get favorites => 'お気に入り';
 	@override String get playlists => 'プレイリスト';
-	@override String get settings => '設定';
+	@override String get settings => 'アプリ設定';
 	@override String get about => 'について';
 }
 
@@ -1063,7 +1063,7 @@ extension on TranslationsJa {
 			'user.downloads' => 'ダウンロード',
 			'user.favorites' => 'お気に入り',
 			'user.playlists' => 'プレイリスト',
-			'user.settings' => '設定',
+			'user.settings' => 'アプリ設定',
 			'user.about' => 'について',
 			'friend.friend_requests' => '友達リクエスト',
 			'friend.add_friend' => '友達に追加',

@@ -737,8 +737,8 @@ class Translations$user$en {
 	/// en: 'Playlists'
 	String get playlists => 'Playlists';
 
-	/// en: 'Settings'
-	String get settings => 'Settings';
+	/// en: 'App settings'
+	String get settings => 'App settings';
 
 	/// en: 'About'
 	String get about => 'About';
@@ -1826,7 +1826,7 @@ extension on Translations {
 			'user.downloads' => 'Downloads',
 			'user.favorites' => 'Favorites',
 			'user.playlists' => 'Playlists',
-			'user.settings' => 'Settings',
+			'user.settings' => 'App settings',
 			'user.about' => 'About',
 			'friend.friend_requests' => 'Friend Requests',
 			'friend.add_friend' => 'Add friend',
