@@ -43,3 +43,8 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Local secrets (test accounts, signing passwords, tokens). Never commit.
+# Only the *.example.json templates are tracked.
+/secrets/*
+!/secrets/*.example.json
