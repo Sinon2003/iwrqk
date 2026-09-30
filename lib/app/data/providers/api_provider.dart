@@ -28,6 +28,7 @@ import '../models/resolution.dart';
 import '../models/rule.dart';
 import '../models/tag.dart';
 import '../models/user.dart';
+import '../../utils/log_util.dart';
 import 'network/network_provider.dart';
 
 class ApiProvider {
@@ -625,6 +626,19 @@ class ApiProvider {
           message = e.toString();
         });
     return ApiResult(data: data, success: message == null, message: message);
+  }
+
+  /// Reports a video view the way the site does when leaving a video: [stats]
+  /// has 16 flags for the played sixteenths, or is null without playback.
+  static Future<void> sendVideoView({
+    required String id,
+    List<int>? stats,
+  }) async {
+    try {
+      await networkProvider.post("/video/$id/view", data: {"stats": stats});
+    } catch (e, stackTrace) {
+      LogUtil.warning("Failed to report the view of $id", e, stackTrace);
+    }
   }
 
   static Future<ApiResult<ImageModel>> getImage(String id) async {

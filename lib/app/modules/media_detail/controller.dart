@@ -18,6 +18,7 @@ import '../../data/models/offline/history_media.dart';
 import '../../data/models/offline/offline_media.dart';
 import '../../data/models/resolution.dart';
 import '../../data/models/user.dart';
+import '../../data/providers/api_provider.dart';
 import '../../data/providers/storage_provider.dart';
 import '../../data/services/config_service.dart';
 import '../../data/services/discord_rpc_service.dart';
@@ -135,6 +136,11 @@ class MediaDetailController extends GetxController
   /// PL player
   PlPlayerController plPlayerController = PlPlayerController.getInstance();
   Duration defaultST = Duration.zero;
+
+  // View report: which sixteenths of the video were played.
+  String? _viewedVideoId;
+  final List<int> _viewStats = List.filled(16, 0);
+  StreamSubscription<Duration>? _viewProgress;
   // 亮度
   double? brightness;
   // 硬解
@@ -439,6 +445,13 @@ class MediaDetailController extends GetxController
     /// 开启自动全屏时，在player初始化完成后立即传入headerControl
     plPlayerController.headerControl = headerControl;
 
+    if (!isOffline) {
+      _viewedVideoId = media.id;
+      _viewProgress ??= plPlayerController.onPositionChanged.listen(
+        _trackViewProgress,
+      );
+    }
+
     plPlayerController.width.listen((value) {
       if (value > 0 && plPlayerController.height.value > 0) {
         aspectRatio = Rational(value, plPlayerController.height.value);
@@ -540,11 +553,34 @@ class MediaDetailController extends GetxController
     });
   }
 
+  /// Marks which sixteenth of the video has been played, the way the site's
+  /// player does before it reports the view.
+  void _trackViewProgress(Duration position) {
+    final total = plPlayerController.duration.value.inMilliseconds;
+    if (total <= 0) return;
+    final segment = (position.inMilliseconds / total * 16).floor() % 16;
+    _viewStats[segment] = 1;
+  }
+
+  /// Reports the view when leaving the page, as the site does; without any
+  /// playback the stats are null.
+  void _reportView() {
+    final videoId = _viewedVideoId;
+    if (videoId == null) return;
+    final watched = _viewStats.contains(1);
+    ApiProvider.sendVideoView(
+      id: videoId,
+      stats: watched ? List.of(_viewStats) : null,
+    );
+  }
+
   @override
   void onClose() {
     if (canUseWindowsPip && isWindowsPipMode) {
       unawaited(exitWindowsPip());
     }
+    _viewProgress?.cancel();
+    _reportView();
     discordRpcService.onVideoDetailDispose();
     super.onClose();
   }
