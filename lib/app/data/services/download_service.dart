@@ -353,7 +353,7 @@ class DownloadService extends GetxService {
     downloadTaskId = await addDownloadTask(
       downloadUrl: url,
       fileName: resolutionName + extension(fileName),
-      subDirectory: offlineMedia.title,
+      subDirectory: PathUtil.safeFileName(offlineMedia.title),
     );
 
     if (downloadTaskId != null) {
