@@ -53,7 +53,9 @@ flowchart LR
 - `NetworkProvider` 接受小于 500 的 HTTP 状态，业务失败仍需检查响应状态、响应体及 `ApiResult.success`。
 - GET / POST 的完整 URL 方法会转换部分 HTML 包裹的 JSON，并根据设置添加 `X-Site`；PUT / DELETE 没有同样的处理。站点切换修复要检查各请求路径，不能假设行为一致。
 - 内容翻译由 [TranslateProvider](../../lib/app/data/providers/translate_provider.dart) 调用免 Key 的网页翻译接口，翻译源见 [TranslationEngine](../../lib/app/data/enums/translation_engine.dart)（Google、火山、腾讯交互翻译、Yandex）。目标语言跟随 App 语言并按各源映射；长文本按行切分，每个源有各自的单次上限。这些都是非官方接口，可能随时变化，失败时提示并写日志。默认源、启用列表与显示方式（替换原文或显示在原文下方，默认替换）存于 `ConfigService`，默认源始终处于启用状态。界面状态由 [TranslationMixin](../../lib/app/components/translation_mixin.dart) 管理：按源缓存、收起与展开（替换模式下为显示原文）、换源；译文由 [TranslatedContent](../../lib/app/components/translated_content.dart) 显示。视频简介、评论、论坛帖子共用这一套。
-- 更新检查有独立 provider。更新地址在 [const/config.dart](../../lib/app/const/config.dart)，指向本仓库 `Sinon2003/iwrqk` 的 GitHub Releases。[ConfigProvider](../../lib/app/data/providers/config_provider.dart) 取列表第一项的 `tag_name`，设置页去掉 `v` 后按段比较整数：发布标签须为 `vX.Y.Z` 纯数字格式，预发布版本也会被当作最新版本，没有任何 Release 时提示检查失败。
+- 应用内更新由 [UpdateService](../../lib/app/data/services/update_service.dart) 负责。更新地址在 [const/config.dart](../../lib/app/const/config.dart)，指向本仓库 `Sinon2003/iwrqk` 的 GitHub Releases。[ConfigProvider](../../lib/app/data/providers/config_provider.dart) 取列表第一项（预发布版本也算），去掉标签的 `v` 后按段比较整数，所以发布标签须为 `vX.Y.Z` 纯数字格式；没有任何 Release 时提示检查失败。
+    - 有新版时按设备支持的 ABI 找附件 `iwrqk-<版本>-<ABI>.apk`，找不到再用 `iwrqk-<版本>-universal.apk`，都没有才打开 Release 页面。发布时附件须保持这个命名。
+    - APK 用 Dio 下载到临时目录（沿用应用代理），核对大小后用 `open_file` 调起系统安装器覆盖安装；应用不在前台时等回到前台再调起。manifest 为此声明 `REQUEST_INSTALL_PACKAGES`，首次安装要用户允许"安装未知应用"。
 
 ## 存储与配置
 
@@ -70,6 +72,7 @@ flowchart LR
 
 ## 播放、下载与平台行为
 
+- 在线视频的清晰度由 [QualityPicker](../../lib/app/utils/quality_picker.dart) 按设置里的优先清晰度选择：画质优先、流畅优先、指定清晰度（没有就选低一档）或自动。自动模式把各清晰度的典型码率与学到的下载速度的七成比较；速度由 [PlaybackMonitor](../../lib/app/components/plugin/pl_player/utils/playback_monitor.dart) 在播放开头读取 mpv 的 `cache-speed` 被动测得，不额外下载，并在播放中卡顿（跳转后 3 秒内不算）时下调。播放器里手动切换只影响当前视频。
 - [媒体详情](../../lib/app/modules/media_detail/controller.dart) 负责在线 / 离线媒体加载、清晰度、收藏、历史和播放入口，并像网页端一样记录播放过的 1/16 段，离开页面时上报观看（`POST video/{id}/view`），这也构成网站端的观看记录；[pl_player](../../lib/app/components/plugin/pl_player/controller.dart) 基于 `media_kit` 管理播放器、控制栏、流订阅和定时器，音频会话在 `data/services/plugin/pl_player/`。
 - Android 画中画使用 `floating`；Windows 画中画在媒体详情中通过 `window_manager` 调整并恢复窗口。退出详情、全屏切换、前后台切换都涉及资源生命周期。
 - [DownloadService](../../lib/app/data/services/download_service.dart) 使用 `background_downloader`，注册顶层状态 / 进度回调，并维护任务状态与持久记录。回调带有 `@pragma('vm:entry-point')`；修改下载逻辑时检查后台回调、权限、路径和任务恢复。下载按文件路径写入用户选择的目录：Android 11+ 依赖 `MANAGE_EXTERNAL_STORAGE`，Android 10 依赖 manifest 中的 `requestLegacyExternalStorage`；目录选择不能改用返回 `content://` 的 SAF 方式。
