@@ -179,11 +179,6 @@ class _Translations$account_settings$ja extends Translations$account_settings$en
 	@override String get header => 'プロフィールヘッダー';
 	@override String get tap_to_change => 'タップして変更';
 	@override String get not_set => '未設定';
-	@override String get avatar_updated => 'アバターを更新しました';
-	@override String get header_updated => 'ヘッダーを更新しました';
-	@override String get name_updated => '名前を更新しました';
-	@override String get description_updated => '自己紹介を更新しました';
-	@override String get saved => '保存しました';
 	@override String get content => 'コンテンツ設定';
 	@override String get hide_sensitive => 'センシティブなコンテンツを非表示';
 	@override String get hide_sensitive_desc => 'センシティブなタグが付いた動画と画像を非表示にします';
@@ -935,11 +930,6 @@ extension on TranslationsJa {
 			'account_settings.header' => 'プロフィールヘッダー',
 			'account_settings.tap_to_change' => 'タップして変更',
 			'account_settings.not_set' => '未設定',
-			'account_settings.avatar_updated' => 'アバターを更新しました',
-			'account_settings.header_updated' => 'ヘッダーを更新しました',
-			'account_settings.name_updated' => '名前を更新しました',
-			'account_settings.description_updated' => '自己紹介を更新しました',
-			'account_settings.saved' => '保存しました',
 			'account_settings.content' => 'コンテンツ設定',
 			'account_settings.hide_sensitive' => 'センシティブなコンテンツを非表示',
 			'account_settings.hide_sensitive_desc' => 'センシティブなタグが付いた動画と画像を非表示にします',

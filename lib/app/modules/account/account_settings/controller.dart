@@ -53,15 +53,20 @@ class AccountSettingsController extends GetxController with StateMixin {
     _notifications.value = _userService.notificationsSettings;
   }
 
-  /// Runs [update] behind a loading dialog and shows [success] when it worked.
-  Future<void> _run(Future<bool> Function() update, String success) async {
+  /// Shows the change at once, like the app's own settings, and saves it in
+  /// the background. When saving fails, the service says why and the page
+  /// goes back to what the site has.
+  Future<void> _save(void Function() show, Future<bool> Function() save) async {
+    show();
+    if (!await save()) _syncFromService();
+  }
+
+  /// Uploads take a while, so they keep a loading dialog.
+  Future<void> _upload(Future<bool> Function() upload) async {
     SmartDialog.showLoading(msg: t.notifications.loading);
-    final ok = await update();
+    final ok = await upload();
     SmartDialog.dismiss(status: SmartStatus.loading);
-    if (ok) {
-      _syncFromService();
-      SmartDialog.showToast(success);
-    }
+    if (ok) _syncFromService();
   }
 
   Future<String?> _pickImage() async {
@@ -72,42 +77,36 @@ class AccountSettingsController extends GetxController with StateMixin {
   Future<void> changeAvatar() async {
     final path = await _pickImage();
     if (path == null) return;
-    await _run(
-      () => _userService.updateAvatar(path),
-      t.account_settings.avatar_updated,
-    );
+    await _upload(() => _userService.updateAvatar(path));
   }
 
   Future<void> changeHeader() async {
     final path = await _pickImage();
     if (path == null) return;
-    await _run(
-      () => _userService.updateHeader(path),
-      t.account_settings.header_updated,
-    );
+    await _upload(() => _userService.updateHeader(path));
   }
 
   Future<void> changeName(String value) async {
     final newName = value.trim();
     if (newName.isEmpty || newName == name) return;
-    await _run(
+    await _save(
+      () => _name.value = newName,
       () => _userService.updateName(newName),
-      t.account_settings.name_updated,
     );
   }
 
   Future<void> changeDescription(String value) async {
     if (value == description) return;
-    await _run(
+    await _save(
+      () => _description.value = value,
       () => _userService.updateDescription(value),
-      t.account_settings.description_updated,
     );
   }
 
   Future<void> setHideSensitive(bool value) async {
-    await _run(
+    await _save(
+      () => _hideSensitive.value = value,
       () => _userService.updateHideSensitive(value),
-      t.account_settings.saved,
     );
   }
 
@@ -118,15 +117,14 @@ class AccountSettingsController extends GetxController with StateMixin {
   }) async {
     final current = notifications;
     if (current == null) return;
-    await _run(
-      () => _userService.updateNotificationsSettings(
-        NotificationsSettings(
-          comment: comment ?? current.comment,
-          reply: reply ?? current.reply,
-          mention: mention ?? current.mention,
-        ),
-      ),
-      t.account_settings.saved,
+    final settings = NotificationsSettings(
+      comment: comment ?? current.comment,
+      reply: reply ?? current.reply,
+      mention: mention ?? current.mention,
+    );
+    await _save(
+      () => _notifications.value = settings,
+      () => _userService.updateNotificationsSettings(settings),
     );
   }
 }

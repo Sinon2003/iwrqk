@@ -179,11 +179,6 @@ class Translations$account_settings$zh_CN extends Translations$account_settings$
 	@override String get header => '背景图';
 	@override String get tap_to_change => '点击更换';
 	@override String get not_set => '未填写';
-	@override String get avatar_updated => '头像已更新';
-	@override String get header_updated => '背景图已更新';
-	@override String get name_updated => '昵称已更新';
-	@override String get description_updated => '简介已更新';
-	@override String get saved => '已保存';
 	@override String get content => '内容偏好';
 	@override String get hide_sensitive => '隐藏敏感内容';
 	@override String get hide_sensitive_desc => '隐藏带有敏感标签的视频和图片';
@@ -935,11 +930,6 @@ extension on TranslationsZhCn {
 			'account_settings.header' => '背景图',
 			'account_settings.tap_to_change' => '点击更换',
 			'account_settings.not_set' => '未填写',
-			'account_settings.avatar_updated' => '头像已更新',
-			'account_settings.header_updated' => '背景图已更新',
-			'account_settings.name_updated' => '昵称已更新',
-			'account_settings.description_updated' => '简介已更新',
-			'account_settings.saved' => '已保存',
 			'account_settings.content' => '内容偏好',
 			'account_settings.hide_sensitive' => '隐藏敏感内容',
 			'account_settings.hide_sensitive_desc' => '隐藏带有敏感标签的视频和图片',

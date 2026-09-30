@@ -274,21 +274,6 @@ class Translations$account_settings$en {
 	/// en: 'Not set'
 	String get not_set => 'Not set';
 
-	/// en: 'Avatar updated'
-	String get avatar_updated => 'Avatar updated';
-
-	/// en: 'Profile header updated'
-	String get header_updated => 'Profile header updated';
-
-	/// en: 'Name updated'
-	String get name_updated => 'Name updated';
-
-	/// en: 'Description updated'
-	String get description_updated => 'Description updated';
-
-	/// en: 'Saved'
-	String get saved => 'Saved';
-
 	/// en: 'Content preferences'
 	String get content => 'Content preferences';
 
@@ -1698,11 +1683,6 @@ extension on Translations {
 			'account_settings.header' => 'Profile header',
 			'account_settings.tap_to_change' => 'Tap to change',
 			'account_settings.not_set' => 'Not set',
-			'account_settings.avatar_updated' => 'Avatar updated',
-			'account_settings.header_updated' => 'Profile header updated',
-			'account_settings.name_updated' => 'Name updated',
-			'account_settings.description_updated' => 'Description updated',
-			'account_settings.saved' => 'Saved',
 			'account_settings.content' => 'Content preferences',
 			'account_settings.hide_sensitive' => 'Hide sensitive content',
 			'account_settings.hide_sensitive_desc' => 'Hide videos and images with a tag the site considers sensitive',
