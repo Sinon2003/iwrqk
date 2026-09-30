@@ -1,9 +1,5 @@
 # IwrQk
 
-![license](https://img.shields.io/github/license/iwrqk/iwrqk.svg)
-![total stars](https://img.shields.io/github/stars/iwrqk/iwrqk?label=total%20stars)
-![total forks](https://img.shields.io/github/forks/iwrqk/iwrqk?label=total%20forks)
-
 <img src="./doc/icon.png" alt="logo" width="144" height="144" align="right" />
 
 IwrQk is a cross-platform application based on Flutter that is compatible with the new version of Iwara (a video sharing platform).
