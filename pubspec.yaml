@@ -32,7 +32,8 @@ dependencies:
     sdk: flutter
   flutter_displaymode: ^0.7.0
   flutter_secure_storage: ^10.0.0
-  flutter_smart_dialog: ^4.9.8+9
+  # 5.2+ depends on material_ui; see docs/development/workflow.md.
+  flutter_smart_dialog: ">=5.1.1 <5.2.0"
   flutter_volume_controller: ^2.0.2
   get: ^4.7.3
   get_storage: ^2.1.1

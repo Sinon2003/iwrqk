@@ -9,6 +9,9 @@
 - [pubspec.yaml](../../pubspec.yaml) 的 Dart 约束为 `^3.11.0-93.1.beta`；当前 [pubspec.lock](../../pubspec.lock) 记录 Flutter 下限 `>=3.38.4`。
 - 开发基线为 Flutter `3.47.5` stable / Dart `3.13.4`，[mise.toml](../../mise.toml) 与 CI 工作流均锁定该版本，`pubspec.lock` 按它解析。排查构建差异时先确认实际使用的 Flutter 版本，不随意切换 SDK 或整体升级依赖。
 - Android 构建工具与 Flutter 3.47.5 模板一致：Gradle 9.3.1、AGP 9.1.0、Kotlin 2.4.0，JDK 17 及以上（CI 使用 17）。`android/gradle.properties` 保留 `android.newDsl=false` 与 `android.builtInKotlin=false` 以兼容尚未迁移的插件；Kotlin 插件由 Flutter Gradle 插件按需应用，应用模块不再显式声明。根 [android/build.gradle.kts](../../android/build.gradle.kts) 对插件模块做两项统一处理：compileSdk 至少提到 App 的值，因为部分插件仍声明旧版本，会被 AGP 9 的 AAR 元数据检查拒绝，这只影响编译期，不改变 minSdk / targetSdk；Kotlin `jvmTarget` 对齐该模块的 Java `targetCompatibility`，因为已迁移到内置 Kotlin 的插件不再自行设置它，而关闭内置 Kotlin 时由 KGP 默认取 JDK 版本，会与 Java 目标不一致。
+- 暂缓的大版本升级：
+  - animations 3、dynamic_color 2、cached_network_image 4、flutter_smart_dialog 5.2 及以上都依赖 `material_ui`。它是从 Flutter 拆出的 Material 库，类型与 `package:flutter/material.dart` 不同。App 依赖 GetX 的 `GetMaterialApp`，暂不能迁移，混用两套 Material 会带来主题问题且没有功能收益，因此用版本约束挡住，等整体迁移时一起处理。
+  - permission_handler 13 要求 compileSdk 37 与 AGP 9.1.1 以上。它会使所有插件按 37 编译，而我们只使用 `isGranted`，因此等 Flutter 默认 compileSdk 升到 37 后再升级。
 - 构建中途失败后，Gradle 取消的并行任务可能留下损坏的 Kotlin 增量编译状态，表现为插件模块内的符号"找不到"、`GeneratedPluginRegistrant` 找不到插件类等。遇到这类与代码无关的错误，先执行 `flutter clean` 再完整构建。
 - 保留 `pubspec.lock`、`third_party/dart_discord_rpc` 的本地路径依赖，以及 `third_party/flutter_inappwebview_android` 的依赖覆盖（AGP 9 兼容修补，移除条件见其 `IWRQK_PATCH.md`）；新增依赖应说明必要性及受影响平台。
 

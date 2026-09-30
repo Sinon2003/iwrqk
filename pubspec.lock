@@ -541,10 +541,10 @@ packages:
     dependency: "direct main"
     description:
       name: flutter_smart_dialog
-      sha256: "72762b20c25f8e12d490332004c9cca327f39dfc1fcba66124c6b7c108b68850"
+      sha256: "7dd4078681291402ec39861d768787d27a0a9c4cd0912263a6a327654b96f6c1"
       url: "https://pub.dev"
     source: hosted
-    version: "4.9.8+10"
+    version: "5.1.1"
   flutter_test:
     dependency: "direct dev"
     description: flutter
