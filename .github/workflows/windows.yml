@@ -1,9 +1,7 @@
 name: Flutter Windows Release CI
 
+# Only Android is maintained; this build runs on demand, not for release tags.
 on:
-  push:
-    tags:
-      - v*
   workflow_dispatch:
 
 env:
