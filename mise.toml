@@ -14,4 +14,4 @@ run = "dart format ."
 run = "flutter pub upgrade --major-versions"
 
 [tools]
-flutter = "beta"
+flutter = "3.47.5-stable"
