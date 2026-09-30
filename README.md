@@ -1,5 +1,7 @@
 # IwrQk
 
+English | [简体中文](./README.zh-CN.md)
+
 <img src="./doc/icon.png" alt="logo" width="144" height="144" align="right" />
 
 IwrQk is a cross-platform application based on Flutter that is compatible with the new version of Iwara (a video sharing platform).
@@ -38,3 +40,7 @@ In case you come across any bugs, please report them after ensuring they are not
 Let's collaborate to enhance the Iwara experience together!
 
 Special thanks to [guozhigq/pilipala](https://github.com/guozhigq/pilipala) for the inspiration and player implementation.
+
+## 📄 License
+
+IwrQk is free and open-source software released under [GPL-3.0](./LICENSE). Anyone is free to use it. Modified or redistributed versions must also be released under GPL-3.0.
