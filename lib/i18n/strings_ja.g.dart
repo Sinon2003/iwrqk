@@ -61,6 +61,7 @@ class TranslationsJa extends Translations with BaseTranslations<AppLocale, Trans
 	@override late final _Translations$channel$ja channel = _Translations$channel$ja._(_root);
 	@override late final _Translations$create_thread$ja create_thread = _Translations$create_thread$ja._(_root);
 	@override late final _Translations$notifications$ja notifications = _Translations$notifications$ja._(_root);
+	@override late final _Translations$translation$ja translation = _Translations$translation$ja._(_root);
 	@override late final _Translations$settings$ja settings = _Translations$settings$ja._(_root);
 	@override late final _Translations$theme$ja theme = _Translations$theme$ja._(_root);
 	@override late final _Translations$colors$ja colors = _Translations$colors$ja._(_root);
@@ -429,6 +430,24 @@ class _Translations$notifications$ja extends Translations$notifications$en {
 	@override String get apply => '適用';
 }
 
+// Path: translation
+class _Translations$translation$ja extends Translations$translation$en {
+	_Translations$translation$ja._(TranslationsJa root) : this._root = root, super.internal(root);
+
+	final TranslationsJa _root; // ignore: unused_field
+
+	// Translations
+	@override late final _Translations$translation$engines$ja engines = _Translations$translation$engines$ja._(_root);
+	@override late final _Translations$translation$engine_notes$ja engine_notes = _Translations$translation$engine_notes$ja._(_root);
+	@override String get powered_by => '翻訳：';
+	@override String get show => '翻訳を表示';
+	@override String get hide => '翻訳を隠す';
+	@override String get translating => '翻訳中…';
+	@override String get choose_engine => '翻訳元を選択';
+	@override String get default_tag => '既定';
+	@override String failed({required Object engine}) => '翻訳に失敗しました（${engine}）';
+}
+
 // Path: settings
 class _Translations$settings$ja extends Translations$settings$en {
 	_Translations$settings$ja._(TranslationsJa root) : this._root = root, super.internal(root);
@@ -451,6 +470,11 @@ class _Translations$settings$ja extends Translations$settings$en {
 	@override String get work_mode_desc => 'NSFW コンテンツのカバーを非表示にします';
 	@override String get to_ai_site => 'AIサイトのコンテンツに切り替える';
 	@override String get to_ai_site_desc => 'AIサイトに切り替えてAIGCコンテンツを表示します';
+	@override String get translation => '翻訳';
+	@override String get default_translation_engine => '既定の翻訳元';
+	@override String default_translation_engine_desc({required Object engine}) => '現在：${engine}';
+	@override String get enabled_translation_engines => '有効な翻訳元';
+	@override String enabled_translation_engines_desc({required Object engines}) => '翻訳ボタンの長押しで選択可能：${engines}';
 	@override String get animated_preview => '動画プレビュー';
 	@override String get animated_preview_desc => 'ホバー（PC）または長押し（タッチ）でアニメーションプレビューを表示します';
 	@override String get network => 'ネットワーク設定';
@@ -604,6 +628,32 @@ class _Translations$player$aspect_ratios$ja extends Translations$player$aspect_r
 	@override String get fit_height => '高さに合わせる';
 	@override String get fit_width => '幅に合わせる';
 	@override String get scale_down => '縮小';
+}
+
+// Path: translation.engines
+class _Translations$translation$engines$ja extends Translations$translation$engines$en {
+	_Translations$translation$engines$ja._(TranslationsJa root) : this._root = root, super.internal(root);
+
+	final TranslationsJa _root; // ignore: unused_field
+
+	// Translations
+	@override String get google => 'Google 翻訳';
+	@override String get volcengine => 'Volcengine 翻訳';
+	@override String get tencent => 'Tencent TranSmart';
+	@override String get yandex => 'Yandex 翻訳';
+}
+
+// Path: translation.engine_notes
+class _Translations$translation$engine_notes$ja extends Translations$translation$engine_notes$en {
+	_Translations$translation$engine_notes$ja._(TranslationsJa root) : this._root = root, super.internal(root);
+
+	final TranslationsJa _root; // ignore: unused_field
+
+	// Translations
+	@override String get google => 'Google へのアクセスが必要';
+	@override String get volcengine => '高速、中国本土から直接接続可能';
+	@override String get tencent => '中国本土から直接接続可能';
+	@override String get yandex => '繁体字中国語には出力できません';
 }
 
 // Path: message.account
@@ -887,6 +937,21 @@ extension on TranslationsJa {
 			'notifications.cancel' => 'キャンセル',
 			'notifications.confirm' => '確認',
 			'notifications.apply' => '適用',
+			'translation.engines.google' => 'Google 翻訳',
+			'translation.engines.volcengine' => 'Volcengine 翻訳',
+			'translation.engines.tencent' => 'Tencent TranSmart',
+			'translation.engines.yandex' => 'Yandex 翻訳',
+			'translation.engine_notes.google' => 'Google へのアクセスが必要',
+			'translation.engine_notes.volcengine' => '高速、中国本土から直接接続可能',
+			'translation.engine_notes.tencent' => '中国本土から直接接続可能',
+			'translation.engine_notes.yandex' => '繁体字中国語には出力できません',
+			'translation.powered_by' => '翻訳：',
+			'translation.show' => '翻訳を表示',
+			'translation.hide' => '翻訳を隠す',
+			'translation.translating' => '翻訳中…',
+			'translation.choose_engine' => '翻訳元を選択',
+			'translation.default_tag' => '既定',
+			'translation.failed' => ({required Object engine}) => '翻訳に失敗しました（${engine}）',
 			'settings.appearance' => '外観設定',
 			'settings.theme' => 'テーマ',
 			'settings.theme_desc' => 'アプリのテーマを設定します',
@@ -902,6 +967,11 @@ extension on TranslationsJa {
 			'settings.work_mode_desc' => 'NSFW コンテンツのカバーを非表示にします',
 			'settings.to_ai_site' => 'AIサイトのコンテンツに切り替える',
 			'settings.to_ai_site_desc' => 'AIサイトに切り替えてAIGCコンテンツを表示します',
+			'settings.translation' => '翻訳',
+			'settings.default_translation_engine' => '既定の翻訳元',
+			'settings.default_translation_engine_desc' => ({required Object engine}) => '現在：${engine}',
+			'settings.enabled_translation_engines' => '有効な翻訳元',
+			'settings.enabled_translation_engines_desc' => ({required Object engines}) => '翻訳ボタンの長押しで選択可能：${engines}',
 			'settings.animated_preview' => '動画プレビュー',
 			'settings.animated_preview_desc' => 'ホバー（PC）または長押し（タッチ）でアニメーションプレビューを表示します',
 			'settings.network' => 'ネットワーク設定',

@@ -61,6 +61,7 @@ class TranslationsZhCn extends Translations with BaseTranslations<AppLocale, Tra
 	@override late final Translations$channel$zh_CN channel = Translations$channel$zh_CN.internal(_root);
 	@override late final Translations$create_thread$zh_CN create_thread = Translations$create_thread$zh_CN.internal(_root);
 	@override late final Translations$notifications$zh_CN notifications = Translations$notifications$zh_CN.internal(_root);
+	@override late final Translations$translation$zh_CN translation = Translations$translation$zh_CN.internal(_root);
 	@override late final Translations$settings$zh_CN settings = Translations$settings$zh_CN.internal(_root);
 	@override late final Translations$theme$zh_CN theme = Translations$theme$zh_CN.internal(_root);
 	@override late final Translations$colors$zh_CN colors = Translations$colors$zh_CN.internal(_root);
@@ -429,6 +430,24 @@ class Translations$notifications$zh_CN extends Translations$notifications$en {
 	@override String get apply => '应用';
 }
 
+// Path: translation
+class Translations$translation$zh_CN extends Translations$translation$en {
+	Translations$translation$zh_CN.internal(TranslationsZhCn root) : this._root = root, super.internal(root);
+
+	final TranslationsZhCn _root; // ignore: unused_field
+
+	// Translations
+	@override late final Translations$translation$engines$zh_CN engines = Translations$translation$engines$zh_CN.internal(_root);
+	@override late final Translations$translation$engine_notes$zh_CN engine_notes = Translations$translation$engine_notes$zh_CN.internal(_root);
+	@override String get powered_by => '翻译来源：';
+	@override String get show => '显示翻译';
+	@override String get hide => '收起翻译';
+	@override String get translating => '翻译中…';
+	@override String get choose_engine => '选择翻译源';
+	@override String get default_tag => '默认';
+	@override String failed({required Object engine}) => '翻译失败（${engine}）';
+}
+
 // Path: settings
 class Translations$settings$zh_CN extends Translations$settings$en {
 	Translations$settings$zh_CN.internal(TranslationsZhCn root) : this._root = root, super.internal(root);
@@ -451,6 +470,11 @@ class Translations$settings$zh_CN extends Translations$settings$en {
 	@override String get work_mode_desc => '隐藏所有 NSFW 内容的封面';
 	@override String get to_ai_site => '切换到AI站点内容';
 	@override String get to_ai_site_desc => '切换到AI站点查看AIGC内容';
+	@override String get translation => '翻译';
+	@override String get default_translation_engine => '默认翻译源';
+	@override String default_translation_engine_desc({required Object engine}) => '当前：${engine}';
+	@override String get enabled_translation_engines => '启用的翻译源';
+	@override String enabled_translation_engines_desc({required Object engines}) => '长按翻译时可选：${engines}';
 	@override String get animated_preview => '动画预览';
 	@override String get animated_preview_desc => '在悬停或长按时显示可用的视频动画预览';
 	@override String get network => '网络设置';
@@ -604,6 +628,32 @@ class Translations$player$aspect_ratios$zh_CN extends Translations$player$aspect
 	@override String get fit_height => '适应高度';
 	@override String get fit_width => '适应宽度';
 	@override String get scale_down => '缩小适应';
+}
+
+// Path: translation.engines
+class Translations$translation$engines$zh_CN extends Translations$translation$engines$en {
+	Translations$translation$engines$zh_CN.internal(TranslationsZhCn root) : this._root = root, super.internal(root);
+
+	final TranslationsZhCn _root; // ignore: unused_field
+
+	// Translations
+	@override String get google => 'Google 翻译';
+	@override String get volcengine => '火山翻译';
+	@override String get tencent => '腾讯交互翻译';
+	@override String get yandex => 'Yandex 翻译';
+}
+
+// Path: translation.engine_notes
+class Translations$translation$engine_notes$zh_CN extends Translations$translation$engine_notes$en {
+	Translations$translation$engine_notes$zh_CN.internal(TranslationsZhCn root) : this._root = root, super.internal(root);
+
+	final TranslationsZhCn _root; // ignore: unused_field
+
+	// Translations
+	@override String get google => '需要能访问 Google';
+	@override String get volcengine => '国内可直连，速度快';
+	@override String get tencent => '国内可直连';
+	@override String get yandex => '不支持输出繁体中文';
 }
 
 // Path: message.account
@@ -887,6 +937,21 @@ extension on TranslationsZhCn {
 			'notifications.cancel' => '取消',
 			'notifications.confirm' => '确认',
 			'notifications.apply' => '应用',
+			'translation.engines.google' => 'Google 翻译',
+			'translation.engines.volcengine' => '火山翻译',
+			'translation.engines.tencent' => '腾讯交互翻译',
+			'translation.engines.yandex' => 'Yandex 翻译',
+			'translation.engine_notes.google' => '需要能访问 Google',
+			'translation.engine_notes.volcengine' => '国内可直连，速度快',
+			'translation.engine_notes.tencent' => '国内可直连',
+			'translation.engine_notes.yandex' => '不支持输出繁体中文',
+			'translation.powered_by' => '翻译来源：',
+			'translation.show' => '显示翻译',
+			'translation.hide' => '收起翻译',
+			'translation.translating' => '翻译中…',
+			'translation.choose_engine' => '选择翻译源',
+			'translation.default_tag' => '默认',
+			'translation.failed' => ({required Object engine}) => '翻译失败（${engine}）',
 			'settings.appearance' => '外观设置',
 			'settings.theme' => '主题',
 			'settings.theme_desc' => '设置应用的主题',
@@ -902,6 +967,11 @@ extension on TranslationsZhCn {
 			'settings.work_mode_desc' => '隐藏所有 NSFW 内容的封面',
 			'settings.to_ai_site' => '切换到AI站点内容',
 			'settings.to_ai_site_desc' => '切换到AI站点查看AIGC内容',
+			'settings.translation' => '翻译',
+			'settings.default_translation_engine' => '默认翻译源',
+			'settings.default_translation_engine_desc' => ({required Object engine}) => '当前：${engine}',
+			'settings.enabled_translation_engines' => '启用的翻译源',
+			'settings.enabled_translation_engines_desc' => ({required Object engines}) => '长按翻译时可选：${engines}',
 			'settings.animated_preview' => '动画预览',
 			'settings.animated_preview_desc' => '在悬停或长按时显示可用的视频动画预览',
 			'settings.network' => '网络设置',

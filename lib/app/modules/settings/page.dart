@@ -5,6 +5,8 @@ import 'package:get/get.dart';
 import 'package:iwrqk/i18n/strings.g.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
+import '../../components/translation_engine_picker.dart';
+import '../../data/enums/translation_engine.dart';
 import '../../data/providers/storage_provider.dart';
 import '../../utils/log_util.dart';
 import '../home/controller.dart';
@@ -12,6 +14,7 @@ import 'controller.dart';
 import 'widgets/custom_color_page.dart';
 import 'widgets/display_mode_dialog.dart';
 import 'widgets/proxy_dialog.dart';
+import 'widgets/translation_engines_dialog.dart';
 
 class SettingsPage extends GetView<SettingsController> {
   const SettingsPage({super.key});
@@ -383,6 +386,46 @@ class SettingsPage extends GetView<SettingsController> {
     );
   }
 
+  Widget _buildTranslationEngineSetting(BuildContext context) {
+    return Obx(
+      () => _buildMultiSetting<TranslationEngine>(
+        context,
+        title: t.settings.default_translation_engine,
+        description: t.settings.default_translation_engine_desc(
+          engine: controller.configService.translationEngine.displayName,
+        ),
+        iconData: Icons.g_translate,
+        currentOption: controller.configService.translationEngine,
+        options: {
+          for (final engine
+              in controller.configService.enabledTranslationEngines)
+            engine: engine.displayName,
+        },
+        onSelected: (value) {
+          controller.configService.translationEngine = value;
+        },
+      ),
+    );
+  }
+
+  Widget _buildEnabledTranslationEnginesSetting(BuildContext context) {
+    return Obx(
+      () => _buildButton(
+        context,
+        title: t.settings.enabled_translation_engines,
+        description: t.settings.enabled_translation_engines_desc(
+          engines: controller.configService.enabledTranslationEngines
+              .map((engine) => engine.displayName)
+              .join(" · "),
+        ),
+        iconData: Icons.checklist,
+        onPressed: () {
+          Get.dialog(const TranslationEnginesDialog());
+        },
+      ),
+    );
+  }
+
   Widget _buildCheckUpdateButton(BuildContext context) {
     return _buildButton(
       context,
@@ -473,6 +516,9 @@ class SettingsPage extends GetView<SettingsController> {
           _buildWorkModeSetting(context),
           _buildAnimatedPreviewSetting(context),
           _buildSwitchToAISite(context),
+          SettingTitle(title: t.settings.translation),
+          _buildTranslationEngineSetting(context),
+          _buildEnabledTranslationEnginesSetting(context),
           SettingTitle(title: t.settings.network),
           _buildEnableProxySetting(context),
           _buildSetProxyButton(context),
@@ -498,19 +544,19 @@ class SettingsPage extends GetView<SettingsController> {
 
   Widget _buildSwitchToAISite(BuildContext context) {
     return Obx(
-        ()=>_buildSwitchSetting(
-          context,
-          title: t.settings.to_ai_site,
-          description: t.settings.to_ai_site_desc,
-          iconData: Icons.smart_toy_rounded,
-          onChanged: (value) {
-            SettingsController.switchToAiSite.value=value;
-            StorageProvider.config[StorageKey.toAiSite]=value;
-            // Refresh all home page tabs when switching AI site
-            _refreshHomePageTabs();
-          },
-          value: SettingsController.switchToAiSite.value,
-        )
+      () => _buildSwitchSetting(
+        context,
+        title: t.settings.to_ai_site,
+        description: t.settings.to_ai_site_desc,
+        iconData: Icons.smart_toy_rounded,
+        onChanged: (value) {
+          SettingsController.switchToAiSite.value = value;
+          StorageProvider.config[StorageKey.toAiSite] = value;
+          // Refresh all home page tabs when switching AI site
+          _refreshHomePageTabs();
+        },
+        value: SettingsController.switchToAiSite.value,
+      ),
     );
   }
 
@@ -519,12 +565,12 @@ class SettingsPage extends GetView<SettingsController> {
       // Get HomeController if it exists
       if (Get.isRegistered<HomeController>()) {
         final homeController = Get.find<HomeController>();
-        
+
         // Refresh all media grid tab controllers (Videos, Images, Subscriptions)
         for (var mediaController in homeController.mediaGridTabControllers) {
           mediaController.refreshCurrentTab();
         }
-        
+
         // Refresh forum tab controller
         homeController.forumTabController.refreshData(showSplash: false);
       }

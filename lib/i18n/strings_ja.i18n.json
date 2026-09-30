@@ -213,6 +213,27 @@
     "confirm": "確認",
     "apply": "適用"
   },
+  "translation": {
+    "engines": {
+      "google": "Google 翻訳",
+      "volcengine": "Volcengine 翻訳",
+      "tencent": "Tencent TranSmart",
+      "yandex": "Yandex 翻訳"
+    },
+    "engine_notes": {
+      "google": "Google へのアクセスが必要",
+      "volcengine": "高速、中国本土から直接接続可能",
+      "tencent": "中国本土から直接接続可能",
+      "yandex": "繁体字中国語には出力できません"
+    },
+    "powered_by": "翻訳：",
+    "show": "翻訳を表示",
+    "hide": "翻訳を隠す",
+    "translating": "翻訳中…",
+    "choose_engine": "翻訳元を選択",
+    "default_tag": "既定",
+    "failed": "翻訳に失敗しました（$engine）"
+  },
   "settings": {
     "appearance": "外観設定",
     "theme": "テーマ",
@@ -229,6 +250,11 @@
     "work_mode_desc": "NSFW コンテンツのカバーを非表示にします",
     "to_ai_site": "AIサイトのコンテンツに切り替える",
     "to_ai_site_desc": "AIサイトに切り替えてAIGCコンテンツを表示します",
+    "translation": "翻訳",
+    "default_translation_engine": "既定の翻訳元",
+    "default_translation_engine_desc": "現在：$engine",
+    "enabled_translation_engines": "有効な翻訳元",
+    "enabled_translation_engines_desc": "翻訳ボタンの長押しで選択可能：$engines",
     "animated_preview": "動画プレビュー",
     "animated_preview_desc": "ホバー（PC）または長押し（タッチ）でアニメーションプレビューを表示します",
     "network": "ネットワーク設定",

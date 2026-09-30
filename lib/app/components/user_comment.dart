@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:iwrqk/i18n/strings.g.dart';
 
 import '../data/enums/types.dart';
 import '../data/models/comment.dart';
 import '../data/models/user.dart';
-import '../data/providers/translate_provider.dart';
 import '../data/services/user_service.dart';
 import '../utils/display_util.dart';
 import 'edit_comment_bottom_sheet/widget.dart';
@@ -15,6 +13,7 @@ import 'iwr_markdown.dart';
 import 'network_image.dart';
 import 'replies_detail.dart';
 import 'translated_content.dart';
+import 'translation_mixin.dart';
 
 class UserComment extends StatefulWidget {
   final CommentModel comment;
@@ -45,24 +44,9 @@ class UserComment extends StatefulWidget {
 }
 
 class _UserCommentState extends State<UserComment>
-    with AutomaticKeepAliveClientMixin {
-  String? translatedContent;
-
+    with AutomaticKeepAliveClientMixin, TranslationMixin {
   void _gotoUserProfile(String userName) {
     Get.toNamed("/profile?userName=$userName");
-  }
-
-  void _getTranslatedContent() async {
-    if (translatedContent != null) return;
-    TranslateProvider.google(text: widget.comment.body).then((value) {
-      if (value.success) {
-        setState(() {
-          translatedContent = value.data;
-        });
-      } else {
-        SmartDialog.showToast(value.message!);
-      }
-    });
   }
 
   Widget _buildUploaderBadge(BuildContext context, [bool small = false]) {
@@ -130,9 +114,17 @@ class _UserCommentState extends State<UserComment>
               return <PopupMenuEntry<String>>[
                 PopupMenuItem<String>(
                   value: "translate",
-                  onTap: _getTranslatedContent,
-                  child: Text(t.common.translate),
+                  enabled: !translating,
+                  onTap: () => toggleTranslation(widget.comment.body),
+                  child: Text(translationActionLabel),
                 ),
+                if (canChooseTranslationEngine)
+                  PopupMenuItem<String>(
+                    value: "translate_with",
+                    enabled: !translating,
+                    onTap: () => chooseEngineAndTranslate(widget.comment.body),
+                    child: Text(t.translation.choose_engine),
+                  ),
                 if (widget.isMyComment) ...[
                   PopupMenuItem<String>(
                     value: "edit",
@@ -238,10 +230,12 @@ class _UserCommentState extends State<UserComment>
             selectable: !widget.canJumpToDetail,
             data: widget.comment.body,
           ),
-          if (translatedContent != null)
+          if (hasTranslation && translationVisible)
             TranslatedContent(
               padding: const EdgeInsets.only(top: 12),
               translatedContent: translatedContent!,
+              engine: translationEngine!,
+              onCollapse: hideTranslation,
             ),
           _buildBottomWidget(context),
           if (!(widget.comment.children.isEmpty || widget.showReplies == false))

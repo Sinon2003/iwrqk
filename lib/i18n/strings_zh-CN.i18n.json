@@ -213,6 +213,27 @@
     "confirm": "确认",
     "apply": "应用"
   },
+  "translation": {
+    "engines": {
+      "google": "Google 翻译",
+      "volcengine": "火山翻译",
+      "tencent": "腾讯交互翻译",
+      "yandex": "Yandex 翻译"
+    },
+    "engine_notes": {
+      "google": "需要能访问 Google",
+      "volcengine": "国内可直连，速度快",
+      "tencent": "国内可直连",
+      "yandex": "不支持输出繁体中文"
+    },
+    "powered_by": "翻译来源：",
+    "show": "显示翻译",
+    "hide": "收起翻译",
+    "translating": "翻译中…",
+    "choose_engine": "选择翻译源",
+    "default_tag": "默认",
+    "failed": "翻译失败（$engine）"
+  },
   "settings": {
     "appearance": "外观设置",
     "theme": "主题",
@@ -229,6 +250,11 @@
     "work_mode_desc": "隐藏所有 NSFW 内容的封面",
     "to_ai_site": "切换到AI站点内容",
     "to_ai_site_desc": "切换到AI站点查看AIGC内容",
+    "translation": "翻译",
+    "default_translation_engine": "默认翻译源",
+    "default_translation_engine_desc": "当前：$engine",
+    "enabled_translation_engines": "启用的翻译源",
+    "enabled_translation_engines_desc": "长按翻译时可选：$engines",
     "animated_preview": "动画预览",
     "animated_preview_desc": "在悬停或长按时显示可用的视频动画预览",
     "network": "网络设置",

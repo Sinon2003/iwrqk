@@ -69,6 +69,7 @@ class Translations with BaseTranslations<AppLocale, Translations> {
 	late final Translations$channel$en channel = Translations$channel$en.internal(_root);
 	late final Translations$create_thread$en create_thread = Translations$create_thread$en.internal(_root);
 	late final Translations$notifications$en notifications = Translations$notifications$en.internal(_root);
+	late final Translations$translation$en translation = Translations$translation$en.internal(_root);
 	late final Translations$settings$en settings = Translations$settings$en.internal(_root);
 	late final Translations$theme$en theme = Translations$theme$en.internal(_root);
 	late final Translations$colors$en colors = Translations$colors$en.internal(_root);
@@ -757,6 +758,38 @@ class Translations$notifications$en {
 	String get apply => 'Apply';
 }
 
+// Path: translation
+class Translations$translation$en {
+	Translations$translation$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	late final Translations$translation$engines$en engines = Translations$translation$engines$en.internal(_root);
+	late final Translations$translation$engine_notes$en engine_notes = Translations$translation$engine_notes$en.internal(_root);
+
+	/// en: 'Powered by '
+	String get powered_by => 'Powered by ';
+
+	/// en: 'Show translation'
+	String get show => 'Show translation';
+
+	/// en: 'Hide translation'
+	String get hide => 'Hide translation';
+
+	/// en: 'Translating…'
+	String get translating => 'Translating…';
+
+	/// en: 'Choose translation source'
+	String get choose_engine => 'Choose translation source';
+
+	/// en: 'Default'
+	String get default_tag => 'Default';
+
+	/// en: 'Translation failed ($engine)'
+	String failed({required Object engine}) => 'Translation failed (${engine})';
+}
+
 // Path: settings
 class Translations$settings$en {
 	Translations$settings$en.internal(this._root);
@@ -809,6 +842,21 @@ class Translations$settings$en {
 
 	/// en: 'Switch to AI site to see AIGC contents'
 	String get to_ai_site_desc => 'Switch to AI site to see AIGC contents';
+
+	/// en: 'Translation'
+	String get translation => 'Translation';
+
+	/// en: 'Default translation source'
+	String get default_translation_engine => 'Default translation source';
+
+	/// en: 'Current: $engine'
+	String default_translation_engine_desc({required Object engine}) => 'Current: ${engine}';
+
+	/// en: 'Enabled translation sources'
+	String get enabled_translation_engines => 'Enabled translation sources';
+
+	/// en: 'Offered when long-pressing Translate: $engines'
+	String enabled_translation_engines_desc({required Object engines}) => 'Offered when long-pressing Translate: ${engines}';
 
 	/// en: 'Animated preview'
 	String get animated_preview => 'Animated preview';
@@ -1110,6 +1158,48 @@ class Translations$player$aspect_ratios$en {
 
 	/// en: 'Scale down'
 	String get scale_down => 'Scale down';
+}
+
+// Path: translation.engines
+class Translations$translation$engines$en {
+	Translations$translation$engines$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Google Translate'
+	String get google => 'Google Translate';
+
+	/// en: 'Volcengine Translate'
+	String get volcengine => 'Volcengine Translate';
+
+	/// en: 'Tencent TranSmart'
+	String get tencent => 'Tencent TranSmart';
+
+	/// en: 'Yandex Translate'
+	String get yandex => 'Yandex Translate';
+}
+
+// Path: translation.engine_notes
+class Translations$translation$engine_notes$en {
+	Translations$translation$engine_notes$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Requires access to Google'
+	String get google => 'Requires access to Google';
+
+	/// en: 'Fast, reachable from mainland China'
+	String get volcengine => 'Fast, reachable from mainland China';
+
+	/// en: 'Reachable from mainland China'
+	String get tencent => 'Reachable from mainland China';
+
+	/// en: 'No Traditional Chinese output'
+	String get yandex => 'No Traditional Chinese output';
 }
 
 // Path: message.account
@@ -1467,6 +1557,21 @@ extension on Translations {
 			'notifications.cancel' => 'Cancel',
 			'notifications.confirm' => 'Confirm',
 			'notifications.apply' => 'Apply',
+			'translation.engines.google' => 'Google Translate',
+			'translation.engines.volcengine' => 'Volcengine Translate',
+			'translation.engines.tencent' => 'Tencent TranSmart',
+			'translation.engines.yandex' => 'Yandex Translate',
+			'translation.engine_notes.google' => 'Requires access to Google',
+			'translation.engine_notes.volcengine' => 'Fast, reachable from mainland China',
+			'translation.engine_notes.tencent' => 'Reachable from mainland China',
+			'translation.engine_notes.yandex' => 'No Traditional Chinese output',
+			'translation.powered_by' => 'Powered by ',
+			'translation.show' => 'Show translation',
+			'translation.hide' => 'Hide translation',
+			'translation.translating' => 'Translating…',
+			'translation.choose_engine' => 'Choose translation source',
+			'translation.default_tag' => 'Default',
+			'translation.failed' => ({required Object engine}) => 'Translation failed (${engine})',
 			'settings.appearance' => 'Appearance',
 			'settings.theme' => 'Theme',
 			'settings.theme_desc' => 'Change the theme of the App',
@@ -1482,6 +1587,11 @@ extension on Translations {
 			'settings.work_mode_desc' => 'Hide all covers of NSFW content',
 			'settings.to_ai_site' => 'Switch to AI site content',
 			'settings.to_ai_site_desc' => 'Switch to AI site to see AIGC contents',
+			'settings.translation' => 'Translation',
+			'settings.default_translation_engine' => 'Default translation source',
+			'settings.default_translation_engine_desc' => ({required Object engine}) => 'Current: ${engine}',
+			'settings.enabled_translation_engines' => 'Enabled translation sources',
+			'settings.enabled_translation_engines_desc' => ({required Object engines}) => 'Offered when long-pressing Translate: ${engines}',
 			'settings.animated_preview' => 'Animated preview',
 			'settings.animated_preview_desc' => 'Show animated video preview on hover or long press (when available)',
 			'settings.network' => 'Network',

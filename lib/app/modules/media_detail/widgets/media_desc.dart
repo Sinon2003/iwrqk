@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
-import 'package:iwrqk/i18n/strings.g.dart';
 
 import '../../../components/iwr_markdown.dart';
 import '../../../components/translated_content.dart';
+import '../../../components/translation_mixin.dart';
 import '../../../data/models/media/media.dart';
-import '../../../data/providers/translate_provider.dart';
 import '../../../utils/display_util.dart';
 
 class MeidaDescription extends StatefulWidget {
@@ -19,22 +17,18 @@ class MeidaDescription extends StatefulWidget {
   State<MeidaDescription> createState() => _MeidaDescriptionState();
 }
 
-class _MeidaDescriptionState extends State<MeidaDescription> {
-  String? translatedContent;
-
-  void _getTranslatedContent() async {
-    if (translatedContent != null || widget.media.body == null) {
-      return;
-    }
-    TranslateProvider.google(text: widget.media.body!).then((value) {
-      if (value.success) {
-        setState(() {
-          translatedContent = value.data;
-        });
-      } else {
-        SmartDialog.showToast(value.message!);
-      }
-    });
+class _MeidaDescriptionState extends State<MeidaDescription>
+    with TranslationMixin {
+  Widget _buildTranslateButton(BuildContext context, String body) {
+    return TextButton(
+      style: TextButton.styleFrom(
+        foregroundColor: Theme.of(context).colorScheme.primary,
+        backgroundColor: Theme.of(context).colorScheme.onInverseSurface,
+      ),
+      onPressed: translating ? null : () => toggleTranslation(body),
+      onLongPress: translating ? null : () => chooseEngineAndTranslate(body),
+      child: Text(translationActionLabel),
+    );
   }
 
   Widget _buildTagClip(BuildContext context, int index) {
@@ -146,26 +140,15 @@ class _MeidaDescriptionState extends State<MeidaDescription> {
                         data: widget.media.body ?? "",
                       ),
                     ),
-                  if (translatedContent == null &&
-                      widget.media.body != null) ...[
-                    TextButton(
-                      style: TextButton.styleFrom(
-                        foregroundColor: Theme.of(context).colorScheme.primary,
-                        backgroundColor: Theme.of(
-                          context,
-                        ).colorScheme.onInverseSurface,
-                      ),
-                      onPressed: () {
-                        _getTranslatedContent();
-                      },
-                      child: Text(t.common.translate),
-                    ),
+                  if (widget.media.body != null) ...[
+                    _buildTranslateButton(context, widget.media.body!),
                     const SizedBox(height: 8),
                   ],
-                  if (translatedContent != null)
+                  if (hasTranslation && translationVisible)
                     TranslatedContent(
                       padding: const EdgeInsets.only(top: 12),
                       translatedContent: translatedContent!,
+                      engine: translationEngine!,
                     ),
                   if (widget.media.tags.isNotEmpty)
                     Container(

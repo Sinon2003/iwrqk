@@ -213,6 +213,27 @@
     "confirm": "確認",
     "apply": "應用"
   },
+  "translation": {
+    "engines": {
+      "google": "Google 翻譯",
+      "volcengine": "火山翻譯",
+      "tencent": "騰訊交互翻譯",
+      "yandex": "Yandex 翻譯"
+    },
+    "engine_notes": {
+      "google": "需要能連線到 Google",
+      "volcengine": "中國大陸可直連，速度快",
+      "tencent": "中國大陸可直連",
+      "yandex": "不支援輸出繁體中文"
+    },
+    "powered_by": "翻譯來源：",
+    "show": "顯示翻譯",
+    "hide": "收起翻譯",
+    "translating": "翻譯中…",
+    "choose_engine": "選擇翻譯來源",
+    "default_tag": "預設",
+    "failed": "翻譯失敗（$engine）"
+  },
   "settings": {
     "appearance": "外觀設定",
     "theme": "主題",
@@ -229,6 +250,11 @@
     "work_mode_desc": "隱藏所有 NSFW 內容的封面",
     "to_ai_site": "切換到AI站點內容",
     "to_ai_site_desc": "切換到AI站點查看AIGC內容",
+    "translation": "翻譯",
+    "default_translation_engine": "預設翻譯來源",
+    "default_translation_engine_desc": "目前：$engine",
+    "enabled_translation_engines": "啟用的翻譯來源",
+    "enabled_translation_engines_desc": "長按翻譯時可選：$engines",
     "animated_preview": "動畫預覽",
     "animated_preview_desc": "在懸停或長按時顯示可用的影片動畫預覽",
     "network": "網路設定",

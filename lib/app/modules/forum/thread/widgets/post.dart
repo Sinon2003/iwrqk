@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:iwrqk/i18n/strings.g.dart';
 
 import '../../../../components/iwr_markdown.dart';
 import '../../../../components/network_image.dart';
 import '../../../../components/translated_content.dart';
+import '../../../../components/translation_mixin.dart';
 import '../../../../data/models/forum/post.dart';
-import '../../../../data/providers/translate_provider.dart';
 import '../../../../data/services/user_service.dart';
 import '../../../../utils/display_util.dart';
 import 'edit_post_bottom_sheet/widget.dart';
@@ -34,9 +33,8 @@ class Post extends StatefulWidget {
   State<StatefulWidget> createState() => _PostState();
 }
 
-class _PostState extends State<Post> with AutomaticKeepAliveClientMixin {
-  String? translatedContent;
-
+class _PostState extends State<Post>
+    with AutomaticKeepAliveClientMixin, TranslationMixin {
   Widget _buildStarterBadge(BuildContext context) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 4),
@@ -103,9 +101,17 @@ class _PostState extends State<Post> with AutomaticKeepAliveClientMixin {
               return <PopupMenuEntry<String>>[
                 PopupMenuItem<String>(
                   value: "translate",
-                  onTap: _getTranslatedContent,
-                  child: Text(t.common.translate),
+                  enabled: !translating,
+                  onTap: () => toggleTranslation(widget.post.body),
+                  child: Text(translationActionLabel),
                 ),
+                if (canChooseTranslationEngine)
+                  PopupMenuItem<String>(
+                    value: "translate_with",
+                    enabled: !translating,
+                    onTap: () => chooseEngineAndTranslate(widget.post.body),
+                    child: Text(t.translation.choose_engine),
+                  ),
                 if (widget.isMyComment) ...[
                   PopupMenuItem<String>(
                     value: "edit",
@@ -145,20 +151,6 @@ class _PostState extends State<Post> with AutomaticKeepAliveClientMixin {
         ],
       ),
     );
-  }
-
-  void _getTranslatedContent() async {
-    if (translatedContent != null) return;
-
-    TranslateProvider.google(text: widget.post.body).then((value) {
-      if (value.success) {
-        setState(() {
-          translatedContent = value.data;
-        });
-      } else {
-        SmartDialog.showToast(value.message!);
-      }
-    });
   }
 
   Widget _buildBottomWidget(BuildContext context) {
@@ -203,10 +195,12 @@ class _PostState extends State<Post> with AutomaticKeepAliveClientMixin {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           IwrMarkdown(selectable: true, data: widget.post.body),
-          if (translatedContent != null)
+          if (hasTranslation && translationVisible)
             TranslatedContent(
               padding: const EdgeInsets.only(top: 12),
               translatedContent: translatedContent!,
+              engine: translationEngine!,
+              onCollapse: hideTranslation,
             ),
           _buildBottomWidget(context),
           if (widget.showDivider) const SizedBox(height: 12),

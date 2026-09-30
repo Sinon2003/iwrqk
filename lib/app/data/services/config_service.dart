@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:iwrqk/i18n/strings.g.dart';
 
 import '../../const/widget.dart';
+import '../enums/translation_engine.dart';
 import '../models/account/settings/filter_setting.dart';
 import '../providers/storage_provider.dart';
 
@@ -29,6 +30,9 @@ abstract class ConfigKey {
   static const String enablePreview = "enablePreview";
 
   static const String enableDiscordRichPresence = "enableDiscordRichPresence";
+
+  static const String translationEngine = "translationEngine";
+  static const String enabledTranslationEngines = "enabledTranslationEngines";
 }
 
 class ConfigService extends GetxService {
@@ -68,6 +72,33 @@ class ConfigService extends GetxService {
   set enablePreview(bool value) {
     _enablePreview.value = value;
     setting[ConfigKey.enablePreview] = value;
+  }
+
+  final Rx<TranslationEngine> _translationEngine = TranslationEngine.google.obs;
+  TranslationEngine get translationEngine => _translationEngine.value;
+  set translationEngine(TranslationEngine engine) {
+    _translationEngine.value = engine;
+    setting[ConfigKey.translationEngine] = engine.name;
+    // The default engine is always enabled.
+    if (!_enabledTranslationEngines.contains(engine)) {
+      enabledTranslationEngines = [..._enabledTranslationEngines, engine];
+    }
+  }
+
+  final RxList<TranslationEngine> _enabledTranslationEngines = TranslationEngine
+      .values
+      .toList()
+      .obs;
+  List<TranslationEngine> get enabledTranslationEngines =>
+      _enabledTranslationEngines;
+  set enabledTranslationEngines(List<TranslationEngine> engines) {
+    final enabled = {...engines, translationEngine};
+    _enabledTranslationEngines.value = TranslationEngine.values
+        .where(enabled.contains)
+        .toList();
+    setting[ConfigKey.enabledTranslationEngines] = _enabledTranslationEngines
+        .map((engine) => engine.name)
+        .toList();
   }
 
   final RxDouble _gridChildAspectRatio = 1.0.obs;
@@ -146,5 +177,23 @@ class ConfigService extends GetxService {
       ConfigKey.enablePreview,
       defaultValue: true,
     );
+
+    _translationEngine.value =
+        TranslationEngine.fromName(setting.get(ConfigKey.translationEngine)) ??
+        TranslationEngine.google;
+    final List? enabledEngineNames = setting.get(
+      ConfigKey.enabledTranslationEngines,
+    );
+    if (enabledEngineNames != null) {
+      final enabled = {
+        ...enabledEngineNames
+            .map((name) => TranslationEngine.fromName(name as String?))
+            .whereType<TranslationEngine>(),
+        _translationEngine.value,
+      };
+      _enabledTranslationEngines.value = TranslationEngine.values
+          .where(enabled.contains)
+          .toList();
+    }
   }
 }

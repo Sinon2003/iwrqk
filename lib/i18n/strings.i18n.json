@@ -219,6 +219,27 @@
     "confirm": "Confirm",
     "apply": "Apply"
   },
+  "translation": {
+    "engines": {
+      "google": "Google Translate",
+      "volcengine": "Volcengine Translate",
+      "tencent": "Tencent TranSmart",
+      "yandex": "Yandex Translate"
+    },
+    "engine_notes": {
+      "google": "Requires access to Google",
+      "volcengine": "Fast, reachable from mainland China",
+      "tencent": "Reachable from mainland China",
+      "yandex": "No Traditional Chinese output"
+    },
+    "powered_by": "Powered by ",
+    "show": "Show translation",
+    "hide": "Hide translation",
+    "translating": "Translating…",
+    "choose_engine": "Choose translation source",
+    "default_tag": "Default",
+    "failed": "Translation failed ($engine)"
+  },
   "settings": {
     "appearance": "Appearance",
     "theme": "Theme",
@@ -235,6 +256,11 @@
     "work_mode_desc": "Hide all covers of NSFW content",
     "to_ai_site": "Switch to AI site content",
     "to_ai_site_desc": "Switch to AI site to see AIGC contents",
+    "translation": "Translation",
+    "default_translation_engine": "Default translation source",
+    "default_translation_engine_desc": "Current: $engine",
+    "enabled_translation_engines": "Enabled translation sources",
+    "enabled_translation_engines_desc": "Offered when long-pressing Translate: $engines",
     "animated_preview": "Animated preview",
     "animated_preview_desc": "Show animated video preview on hover or long press (when available)",
     "network": "Network",
