@@ -7,13 +7,16 @@ import 'package:iwrqk/app/utils/parallel_range_proxy.dart';
 
 /// A server that serves [data] with Range support, like the video nodes. It
 /// answers 403 under /expired, like a link past its expiry time, and under
-/// /flaky for anything after the first 5000 bytes.
+/// /flaky for anything after the first 5000 bytes. The first ranged request
+/// under /stall gets half its bytes and then hangs, and the first under
+/// /silent never gets an answer, like connections that stall.
 Future<HttpServer> startUpstream(
   Uint8List data, {
   Duration delay = Duration.zero,
   void Function()? onRequest,
 }) async {
   final server = await HttpServer.bind(InternetAddress.loopbackIPv4, 0);
+  final stalled = <String>{};
   server.listen((request) async {
     onRequest?.call();
     final range = ParallelRangeProxy.parseRange(
@@ -25,6 +28,23 @@ Future<HttpServer> startUpstream(
         (request.uri.path == '/flaky' && start >= 5000)) {
       request.response.statusCode = HttpStatus.forbidden;
       await request.response.close();
+      return;
+    }
+    final path = request.uri.path;
+    if ((path == '/stall' || path == '/silent') &&
+        end > start &&
+        stalled.add(path)) {
+      if (path == '/stall') {
+        request.response
+          ..statusCode = HttpStatus.partialContent
+          ..contentLength = end - start + 1
+          ..headers.set(
+            HttpHeaders.contentRangeHeader,
+            "bytes $start-$end/${data.length}",
+          )
+          ..add(data.sublist(start, start + (end - start + 1) ~/ 2));
+        await request.response.flush();
+      }
       return;
     }
     await Future.delayed(delay);
@@ -145,6 +165,24 @@ void main() {
     test('cuts the connection when the upstream fails midway', () async {
       final flaky = await proxy.wrap('http://127.0.0.1:${upstream.port}/flaky');
       await expectLater(get(flaky), throwsA(isA<HttpException>()));
+    });
+
+    test('retries a request that stalls or never answers', () async {
+      // One connection at a time, so a stalled one has to be let go first.
+      final strict = ParallelRangeProxy(
+        chunkSize: 1000,
+        parallel: 1,
+        preferredPort: 0,
+        stallTimeout: const Duration(milliseconds: 200),
+        allowUpstream: (uri) => uri.host == '127.0.0.1',
+      );
+      addTearDown(strict.close);
+      for (final path in ['/stall', '/silent']) {
+        final url = await strict.wrap('http://127.0.0.1:${upstream.port}$path');
+        final (status, _, bytes) = await get(url);
+        expect(status, HttpStatus.ok, reason: path);
+        expect(bytes, data, reason: path);
+      }
     });
 
     test('refuses upstreams it does not serve', () async {

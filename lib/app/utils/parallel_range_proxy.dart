@@ -23,6 +23,7 @@ class ParallelRangeProxy {
     this.chunkSize = 1 << 20,
     this.parallel = 4,
     this.preferredPort = 38291,
+    this.stallTimeout = const Duration(seconds: 15),
     bool Function(Uri upstream)? allowUpstream,
   }) : _allowUpstream = allowUpstream ?? _isIwaraFile;
 
@@ -37,6 +38,11 @@ class ParallelRangeProxy {
   /// A fixed port keeps local URLs valid across restarts; any free port is
   /// used when it is taken.
   final int preferredPort;
+
+  /// How long a request may go without receiving anything before it is
+  /// dropped and retried. Connections through a VPN sometimes stall without
+  /// failing, and one stalled chunk would hold up the whole reader.
+  final Duration stallTimeout;
 
   final bool Function(Uri upstream) _allowUpstream;
 
@@ -207,7 +213,7 @@ class ParallelRangeProxy {
     void fillAhead() {
       while (pending.length < parallel && next <= end && !readerGone) {
         final to = min(next + chunkSize - 1, end);
-        pending.add(_Chunk(_client, upstream, next, to));
+        pending.add(_Chunk(_client, upstream, next, to, stallTimeout));
         next = to + 1;
       }
     }
@@ -249,14 +255,20 @@ class ParallelRangeProxy {
 
     final request = await _client.getUrl(upstream);
     request.headers.set(HttpHeaders.rangeHeader, "bytes=0-0");
-    final response = await request.close();
+    final HttpClientResponse response;
+    try {
+      response = await request.close().timeout(stallTimeout);
+    } on TimeoutException {
+      request.abort();
+      rethrow;
+    }
+    // Only the headers matter, so the connection is dropped right away.
+    await _discard(response);
     final contentRange = response.headers.value(HttpHeaders.contentRangeHeader);
     final total = int.tryParse(contentRange?.split("/").last ?? "");
     if (response.statusCode != HttpStatus.partialContent || total == null) {
-      await _discard(response);
       throw HttpException("Ranges not supported (${response.statusCode})");
     }
-    await response.drain<void>();
     if (_lengths.length >= 64) _lengths.remove(_lengths.keys.first);
     return _lengths[key] = total;
   }
@@ -293,14 +305,19 @@ Future<void> _discard(HttpClientResponse response) async {
 /// One ranged request, started at once. Its bytes wait in [stream] until the
 /// writer gets to it, and then pass straight through as they arrive.
 class _Chunk {
-  _Chunk(HttpClient client, Uri upstream, this.from, this.to) {
-    _run(client, upstream);
+  _Chunk(this._client, this._upstream, this.from, this.to, this._stallTimeout) {
+    _run();
   }
 
+  final HttpClient _client;
+  final Uri _upstream;
   final int from;
   final int to;
+  final Duration _stallTimeout;
   final StreamController<List<int>> _data = StreamController();
   HttpClientRequest? _request;
+  void Function(Object error)? _failAttempt;
+  int _received = 0;
   bool _cancelled = false;
 
   Stream<List<int>> get stream => _data.stream;
@@ -309,38 +326,16 @@ class _Chunk {
     if (_cancelled) return;
     _cancelled = true;
     _request?.abort();
+    _failAttempt?.call(const HttpException("Cancelled"));
     _data.close();
   }
 
-  Future<void> _run(HttpClient client, Uri upstream) async {
-    var received = 0;
+  Future<void> _run() async {
     Object? lastError;
     for (var attempt = 0; attempt < 3 && !_cancelled; attempt++) {
       try {
-        final request = _request = await client.getUrl(upstream);
-        if (_cancelled) {
-          request.abort();
-          return;
-        }
-        // A retry continues after the bytes already passed on.
-        request.headers.set(
-          HttpHeaders.rangeHeader,
-          "bytes=${from + received}-$to",
-        );
-        final response = await request.close();
-        if (response.statusCode != HttpStatus.partialContent) {
-          await _discard(response);
-          throw HttpException("Unexpected status ${response.statusCode}");
-        }
-        await for (final part in response) {
-          if (_cancelled) return;
-          _data.add(part);
-          received += part.length;
-        }
-        if (from + received != to + 1) {
-          throw HttpException("Got $received of ${to - from + 1} bytes");
-        }
-        _data.close();
+        await _fetchRest();
+        if (!_cancelled) _data.close();
         return;
       } catch (e) {
         lastError = e;
@@ -349,5 +344,73 @@ class _Chunk {
     if (_cancelled) return;
     _data.addError(lastError!);
     _data.close();
+  }
+
+  /// Passes on the bytes not received yet. Gives up when the server sends
+  /// nothing for [_stallTimeout], which also frees the connection.
+  Future<void> _fetchRest() async {
+    final request = _request = await _client.getUrl(_upstream);
+    if (_cancelled) {
+      request.abort();
+      return;
+    }
+    // A retry continues after the bytes already passed on.
+    request.headers.set(
+      HttpHeaders.rangeHeader,
+      "bytes=${from + _received}-$to",
+    );
+    final HttpClientResponse response;
+    try {
+      response = await request.close().timeout(_stallTimeout);
+    } on TimeoutException {
+      request.abort();
+      rethrow;
+    }
+    if (response.statusCode != HttpStatus.partialContent) {
+      await _discard(response);
+      throw HttpException("Unexpected status ${response.statusCode}");
+    }
+
+    final done = Completer<void>();
+    late final StreamSubscription<List<int>> subscription;
+    Timer? watchdog;
+    void finish([Object? error]) {
+      watchdog?.cancel();
+      _failAttempt = null;
+      if (done.isCompleted) return;
+      if (error == null) {
+        done.complete();
+      } else {
+        subscription.cancel();
+        done.completeError(error);
+      }
+    }
+
+    void rearm() {
+      watchdog?.cancel();
+      watchdog = Timer(
+        _stallTimeout,
+        () => finish(TimeoutException("No data", _stallTimeout)),
+      );
+    }
+
+    _failAttempt = finish;
+    subscription = response.listen(
+      (part) {
+        if (_cancelled) return;
+        _data.add(part);
+        _received += part.length;
+        rearm();
+      },
+      onError: finish,
+      onDone: () => finish(
+        from + _received == to + 1
+            ? null
+            : HttpException("Got $_received of ${to - from + 1} bytes"),
+      ),
+      cancelOnError: true,
+    );
+    rearm();
+    await done.future;
   }
 }
