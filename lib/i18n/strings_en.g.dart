@@ -1173,8 +1173,8 @@ class Translations$settings$en {
 	/// en: 'Accelerated downloads and playback'
 	String get accelerated_transfer => 'Accelerated downloads and playback';
 
-	/// en: 'Plays and downloads videos through a local proxy that fetches several parts at once. Faster where each connection is throttled; uses more connections and may fail. Keep the app open while downloading'
-	String get accelerated_transfer_desc => 'Plays and downloads videos through a local proxy that fetches several parts at once. Faster where each connection is throttled; uses more connections and may fail. Keep the app open while downloading';
+	/// en: 'Tries to improve playback and downloads on constrained connections, returning to one connection if parallel transfers do not help. Keep the app open while downloading'
+	String get accelerated_transfer_desc => 'Tries to improve playback and downloads on constrained connections, returning to one connection if parallel transfers do not help. Keep the app open while downloading';
 
 	/// en: 'Preferred quality'
 	String get preferred_quality => 'Preferred quality';
@@ -1191,8 +1191,8 @@ class Translations$settings$en {
 	/// en: 'Always $name'
 	String quality_fixed({required Object name}) => 'Always ${name}';
 
-	/// en: 'The best quality that played smoothly at your recent speed'
-	String get quality_auto_desc => 'The best quality that played smoothly at your recent speed';
+	/// en: 'Chooses a starting quality from recent playback and the video size, without extra speed tests'
+	String get quality_auto_desc => 'Chooses a starting quality from recent playback and the video size, without extra speed tests';
 
 	/// en: 'Always the highest quality'
 	String get quality_highest_desc => 'Always the highest quality';
@@ -2005,13 +2005,13 @@ extension on Translations {
 			'settings.third_party_license_desc' => 'View the license of third party libraries',
 			'settings.experimental' => 'Experimental',
 			'settings.accelerated_transfer' => 'Accelerated downloads and playback',
-			'settings.accelerated_transfer_desc' => 'Plays and downloads videos through a local proxy that fetches several parts at once. Faster where each connection is throttled; uses more connections and may fail. Keep the app open while downloading',
+			'settings.accelerated_transfer_desc' => 'Tries to improve playback and downloads on constrained connections, returning to one connection if parallel transfers do not help. Keep the app open while downloading',
 			'settings.preferred_quality' => 'Preferred quality',
 			'settings.quality_auto' => 'Auto',
 			'settings.quality_highest' => 'Best quality',
 			'settings.quality_smoothest' => 'Smoothest',
 			'settings.quality_fixed' => ({required Object name}) => 'Always ${name}',
-			'settings.quality_auto_desc' => 'The best quality that played smoothly at your recent speed',
+			'settings.quality_auto_desc' => 'Chooses a starting quality from recent playback and the video size, without extra speed tests',
 			'settings.quality_highest_desc' => 'Always the highest quality',
 			'settings.quality_smoothest_desc' => 'Always the lowest quality, for slow connections',
 			'settings.quality_fixed_desc' => ({required Object name}) => '${name} when the video has it, otherwise the next one below',

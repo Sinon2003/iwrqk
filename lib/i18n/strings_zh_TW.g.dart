@@ -607,13 +607,13 @@ class Translations$settings$zh_TW extends Translations$settings$en {
 	@override String get third_party_license_desc => '查看第三方庫的許可證';
 	@override String get experimental => '實驗性功能';
 	@override String get accelerated_transfer => '加速下載與播放';
-	@override String get accelerated_transfer_desc => '線上播放和下載經由本機代理，多個連線並行分段取得。適合單一連線限速的線路，連線數更多，可能失敗；下載時需保持應用程式執行';
+	@override String get accelerated_transfer_desc => '嘗試改善受限線路的播放和下載速度，並行沒有收益時自動使用單一連線。下載時需保持應用程式執行';
 	@override String get preferred_quality => '優先畫質';
 	@override String get quality_auto => '自動';
 	@override String get quality_highest => '畫質優先';
 	@override String get quality_smoothest => '流暢優先';
 	@override String quality_fixed({required Object name}) => '指定 ${name}';
-	@override String get quality_auto_desc => '依最近實測的網速，選擇能流暢播放的最高畫質';
+	@override String get quality_auto_desc => '依近期播放速度和影片大小選擇起始畫質，不額外消耗流量測速';
 	@override String get quality_highest_desc => '總是選擇最高畫質';
 	@override String get quality_smoothest_desc => '總是選擇最低畫質，適合慢速網路';
 	@override String quality_fixed_desc({required Object name}) => '有 ${name} 時播放 ${name}，沒有則選低一檔';
@@ -1212,13 +1212,13 @@ extension on TranslationsZhTw {
 			'settings.third_party_license_desc' => '查看第三方庫的許可證',
 			'settings.experimental' => '實驗性功能',
 			'settings.accelerated_transfer' => '加速下載與播放',
-			'settings.accelerated_transfer_desc' => '線上播放和下載經由本機代理，多個連線並行分段取得。適合單一連線限速的線路，連線數更多，可能失敗；下載時需保持應用程式執行',
+			'settings.accelerated_transfer_desc' => '嘗試改善受限線路的播放和下載速度，並行沒有收益時自動使用單一連線。下載時需保持應用程式執行',
 			'settings.preferred_quality' => '優先畫質',
 			'settings.quality_auto' => '自動',
 			'settings.quality_highest' => '畫質優先',
 			'settings.quality_smoothest' => '流暢優先',
 			'settings.quality_fixed' => ({required Object name}) => '指定 ${name}',
-			'settings.quality_auto_desc' => '依最近實測的網速，選擇能流暢播放的最高畫質',
+			'settings.quality_auto_desc' => '依近期播放速度和影片大小選擇起始畫質，不額外消耗流量測速',
 			'settings.quality_highest_desc' => '總是選擇最高畫質',
 			'settings.quality_smoothest_desc' => '總是選擇最低畫質，適合慢速網路',
 			'settings.quality_fixed_desc' => ({required Object name}) => '有 ${name} 時播放 ${name}，沒有則選低一檔',
