@@ -72,14 +72,22 @@ flowchart LR
 
 ## 播放、下载与平台行为
 
-- 在线视频的清晰度由 [QualityPicker](../../lib/app/utils/quality_picker.dart) 按设置里的优先清晰度选择：画质优先、流畅优先、指定清晰度（没有就选低一档）或自动。自动模式把各清晰度的典型码率与学到的下载速度的七成比较；速度由 [PlaybackMonitor](../../lib/app/components/plugin/pl_player/utils/playback_monitor.dart) 在播放开头读取 mpv 的 `cache-speed` 被动测得，不额外下载，并在播放中卡顿（跳转后 3 秒内不算）时下调。播放器里手动切换只影响当前视频。
+- 在线视频的清晰度由 [QualityPicker](../../lib/app/utils/quality_picker.dart) 在打开视频时选择：画质优先、流畅优先、指定清晰度（没有就选低一档）或自动。自动模式用吞吐的七成作预算；Source 优先按 API 已返回的 `file.size × 8 / duration` 计算平均码率，其他档位缺少大小时采用经验值。无有效观测时用 2.5 Mbps 初始预算，通常从 540 开始。没有测速下载、逐档 HEAD 探测或播放中自动换源，手动选择仍只影响当前视频。
+    - [PlaybackMonitor](../../lib/app/components/plugin/pl_player/utils/playback_monitor.dart) 每秒读取本机状态，最多 12 次；用至少两个有效窗口中的次高值，过滤单个尖峰。检测到缓存空闲或接近时间 / 字节上限时立即结算；不能把缓存填满后的补充速率当成线路容量。普通播放读取 mpv 的 `cache-speed`；加速播放读取代理按上游实际到达字节计算的独立窗口，包含请求 / 重试等待，不减去下游等待，不采 localhost 突发速度，也不重复计入同一窗口。
+    - [PlaybackBandwidth](../../lib/app/utils/playback_bandwidth.dart) 按 CDN 主机和加速模式记录，最多保留 8 项，5 分钟过期；Iwara 会轮换各档 CDN，未观测的主机参考同模式最新观测的八成，已有该主机观测则优先使用（慢主机不会被其他主机的高速记录覆盖）。新版本使用 `playbackBandwidth` 结构，旧 `playbackThroughput` 数字不再参与决策。外部 VPN 节点变化无法直接感知，新的播放观测和持续卡顿反馈会修正估计。样本不足时保留保守起始档位，不追加测速。
+    - 持续缓冲至少 2 秒且没有可播放缓存才下调后续视频的预算；首播、暂停、结束和跳转后 3 秒内的等待不算卡顿。先结算旧样本再降低估计，避免随后被旧数据覆盖；换源前销毁旧监控，回调固定捕获当时的源和模式。
 - [媒体详情](../../lib/app/modules/media_detail/controller.dart) 负责在线 / 离线媒体加载、清晰度、收藏、历史和播放入口，并像网页端一样记录播放过的 1/16 段，离开页面时上报观看（`POST video/{id}/view`），这也构成网站端的观看记录；[pl_player](../../lib/app/components/plugin/pl_player/controller.dart) 基于 `media_kit` 管理播放器、控制栏、流订阅和定时器，音频会话在 `data/services/plugin/pl_player/`。
 - Android 画中画使用 `floating`；Windows 画中画在媒体详情中通过 `window_manager` 调整并恢复窗口。退出详情、全屏切换、前后台切换都涉及资源生命周期。
 - [DownloadService](../../lib/app/data/services/download_service.dart) 使用 `background_downloader`，注册顶层状态 / 进度回调，并维护任务状态与持久记录。回调带有 `@pragma('vm:entry-point')`；修改下载逻辑时检查后台回调、权限、路径和任务恢复。下载按文件路径写入用户选择的目录：Android 11+ 依赖 `MANAGE_EXTERNAL_STORAGE`，Android 10 依赖 manifest 中的 `requestLegacyExternalStorage`；目录选择不能改用返回 `content://` 的 SAF 方式。
-- 实验性"加速下载与播放"（`ConfigService.acceleratedTransfer`，默认关）由 [ParallelRangeProxy](../../lib/app/utils/parallel_range_proxy.dart) 实现：在 127.0.0.1 起本机 HTTP 服务，把 Iwara 视频文件拆成多个 Range 请求并行获取，再按顺序交给播放器或下载器；读取方断开（播放器每次跳转都会）即停止取数。视频服务器对 HEAD 返回 405 且不带 `Accept-Ranges`，所以不能用 `background_downloader` 自带的 `ParallelDownloadTask`。
+- 实验性"加速下载与播放"（`ConfigService.acceleratedTransfer`，默认关）由 [ParallelRangeProxy](../../lib/app/utils/parallel_range_proxy.dart) 实现，在 127.0.0.1 为播放器与下载器提供可 seek 的 HTTP 文件。先发送一个连续 Range 请求，同时取得大小和正文，GET 不再额外探测文件长度。上游不支持 Range 时按原状态流式转发；本机 HEAD 则通过单字节 GET 获得大小，以兼容拒绝 HEAD 的文件服务器。
+    - 连续传输至少采样 3 秒且收到 512 KiB 后，才考虑并行；小文件或剩余数据不足两段时保持单流。段大小按约 2 秒的数据量选择，生产范围 1–4 MiB，先试两路，有收益再增至最多四路。吞吐低于原单流的 115%，或明显低于上一轮时，停止分段，从已交付偏移继续单流。每个读取方保留自己的普通连接；同一主机只共享最多三条额外预取连接，拿不到名额就继续原单流，不排队等其他下载结束。预取段在尚未有监听者时仍会接收，最多约三段 / 12 MiB 的额外内存。
+    - 播放器传入媒体时长，代理结合所选文件实际大小估算平均码率；单流已达到其 1.5 倍时跳过试探。策略针对当前传输重新判断，不持久化某个 VPN 节点的带宽假设，也不修改 Clash / NekoBox 设置。总带宽已满时，并行不保证提速。
+    - 每段核对 `206`、`Content-Range` 的起止位置和总长、声明长度及已有 ETag；有强 ETag 时续传附带 `If-Range`，下载器原有的 `If-Range` 也透传，上游文件改变时保留其 `200` 完整响应，不能将新内容误接到旧文件后。超时或截断按已收到字节重试，只累计连续无进展的失败（最多三次），收到新字节就重置额度；校验失败会关闭响应，不把错误分段当成功文件。连接建立与响应头共用 10 秒预算，正文停滞看门狗为 5 秒；读取方断开或半关闭时取消请求并释放本机连接，读取方背压时暂停取数和正文看门狗。
     - 本机地址内含上游 URL，端口固定为 38291（被占用时换随机端口）。`DownloadService` 启动时若有未完成的加速任务会先启动代理，恢复 / 重试时按当前端口改写任务地址。
+    - 开关在创建播放源和下载任务时读取；已有下载任务保留原 URL，开关不会自动切换正在进行的传输。旧的本机 URL 兼容新的调度方式。
     - 下载器经明文 HTTP 访问代理，manifest 引用的 `res/xml/network_security_config.xml` 仅对 127.0.0.1 放开明文。
     - 加速模式下播放器直连本机代理（清空 mpv 的 `http-proxy`），代理向上游的请求沿用应用代理（`HttpOverrides`）或系统 VPN。
+    - 两种模式均显式关闭 mpv 磁盘缓存，设置 `cache-secs=30`、前向 32 MiB / 后向 8 MiB 的内存上限，目的是限制提前下载量和缓存占用。这会改变原默认磁盘缓存的回看行为：后退超过已保留的 8 MiB 时需要重新请求。`media_kit` 默认开启磁盘缓存，此时 `demuxer-max-bytes` 只约束元数据，不能作为视频数据大小上限（见 [mpv 缓存文档](https://mpv.io/manual/stable/#cache)）。代理看门狗为 5 秒，加速播放的网络等待为 20 秒，为重试留出时间。
     - 代理运行在应用进程内，进程结束后加速下载会失败，回到应用后可重试续传。
 - [DiscordRpcService](../../lib/app/data/services/discord_rpc_service.dart) 通过本地插件发布播放状态，目前仅在 Windows / Linux 启用，由设置控制。
 

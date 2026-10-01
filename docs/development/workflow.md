@@ -52,6 +52,15 @@
 
 这张表用于挑选与本次修改相关的场景，不要求每次执行全量回归。
 
+### 加速传输回归
+
+- `flutter test test/parallel_range_proxy_test.dart test/parallel_range_proxy_adaptive_test.dart test/playback_monitor_test.dart` 覆盖续传、断流、超时、Range 校验、无 Range 服务、并行收益与降级，以及测速和卡顿反馈。
+- `flutter test test/parallel_range_proxy_regression_test.dart` 使用 4 MiB 段验证真实预取（小段容易全落在套接字缓冲里），并覆盖六个读取方、额外连接预算、多次有进展的断流、无进展重试上限、FIN 半关闭和初始非法响应清理。
+- `flutter test test/quality_picker_test.dart test/playback_bandwidth_test.dart test/playback_monitor_test.dart test/file_model_test.dart` 覆盖实际 Source 码率、缓存填满后停止采样、重复上游窗口、网速估计的主机 / 模式隔离和过期、旧记录兼容。自动清晰度是起播选择；验证时分别关闭 / 开启加速，观察正常播放的填充样本和下个视频的选择，不为取样主动下载其他档位。
+- 真机测速固定资源、清晰度、字节区间和 VPN 节点，交替测量原始连续请求与应用代理。检查响应状态、字节数和散列一致后再比较用时；同时记录首段正文到达时间，HTTP 响应头到达时间不能代替它。
+- 区分“单连接限速”“整条线路共享带宽”“建连 / 请求延迟高”：它们对并行的反应不同。对照请求必须走同一出口；切换节点后重新采样，避免把线路变化归因于代码。
+- 加速下载仍依赖应用进程内的代理，测试前后台、暂停 / 恢复和进程重启；它不等价于可脱离应用进程持续运行的原生后台多线程下载。
+
 ## 构建与发布现状
 
 [.github/workflows/](../../.github/workflows/) 中的有效工作流是 Android、Windows 构建：Android 由 `v*` 标签触发，也可手动运行；Windows 不在维护范围，只能手动运行，且目前构建失败（`flutter_inappwebview_windows` 不兼容新版 MSVC 移除的 `<experimental/coroutine>`）。当前未配置独立的 PR 分析 / 测试工作流。`release.yml.tmp` 是保留文件，不是有效 workflow。
