@@ -35,7 +35,6 @@ class _HistoryMediaPreviewListState extends State<HistoryMediaPreviewList>
   void initState() {
     super.initState();
     _controller = Get.find<HistoryMediaPreviewListController>(tag: widget.tag);
-    _controller.initConfig(_parentController);
     _parentController.childrenControllers[widget.tag] = _controller;
   }
 
@@ -67,33 +66,35 @@ class _HistoryMediaPreviewListState extends State<HistoryMediaPreviewList>
                     }
                   }
 
-                  return HistoryMediaPreview(
-                    historyController: _parentController,
-                    checked: _parentController.checkedList.contains(item.id),
-                    media: item,
-                    showType: widget.filterType == null,
-                    onLongPress: _parentController.enableMultipleSelection
-                        ? null
-                        : () {
-                            _parentController.enableMultipleSelection = true;
-                            _parentController.toggleChecked(item.id);
-                            setState(() {});
-                          },
-                    onTap: () {
-                      if (_parentController.enableMultipleSelection) {
-                        _parentController.toggleChecked(item.id);
-                        setState(() {});
-                      } else {
-                        Get.toNamed(
-                          "/mediaDetail?id=${item.id}",
-                          arguments: {
-                            "mediaType": item.type == MediaType.video
-                                ? MediaType.video
-                                : MediaType.image,
-                          },
-                        );
-                      }
-                    },
+                  // The list builds its rows lazily, outside the Obx around
+                  // it, so each row watches the selection itself.
+                  return Obx(
+                    () => HistoryMediaPreview(
+                      historyController: _parentController,
+                      checked: _parentController.checked.contains(item.id),
+                      media: item,
+                      showType: widget.filterType == null,
+                      onLongPress: _parentController.enableMultipleSelection
+                          ? null
+                          : () {
+                              _parentController.enableMultipleSelection = true;
+                              _parentController.toggleChecked(item.id);
+                            },
+                      onTap: () {
+                        if (_parentController.enableMultipleSelection) {
+                          _parentController.toggleChecked(item.id);
+                        } else {
+                          Get.toNamed(
+                            "/mediaDetail?id=${item.id}",
+                            arguments: {
+                              "mediaType": item.type == MediaType.video
+                                  ? MediaType.video
+                                  : MediaType.image,
+                            },
+                          );
+                        }
+                      },
+                    ),
                   );
                 }, childCount: data.length),
               ),

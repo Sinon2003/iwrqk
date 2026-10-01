@@ -5,7 +5,6 @@ import '../../../../../data/enums/result.dart';
 import '../../../../../data/enums/types.dart';
 import '../../../../../data/models/media/media.dart';
 import '../../../../../data/services/user_service.dart';
-import '../../controller.dart';
 import 'repository.dart';
 
 class FavoriteMediaPreviewListController
@@ -13,20 +12,11 @@ class FavoriteMediaPreviewListController
   final FavoriteMediaPreviewListRepository repository =
       FavoriteMediaPreviewListRepository();
 
-  final FavoritesController _parentController = Get.find();
-
   final UserService userService = Get.find();
   late MediaType _sourceType;
 
   void initConfig(MediaType sourceType) {
     _sourceType = sourceType;
-  }
-
-  void toggleCheckedAll() {
-    for (var item in data) {
-      _parentController.toggleChecked(item, true);
-    }
-    update();
   }
 
   void showLoading() {

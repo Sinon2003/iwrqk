@@ -3,29 +3,22 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../components/multiple_selection.dart';
+import '../../../data/enums/download_task_status.dart';
 import '../../../data/providers/storage_provider.dart';
 import '../../../data/services/download_service.dart';
 import 'widgets/downloads_media_preview_list/controller.dart';
 
 class DownloadsController extends GetxController
-    with GetSingleTickerProviderStateMixin {
+    with GetSingleTickerProviderStateMixin, MultipleSelection {
   final DownloadService downloadService = Get.find();
 
   Map<String, DownloadsMediaPreviewListController> childrenControllers = {};
   late List<String> childrenControllerTags;
 
-  final RxBool _enableMultipleSelection = false.obs;
-  bool get enableMultipleSelection => _enableMultipleSelection.value;
-  set enableMultipleSelection(bool value) =>
-      _enableMultipleSelection.value = value;
-
-  List checkedList = [];
-
-  final RxInt _checkedCount = 0.obs;
-  int get checkedCount => _checkedCount.value;
-  set checkedCount(int value) => _checkedCount.value = value;
-
   late TabController tabController;
+
+  static const completedTab = 0;
 
   @override
   void onInit() {
@@ -43,21 +36,23 @@ class DownloadsController extends GetxController
     }
   }
 
-  void toggleChecked(String id, [bool all = false]) {
-    if (checkedList.contains(id)) {
-      checkedList.remove(id);
-      checkedCount--;
-    } else {
-      checkedList.add(id);
-      checkedCount++;
-    }
-    update();
-  }
+  /// Whether [taskId] belongs on the tab of finished downloads; everything
+  /// else is on the other one.
+  bool isCompleted(String taskId) =>
+      downloadService.downloadTasksStatus[taskId]?.value.status ==
+      DownloadTaskStatus.complete;
 
-  void toggleCheckedAll() {
-    childrenControllers[childrenControllerTags[tabController.index]]
-        ?.toggleCheckedAll();
-    update();
+  /// Both tabs hold every task and hide the other tab's, so only the tasks
+  /// this tab shows are inverted.
+  void invertSelection() {
+    final list =
+        childrenControllers[childrenControllerTags[tabController.index]];
+    if (list == null) return;
+    final completed = tabController.index == completedTab;
+    invertChecked([
+      for (final task in list.data)
+        if (isCompleted(task.taskId) == completed) task.hash,
+    ]);
   }
 
   Future<void> deleteTask(String taskId) async {
@@ -77,7 +72,7 @@ class DownloadsController extends GetxController
   }
 
   void deleteChecked() async {
-    for (String hash in checkedList) {
+    for (String hash in checked.toList()) {
       await deleteTask(
         StorageProvider.downloadVideoRecords
             .findWhere((element) => element.hash == hash)
@@ -87,8 +82,7 @@ class DownloadsController extends GetxController
         (element) => element.hash == hash,
       );
     }
-    checkedList.clear();
-    checkedCount = 0;
+    checked.clear();
     await refreshDownloadsList();
   }
 

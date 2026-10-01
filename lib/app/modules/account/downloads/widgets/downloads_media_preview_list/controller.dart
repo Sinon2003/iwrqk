@@ -10,7 +10,6 @@ import '../../../../../data/models/media/video.dart';
 import '../../../../../data/providers/api_provider.dart';
 import '../../../../../data/providers/storage_provider.dart';
 import '../../../../../data/services/download_service.dart';
-import '../../controller.dart';
 import 'repository.dart';
 
 class DownloadsMediaPreviewListController
@@ -19,19 +18,6 @@ class DownloadsMediaPreviewListController
       DownloadMediaPreviewListRepository();
 
   final DownloadService downloadService = Get.find();
-
-  late DownloadsController _parentController;
-
-  void initConfig(DownloadsController parentController) {
-    _parentController = parentController;
-  }
-
-  void toggleCheckedAll() {
-    for (var item in data) {
-      _parentController.toggleChecked(item.hash, true);
-    }
-    update();
-  }
 
   @override
   Future<GroupResult<MediaDownloadTask>> getNewData(int currentPage) async {

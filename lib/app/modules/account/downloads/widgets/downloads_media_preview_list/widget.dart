@@ -184,13 +184,10 @@ class _DownloadsMediaPreviewListState extends State<DownloadsMediaPreviewList>
 
                     return DownloadMediaPreview(
                       downloadsController: _parentController,
-                      checked: _parentController.checkedList.contains(
-                        item.hash,
-                      ),
+                      checked: _parentController.checked.contains(item.hash),
                       onTap: () {
                         if (_parentController.enableMultipleSelection) {
                           _parentController.toggleChecked(item.hash);
-                          setState(() {});
                         } else {
                           popupDialog.call();
                         }
@@ -200,7 +197,6 @@ class _DownloadsMediaPreviewListState extends State<DownloadsMediaPreviewList>
                           : () {
                               _parentController.enableMultipleSelection = true;
                               _parentController.toggleChecked(item.hash);
-                              setState(() {});
                             },
                       gotoDetail: gotoDetail,
                       taskData: item,

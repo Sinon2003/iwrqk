@@ -4,7 +4,6 @@ import '../../../../../components/iwr_refresh/controller.dart';
 import '../../../../../data/enums/result.dart';
 import '../../../../../data/models/media/media.dart';
 import '../../../../../data/services/user_service.dart';
-import '../../controller.dart';
 import 'repository.dart';
 
 class PlaylistDetailMediaPreviewListController
@@ -14,21 +13,8 @@ class PlaylistDetailMediaPreviewListController
   final UserService _userService = Get.find();
   late String _playlistId;
 
-  late PlaylistDetailController _parentController;
-
-  void initConfig(
-    String playlistId,
-    PlaylistDetailController parentController,
-  ) {
+  void initConfig(String playlistId) {
     _playlistId = playlistId;
-    _parentController = parentController;
-  }
-
-  void toggleCheckedAll() {
-    for (var item in data) {
-      _parentController.toggleChecked(item.id, true);
-    }
-    update();
   }
 
   void showLoading() {

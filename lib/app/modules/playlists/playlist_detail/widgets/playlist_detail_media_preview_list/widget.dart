@@ -38,28 +38,24 @@ class _PlaylistDetailMediaPreviewListState
     super.initState();
     _parentController = widget.parentController;
     _controller = Get.find(tag: widget.tag);
-    _controller.initConfig(widget.playlistId, _parentController);
+    _controller.initConfig(widget.playlistId);
     _parentController.childController = _controller;
   }
 
   Widget _buildPlaylistMediaPreview(MediaModel media) {
     return Obx(() {
-      bool checked = _parentController.checkedList.contains(media.id);
+      bool checked = _parentController.checked.contains(media.id);
 
       return MediaFlatPreview(
         media: media,
         onTap: _parentController.enableMultipleSelection
-            ? () {
-                _parentController.toggleChecked(media.id);
-                setState(() {});
-              }
+            ? () => _parentController.toggleChecked(media.id)
             : null,
         onLongPress: _parentController.enableMultipleSelection
             ? null
             : () {
                 _parentController.enableMultipleSelection = true;
                 _parentController.toggleChecked(media.id);
-                setState(() {});
               },
         coverOverlay: Positioned.fill(
           child: AnimatedOpacity(

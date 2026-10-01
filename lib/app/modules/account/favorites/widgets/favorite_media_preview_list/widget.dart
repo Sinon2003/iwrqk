@@ -39,22 +39,18 @@ class _FavoriteMediaPreviewListState extends State<FavoriteMediaPreviewList>
 
   Widget _buildFavoriteMediaPreview(MediaModel media) {
     return Obx(() {
-      bool checked = _parentController.contains(media);
+      bool checked = _parentController.checked.contains(media.id);
 
       return MediaFlatPreview(
         media: media,
         onTap: _parentController.enableMultipleSelection
-            ? () {
-                _parentController.toggleChecked(media);
-                setState(() {});
-              }
+            ? () => _parentController.toggleChecked(media.id)
             : null,
         onLongPress: _parentController.enableMultipleSelection
             ? null
             : () {
                 _parentController.enableMultipleSelection = true;
-                _parentController.toggleChecked(media);
-                setState(() {});
+                _parentController.toggleChecked(media.id);
               },
         coverOverlay: Positioned.fill(
           child: AnimatedOpacity(

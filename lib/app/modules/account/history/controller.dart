@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../components/multiple_selection.dart';
 import '../../../data/enums/types.dart';
 import '../../../data/providers/storage_provider.dart';
 import '../../../data/services/account_service.dart';
@@ -11,20 +12,16 @@ import 'widgets/site_history_list/controller.dart';
 /// watched on every device but cannot be edited, and this device, which
 /// works without logging in and can be searched and cleared.
 class HistoryController extends GetxController
-    with GetTickerProviderStateMixin {
+    with GetTickerProviderStateMixin, MultipleSelection {
   Map<String, HistoryMediaPreviewListController> childrenControllers = {};
   late List<String> childrenControllerTags;
 
-  final RxBool _enableMultipleSelection = false.obs;
-  bool get enableMultipleSelection => _enableMultipleSelection.value;
-  set enableMultipleSelection(bool value) =>
-      _enableMultipleSelection.value = value;
-
-  List checkedList = [];
-
-  final RxInt _checkedCount = 0.obs;
-  int get checkedCount => _checkedCount.value;
-  set checkedCount(int value) => _checkedCount.value = value;
+  /// The tabs of this device's history, by what they show; null is all.
+  static const List<MediaType?> localTabs = [
+    null,
+    MediaType.video,
+    MediaType.image,
+  ];
 
   late TabController tabController;
 
@@ -45,7 +42,7 @@ class HistoryController extends GetxController
   void onInit() {
     super.onInit();
 
-    tabController = TabController(length: 3, vsync: this);
+    tabController = TabController(length: localTabs.length, vsync: this);
 
     // The site only has history for accounts.
     final isLogin = Get.find<AccountService>().isLogin;
@@ -58,49 +55,43 @@ class HistoryController extends GetxController
     sourceController.addListener(() {
       _showingLocal.value = sourceController.index == localTab;
       // Selecting only applies to this device's history.
-      if (!showingLocal && enableMultipleSelection) {
-        enableMultipleSelection = false;
-        checkedList.clear();
-        checkedCount = 0;
-      }
+      if (!showingLocal && enableMultipleSelection) exitMultipleSelection();
     });
 
     siteHistoryTags.forEach((type, tag) {
       Get.lazyPut(() => SiteHistoryListController(type), tag: tag);
     });
 
-    childrenControllerTags = List.generate(3, (index) => "history_list_$index");
+    childrenControllerTags = List.generate(
+      localTabs.length,
+      (index) => "history_list_$index",
+    );
 
     for (String tag in childrenControllerTags) {
       Get.lazyPut(() => HistoryMediaPreviewListController(), tag: tag);
     }
   }
 
-  void toggleChecked(String id, [bool all = false]) {
-    if (checkedList.contains(id)) {
-      checkedList.remove(id);
-      checkedCount--;
-    } else {
-      checkedList.add(id);
-      checkedCount++;
-    }
-    update();
-  }
-
-  void toggleCheckedAll() {
-    childrenControllers[childrenControllerTags[tabController.index]]
-        ?.toggleCheckedAll();
-    update();
+  /// Every tab holds the whole history and hides what is not its type, so
+  /// only the records this tab shows are inverted.
+  void invertSelection() {
+    final list =
+        childrenControllers[childrenControllerTags[tabController.index]];
+    if (list == null) return;
+    final type = localTabs[tabController.index];
+    invertChecked([
+      for (final item in list.data)
+        if (type == null || item.type == type) item.id,
+    ]);
   }
 
   void deleteChecked() async {
-    for (String id in checkedList) {
+    for (String id in checked.toList()) {
       await StorageProvider.historyList.deleteWhere(
         (element) => element.id == id,
       );
     }
-    checkedList.clear();
-    checkedCount = 0;
+    checked.clear();
     await refreshHistoryList();
   }
 

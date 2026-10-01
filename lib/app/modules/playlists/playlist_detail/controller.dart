@@ -3,12 +3,13 @@ import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:iwrqk/i18n/strings.g.dart';
 
+import '../../../components/multiple_selection.dart';
 import '../../../data/providers/api_provider.dart';
 import '../../../data/services/user_service.dart';
 import '../../../utils/display_util.dart';
 import 'widgets/playlist_detail_media_preview_list/controller.dart';
 
-class PlaylistDetailController extends GetxController {
+class PlaylistDetailController extends GetxController with MultipleSelection {
   final UserService _userService = Get.find();
 
   late String playlistId;
@@ -16,17 +17,6 @@ class PlaylistDetailController extends GetxController {
   late String? title;
 
   late PlaylistDetailMediaPreviewListController childController;
-
-  final RxBool _enableMultipleSelection = false.obs;
-  bool get enableMultipleSelection => _enableMultipleSelection.value;
-  set enableMultipleSelection(bool value) =>
-      _enableMultipleSelection.value = value;
-
-  List checkedList = [];
-
-  final RxInt _checkedCount = 0.obs;
-  int get checkedCount => _checkedCount.value;
-  set checkedCount(int value) => _checkedCount.value = value;
 
   late String listTag;
 
@@ -45,20 +35,8 @@ class PlaylistDetailController extends GetxController {
     Get.lazyPut(() => PlaylistDetailMediaPreviewListController(), tag: listTag);
   }
 
-  void toggleChecked(String id, [bool all = false]) {
-    if (checkedList.contains(id)) {
-      checkedList.remove(id);
-      checkedCount--;
-    } else {
-      checkedList.add(id);
-      checkedCount++;
-    }
-    update();
-  }
-
-  void toggleCheckedAll() {
-    childController.toggleCheckedAll();
-    update();
+  void invertSelection() {
+    invertChecked(childController.data.map((media) => media.id));
   }
 
   Future<void> removeFromPlaylist(String id) async {
@@ -72,11 +50,10 @@ class PlaylistDetailController extends GetxController {
 
   void deleteChecked() async {
     childController.showLoading();
-    for (String id in checkedList) {
+    for (String id in checked.toList()) {
       await removeFromPlaylist(id);
     }
-    checkedList.clear();
-    checkedCount = 0;
+    checked.clear();
     await refreshPlaylist();
   }
 

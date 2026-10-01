@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:iwrqk/i18n/strings.g.dart';
 
 import '../../../components/app_bar_switcher.dart';
+import '../../../components/multiple_selection.dart';
 import '../../../data/enums/types.dart';
 import 'controller.dart';
 import 'widgets/favorite_media_preview_list/widget.dart';
@@ -66,36 +67,12 @@ class FavoritesPage extends GetView<FavoritesController> {
               ),
             ],
           ),
-          secondary: AppBar(
-            titleSpacing: 0,
-            centerTitle: false,
-            leading: IconButton(
-              onPressed: () {
-                controller.enableMultipleSelection = false;
-                controller.checkedVideoList.clear();
-                controller.checkedImageList.clear();
-                controller.checkedCount = 0;
-              },
-              icon: const Icon(Icons.close_outlined),
-            ),
-            title: Text(
-              t.records.selected_num(num: controller.checkedCount),
-              style: Theme.of(context).textTheme.titleMedium,
-            ),
-            actions: [
-              TextButton(
-                onPressed: controller.toggleCheckedAll,
-                child: Text(t.records.select_inverse),
-              ),
-              TextButton(
-                onPressed: controller.deleteChecked,
-                child: Text(
-                  t.records.delete,
-                  style: TextStyle(color: Theme.of(context).colorScheme.error),
-                ),
-              ),
-              const SizedBox(width: 6),
-            ],
+          secondary: selectionAppBar(
+            context,
+            count: controller.checkedCount,
+            onClose: controller.exitMultipleSelection,
+            onInvert: controller.invertSelection,
+            onDelete: controller.deleteChecked,
           ),
         ),
         body: Column(
