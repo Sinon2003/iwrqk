@@ -31,6 +31,20 @@ Future<HttpServer> startUpstream(
       return;
     }
     final path = request.uri.path;
+    if (path == '/flaky' && start < 5000 && end >= 5000) {
+      request.response
+        ..statusCode = HttpStatus.partialContent
+        ..contentLength = end - start + 1
+        ..headers.set(
+          HttpHeaders.contentRangeHeader,
+          'bytes $start-$end/${data.length}',
+        );
+      final socket = await request.response.detachSocket();
+      socket.add(data.sublist(start, 5000));
+      await socket.flush();
+      socket.destroy();
+      return;
+    }
     if ((path == '/stall' || path == '/silent') &&
         end > start &&
         stalled.add(path)) {
@@ -158,7 +172,7 @@ void main() {
         'http://127.0.0.1:${upstream.port}/expired',
       );
       final (status, _, bytes) = await get(expired);
-      expect(status, HttpStatus.badGateway);
+      expect(status, HttpStatus.forbidden);
       expect(bytes, isEmpty);
     });
 
@@ -174,6 +188,7 @@ void main() {
         parallel: 1,
         preferredPort: 0,
         stallTimeout: const Duration(milliseconds: 200),
+        openTimeout: const Duration(milliseconds: 200),
         allowUpstream: (uri) => uri.host == '127.0.0.1',
       );
       addTearDown(strict.close);

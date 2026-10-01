@@ -119,7 +119,7 @@ class ConfigService extends GetxService {
   }
 
   /// Experimental: plays and downloads videos through a local proxy that
-  /// fetches several ranges at once.
+  /// uses parallel ranges only when a throughput trial shows a benefit.
   final RxBool _acceleratedTransfer = false.obs;
   bool get acceleratedTransfer => _acceleratedTransfer.value;
   set acceleratedTransfer(bool value) {
