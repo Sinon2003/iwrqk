@@ -147,6 +147,10 @@ class Translations$records$zh_TW extends Translations$records$en {
 	@override String get delete_all => '刪除所有';
 	@override String get cloud_history => '雲端';
 	@override String get local_history => '本機';
+	@override String delete_selected_confirm({required Object num}) => '確定刪除選取的 ${num} 項嗎？';
+	@override String get delete_all_history_confirm => '確定清空本機的歷史紀錄嗎？';
+	@override String get delete_all_favorites_confirm => '確定將這個清單裡的內容全部取消收藏嗎？';
+	@override String get delete_all_playlist_confirm => '確定移除這個播放清單裡的全部影片嗎？';
 }
 
 // Path: account
@@ -446,6 +450,9 @@ class Translations$download$zh_TW extends Translations$download$en {
 	@override String get resume => '繼續';
 	@override String get open_with => '用...開啟';
 	@override String get jump_to_detail => '查看詳情';
+	@override String get delete_confirm => '確定刪除這個下載嗎？已下載的檔案也會一併刪除。';
+	@override String delete_selected_confirm({required Object num}) => '確定刪除選取的 ${num} 個下載嗎？已下載的檔案也會一併刪除。';
+	@override String get delete_all_confirm => '確定刪除全部下載嗎？已下載的檔案也會一併刪除。';
 }
 
 // Path: playlist
@@ -946,6 +953,10 @@ extension on TranslationsZhTw {
 			'records.delete_all' => '刪除所有',
 			'records.cloud_history' => '雲端',
 			'records.local_history' => '本機',
+			'records.delete_selected_confirm' => ({required Object num}) => '確定刪除選取的 ${num} 項嗎？',
+			'records.delete_all_history_confirm' => '確定清空本機的歷史紀錄嗎？',
+			'records.delete_all_favorites_confirm' => '確定將這個清單裡的內容全部取消收藏嗎？',
+			'records.delete_all_playlist_confirm' => '確定移除這個播放清單裡的全部影片嗎？',
 			'account.captcha' => '驗證碼',
 			'account.login' => '登入',
 			'account.logout' => '登出',
@@ -1107,6 +1118,9 @@ extension on TranslationsZhTw {
 			'download.resume' => '繼續',
 			'download.open_with' => '用...開啟',
 			'download.jump_to_detail' => '查看詳情',
+			'download.delete_confirm' => '確定刪除這個下載嗎？已下載的檔案也會一併刪除。',
+			'download.delete_selected_confirm' => ({required Object num}) => '確定刪除選取的 ${num} 個下載嗎？已下載的檔案也會一併刪除。',
+			'download.delete_all_confirm' => '確定刪除全部下載嗎？已下載的檔案也會一併刪除。',
 			'playlist.title' => '播放清單標題',
 			'playlist.create' => '創建播放清單',
 			'playlist.select' => '選擇播放清單',

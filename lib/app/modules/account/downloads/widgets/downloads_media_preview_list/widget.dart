@@ -155,6 +155,8 @@ class _DownloadsMediaPreviewListState extends State<DownloadsMediaPreviewList>
                           },
                           onDeleted: (taskId) async {
                             await _controller.deleteVideoTask(index, taskId);
+                            // Both tabs list every download.
+                            await _parentController.refreshDownloadsList();
                           },
                           onOpen: (taskId) async {
                             OpenFile.open(

@@ -147,6 +147,10 @@ class _Translations$records$ja extends Translations$records$en {
 	@override String get delete_all => 'すべて削除';
 	@override String get cloud_history => 'クラウド';
 	@override String get local_history => 'この端末';
+	@override String delete_selected_confirm({required Object num}) => '選択した ${num} 件を削除しますか？';
+	@override String get delete_all_history_confirm => 'この端末の履歴をすべて削除しますか？';
+	@override String get delete_all_favorites_confirm => 'このリストの内容をすべてお気に入りから外しますか？';
+	@override String get delete_all_playlist_confirm => 'このプレイリストからすべての動画を外しますか？';
 }
 
 // Path: account
@@ -446,6 +450,9 @@ class _Translations$download$ja extends Translations$download$en {
 	@override String get resume => '再開';
 	@override String get open_with => '開く';
 	@override String get jump_to_detail => '詳細ページに移動';
+	@override String get delete_confirm => 'このダウンロードを削除しますか？ファイルも削除されます。';
+	@override String delete_selected_confirm({required Object num}) => '選択した ${num} 件のダウンロードを削除しますか？ファイルも削除されます。';
+	@override String get delete_all_confirm => 'すべてのダウンロードを削除しますか？ファイルも削除されます。';
 }
 
 // Path: playlist
@@ -946,6 +953,10 @@ extension on TranslationsJa {
 			'records.delete_all' => 'すべて削除',
 			'records.cloud_history' => 'クラウド',
 			'records.local_history' => 'この端末',
+			'records.delete_selected_confirm' => ({required Object num}) => '選択した ${num} 件を削除しますか？',
+			'records.delete_all_history_confirm' => 'この端末の履歴をすべて削除しますか？',
+			'records.delete_all_favorites_confirm' => 'このリストの内容をすべてお気に入りから外しますか？',
+			'records.delete_all_playlist_confirm' => 'このプレイリストからすべての動画を外しますか？',
 			'account.captcha' => 'キャプチャ',
 			'account.login' => 'ログイン',
 			'account.logout' => 'ログアウト',
@@ -1107,6 +1118,9 @@ extension on TranslationsJa {
 			'download.resume' => '再開',
 			'download.open_with' => '開く',
 			'download.jump_to_detail' => '詳細ページに移動',
+			'download.delete_confirm' => 'このダウンロードを削除しますか？ファイルも削除されます。',
+			'download.delete_selected_confirm' => ({required Object num}) => '選択した ${num} 件のダウンロードを削除しますか？ファイルも削除されます。',
+			'download.delete_all_confirm' => 'すべてのダウンロードを削除しますか？ファイルも削除されます。',
 			'playlist.title' => 'プレイリストのタイトル',
 			'playlist.create' => 'プレイリストの作成',
 			'playlist.select' => 'プレイリストの選択',

@@ -81,6 +81,11 @@ abstract class IwrRefreshController<T> extends GetxController with StateMixin {
 
   Future<GroupResult<T>> getNewData(int currentPage);
 
+  /// Shows the loading state while something runs that ends in a reload.
+  void showLoading() {
+    change({"state": "loading"}, status: RxStatus.success());
+  }
+
   Future<void> loadData({
     bool showSplash = false,
     bool isRefresh = false,

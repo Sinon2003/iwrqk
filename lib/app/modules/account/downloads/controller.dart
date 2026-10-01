@@ -1,10 +1,11 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:iwrqk/i18n/strings.g.dart';
 
+import '../../../components/dialogs/confirm_delete.dart';
 import '../../../components/multiple_selection.dart';
 import '../../../data/enums/download_task_status.dart';
+import '../../../data/models/download_task.dart';
 import '../../../data/providers/storage_provider.dart';
 import '../../../data/services/download_service.dart';
 import 'widgets/downloads_media_preview_list/controller.dart';
@@ -55,34 +56,34 @@ class DownloadsController extends GetxController
     ]);
   }
 
-  Future<void> deleteTask(String taskId) async {
-    String? path = await downloadService.getTaskFilePath(taskId);
-    await downloadService.deleteTaskRecord(taskId);
-
-    if (path == null) return;
-
-    File downloadFile = File(path);
-    if (await downloadFile.exists()) {
-      await downloadFile.delete();
+  Future<void> deleteChecked() async {
+    if (checked.isEmpty) return;
+    if (!await confirmDelete(
+      t.download.delete_selected_confirm(num: checkedCount),
+    )) {
+      return;
     }
-    Directory downloadDir = downloadFile.parent;
-    if (await downloadDir.exists() && downloadDir.listSync().isEmpty) {
-      await downloadDir.delete();
-    }
+    final hashes = checked.toSet();
+    exitMultipleSelection();
+    await _delete((task) => hashes.contains(task.hash));
   }
 
-  void deleteChecked() async {
-    for (String hash in checked.toList()) {
-      await deleteTask(
-        StorageProvider.downloadVideoRecords
-            .findWhere((element) => element.hash == hash)
-            .taskId,
-      );
-      StorageProvider.downloadVideoRecords.deleteWhere(
-        (element) => element.hash == hash,
-      );
+  Future<void> deleteAll() async {
+    if (!await confirmDelete(t.download.delete_all_confirm)) return;
+    await _delete((task) => true);
+  }
+
+  /// Deletes the downloads that match, with their tasks and files.
+  Future<void> _delete(bool Function(VideoDownloadTask task) test) async {
+    // Only the two tabs: a search page that has closed left its list behind.
+    for (final tag in childrenControllerTags) {
+      childrenControllers[tag]?.showLoading();
     }
-    checked.clear();
+    final records = StorageProvider.downloadVideoRecords;
+    for (final task in records.get().where(test)) {
+      await downloadService.removeTask(task.taskId);
+    }
+    await records.deleteWhere(test);
     await refreshDownloadsList();
   }
 
@@ -90,10 +91,5 @@ class DownloadsController extends GetxController
     for (String tag in childrenControllerTags) {
       await childrenControllers[tag]?.refreshData(showSplash: true);
     }
-  }
-
-  Future<void> cleanDownloadVideoRecords() async {
-    await StorageProvider.downloadVideoRecords.clean();
-    await refreshDownloadsList();
   }
 }

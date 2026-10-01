@@ -17,10 +17,6 @@ class PlaylistDetailMediaPreviewListController
     _playlistId = playlistId;
   }
 
-  void showLoading() {
-    change({"state": "loading"}, status: RxStatus.success());
-  }
-
   Future<void> removeAllFromPlaylist() async {
     Future.wait(
       data.map((e) => _userService.removeFromPlaylist(e.id, [_playlistId])),

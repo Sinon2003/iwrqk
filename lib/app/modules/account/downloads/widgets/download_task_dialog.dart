@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../../../i18n/strings.g.dart';
+import '../../../../components/dialogs/confirm_delete.dart';
 import '../../../../components/network_image.dart';
 import '../../../../data/enums/download_task_status.dart';
 import '../../../../data/enums/types.dart';
@@ -40,6 +41,13 @@ class DownloadTaskDialog extends StatelessWidget {
   String get taskId => taskData.taskId;
   Rx<IwrDownloadTaskStatus>? get taskStatus =>
       _downloadService.downloadTasksStatus[taskId];
+
+  /// Deleting takes the file with it, so it asks first.
+  Future<void> _delete() async {
+    if (!await confirmDelete(t.download.delete_confirm)) return;
+    onDeleted?.call(taskId);
+    Get.back();
+  }
 
   Widget _buildStateWidget(BuildContext context) {
     return Obx(() {
@@ -228,20 +236,14 @@ class DownloadTaskDialog extends StatelessWidget {
                       icon: const Icon(Icons.refresh),
                     ),
                     IconButton(
-                      onPressed: () {
-                        onDeleted?.call(taskId);
-                        Get.back();
-                      },
+                      onPressed: _delete,
                       tooltip: t.download.delete,
                       icon: const Icon(Icons.delete),
                     ),
                   ] else if (taskStatus?.value.status ==
                       DownloadTaskStatus.complete) ...[
                     IconButton(
-                      onPressed: () {
-                        onDeleted?.call(taskId);
-                        Get.back();
-                      },
+                      onPressed: _delete,
                       tooltip: t.download.delete,
                       icon: const Icon(Icons.delete),
                     ),
@@ -285,10 +287,7 @@ class DownloadTaskDialog extends StatelessWidget {
                             icon: const Icon(Icons.pause),
                           ),
                     IconButton(
-                      onPressed: () {
-                        onDeleted?.call(taskId);
-                        Get.back();
-                      },
+                      onPressed: _delete,
                       tooltip: t.download.delete,
                       icon: const Icon(Icons.delete),
                     ),

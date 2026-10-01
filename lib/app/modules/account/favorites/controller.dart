@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:iwrqk/i18n/strings.g.dart';
 
+import '../../../components/dialogs/confirm_delete.dart';
 import '../../../components/multiple_selection.dart';
 import '../../../data/services/user_service.dart';
 import 'widgets/favorite_media_preview_list/controller.dart';
@@ -44,17 +46,25 @@ class FavoritesController extends GetxController
   }
 
   Future<void> unfavoriteAll() async {
+    if (!await confirmDelete(t.records.delete_all_favorites_confirm)) return;
     await _currentList?.unfavoriteAll();
   }
 
-  void deleteChecked() async {
+  Future<void> deleteChecked() async {
+    if (checked.isEmpty) return;
+    if (!await confirmDelete(
+      t.records.delete_selected_confirm(num: checkedCount),
+    )) {
+      return;
+    }
+    final ids = checked.toList();
+    exitMultipleSelection();
     childrenControllers.forEach((_, ctr) {
       ctr.showLoading();
     });
-    for (String id in checked.toList()) {
+    for (String id in ids) {
       await unfavoriteMedia(id);
     }
-    checked.clear();
     await refreshFavoritelist();
   }
 

@@ -46,7 +46,7 @@ class DownloadsPage extends GetView<DownloadsController> {
                 onSelected: (String type) {
                   switch (type) {
                     case 'all':
-                      controller.cleanDownloadVideoRecords();
+                      controller.deleteAll();
                       break;
                     case 'multiple':
                       controller.enableMultipleSelection = true;

@@ -463,8 +463,27 @@ class DownloadService extends GetxService {
     return null;
   }
 
-  Future<void> cancelTask(String taskId) {
-    return bg.FileDownloader().cancelTaskWithId(taskId);
+  /// Removes a download for good: stops it if it is still going, forgets it
+  /// and deletes its file, and its folder too when that leaves it empty.
+  Future<void> removeTask(String taskId) async {
+    final path = await getTaskFilePath(taskId);
+    await bg.FileDownloader().cancelTaskWithId(taskId);
+    // The downloader records the cancellation a moment later, and a record
+    // deleted before that would come back.
+    for (var i = 0; i < 30; i++) {
+      final record = await getTask(taskId);
+      if (record == null || record.status.isFinalState) break;
+      await Future.delayed(const Duration(milliseconds: 100));
+    }
+    await deleteTaskRecord(taskId);
+
+    if (path == null) return;
+    final file = File(path);
+    if (await file.exists()) await file.delete();
+    final directory = file.parent;
+    if (await directory.exists() && directory.listSync().isEmpty) {
+      await directory.delete();
+    }
   }
 
   Future<void> deleteTaskRecord(String taskId) async {

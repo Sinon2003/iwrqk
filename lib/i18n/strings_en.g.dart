@@ -213,6 +213,18 @@ class Translations$records$en {
 
 	/// en: 'This device'
 	String get local_history => 'This device';
+
+	/// en: 'Delete the selected items ($num)?'
+	String delete_selected_confirm({required Object num}) => 'Delete the selected items (${num})?';
+
+	/// en: 'Clear this device's history?'
+	String get delete_all_history_confirm => 'Clear this device\'s history?';
+
+	/// en: 'Remove everything in this list from your favorites?'
+	String get delete_all_favorites_confirm => 'Remove everything in this list from your favorites?';
+
+	/// en: 'Remove every video from this playlist?'
+	String get delete_all_playlist_confirm => 'Remove every video from this playlist?';
 }
 
 // Path: account
@@ -820,6 +832,15 @@ class Translations$download$en {
 
 	/// en: 'Jump to detail page'
 	String get jump_to_detail => 'Jump to detail page';
+
+	/// en: 'Delete this download? Its file is deleted too.'
+	String get delete_confirm => 'Delete this download? Its file is deleted too.';
+
+	/// en: 'Delete the selected downloads ($num)? Their files are deleted too.'
+	String delete_selected_confirm({required Object num}) => 'Delete the selected downloads (${num})? Their files are deleted too.';
+
+	/// en: 'Delete all downloads? Their files are deleted too.'
+	String get delete_all_confirm => 'Delete all downloads? Their files are deleted too.';
 }
 
 // Path: playlist
@@ -1739,6 +1760,10 @@ extension on Translations {
 			'records.delete_all' => 'Delete all',
 			'records.cloud_history' => 'Cloud',
 			'records.local_history' => 'This device',
+			'records.delete_selected_confirm' => ({required Object num}) => 'Delete the selected items (${num})?',
+			'records.delete_all_history_confirm' => 'Clear this device\'s history?',
+			'records.delete_all_favorites_confirm' => 'Remove everything in this list from your favorites?',
+			'records.delete_all_playlist_confirm' => 'Remove every video from this playlist?',
 			'account.captcha' => 'Captcha',
 			'account.login' => 'Login',
 			'account.logout' => 'Logout',
@@ -1900,6 +1925,9 @@ extension on Translations {
 			'download.resume' => 'Resume',
 			'download.open_with' => 'Open with',
 			'download.jump_to_detail' => 'Jump to detail page',
+			'download.delete_confirm' => 'Delete this download? Its file is deleted too.',
+			'download.delete_selected_confirm' => ({required Object num}) => 'Delete the selected downloads (${num})? Their files are deleted too.',
+			'download.delete_all_confirm' => 'Delete all downloads? Their files are deleted too.',
 			'playlist.title' => 'Playlist title',
 			'playlist.create' => 'Create playlist',
 			'playlist.select' => 'Select playlist',

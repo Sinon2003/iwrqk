@@ -36,7 +36,11 @@
     "delete": "削除",
     "delete_all": "すべて削除",
     "cloud_history": "クラウド",
-    "local_history": "この端末"
+    "local_history": "この端末",
+    "delete_selected_confirm": "選択した $num 件を削除しますか？",
+    "delete_all_history_confirm": "この端末の履歴をすべて削除しますか？",
+    "delete_all_favorites_confirm": "このリストの内容をすべてお気に入りから外しますか？",
+    "delete_all_playlist_confirm": "このプレイリストからすべての動画を外しますか？"
   },
   "account": {
     "captcha": "キャプチャ",
@@ -233,7 +237,10 @@
     "pause": "一時停止",
     "resume": "再開",
     "open_with": "開く",
-    "jump_to_detail": "詳細ページに移動"
+    "jump_to_detail": "詳細ページに移動",
+    "delete_confirm": "このダウンロードを削除しますか？ファイルも削除されます。",
+    "delete_selected_confirm": "選択した $num 件のダウンロードを削除しますか？ファイルも削除されます。",
+    "delete_all_confirm": "すべてのダウンロードを削除しますか？ファイルも削除されます。"
   },
   "playlist": {
     "title": "プレイリストのタイトル",

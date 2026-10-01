@@ -19,10 +19,6 @@ class FavoriteMediaPreviewListController
     _sourceType = sourceType;
   }
 
-  void showLoading() {
-    change({"state": "loading"}, status: RxStatus.success());
-  }
-
   Future<void> unfavoriteAll() {
     showLoading();
     return Future.wait(data.map((e) => userService.unfavoriteMedia(e.id))).then(

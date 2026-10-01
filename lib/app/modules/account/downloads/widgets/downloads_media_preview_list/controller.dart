@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:get/get.dart';
 
 import '../../../../../components/iwr_refresh/controller.dart';
@@ -24,31 +22,23 @@ class DownloadsMediaPreviewListController
     return repository.getDownloadRecords(currentPage);
   }
 
-  Future<void> deleteTaskRecord(String taskId) async {
-    await downloadService.deleteTaskRecord(taskId);
-  }
-
+  /// Deletes the download at [index] with its task and file. When
+  /// [retrying], the record stays for the new task that takes it over.
   Future<void> deleteVideoTask(
     int index,
     String taskId, [
     bool retrying = false,
   ]) async {
-    String? path = await downloadService.getTaskFilePath(taskId);
+    final item = data[index];
     if (!retrying) {
-      await StorageProvider.downloadVideoRecords.deleteByIndex(index);
+      // The other lists hold the same records, so positions cannot be
+      // trusted to match the stored ones.
+      await StorageProvider.downloadVideoRecords.deleteWhere(
+        (task) => task.hash == item.hash,
+      );
     }
-    await deleteTaskRecord(taskId);
-
-    File downloadFile = File(path!);
-    if (await downloadFile.exists()) {
-      await downloadFile.delete();
-    }
-    Directory downloadDir = downloadFile.parent;
-    if (await downloadDir.exists() && downloadDir.listSync().isEmpty) {
-      await downloadDir.delete();
-    }
-
-    if (!retrying) data.removeAt(index);
+    await downloadService.removeTask(taskId);
+    if (!retrying) data.remove(item);
   }
 
   void onResumed(int index, String newTaskId) {

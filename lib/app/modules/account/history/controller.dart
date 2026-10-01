@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:iwrqk/i18n/strings.g.dart';
 
+import '../../../components/dialogs/confirm_delete.dart';
 import '../../../components/multiple_selection.dart';
 import '../../../data/enums/types.dart';
 import '../../../data/providers/storage_provider.dart';
@@ -85,13 +87,18 @@ class HistoryController extends GetxController
     ]);
   }
 
-  void deleteChecked() async {
-    for (String id in checked.toList()) {
-      await StorageProvider.historyList.deleteWhere(
-        (element) => element.id == id,
-      );
+  Future<void> deleteChecked() async {
+    if (checked.isEmpty) return;
+    if (!await confirmDelete(
+      t.records.delete_selected_confirm(num: checkedCount),
+    )) {
+      return;
     }
-    checked.clear();
+    final ids = checked.toSet();
+    exitMultipleSelection();
+    await StorageProvider.historyList.deleteWhere(
+      (element) => ids.contains(element.id),
+    );
     await refreshHistoryList();
   }
 
@@ -102,6 +109,7 @@ class HistoryController extends GetxController
   }
 
   Future<void> cleanHistoryList() async {
+    if (!await confirmDelete(t.records.delete_all_history_confirm)) return;
     await StorageProvider.historyList.clean();
     await refreshHistoryList();
   }

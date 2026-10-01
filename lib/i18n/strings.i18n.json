@@ -42,7 +42,11 @@
     "delete": "Delete",
     "delete_all": "Delete all",
     "cloud_history": "Cloud",
-    "local_history": "This device"
+    "local_history": "This device",
+    "delete_selected_confirm": "Delete the selected items ($num)?",
+    "delete_all_history_confirm": "Clear this device's history?",
+    "delete_all_favorites_confirm": "Remove everything in this list from your favorites?",
+    "delete_all_playlist_confirm": "Remove every video from this playlist?"
   },
   "account": {
     "captcha": "Captcha",
@@ -239,7 +243,10 @@
     "pause": "Pause",
     "resume": "Resume",
     "open_with": "Open with",
-    "jump_to_detail": "Jump to detail page"
+    "jump_to_detail": "Jump to detail page",
+    "delete_confirm": "Delete this download? Its file is deleted too.",
+    "delete_selected_confirm": "Delete the selected downloads ($num)? Their files are deleted too.",
+    "delete_all_confirm": "Delete all downloads? Their files are deleted too."
   },
   "playlist": {
     "title": "Playlist title",
