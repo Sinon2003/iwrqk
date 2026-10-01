@@ -5,6 +5,7 @@ import 'package:iwrqk/i18n/strings.g.dart';
 
 import '../../const/widget.dart';
 import '../../utils/quality_picker.dart';
+import '../../utils/playback_bandwidth.dart';
 import '../enums/translation_display_mode.dart';
 import '../enums/translation_engine.dart';
 import '../models/account/settings/filter_setting.dart';
@@ -41,6 +42,7 @@ abstract class ConfigKey {
 
   static const String preferredQuality = "preferredQuality";
   static const String playbackThroughput = "playbackThroughput";
+  static const String playbackBandwidth = "playbackBandwidth";
 }
 
 class ConfigService extends GetxService {
@@ -135,25 +137,32 @@ class ConfigService extends GetxService {
     setting[ConfigKey.preferredQuality] = value;
   }
 
-  /// Learned download speed of videos in bytes per second, for choosing the
-  /// resolution automatically; null until a playback was measured.
-  double? _playbackThroughput;
-  double? get playbackThroughput => _playbackThroughput;
+  PlaybackBandwidth _playbackBandwidth = PlaybackBandwidth();
+  double? playbackSpeedFor(String url) =>
+      _playbackBandwidth.speedFor(url, accelerated: acceleratedTransfer);
 
-  void recordPlaybackSpeed(double bytesPerSecond) {
-    _playbackThroughput = QualityPicker.blend(
-      _playbackThroughput,
-      bytesPerSecond,
-    );
-    setting[ConfigKey.playbackThroughput] = _playbackThroughput;
+  void recordPlaybackSpeed(
+    String url,
+    double bytesPerSecond, {
+    required bool accelerated,
+  }) {
+    _playbackBandwidth.record(url, bytesPerSecond, accelerated: accelerated);
+    setting[ConfigKey.playbackBandwidth] = _playbackBandwidth.toJson();
   }
 
-  void recordPlaybackStall(String resolution) {
-    _playbackThroughput = QualityPicker.afterStall(
-      _playbackThroughput,
+  void recordPlaybackStall(
+    String url,
+    String resolution, {
+    required bool accelerated,
+    double? sourceBitrate,
+  }) {
+    _playbackBandwidth.stall(
+      url,
       resolution,
+      accelerated: accelerated,
+      sourceBitrate: sourceBitrate,
     );
-    setting[ConfigKey.playbackThroughput] = _playbackThroughput;
+    setting[ConfigKey.playbackBandwidth] = _playbackBandwidth.toJson();
   }
 
   final RxDouble _gridChildAspectRatio = 1.0.obs;
@@ -265,7 +274,8 @@ class ConfigService extends GetxService {
       ConfigKey.preferredQuality,
       defaultValue: QualityPicker.auto,
     );
-    _playbackThroughput = (setting.get(ConfigKey.playbackThroughput) as num?)
-        ?.toDouble();
+    _playbackBandwidth = PlaybackBandwidth.fromJson(
+      setting.get(ConfigKey.playbackBandwidth),
+    );
   }
 }

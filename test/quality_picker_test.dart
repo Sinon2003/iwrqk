@@ -18,6 +18,50 @@ void main() {
   });
 
   group('auto', () {
+    test('uses the source file size and duration without probing variants', () {
+      final bitrate = QualityPicker.sourceBitrate(200 << 20, 60)!;
+      expect(
+        QualityPicker.pick(
+          all,
+          QualityPicker.auto,
+          throughput: 2e6,
+          sourceBitrate: bitrate,
+        ),
+        1,
+      );
+      expect(
+        QualityPicker.pick(
+          all,
+          QualityPicker.auto,
+          throughput: 2e6,
+          sourceBitrate: 1e6,
+        ),
+        0,
+      );
+      expect(QualityPicker.sourceBitrate(null, 60), isNull);
+      expect(QualityPicker.sourceBitrate(100, 0), isNull);
+      expect(
+        QualityPicker.pick(
+          all,
+          QualityPicker.highest,
+          throughput: 1e5,
+          sourceBitrate: bitrate,
+        ),
+        0,
+      );
+    });
+
+    test('does not apply one CDN estimate to another variant', () {
+      expect(
+        QualityPicker.pick(all, QualityPicker.auto, throughputs: {'540': 2e6}),
+        1,
+      );
+      expect(
+        QualityPicker.pick(all, QualityPicker.auto, throughput: double.nan),
+        1,
+      );
+    });
+
     test('starts at 540 before the connection is known', () {
       expect(QualityPicker.pick(all, QualityPicker.auto), 1);
     });

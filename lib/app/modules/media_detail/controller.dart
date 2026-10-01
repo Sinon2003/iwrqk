@@ -28,6 +28,7 @@ import '../../data/services/plugin/pl_player/service_locator.dart';
 import '../../data/services/user_service.dart';
 import '../../utils/display_util.dart';
 import '../../utils/log_util.dart';
+import '../../utils/parallel_range_proxy.dart';
 import '../../utils/quality_picker.dart';
 import '../account/downloads/widgets/downloads_media_preview_list/controller.dart';
 import 'repository.dart';
@@ -69,6 +70,7 @@ class MediaDetailController extends GetxController
   List<ResolutionModel> resolutions = [];
   int resolutionIndex = 0;
   PlaybackMonitor? _playbackMonitor;
+  int _playerGeneration = 0;
 
   final RxBool _isLoading = true.obs;
   final RxBool _isFectchingResolution = false.obs;
@@ -388,7 +390,15 @@ class MediaDetailController extends GetxController
     Duration? seekToTime,
     bool autoplay = true,
   }) async {
+    final generation = ++_playerGeneration;
     _isLoadingPlayer.value = true;
+    _playbackMonitor?.dispose();
+    _playbackMonitor = null;
+    final source = video ?? resolutions[resolutionIndex].src.viewUrl;
+    final resolution = isOffline ? null : resolutions[resolutionIndex].name;
+    final accelerated =
+        configService.acceleratedTransfer &&
+        ParallelRangeProxy.instance.serves(source);
 
     /// 设置/恢复 屏幕亮度
     if (!GetPlatform.isLinux) {
@@ -401,8 +411,11 @@ class MediaDetailController extends GetxController
 
     await plPlayerController.setDataSource(
       DataSource(
-        videoSource: video ?? resolutions[resolutionIndex].src.viewUrl,
+        videoSource: source,
         type: DataSourceType.network,
+        duration: !isOffline && media is VideoModel
+            ? Duration(seconds: (media as VideoModel).file?.duration ?? 0)
+            : null,
       ),
       // 硬解
       enableHA: enableHA.value,
@@ -445,6 +458,9 @@ class MediaDetailController extends GetxController
       },
     );
 
+    // A newer source or a closed page must not acquire a stale monitor.
+    if (generation != _playerGeneration || isClosed) return;
+
     /// 开启自动全屏时，在player初始化完成后立即传入headerControl
     plPlayerController.headerControl = headerControl;
 
@@ -457,15 +473,35 @@ class MediaDetailController extends GetxController
 
     // Online playback teaches the automatic resolution choice how fast
     // videos download here, and steps it down after a stall.
-    _playbackMonitor?.dispose();
-    _playbackMonitor = null;
     final player = plPlayerController.videoPlayerController;
     if (!isOffline && player != null) {
-      final resolution = resolutions[resolutionIndex].name;
+      final file = (media as VideoModel).file;
+      final sourceBitrate = QualityPicker.sourceBitrate(
+        file?.size,
+        file?.duration,
+      );
       _playbackMonitor = PlaybackMonitor(
         player,
-        onSpeed: configService.recordPlaybackSpeed,
-        onStall: () => configService.recordPlaybackStall(resolution),
+        readSpeed: accelerated
+            ? () => ParallelRangeProxy.instance.sampleFor(source)
+            : null,
+        onSpeed: (speed) {
+          configService.recordPlaybackSpeed(
+            source,
+            speed,
+            accelerated: accelerated,
+          );
+          LogUtil.debug(
+            'Playback bandwidth ${Uri.parse(source).host}: '
+            '${speed.round()} B/s, accelerated: $accelerated',
+          );
+        },
+        onStall: () => configService.recordPlaybackStall(
+          source,
+          resolution!,
+          accelerated: accelerated,
+          sourceBitrate: sourceBitrate,
+        ),
         lastSeekAt: () => plPlayerController.lastSeekAt,
       )..start();
     }
@@ -491,23 +527,38 @@ class MediaDetailController extends GetxController
 
     VideoModel video = media as VideoModel;
 
-    await repository
-        .getVideoResolutions(video.fileUrl!, video.getXVerison())
-        .then((value) {
-          if (value.success) {
-            if (value.data!.isNotEmpty) {
-              resolutions = value.data!;
-              resolutionIndex = QualityPicker.pick(
-                [for (final resolution in resolutions) resolution.name],
-                configService.preferredQuality,
-                throughput: configService.playbackThroughput,
-              );
-              playerInit();
-              return;
-            }
-          }
-          _fetchFailed.value = true;
-        });
+    await repository.getVideoResolutions(video.fileUrl!, video.getXVerison()).then((
+      value,
+    ) {
+      if (value.success) {
+        if (value.data!.isNotEmpty) {
+          resolutions = value.data!;
+          resolutionIndex = QualityPicker.pick(
+            [for (final resolution in resolutions) resolution.name],
+            configService.preferredQuality,
+            throughputs: {
+              for (final resolution in resolutions)
+                resolution.name: ?configService.playbackSpeedFor(
+                  resolution.src.viewUrl,
+                ),
+            },
+            sourceBitrate: QualityPicker.sourceBitrate(
+              video.file?.size,
+              video.file?.duration,
+            ),
+          );
+          LogUtil.debug(
+            'Playback quality ${resolutions[resolutionIndex].name}, '
+            'preference: ${configService.preferredQuality}, '
+            'recent speed: ${configService.playbackSpeedFor(resolutions[resolutionIndex].src.viewUrl)?.round()}, '
+            'source bitrate: ${QualityPicker.sourceBitrate(video.file?.size, video.file?.duration)?.round()}',
+          );
+          playerInit();
+          return;
+        }
+      }
+      _fetchFailed.value = true;
+    });
 
     _isFectchingResolution.value = false;
   }
@@ -592,6 +643,7 @@ class MediaDetailController extends GetxController
 
   @override
   void onClose() {
+    _playerGeneration++;
     _playbackMonitor?.dispose();
     if (canUseWindowsPip && isWindowsPipMode) {
       unawaited(exitWindowsPip());

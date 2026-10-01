@@ -3,6 +3,7 @@ class FileModel {
   String? path;
   String? name;
   int? duration;
+  int? size;
   int? numThumbnails;
   String? createdAt;
   String? updatedAt;
@@ -13,6 +14,7 @@ class FileModel {
     this.path,
     this.name,
     this.duration,
+    this.size,
     this.numThumbnails,
     this.createdAt,
     this.updatedAt,
@@ -25,6 +27,7 @@ class FileModel {
       path: json['path'],
       name: json['name'],
       duration: json['duration'],
+      size: (json['size'] as num?)?.toInt(),
       numThumbnails: json['numThumbnails'],
       createdAt: json['createdAt'],
       updatedAt: json['updatedAt'],
@@ -38,6 +41,7 @@ class FileModel {
       'path': path,
       'name': name,
       'duration': duration,
+      'size': size,
       'numThumbnails': numThumbnails,
       'createdAt': createdAt,
       'updatedAt': updatedAt,

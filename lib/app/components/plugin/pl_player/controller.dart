@@ -358,6 +358,7 @@ class PlPlayerController {
     isBuffering.value = false;
     buffered.value = Duration.zero;
     _position.value = Duration.zero;
+    lastSeekAt = null;
 
     Player player =
         _videoPlayerController ??
@@ -401,6 +402,8 @@ class PlPlayerController {
       await pp.setProperty("blend-subtitles", "video");
     }
 
+    // Player instances are reused, so also clear a previously configured proxy.
+    await pp.setProperty("http-proxy", "");
     // Proxy
     if (StorageProvider.config[StorageKey.proxyEnable] ?? false) {
       String? proxyHost = StorageProvider.config[StorageKey.proxyHost];
@@ -411,10 +414,8 @@ class PlPlayerController {
       }
     }
 
-    // Experimental: online videos go through the local parallel proxy, which
-    // fetches upstream itself (through the app proxy, if any), and the player
-    // reads further ahead so several ranges stay in flight. The proxy sends
-    // no custom headers, so sources that need them play directly.
+    // Only the upstream requests use the app proxy; loopback stays local.
+    // Sources needing custom headers continue to play directly.
     String? videoSource = dataSource.videoSource;
     final bool accelerated =
         Get.find<ConfigService>().acceleratedTransfer &&
@@ -423,14 +424,23 @@ class PlPlayerController {
         videoSource != null &&
         ParallelRangeProxy.instance.serves(videoSource);
     if (accelerated) {
-      videoSource = await ParallelRangeProxy.instance.wrap(videoSource);
+      videoSource = await ParallelRangeProxy.instance.wrap(
+        videoSource,
+        duration: dataSource.duration,
+      );
       await pp.setProperty("http-proxy", "");
-      await pp.setProperty("demuxer-readahead-secs", "60");
-      await pp.setProperty("demuxer-max-bytes", "${64 * 1024 * 1024}");
-    } else {
-      await pp.setProperty("demuxer-readahead-secs", "1");
-      await pp.setProperty("demuxer-max-bytes", "${5 * 1024 * 1024}");
     }
+
+    // media_kit enables disk caching by default, where max-bytes limits only
+    // metadata. Use bounded memory and an explicit time budget in both modes.
+    await pp.setProperty("cache", "yes");
+    await pp.setProperty("cache-on-disk", "no");
+    await pp.setProperty("cache-secs", "30");
+    await pp.setProperty("demuxer-readahead-secs", "30");
+    await pp.setProperty("demuxer-max-bytes", "${32 * 1024 * 1024}");
+    await pp.setProperty("demuxer-max-back-bytes", "${8 * 1024 * 1024}");
+    // Let the proxy's five-second watchdog recover before mpv gives up.
+    await pp.setProperty("network-timeout", accelerated ? "20" : "10");
 
     await pp.setProperty('demuxer-lavf-o', 'allowed_extensions=[ts,key]');
 

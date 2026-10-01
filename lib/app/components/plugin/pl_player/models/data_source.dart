@@ -25,6 +25,7 @@ class DataSource {
   String? subFiles;
   DataSourceType type;
   Map<String, String>? httpHeaders; // for headers
+  Duration? duration;
   DataSource({
     this.file,
     this.videoSource,
@@ -32,6 +33,7 @@ class DataSource {
     this.subFiles,
     required this.type,
     this.httpHeaders,
+    this.duration,
   }) : assert(
          (type == DataSourceType.file && file != null) || videoSource != null,
        );
@@ -43,6 +45,7 @@ class DataSource {
     String? subFiles,
     DataSourceType? type,
     Map<String, String>? httpHeaders,
+    Duration? duration,
   }) {
     return DataSource(
       file: file ?? this.file,
@@ -51,6 +54,7 @@ class DataSource {
       subFiles: subFiles ?? this.subFiles,
       type: type ?? this.type,
       httpHeaders: httpHeaders ?? this.httpHeaders,
+      duration: duration ?? this.duration,
     );
   }
 }
