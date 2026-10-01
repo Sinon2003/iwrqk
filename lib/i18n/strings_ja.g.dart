@@ -716,6 +716,7 @@ class _Translations$error$ja extends Translations$error$en {
 	@override String get invalid_path => '無効なパス';
 	@override String get intercept_app_exit => 'アプリの終了をブロック';
 	@override late final _Translations$error$account$ja account = _Translations$error$account$ja._(_root);
+	@override late final _Translations$error$network$ja network = _Translations$error$network$ja._(_root);
 }
 
 // Path: search.history
@@ -890,6 +891,22 @@ class _Translations$error$account$ja extends Translations$error$account$en {
 	@override String get invalid_login => '無効なメールアドレスまたはパスワード';
 	@override String get invalid_host => '無効なホスト名';
 	@override String get invalid_captcha => '無効なキャプチャ';
+}
+
+// Path: error.network
+class _Translations$error$network$ja extends Translations$error$network$en {
+	_Translations$error$network$ja._(TranslationsJa root) : this._root = root, super.internal(root);
+
+	final TranslationsJa _root; // ignore: unused_field
+
+	// Translations
+	@override String offline({required Object cause}) => 'ネットワークまたはプロキシに接続できません。他のサイトにもつながりません。ネットワークを確認するか、プロキシのノードを切り替えてから再試行してください（${cause}）';
+	@override String site_unreachable({required Object cause}) => 'Iwara に接続できませんが、他のサイトにはつながります。Iwara の障害か、現在のプロキシのノードから Iwara に届かない可能性があります。しばらくしてから再試行するか、ノードを切り替えてください（${cause}）';
+	@override String server({required Object status}) => 'Iwara のサーバーでエラーが発生しました（HTTP ${status}）。しばらくしてから再試行してください';
+	@override String get cause_handshake => 'TLS ハンドシェイク失敗';
+	@override String get cause_lookup => '名前解決の失敗';
+	@override String get cause_connection => '接続失敗';
+	@override String get cause_timeout => 'タイムアウト';
 }
 
 /// The flat map containing all translations for locale <ja>.
@@ -1281,6 +1298,13 @@ extension on TranslationsJa {
 			'error.account.invalid_login' => '無効なメールアドレスまたはパスワード',
 			'error.account.invalid_host' => '無効なホスト名',
 			'error.account.invalid_captcha' => '無効なキャプチャ',
+			'error.network.offline' => ({required Object cause}) => 'ネットワークまたはプロキシに接続できません。他のサイトにもつながりません。ネットワークを確認するか、プロキシのノードを切り替えてから再試行してください（${cause}）',
+			'error.network.site_unreachable' => ({required Object cause}) => 'Iwara に接続できませんが、他のサイトにはつながります。Iwara の障害か、現在のプロキシのノードから Iwara に届かない可能性があります。しばらくしてから再試行するか、ノードを切り替えてください（${cause}）',
+			'error.network.server' => ({required Object status}) => 'Iwara のサーバーでエラーが発生しました（HTTP ${status}）。しばらくしてから再試行してください',
+			'error.network.cause_handshake' => 'TLS ハンドシェイク失敗',
+			'error.network.cause_lookup' => '名前解決の失敗',
+			'error.network.cause_connection' => '接続失敗',
+			'error.network.cause_timeout' => 'タイムアウト',
 			_ => null,
 		};
 	}

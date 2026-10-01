@@ -117,10 +117,11 @@ abstract class IwrRefreshController<T> extends GetxController with StateMixin {
       if (showSplash) {
         change({
           "state": "fail",
-          "msg": e.toString(),
+          // Repositories wrap the message in an Exception.
+          "msg": e.toString().replaceFirst("Exception: ", ""),
         }, status: RxStatus.success());
       } else {
-        SmartDialog.showToast(e.toString());
+        SmartDialog.showToast(e.toString().replaceFirst("Exception: ", ""));
         endLoading(isRefresh, IndicatorResult.fail);
         return;
       }

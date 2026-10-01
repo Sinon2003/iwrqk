@@ -472,6 +472,15 @@
       "invalid_login": "邮箱或密码错误",
       "invalid_host": "无效的主机名",
       "invalid_captcha": "验证码错误"
+    },
+    "network": {
+      "offline": "网络或代理不通，其他网站也连不上。请检查网络，或更换代理节点后重试（$cause）",
+      "site_unreachable": "连不上 Iwara，但其他网站正常。可能是 Iwara 暂时故障，或当前代理节点访问不了 Iwara，请稍后重试或更换节点（$cause）",
+      "server": "Iwara 服务器出错（HTTP $status），请稍后重试",
+      "cause_handshake": "TLS 握手失败",
+      "cause_lookup": "域名解析失败",
+      "cause_connection": "连接失败",
+      "cause_timeout": "连接超时"
     }
   }
 }

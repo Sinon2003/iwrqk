@@ -472,6 +472,15 @@
       "invalid_login": "無効なメールアドレスまたはパスワード",
       "invalid_host": "無効なホスト名",
       "invalid_captcha": "無効なキャプチャ"
+    },
+    "network": {
+      "offline": "ネットワークまたはプロキシに接続できません。他のサイトにもつながりません。ネットワークを確認するか、プロキシのノードを切り替えてから再試行してください（$cause）",
+      "site_unreachable": "Iwara に接続できませんが、他のサイトにはつながります。Iwara の障害か、現在のプロキシのノードから Iwara に届かない可能性があります。しばらくしてから再試行するか、ノードを切り替えてください（$cause）",
+      "server": "Iwara のサーバーでエラーが発生しました（HTTP $status）。しばらくしてから再試行してください",
+      "cause_handshake": "TLS ハンドシェイク失敗",
+      "cause_lookup": "名前解決の失敗",
+      "cause_connection": "接続失敗",
+      "cause_timeout": "タイムアウト"
     }
   }
 }

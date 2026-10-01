@@ -11,6 +11,8 @@ import 'package:iwrqk/app/data/providers/storage_provider.dart';
 import 'package:iwrqk/app/modules/settings/controller.dart';
 
 import '../../../const/iwara.dart';
+import '../../../utils/log_util.dart';
+import 'network_failure.dart';
 import 'refresh_token_interceptor.dart';
 
 dynamic tryToJson(dynamic data) {
@@ -97,6 +99,19 @@ class NetworkProvider {
     _dio.close();
   }
 
+  /// Runs [request]. A network failure or server error is logged and comes
+  /// back as a [NetworkFailure], whose text tells the user what is wrong.
+  Future<Response> _guard(Future<Response> Function() request) async {
+    try {
+      return await request();
+    } catch (e, stackTrace) {
+      final failure = await NetworkFailure.describe(e);
+      if (failure == null) rethrow;
+      LogUtil.warning("Request failed", e, stackTrace);
+      throw failure;
+    }
+  }
+
   Future<Response> get(
     String path, {
     Map<String, dynamic>? queryParameters,
@@ -112,13 +127,15 @@ class NetworkProvider {
     Map<String, dynamic>? queryParameters,
     Map<String, dynamic>? headers,
   }) async {
-    final response = await _dio.get(
-      url,
-      queryParameters: queryParameters,
-      options: Options(
-        headers: !SettingsController.switchToAiSite.value
-            ? headers
-            : {"X-Site": "www.iwara.ai", ...?headers},
+    final response = await _guard(
+      () => _dio.get(
+        url,
+        queryParameters: queryParameters,
+        options: Options(
+          headers: !SettingsController.switchToAiSite.value
+              ? headers
+              : {"X-Site": "www.iwara.ai", ...?headers},
+        ),
       ),
     );
 
@@ -139,16 +156,18 @@ class NetworkProvider {
     Map<String, dynamic>? headers,
     dynamic data,
   }) async {
-    final response = await _dio.post(
-      url,
-      queryParameters: queryParameters,
-      options: Options(
-        headers: !SettingsController.switchToAiSite.value
-            ? headers
-            : {"X-Site": "www.iwara.ai", ...?headers},
-        contentType: Headers.jsonContentType,
+    final response = await _guard(
+      () => _dio.post(
+        url,
+        queryParameters: queryParameters,
+        options: Options(
+          headers: !SettingsController.switchToAiSite.value
+              ? headers
+              : {"X-Site": "www.iwara.ai", ...?headers},
+          contentType: Headers.jsonContentType,
+        ),
+        data: data,
       ),
-      data: data,
     );
 
     return Response(
@@ -164,7 +183,7 @@ class NetworkProvider {
 
   /// Posts multipart [data], such as a file upload.
   Future<Response<dynamic>> postFormFullUrl(String url, FormData data) async {
-    final response = await _dio.post(url, data: data);
+    final response = await _guard(() => _dio.post(url, data: data));
 
     return Response(
       data: tryToJson(response.data),
@@ -195,11 +214,13 @@ class NetworkProvider {
     Map<String, dynamic>? headers,
     dynamic data,
   }) async {
-    final response = await _dio.put(
-      url,
-      queryParameters: queryParameters,
-      options: Options(headers: headers),
-      data: data,
+    final response = await _guard(
+      () => _dio.put(
+        url,
+        queryParameters: queryParameters,
+        options: Options(headers: headers),
+        data: data,
+      ),
     );
 
     return response;
@@ -223,11 +244,16 @@ class NetworkProvider {
     Map<String, dynamic>? headers,
     dynamic data,
   }) async {
-    final response = await _dio.delete(
-      url,
-      queryParameters: queryParameters,
-      options: Options(headers: headers, contentType: Headers.jsonContentType),
-      data: data,
+    final response = await _guard(
+      () => _dio.delete(
+        url,
+        queryParameters: queryParameters,
+        options: Options(
+          headers: headers,
+          contentType: Headers.jsonContentType,
+        ),
+        data: data,
+      ),
     );
 
     return response;

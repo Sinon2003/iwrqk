@@ -472,6 +472,15 @@
       "invalid_login": "郵箱或密碼錯誤",
       "invalid_host": "無效的主機名",
       "invalid_captcha": "驗證碼錯誤"
+    },
+    "network": {
+      "offline": "網路或代理不通，其他網站也連不上。請檢查網路，或更換代理節點後重試（$cause）",
+      "site_unreachable": "連不上 Iwara，但其他網站正常。可能是 Iwara 暫時故障，或目前的代理節點無法存取 Iwara，請稍後重試或更換節點（$cause）",
+      "server": "Iwara 伺服器出錯（HTTP $status），請稍後重試",
+      "cause_handshake": "TLS 交握失敗",
+      "cause_lookup": "網域解析失敗",
+      "cause_connection": "連線失敗",
+      "cause_timeout": "連線逾時"
     }
   }
 }

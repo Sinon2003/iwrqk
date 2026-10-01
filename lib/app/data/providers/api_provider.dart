@@ -29,6 +29,7 @@ import '../models/rule.dart';
 import '../models/tag.dart';
 import '../models/user.dart';
 import '../../utils/log_util.dart';
+import 'network/network_failure.dart';
 import 'network/network_provider.dart';
 
 class ApiProvider {
@@ -74,7 +75,7 @@ class ApiProvider {
       }
     } catch (e, stackTrace) {
       debugPrint("Login error: $e $stackTrace");
-      message = e.toString();
+      message = (await NetworkFailure.describe(e))?.message ?? e.toString();
     }
     return ApiResult(data: token, success: message == null, message: message);
   }
@@ -150,7 +151,7 @@ class ApiProvider {
       }
     } catch (e, stackTrace) {
       debugPrint("Get access token error: $e $stackTrace");
-      message = e.toString();
+      message = (await NetworkFailure.describe(e))?.message ?? e.toString();
     }
     return ApiResult(
       data: accessToken,
