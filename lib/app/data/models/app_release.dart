@@ -13,11 +13,30 @@ class AppRelease {
   final String pageUrl;
   final List<AppReleaseAsset> assets;
 
-  /// The changelog part of [notes], without Markdown heading marks.
-  String get changelog {
-    final start = notes.indexOf('## Changelog');
-    final text = start == -1 ? notes : notes.substring(start);
-    return text.replaceAll(RegExp(r'^#+\s*', multiLine: true), '').trim();
+  /// The changelog part of [notes] as plain text.
+  ///
+  /// Release notes lead with download links and the Chinese changelog, and
+  /// fold the English one in a `<details>` block (see tool/release.dart).
+  /// Older releases only have an English changelog.
+  String changelog({required bool chinese}) {
+    final fold = notes.indexOf('<details>');
+    final leading = fold == -1 ? notes : notes.substring(0, fold);
+    final folded = fold == -1 ? '' : notes.substring(fold);
+
+    String? from(String text, String heading) {
+      final start = text.indexOf(heading);
+      return start == -1 ? null : text.substring(start);
+    }
+
+    final text =
+        (chinese ? from(leading, '## 更新内容') : from(folded, '## Changelog')) ??
+        from(leading, '## 更新内容') ??
+        from(notes, '## Changelog') ??
+        notes;
+    return text
+        .replaceAll(RegExp(r'</?details>|<summary>.*?</summary>'), '')
+        .replaceAll(RegExp(r'^#+\s*', multiLine: true), '')
+        .trim();
   }
 
   factory AppRelease.fromJson(Map<String, dynamic> json) {

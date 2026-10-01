@@ -159,6 +159,9 @@ class UpdateService extends GetxService with WidgetsBindingObserver {
   void _showProgress() {
     final release = _release;
     if (release == null) return;
+    final changelog = release.changelog(
+      chinese: LocaleSettings.currentLocale.languageCode == "zh",
+    );
     SmartDialog.show(
       tag: _dialogTag,
       clickMaskDismiss: false,
@@ -182,11 +185,11 @@ class UpdateService extends GetxService with WidgetsBindingObserver {
                   ),
                 ),
               ),
-              if (release.changelog.isNotEmpty) ...[
+              if (changelog.isNotEmpty) ...[
                 const SizedBox(height: 16),
                 ConstrainedBox(
                   constraints: const BoxConstraints(maxHeight: 240),
-                  child: SingleChildScrollView(child: Text(release.changelog)),
+                  child: SingleChildScrollView(child: Text(changelog)),
                 ),
               ],
             ],

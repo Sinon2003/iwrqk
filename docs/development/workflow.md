@@ -65,6 +65,15 @@ Android 签名从环境变量或被忽略的 `android/keystore.properties` 读�
 
 工作流包含 GitHub Release 写入步骤。手动运行时 Android / Windows 只上传产物；执行前仍应阅读目标工作流。接管正式发布还需核对版本、签名、更新源与发布目标。
 
+### 发布步骤
+
+1. 改 `pubspec.yaml` 的 `version`（如 `2.4.1+4`），写两份更新日志：`changelogs/v<完整版本>.md`（中文，标题为"更新内容""注意"）和 `changelogs/v<完整版本>.en.md`（英文，标题为 Changelog、Attention）。
+2. `flutter build apk --release`，把新包装到测试机上验证。
+3. `dart run tool/release.dart`：在 `build/release/v<版本>/` 生成按 `iwrqk-<版本>-<ABI>.apk` 命名的 APK、`SHA256SUMS.txt` 和 `notes.md`。应用内更新按这个文件名找安装包。
+4. 打 `v<版本>` 标签（不带 `+N`）并推送，再用脚本打印的 `gh release create` 命令发布。
+
+发布说明以中文为主：最上面是直接指向文件的下载链接，然后是中文更新日志，英文折叠在 `<details>` 里。应用内的更新弹窗按界面语言从中取对应的一段（见 `AppRelease.changelog`），所以两份日志的标题不要改。只想刷新已发布版本的说明时，运行 `dart run tool/release.dart <完整版本>` 后用 `gh release edit` 更新。
+
 ## 本地资料与手册维护
 
 - 测试账号从 [secrets/test_account.example.json](../../secrets/test_account.example.json) 的结构建立本地文件；真实值受 `.gitignore` 排除，不写进文档、示例、测试或日志。
