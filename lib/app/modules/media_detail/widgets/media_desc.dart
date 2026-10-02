@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../components/iwr_markdown.dart';
+import '../../../components/tag_label.dart';
 import '../../../components/translated_content.dart';
 import '../../../components/translation_mixin.dart';
 import '../../../data/models/media/media.dart';
@@ -40,10 +41,11 @@ class _MeidaDescriptionState extends State<MeidaDescription>
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       color: Theme.of(context).colorScheme.primaryContainer,
       child: InkWell(
+        // Copies the id, which is what the site searches by.
         onTap: () => ClipboardUtil.copy(tag.id),
         child: Container(
           padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-          child: Text(
+          child: TagLabel(
             tag.id,
             style: TextStyle(color: Theme.of(context).colorScheme.primary),
           ),

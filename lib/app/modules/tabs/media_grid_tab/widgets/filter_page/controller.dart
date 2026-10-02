@@ -4,11 +4,13 @@ import 'package:get/get.dart';
 import '../../../../../data/enums/types.dart';
 import '../../../../../data/models/account/settings/filter_setting.dart';
 import '../../../../../data/services/config_service.dart';
+import '../../../../../data/services/tag_name_service.dart';
 import '../../controller.dart';
 import 'repository.dart';
 
 class FilterController extends GetxController {
   final ConfigService _configService = Get.find();
+  final TagNameService _tagNames = Get.find();
 
   bool _initialized = false;
 
@@ -90,14 +92,13 @@ class FilterController extends GetxController {
     _targetController.refreshCurrentTab();
   }
 
-  Future<List<String>> autoCompleteTags(String keyword) async {
-    try {
-      return await repository.autoCompleteTags(keyword).then((value) {
-        return value.map((e) => e.id).toList();
-      });
-    } catch (e) {
-      return [];
-    }
+  Future<List<String>> autoCompleteTags(String keyword) {
+    return _tagNames.complete(
+      keyword,
+      (keyword) async => [
+        for (final tag in await repository.autoCompleteTags(keyword)) tag.id,
+      ],
+    );
   }
 
   void addTag(String tag) {

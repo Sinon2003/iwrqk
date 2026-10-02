@@ -1077,6 +1077,12 @@ class Translations$settings$en {
 	/// en: 'Change the language of the App'
 	String get language_desc => 'Change the language of the App';
 
+	/// en: 'Tag names in Chinese'
+	String get localized_tags => 'Tag names in Chinese';
+
+	/// en: 'Show tags by their Chinese names, and find them by typing Chinese'
+	String get localized_tags_desc => 'Show tags by their Chinese names, and find them by typing Chinese';
+
 	/// en: 'Display Mode'
 	String get display_mode => 'Display Mode';
 
@@ -2039,6 +2045,8 @@ extension on Translations {
 			'settings.custom_color_desc' => 'Customize the color of the App',
 			'settings.language' => 'Language',
 			'settings.language_desc' => 'Change the language of the App',
+			'settings.localized_tags' => 'Tag names in Chinese',
+			'settings.localized_tags_desc' => 'Show tags by their Chinese names, and find them by typing Chinese',
 			'settings.display_mode' => 'Display Mode',
 			'settings.display_mode_desc' => 'Change the display mode of the App',
 			'settings.work_mode' => 'Work Mode',

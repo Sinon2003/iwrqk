@@ -333,6 +333,8 @@
     "custom_color_desc": "Customize the color of the App",
     "language": "Language",
     "language_desc": "Change the language of the App",
+    "localized_tags": "Tag names in Chinese",
+    "localized_tags_desc": "Show tags by their Chinese names, and find them by typing Chinese",
     "display_mode": "Display Mode",
     "display_mode_desc": "Change the display mode of the App",
     "work_mode": "Work Mode",

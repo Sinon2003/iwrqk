@@ -575,6 +575,8 @@ class Translations$settings$zh_TW extends Translations$settings$en {
 	@override String get custom_color_desc => '自定義該軟體的主題色';
 	@override String get language => '語言';
 	@override String get language_desc => '設定該軟體的語言';
+	@override String get localized_tags => '標籤顯示中文';
+	@override String get localized_tags_desc => '標籤顯示為中文名稱，篩選時可以用中文尋找';
 	@override String get display_mode => '顯示模式';
 	@override String get display_mode_desc => '設定該軟體的顯示模式';
 	@override String get work_mode => '工作模式';
@@ -1202,6 +1204,8 @@ extension on TranslationsZhTw {
 			'settings.custom_color_desc' => '自定義該軟體的主題色',
 			'settings.language' => '語言',
 			'settings.language_desc' => '設定該軟體的語言',
+			'settings.localized_tags' => '標籤顯示中文',
+			'settings.localized_tags_desc' => '標籤顯示為中文名稱，篩選時可以用中文尋找',
 			'settings.display_mode' => '顯示模式',
 			'settings.display_mode_desc' => '設定該軟體的顯示模式',
 			'settings.work_mode' => '工作模式',

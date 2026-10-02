@@ -1,10 +1,12 @@
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
+import '../../../../data/services/tag_name_service.dart';
 import 'repository.dart';
 
 class AddTagController extends GetxController {
   final AddTagRepository repository = AddTagRepository();
+  final TagNameService _tagNames = Get.find();
 
   final GlobalKey tagsBoxKey = GlobalKey();
 
@@ -15,14 +17,13 @@ class AddTagController extends GetxController {
   final RxList<String> _selectedTags = <String>[].obs;
   List<String> get selectedTags => _selectedTags.toList();
 
-  Future<List<String>> autoCompleteTags(String keyword) async {
-    try {
-      return await repository.autoCompleteTags(keyword).then((value) {
-        return value.map((e) => e.id).toList();
-      });
-    } catch (e) {
-      return [];
-    }
+  Future<List<String>> autoCompleteTags(String keyword) {
+    return _tagNames.complete(
+      keyword,
+      (keyword) async => [
+        for (final tag in await repository.autoCompleteTags(keyword)) tag.id,
+      ],
+    );
   }
 
   void addTag(String tag) {

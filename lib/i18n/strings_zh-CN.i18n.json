@@ -327,6 +327,8 @@
     "custom_color_desc": "自定义应用的主题色",
     "language": "语言",
     "language_desc": "设置应用的语言",
+    "localized_tags": "标签显示中文",
+    "localized_tags_desc": "标签显示为中文名称，筛选时可以用中文查找",
     "display_mode": "显示模式",
     "display_mode_desc": "设置应用的显示模式",
     "work_mode": "工作模式",

@@ -39,6 +39,8 @@ abstract class ConfigKey {
   static const String enabledTranslationEngines = "enabledTranslationEngines";
   static const String translationDisplayMode = "translationDisplayMode";
 
+  static const String localizedTags = "localizedTags";
+
   static const String acceleratedTransfer = "acceleratedTransfer";
 
   static const String preferredQuality = "preferredQuality";
@@ -120,6 +122,15 @@ class ConfigService extends GetxService {
   set translationDisplayMode(TranslationDisplayMode mode) {
     _translationDisplayMode.value = mode;
     setting[ConfigKey.translationDisplayMode] = mode.name;
+  }
+
+  /// Shows tags by their name in the app language instead of the site's
+  /// English ids, where the app has names for them; see `TagNameService`.
+  final RxBool _localizedTags = true.obs;
+  bool get localizedTags => _localizedTags.value;
+  set localizedTags(bool value) {
+    _localizedTags.value = value;
+    setting[ConfigKey.localizedTags] = value;
   }
 
   /// Experimental: plays and downloads videos through a local proxy that
@@ -273,6 +284,11 @@ class ConfigService extends GetxService {
           setting.get(ConfigKey.translationDisplayMode),
         ) ??
         TranslationDisplayMode.replace;
+
+    _localizedTags.value = setting.get(
+      ConfigKey.localizedTags,
+      defaultValue: true,
+    );
 
     _acceleratedTransfer.value = setting.get(
       ConfigKey.acceleratedTransfer,

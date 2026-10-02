@@ -575,6 +575,8 @@ class Translations$settings$zh_CN extends Translations$settings$en {
 	@override String get custom_color_desc => '自定义应用的主题色';
 	@override String get language => '语言';
 	@override String get language_desc => '设置应用的语言';
+	@override String get localized_tags => '标签显示中文';
+	@override String get localized_tags_desc => '标签显示为中文名称，筛选时可以用中文查找';
 	@override String get display_mode => '显示模式';
 	@override String get display_mode_desc => '设置应用的显示模式';
 	@override String get work_mode => '工作模式';
@@ -1202,6 +1204,8 @@ extension on TranslationsZhCn {
 			'settings.custom_color_desc' => '自定义应用的主题色',
 			'settings.language' => '语言',
 			'settings.language_desc' => '设置应用的语言',
+			'settings.localized_tags' => '标签显示中文',
+			'settings.localized_tags_desc' => '标签显示为中文名称，筛选时可以用中文查找',
 			'settings.display_mode' => '显示模式',
 			'settings.display_mode_desc' => '设置应用的显示模式',
 			'settings.work_mode' => '工作模式',

@@ -575,6 +575,8 @@ class _Translations$settings$ja extends Translations$settings$en {
 	@override String get custom_color_desc => 'アプリのテーマカラーをカスタマイズします';
 	@override String get language => '言語';
 	@override String get language_desc => 'アプリの言語を設定します';
+	@override String get localized_tags => 'タグを中国語で表示';
+	@override String get localized_tags_desc => 'タグを中国語名で表示し、中国語で検索できます';
 	@override String get display_mode => '表示モード';
 	@override String get display_mode_desc => 'アプリの表示モードを設定します';
 	@override String get work_mode => '作業モード';
@@ -1202,6 +1204,8 @@ extension on TranslationsJa {
 			'settings.custom_color_desc' => 'アプリのテーマカラーをカスタマイズします',
 			'settings.language' => '言語',
 			'settings.language_desc' => 'アプリの言語を設定します',
+			'settings.localized_tags' => 'タグを中国語で表示',
+			'settings.localized_tags_desc' => 'タグを中国語名で表示し、中国語で検索できます',
 			'settings.display_mode' => '表示モード',
 			'settings.display_mode_desc' => 'アプリの表示モードを設定します',
 			'settings.work_mode' => '作業モード',

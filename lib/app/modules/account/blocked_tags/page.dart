@@ -5,6 +5,7 @@ import 'package:iwrqk/i18n/strings.g.dart';
 
 import '../../../components/load_empty.dart';
 import '../../../components/load_fail.dart';
+import '../../../components/tag_label.dart';
 import 'controller.dart';
 import 'add_tag/widget.dart';
 
@@ -69,7 +70,7 @@ class BlockedTagsPage extends GetView<BlockedTagsController> {
                   onTap: () {
                     controller.unblockTag(index);
                   },
-                  title: Text(controller.blockedTags[index]),
+                  title: TagLabel(controller.blockedTags[index]),
                 ),
               );
             },

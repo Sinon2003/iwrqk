@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:iwrqk/i18n/strings.g.dart';
 
+import '../../../../../components/tag_label.dart';
 import '../../../../../data/enums/types.dart';
 import '../../../../../utils/display_util.dart';
 import 'controller.dart';
@@ -145,7 +146,7 @@ class _FilterPageState extends State<FilterPage> {
                               onSelected.call(option);
                               _controller.addTag(option);
                             },
-                            child: ListTile(title: Text(option)),
+                            child: TagOptionTile(option),
                           );
                         },
                       ),
@@ -162,7 +163,7 @@ class _FilterPageState extends State<FilterPage> {
     String tag = _controller.selectedTags[index];
 
     return InputChip(
-      label: Text(tag),
+      label: TagLabel(tag),
       onDeleted: () {
         _controller.removeTag(tag);
       },

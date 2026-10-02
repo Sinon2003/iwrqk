@@ -327,6 +327,8 @@
     "custom_color_desc": "自定義該軟體的主題色",
     "language": "語言",
     "language_desc": "設定該軟體的語言",
+    "localized_tags": "標籤顯示中文",
+    "localized_tags_desc": "標籤顯示為中文名稱，篩選時可以用中文尋找",
     "display_mode": "顯示模式",
     "display_mode_desc": "設定該軟體的顯示模式",
     "work_mode": "工作模式",

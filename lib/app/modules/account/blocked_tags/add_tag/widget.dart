@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iwrqk/i18n/strings.g.dart';
 
+import '../../../../components/tag_label.dart';
 import 'controller.dart';
 
 class AddTagPage extends GetWidget<AddTagController> {
@@ -111,7 +112,7 @@ class AddTagPage extends GetWidget<AddTagController> {
                               onSelected.call(option);
                               controller.addTag(option);
                             },
-                            child: ListTile(title: Text(option)),
+                            child: TagOptionTile(option),
                           );
                         },
                       ),
@@ -128,7 +129,7 @@ class AddTagPage extends GetWidget<AddTagController> {
     String tag = controller.selectedTags[index];
 
     return InputChip(
-      label: Text(tag),
+      label: TagLabel(tag),
       onDeleted: () {
         controller.removeTag(tag);
       },

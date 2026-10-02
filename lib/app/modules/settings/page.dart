@@ -9,6 +9,7 @@ import '../../components/translation_engine_picker.dart';
 import '../../data/enums/translation_display_mode.dart';
 import '../../data/enums/translation_engine.dart';
 import '../../data/providers/storage_provider.dart';
+import '../../data/services/tag_name_service.dart';
 import '../../data/services/update_service.dart';
 import '../../utils/log_util.dart';
 import '../../utils/quality_picker.dart';
@@ -216,6 +217,21 @@ class SettingsPage extends GetView<SettingsController> {
         value: controller.workMode,
         onChanged: (value) {
           controller.workMode = value;
+        },
+      ),
+    );
+  }
+
+  Widget _buildLocalizedTagsSetting(BuildContext context) {
+    return Obx(
+      () => _buildSwitchSetting(
+        context,
+        title: t.settings.localized_tags,
+        description: t.settings.localized_tags_desc,
+        iconData: Icons.sell,
+        value: controller.configService.localizedTags,
+        onChanged: (value) {
+          controller.configService.localizedTags = value;
         },
       ),
     );
@@ -638,6 +654,9 @@ class SettingsPage extends GetView<SettingsController> {
             ),
           ),
           _buildLanguageSetting(context),
+          // Only the languages that have names for the tags offer them.
+          if (Get.find<TagNameService>().available)
+            _buildLocalizedTagsSetting(context),
           if (GetPlatform.isAndroid) _buildDisplayModeButton(context),
           _buildWorkModeSetting(context),
           _buildAnimatedPreviewSetting(context),
