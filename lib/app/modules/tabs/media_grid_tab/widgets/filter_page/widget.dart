@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:iwrqk/i18n/strings.g.dart';
 
+import '../../../../../components/tag_catalog.dart';
 import '../../../../../components/tag_label.dart';
 import '../../../../../data/enums/types.dart';
 import '../../../../../utils/display_util.dart';
@@ -171,29 +172,36 @@ class _FilterPageState extends State<FilterPage> {
   }
 
   Widget _buildTagsContent(BuildContext context) {
-    return SingleChildScrollView(
+    return CustomScrollView(
       key: _controller.tagsBoxKey,
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const SizedBox(height: 16),
-          _buildTagAutocomplete(context),
-          Obx(
-            () => Padding(
-              padding: const EdgeInsets.only(top: 16),
-              child: Wrap(
-                spacing: 8,
-                runSpacing: 8,
-                children: List.generate(
-                  _controller.selectedTags.length,
-                  (index) => _buildTagClip(context, index),
+      keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+      slivers: [
+        SliverPadding(
+          padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+          sliver: SliverList.list(
+            children: [
+              _buildTagAutocomplete(context),
+              Obx(
+                () => Padding(
+                  padding: const EdgeInsets.only(top: 16),
+                  child: Wrap(
+                    spacing: 8,
+                    runSpacing: 8,
+                    children: List.generate(
+                      _controller.selectedTags.length,
+                      (index) => _buildTagClip(context, index),
+                    ),
+                  ),
                 ),
               ),
-            ),
+            ],
           ),
-        ],
-      ),
+        ),
+        TagCatalog(
+          isPicked: _controller.isSelected,
+          onToggle: _controller.toggleTag,
+        ),
+      ],
     );
   }
 

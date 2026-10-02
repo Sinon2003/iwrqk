@@ -229,6 +229,20 @@
     "add_blocked_tag": "新增封鎖標籤",
     "blocked_tag": "封鎖標籤"
   },
+  "tag_groups": {
+    "common": "常用",
+    "acts": "性行為",
+    "kinks": "玩法與性癖",
+    "body": "身體與外貌",
+    "outfits": "服裝與道具",
+    "roles": "人物類型",
+    "scenes": "場景與題材",
+    "music": "舞蹈與歌曲",
+    "production": "畫面與製作",
+    "series": "作品",
+    "characters": "角色",
+    "others": "其他"
+  },
   "download": {
     "create_download_task": "建立下載任務",
     "unknown": "未知",

@@ -235,6 +235,20 @@
     "add_blocked_tag": "Add blocked tag",
     "blocked_tag": "Blocked tag"
   },
+  "tag_groups": {
+    "common": "Common",
+    "acts": "Sex acts",
+    "kinks": "Kinks",
+    "body": "Body",
+    "outfits": "Outfits & items",
+    "roles": "Character types",
+    "scenes": "Settings & themes",
+    "music": "Dances & songs",
+    "production": "Format & tools",
+    "series": "Series",
+    "characters": "Characters",
+    "others": "Others"
+  },
   "download": {
     "create_download_task": "Create download task",
     "unknown": "Unknown",

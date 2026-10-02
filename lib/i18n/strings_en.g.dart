@@ -67,6 +67,7 @@ class Translations with BaseTranslations<AppLocale, Translations> {
 	late final Translations$user$en user = Translations$user$en.internal(_root);
 	late final Translations$friend$en friend = Translations$friend$en.internal(_root);
 	late final Translations$blocked_tags$en blocked_tags = Translations$blocked_tags$en.internal(_root);
+	late final Translations$tag_groups$en tag_groups = Translations$tag_groups$en.internal(_root);
 	late final Translations$download$en download = Translations$download$en.internal(_root);
 	late final Translations$playlist$en playlist = Translations$playlist$en.internal(_root);
 	late final Translations$channel$en channel = Translations$channel$en.internal(_root);
@@ -799,6 +800,51 @@ class Translations$blocked_tags$en {
 
 	/// en: 'Blocked tag'
 	String get blocked_tag => 'Blocked tag';
+}
+
+// Path: tag_groups
+class Translations$tag_groups$en {
+	Translations$tag_groups$en.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Common'
+	String get common => 'Common';
+
+	/// en: 'Sex acts'
+	String get acts => 'Sex acts';
+
+	/// en: 'Kinks'
+	String get kinks => 'Kinks';
+
+	/// en: 'Body'
+	String get body => 'Body';
+
+	/// en: 'Outfits & items'
+	String get outfits => 'Outfits & items';
+
+	/// en: 'Character types'
+	String get roles => 'Character types';
+
+	/// en: 'Settings & themes'
+	String get scenes => 'Settings & themes';
+
+	/// en: 'Dances & songs'
+	String get music => 'Dances & songs';
+
+	/// en: 'Format & tools'
+	String get production => 'Format & tools';
+
+	/// en: 'Series'
+	String get series => 'Series';
+
+	/// en: 'Characters'
+	String get characters => 'Characters';
+
+	/// en: 'Others'
+	String get others => 'Others';
 }
 
 // Path: download
@@ -1968,6 +2014,18 @@ extension on Translations {
 			'friend.unfriend_confirm' => ({required Object name}) => 'Remove ${name} from your friends?',
 			'blocked_tags.add_blocked_tag' => 'Add blocked tag',
 			'blocked_tags.blocked_tag' => 'Blocked tag',
+			'tag_groups.common' => 'Common',
+			'tag_groups.acts' => 'Sex acts',
+			'tag_groups.kinks' => 'Kinks',
+			'tag_groups.body' => 'Body',
+			'tag_groups.outfits' => 'Outfits & items',
+			'tag_groups.roles' => 'Character types',
+			'tag_groups.scenes' => 'Settings & themes',
+			'tag_groups.music' => 'Dances & songs',
+			'tag_groups.production' => 'Format & tools',
+			'tag_groups.series' => 'Series',
+			'tag_groups.characters' => 'Characters',
+			'tag_groups.others' => 'Others',
 			'download.create_download_task' => 'Create download task',
 			'download.unknown' => 'Unknown',
 			'download.enqueued' => 'Enqueued',

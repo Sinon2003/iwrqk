@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:iwrqk/i18n/strings.g.dart';
 
 import '../../utils/log_util.dart';
+import '../../utils/tag_groups.dart';
 import '../../utils/tag_names.dart';
 import 'config_service.dart';
 
@@ -17,8 +18,14 @@ class TagNameService extends GetxService {
     AppLocale.zhTw: 'assets/tags/zh-TW.json',
   };
 
+  /// The tags to browse, by group; the same table for every language.
+  static const groupsAsset = 'assets/tags/groups.json';
+
   final Rx<TagNames> _names = TagNames.empty.obs;
   String? _asset;
+
+  final Rx<TagGroups> _groups = TagGroups.empty.obs;
+  bool _groupsRequested = false;
 
   /// Whether the current app language has names for tags at all.
   bool get available => assets.containsKey(LocaleSettings.currentLocale);
@@ -45,6 +52,22 @@ class TagNameService extends GetxService {
     Future<List<String>> Function(String keyword) site,
   ) {
     return _current.complete(keyword, site);
+  }
+
+  /// The tags to browse, by group. Empty until the table has loaded; read
+  /// inside an `Obx`, it follows the table arriving.
+  TagGroups get groups {
+    if (!_groupsRequested) {
+      _groupsRequested = true;
+      rootBundle
+          .loadString(groupsAsset)
+          .then((source) => _groups.value = TagGroups.fromJson(source))
+          .catchError((Object e, StackTrace stackTrace) {
+            LogUtil.warning('Tag groups failed to load', e, stackTrace);
+            return TagGroups.empty;
+          });
+    }
+    return _groups.value;
   }
 
   /// Loads the table of the current language, once per language.

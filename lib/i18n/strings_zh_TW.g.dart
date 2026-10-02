@@ -59,6 +59,7 @@ class TranslationsZhTw extends Translations with BaseTranslations<AppLocale, Tra
 	@override late final Translations$user$zh_TW user = Translations$user$zh_TW.internal(_root);
 	@override late final Translations$friend$zh_TW friend = Translations$friend$zh_TW.internal(_root);
 	@override late final Translations$blocked_tags$zh_TW blocked_tags = Translations$blocked_tags$zh_TW.internal(_root);
+	@override late final Translations$tag_groups$zh_TW tag_groups = Translations$tag_groups$zh_TW.internal(_root);
 	@override late final Translations$download$zh_TW download = Translations$download$zh_TW.internal(_root);
 	@override late final Translations$playlist$zh_TW playlist = Translations$playlist$zh_TW.internal(_root);
 	@override late final Translations$channel$zh_TW channel = Translations$channel$zh_TW.internal(_root);
@@ -433,6 +434,27 @@ class Translations$blocked_tags$zh_TW extends Translations$blocked_tags$en {
 	// Translations
 	@override String get add_blocked_tag => '新增封鎖標籤';
 	@override String get blocked_tag => '封鎖標籤';
+}
+
+// Path: tag_groups
+class Translations$tag_groups$zh_TW extends Translations$tag_groups$en {
+	Translations$tag_groups$zh_TW.internal(TranslationsZhTw root) : this._root = root, super.internal(root);
+
+	final TranslationsZhTw _root; // ignore: unused_field
+
+	// Translations
+	@override String get common => '常用';
+	@override String get acts => '性行為';
+	@override String get kinks => '玩法與性癖';
+	@override String get body => '身體與外貌';
+	@override String get outfits => '服裝與道具';
+	@override String get roles => '人物類型';
+	@override String get scenes => '場景與題材';
+	@override String get music => '舞蹈與歌曲';
+	@override String get production => '畫面與製作';
+	@override String get series => '作品';
+	@override String get characters => '角色';
+	@override String get others => '其他';
 }
 
 // Path: download
@@ -1127,6 +1149,18 @@ extension on TranslationsZhTw {
 			'friend.unfriend_confirm' => ({required Object name}) => '確定解除與 ${name} 的好友關係嗎？',
 			'blocked_tags.add_blocked_tag' => '新增封鎖標籤',
 			'blocked_tags.blocked_tag' => '封鎖標籤',
+			'tag_groups.common' => '常用',
+			'tag_groups.acts' => '性行為',
+			'tag_groups.kinks' => '玩法與性癖',
+			'tag_groups.body' => '身體與外貌',
+			'tag_groups.outfits' => '服裝與道具',
+			'tag_groups.roles' => '人物類型',
+			'tag_groups.scenes' => '場景與題材',
+			'tag_groups.music' => '舞蹈與歌曲',
+			'tag_groups.production' => '畫面與製作',
+			'tag_groups.series' => '作品',
+			'tag_groups.characters' => '角色',
+			'tag_groups.others' => '其他',
 			'download.create_download_task' => '建立下載任務',
 			'download.unknown' => '未知',
 			'download.enqueued' => '等待中',

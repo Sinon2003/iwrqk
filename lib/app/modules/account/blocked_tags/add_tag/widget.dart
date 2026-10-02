@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iwrqk/i18n/strings.g.dart';
 
+import '../../../../components/tag_catalog.dart';
 import '../../../../components/tag_label.dart';
 import 'controller.dart';
 
@@ -155,34 +156,37 @@ class AddTagPage extends GetWidget<AddTagController> {
           ),
         ],
       ),
-      // The suggestions are sized against this box, so it fills the page: a
-      // scroll view alone is only as tall as its content, which left them
-      // no room.
-      body: SizedBox.expand(
+      // The suggestions are sized against this box, which fills the page.
+      body: CustomScrollView(
         key: controller.tagsBoxKey,
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(height: 16),
-              _buildTagAutocomplete(context),
-              Obx(
-                () => Padding(
-                  padding: const EdgeInsets.only(top: 16),
-                  child: Wrap(
-                    spacing: 8,
-                    runSpacing: 8,
-                    children: List.generate(
-                      controller.selectedTags.length,
-                      (index) => _buildTagClip(context, index),
+        keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+        slivers: [
+          SliverPadding(
+            padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+            sliver: SliverList.list(
+              children: [
+                _buildTagAutocomplete(context),
+                Obx(
+                  () => Padding(
+                    padding: const EdgeInsets.only(top: 16),
+                    child: Wrap(
+                      spacing: 8,
+                      runSpacing: 8,
+                      children: List.generate(
+                        controller.selectedTags.length,
+                        (index) => _buildTagClip(context, index),
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
+          TagCatalog(
+            isPicked: controller.isSelected,
+            onToggle: controller.toggleTag,
+          ),
+        ],
       ),
     );
   }

@@ -59,6 +59,7 @@ class TranslationsJa extends Translations with BaseTranslations<AppLocale, Trans
 	@override late final _Translations$user$ja user = _Translations$user$ja._(_root);
 	@override late final _Translations$friend$ja friend = _Translations$friend$ja._(_root);
 	@override late final _Translations$blocked_tags$ja blocked_tags = _Translations$blocked_tags$ja._(_root);
+	@override late final _Translations$tag_groups$ja tag_groups = _Translations$tag_groups$ja._(_root);
 	@override late final _Translations$download$ja download = _Translations$download$ja._(_root);
 	@override late final _Translations$playlist$ja playlist = _Translations$playlist$ja._(_root);
 	@override late final _Translations$channel$ja channel = _Translations$channel$ja._(_root);
@@ -433,6 +434,27 @@ class _Translations$blocked_tags$ja extends Translations$blocked_tags$en {
 	// Translations
 	@override String get add_blocked_tag => 'ブロックされたタグを追加';
 	@override String get blocked_tag => 'ブロックされたタグ';
+}
+
+// Path: tag_groups
+class _Translations$tag_groups$ja extends Translations$tag_groups$en {
+	_Translations$tag_groups$ja._(TranslationsJa root) : this._root = root, super.internal(root);
+
+	final TranslationsJa _root; // ignore: unused_field
+
+	// Translations
+	@override String get common => 'よく使う';
+	@override String get acts => '性行為';
+	@override String get kinks => 'プレイ・性癖';
+	@override String get body => '身体・外見';
+	@override String get outfits => '衣装・アイテム';
+	@override String get roles => 'キャラ属性';
+	@override String get scenes => 'シーン・ジャンル';
+	@override String get music => 'ダンス・楽曲';
+	@override String get production => '映像・制作';
+	@override String get series => '作品';
+	@override String get characters => 'キャラクター';
+	@override String get others => 'その他';
 }
 
 // Path: download
@@ -1127,6 +1149,18 @@ extension on TranslationsJa {
 			'friend.unfriend_confirm' => ({required Object name}) => '${name} さんとのフレンドを解除しますか？',
 			'blocked_tags.add_blocked_tag' => 'ブロックされたタグを追加',
 			'blocked_tags.blocked_tag' => 'ブロックされたタグ',
+			'tag_groups.common' => 'よく使う',
+			'tag_groups.acts' => '性行為',
+			'tag_groups.kinks' => 'プレイ・性癖',
+			'tag_groups.body' => '身体・外見',
+			'tag_groups.outfits' => '衣装・アイテム',
+			'tag_groups.roles' => 'キャラ属性',
+			'tag_groups.scenes' => 'シーン・ジャンル',
+			'tag_groups.music' => 'ダンス・楽曲',
+			'tag_groups.production' => '映像・制作',
+			'tag_groups.series' => '作品',
+			'tag_groups.characters' => 'キャラクター',
+			'tag_groups.others' => 'その他',
 			'download.create_download_task' => 'ダウンロードタスクの作成',
 			'download.unknown' => '不明',
 			'download.enqueued' => '待機中',

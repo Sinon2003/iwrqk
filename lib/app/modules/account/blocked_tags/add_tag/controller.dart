@@ -37,4 +37,11 @@ class AddTagController extends GetxController {
   void removeTag(String tag) {
     _selectedTags.remove(tag);
   }
+
+  bool isSelected(String tag) => _selectedTags.contains(tag);
+
+  /// Picks or drops a tag from the catalogue; what is being typed stays.
+  void toggleTag(String tag) {
+    if (!_selectedTags.remove(tag)) _selectedTags.add(tag);
+  }
 }

@@ -229,6 +229,20 @@
     "add_blocked_tag": "添加屏蔽标签",
     "blocked_tag": "屏蔽标签"
   },
+  "tag_groups": {
+    "common": "常用",
+    "acts": "性行为",
+    "kinks": "玩法与性癖",
+    "body": "身体与外貌",
+    "outfits": "服装与道具",
+    "roles": "人物类型",
+    "scenes": "场景与题材",
+    "music": "舞蹈与歌曲",
+    "production": "画面与制作",
+    "series": "作品",
+    "characters": "角色",
+    "others": "其他"
+  },
   "download": {
     "create_download_task": "创建下载任务",
     "unknown": "未知",

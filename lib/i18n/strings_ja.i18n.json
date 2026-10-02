@@ -229,6 +229,20 @@
     "add_blocked_tag": "ブロックされたタグを追加",
     "blocked_tag": "ブロックされたタグ"
   },
+  "tag_groups": {
+    "common": "よく使う",
+    "acts": "性行為",
+    "kinks": "プレイ・性癖",
+    "body": "身体・外見",
+    "outfits": "衣装・アイテム",
+    "roles": "キャラ属性",
+    "scenes": "シーン・ジャンル",
+    "music": "ダンス・楽曲",
+    "production": "映像・制作",
+    "series": "作品",
+    "characters": "キャラクター",
+    "others": "その他"
+  },
   "download": {
     "create_download_task": "ダウンロードタスクの作成",
     "unknown": "不明",
