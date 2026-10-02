@@ -369,7 +369,7 @@
     "experimental": "実験的な機能",
     "accelerated_transfer": "ダウンロードと再生の高速化",
     "accelerated_transfer_desc": "速度が制限された回線で再生とダウンロードの改善を試み、並列転送に効果がなければ単一接続に戻します。ダウンロード中はアプリを開いたままにしてください",
-    "preferred_quality": "優先する画質",
+    "preferred_quality": "既定の画質",
     "quality_auto": "自動",
     "quality_highest": "画質優先",
     "quality_smoothest": "滑らかさ優先",

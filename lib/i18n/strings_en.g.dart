@@ -1203,8 +1203,8 @@ class Translations$settings$en {
 	/// en: 'Tries to improve playback and downloads on constrained connections, returning to one connection if parallel transfers do not help. Keep the app open while downloading'
 	String get accelerated_transfer_desc => 'Tries to improve playback and downloads on constrained connections, returning to one connection if parallel transfers do not help. Keep the app open while downloading';
 
-	/// en: 'Preferred quality'
-	String get preferred_quality => 'Preferred quality';
+	/// en: 'Default quality'
+	String get preferred_quality => 'Default quality';
 
 	/// en: 'Auto'
 	String get quality_auto => 'Auto';
@@ -2042,7 +2042,7 @@ extension on Translations {
 			'settings.experimental' => 'Experimental',
 			'settings.accelerated_transfer' => 'Accelerated downloads and playback',
 			'settings.accelerated_transfer_desc' => 'Tries to improve playback and downloads on constrained connections, returning to one connection if parallel transfers do not help. Keep the app open while downloading',
-			'settings.preferred_quality' => 'Preferred quality',
+			'settings.preferred_quality' => 'Default quality',
 			'settings.quality_auto' => 'Auto',
 			'settings.quality_highest' => 'Best quality',
 			'settings.quality_smoothest' => 'Smoothest',

@@ -399,7 +399,7 @@ class Translations$user$zh_CN extends Translations$user$en {
 	@override String get history => '历史记录';
 	@override String get blocked_tags => '屏蔽标签';
 	@override String get friends => '好友';
-	@override String get downloads => '缓存';
+	@override String get downloads => '下载';
 	@override String get favorites => '收藏';
 	@override String get playlists => '播放列表';
 	@override String get settings => '系统设置';
@@ -617,7 +617,7 @@ class Translations$settings$zh_CN extends Translations$settings$en {
 	@override String get experimental => '实验性功能';
 	@override String get accelerated_transfer => '加速下载与播放';
 	@override String get accelerated_transfer_desc => '尝试改善受限线路的播放和下载速度，并行无收益时自动使用单连接。下载时需保持应用运行';
-	@override String get preferred_quality => '优先清晰度';
+	@override String get preferred_quality => '默认清晰度';
 	@override String get quality_auto => '自动';
 	@override String get quality_highest => '画质优先';
 	@override String get quality_smoothest => '流畅优先';
@@ -1096,7 +1096,7 @@ extension on TranslationsZhCn {
 			'user.history' => '历史记录',
 			'user.blocked_tags' => '屏蔽标签',
 			'user.friends' => '好友',
-			'user.downloads' => '缓存',
+			'user.downloads' => '下载',
 			'user.favorites' => '收藏',
 			'user.playlists' => '播放列表',
 			'user.settings' => '系统设置',
@@ -1231,7 +1231,7 @@ extension on TranslationsZhCn {
 			'settings.experimental' => '实验性功能',
 			'settings.accelerated_transfer' => '加速下载与播放',
 			'settings.accelerated_transfer_desc' => '尝试改善受限线路的播放和下载速度，并行无收益时自动使用单连接。下载时需保持应用运行',
-			'settings.preferred_quality' => '优先清晰度',
+			'settings.preferred_quality' => '默认清晰度',
 			'settings.quality_auto' => '自动',
 			'settings.quality_highest' => '画质优先',
 			'settings.quality_smoothest' => '流畅优先',

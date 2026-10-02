@@ -26,7 +26,7 @@ Once installed, "App settings → Check Update" downloads and installs new versi
 
 ## 🚩 Features
 
-- ✅ Video player and gallery viewer, with a preferred quality (auto, best, smoothest or fixed)
+- ✅ Video player and gallery viewer, with a default quality (auto, best, smoothest or fixed)
 - ✅ Download manager (only for videos), with experimental accelerated downloads and playback
 - ✅ Follow, subscription, favorite, playlist, comments
 - ✅ Forum

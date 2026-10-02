@@ -617,7 +617,7 @@ class _Translations$settings$ja extends Translations$settings$en {
 	@override String get experimental => '実験的な機能';
 	@override String get accelerated_transfer => 'ダウンロードと再生の高速化';
 	@override String get accelerated_transfer_desc => '速度が制限された回線で再生とダウンロードの改善を試み、並列転送に効果がなければ単一接続に戻します。ダウンロード中はアプリを開いたままにしてください';
-	@override String get preferred_quality => '優先する画質';
+	@override String get preferred_quality => '既定の画質';
 	@override String get quality_auto => '自動';
 	@override String get quality_highest => '画質優先';
 	@override String get quality_smoothest => '滑らかさ優先';
@@ -1231,7 +1231,7 @@ extension on TranslationsJa {
 			'settings.experimental' => '実験的な機能',
 			'settings.accelerated_transfer' => 'ダウンロードと再生の高速化',
 			'settings.accelerated_transfer_desc' => '速度が制限された回線で再生とダウンロードの改善を試み、並列転送に効果がなければ単一接続に戻します。ダウンロード中はアプリを開いたままにしてください',
-			'settings.preferred_quality' => '優先する画質',
+			'settings.preferred_quality' => '既定の画質',
 			'settings.quality_auto' => '自動',
 			'settings.quality_highest' => '画質優先',
 			'settings.quality_smoothest' => '滑らかさ優先',

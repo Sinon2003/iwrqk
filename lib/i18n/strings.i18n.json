@@ -375,7 +375,7 @@
     "experimental": "Experimental",
     "accelerated_transfer": "Accelerated downloads and playback",
     "accelerated_transfer_desc": "Tries to improve playback and downloads on constrained connections, returning to one connection if parallel transfers do not help. Keep the app open while downloading",
-    "preferred_quality": "Preferred quality",
+    "preferred_quality": "Default quality",
     "quality_auto": "Auto",
     "quality_highest": "Best quality",
     "quality_smoothest": "Smoothest",
