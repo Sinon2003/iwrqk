@@ -10,7 +10,6 @@ import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher_string.dart';
-import 'package:window_manager/window_manager.dart';
 
 import '../../../i18n/strings.g.dart';
 import '../../components/buttons/follow_button/widget.dart';
@@ -36,49 +35,6 @@ import 'widgets/add_to_playlist/widget.dart';
 import 'widgets/create_video_download_task/widget.dart';
 import 'widgets/gallery/iwr_gallery.dart';
 import 'widgets/media_desc.dart';
-
-class _WindowsPipDragMoveArea extends StatelessWidget {
-  const _WindowsPipDragMoveArea();
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      behavior: HitTestBehavior.opaque,
-      onPanStart: (_) {
-        unawaited(windowManager.startDragging());
-      },
-      child: const SizedBox.expand(),
-    );
-  }
-}
-
-class _WindowsPipWindowArea extends StatelessWidget {
-  const _WindowsPipWindowArea({required this.child});
-
-  final Widget child;
-
-  @override
-  Widget build(BuildContext context) {
-    return DragToResizeArea(
-      child: ColoredBox(
-        color: Colors.black,
-        child: Stack(
-          fit: StackFit.expand,
-          children: [
-            Center(child: child),
-            const Positioned(
-              top: 0,
-              left: 0,
-              right: 0,
-              height: 28,
-              child: _WindowsPipDragMoveArea(),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
 
 class MediaDetailPage extends StatefulWidget {
   const MediaDetailPage({super.key});
@@ -617,168 +573,49 @@ class _MediaDetailPageState extends State<MediaDetailPage>
     return children;
   }
 
-  Widget _buildResponsiveLayout(Widget Function() buildMedia) {
-    // デスクトップで横幅が十分にある場合（1200px以上）は横並びレイアウト
-    if (GetPlatform.isDesktop && Get.mediaQuery.size.width >= 1200) {
-      return Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // 左側：メディアプレイヤー（70%）
+  /// The player or the gallery on top and what belongs to it underneath: the
+  /// other downloads for a download, the details and the comments otherwise.
+  Widget _buildLayout(Widget Function() buildMedia) {
+    return Column(
+      children: [
+        buildMedia(),
+        if (_controller.isOffline) ...[
           Expanded(
-            flex: 7,
-            child: Column(
-              children: [
-                buildMedia(),
-                Expanded(
-                  child: Container(
-                    color: colorScheme.surface,
-                    child: _buildMediaDetail(),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          // 右側：タブビュー（30%）
-          Expanded(
-            flex: 3,
             child: Container(
               color: colorScheme.surface,
-              child: _controller.isOffline
-                  ? Material(
-                      child: DownloadsMediaPreviewList(
-                        isPlaylist: true,
-                        showCompleted: true,
-                        initialMediaId: _controller.id,
-                        tag: _controller.offlinePlaylistTag,
-                        onChangeVideo: (task) {
-                          if (task.taskId == _controller.currentOfflineTaskId) {
-                            return;
-                          }
-                          if (task.offlineMedia.type == MediaType.video) {
-                            _controller.getOfflineMedia(task.taskId);
-                          }
-                        },
-                      ),
-                    )
-                  : DefaultTabController(
-                      length: 2,
-                      child: Column(
-                        children: [
-                          TabBar(
-                            tabs: [
-                              Tab(text: t.media.detail),
-                              Tab(text: t.media.comments),
-                            ],
-                          ),
-                          Expanded(
-                            child: TabBarView(
-                              children: [
-                                _buildDetailTabContent(),
-                                _buildCommentsTab(),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-            ),
-          ),
-        ],
-      );
-    } else {
-      // 通常の縦並びレイアウト
-      return Column(
-        children: [
-          buildMedia(),
-          if (_controller.isOffline) ...[
-            Expanded(
-              child: Container(
-                color: colorScheme.surface,
-                child: Material(
-                  child: DownloadsMediaPreviewList(
-                    isPlaylist: true,
-                    showCompleted: true,
-                    initialMediaId: _controller.id,
-                    tag: _controller.offlinePlaylistTag,
-                    onChangeVideo: (task) {
-                      if (task.taskId == _controller.currentOfflineTaskId) {
-                        return;
-                      }
-                      if (task.offlineMedia.type == MediaType.video) {
-                        _controller.getOfflineMedia(task.taskId);
-                      }
-                    },
-                  ),
-                ),
-              ),
-            ),
-          ] else ...[
-            Expanded(
-              child: Container(
-                color: colorScheme.surface,
-                child: DefaultTabController(
-                  length: 2,
-                  child: TabBarView(
-                    children: [_buildDetailTab(), _buildCommentsTab()],
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ],
-      );
-    }
-  }
-
-  Widget _buildDetailTabContent() {
-    return Obx(() {
-      List<Widget> children = [];
-
-      if (_controller.isFectchingRecommendation) {
-        children.add(
-          const SliverFillRemaining(
-            child: Center(
-              child: Padding(
-                padding: EdgeInsets.symmetric(vertical: 48),
-                child: CircularProgressIndicator(),
-              ),
-            ),
-          ),
-        );
-      } else {
-        if (_controller.errorMessageRecommendation != "") {
-          children.add(
-            SliverFillRemaining(
-              child: Center(
-                child: LoadFail(
-                  errorMessage: _controller.errorMessageRecommendation,
-                  onRefresh: () {
-                    _controller.errorMessageRecommendation = "";
-                    _controller.isFectchingRecommendation = true;
-                    _controller.refectchRecommendation();
+              child: Material(
+                child: DownloadsMediaPreviewList(
+                  isPlaylist: true,
+                  showCompleted: true,
+                  initialMediaId: _controller.id,
+                  tag: _controller.offlinePlaylistTag,
+                  onChangeVideo: (task) {
+                    if (task.taskId == _controller.currentOfflineTaskId) {
+                      return;
+                    }
+                    if (task.offlineMedia.type == MediaType.video) {
+                      _controller.getOfflineMedia(task.taskId);
+                    }
                   },
                 ),
               ),
             ),
-          );
-        } else if (_controller.moreFromUser.isEmpty &&
-            _controller.moreLikeThis.isEmpty) {
-          children.add(
-            const SliverFillRemaining(child: Center(child: LoadEmpty())),
-          );
-        } else {
-          children.add(
-            SliverToBoxAdapter(
-              child: Material(
-                color: colorScheme.surface,
-                child: Column(children: _buildRecommendation()),
+          ),
+        ] else ...[
+          Expanded(
+            child: Container(
+              color: colorScheme.surface,
+              child: DefaultTabController(
+                length: 2,
+                child: TabBarView(
+                  children: [_buildDetailTab(), _buildCommentsTab()],
+                ),
               ),
             ),
-          );
-        }
-      }
-      return CustomScrollView(slivers: children);
-    });
+          ),
+        ],
+      ],
+    );
   }
 
   Widget _buildCommentsTab() {
@@ -1003,8 +840,7 @@ class _MediaDetailPageState extends State<MediaDetailPage>
         if (plPlayerController?.isFullScreen.value == true) {
           plPlayerController!.triggerFullScreen(status: false);
         }
-        if (!GetPlatform.isDesktop &&
-            MediaQuery.of(context).orientation == Orientation.landscape) {
+        if (MediaQuery.of(context).orientation == Orientation.landscape) {
           verticalScreen();
         }
       },
@@ -1030,8 +866,7 @@ class _MediaDetailPageState extends State<MediaDetailPage>
     Widget child;
     return Obx(() {
       if (plPlayerController?.isFullScreen.value == true ||
-          (!GetPlatform.isDesktop &&
-              Get.mediaQuery.orientation == Orientation.landscape)) {
+          Get.mediaQuery.orientation == Orientation.landscape) {
         enterFullScreen();
       } else {
         exitFullScreen();
@@ -1048,8 +883,7 @@ class _MediaDetailPageState extends State<MediaDetailPage>
           } else {
             Widget child;
             if (plPlayerController?.isFullScreen.value == true ||
-                (!GetPlatform.isDesktop &&
-                    Get.mediaQuery.orientation == Orientation.landscape)) {
+                Get.mediaQuery.orientation == Orientation.landscape) {
               child = _controller.mediaType == MediaType.video
                   ? _buildPlayer()
                   : _buildGallery();
@@ -1087,10 +921,9 @@ class _MediaDetailPageState extends State<MediaDetailPage>
                 ),
                 body:
                     plPlayerController?.isFullScreen.value == true ||
-                        (!GetPlatform.isDesktop &&
-                            Get.mediaQuery.orientation == Orientation.landscape)
+                        Get.mediaQuery.orientation == Orientation.landscape
                     ? buildMedia()
-                    : _buildResponsiveLayout(buildMedia),
+                    : _buildLayout(buildMedia),
               );
       }
 
@@ -1122,15 +955,7 @@ class _MediaDetailPageState extends State<MediaDetailPage>
         childWhenEnabled: childWhenEnabled,
         floating: _controller.floating,
       );
-    } else if (GetPlatform.isWindows) {
-      return Obx(() {
-        if (_controller.isWindowsPipMode) {
-          return _WindowsPipWindowArea(child: childWhenDisabled);
-        }
-        return childWhenDisabled;
-      });
-    } else {
-      return childWhenDisabled;
     }
+    return childWhenDisabled;
   }
 }

@@ -33,8 +33,6 @@ abstract class ConfigKey {
 
   static const String enablePreview = "enablePreview";
 
-  static const String enableDiscordRichPresence = "enableDiscordRichPresence";
-
   static const String translationEngine = "translationEngine";
   static const String enabledTranslationEngines = "enabledTranslationEngines";
   static const String translationDisplayMode = "translationDisplayMode";

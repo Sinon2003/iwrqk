@@ -8,7 +8,6 @@ import 'package:get/get.dart';
 import 'package:iwrqk/app/data/providers/network/network_provider.dart';
 import 'package:iwrqk/app/modules/settings/controller.dart';
 import 'package:media_kit/media_kit.dart';
-import 'package:window_manager/window_manager.dart';
 
 import 'app/const/colors.dart';
 import 'app/data/providers/config_provider.dart';
@@ -62,23 +61,6 @@ Future<void> main() async {
     // Save the full tag: "zh" alone reads back as Simplified Chinese.
     StorageProvider.config[ConfigKey.localeCode] =
         (await LocaleSettings.useDeviceLocale()).languageTag;
-  }
-
-  if (GetPlatform.isDesktop) {
-    await windowManager.ensureInitialized();
-    WindowOptions windowOptions = WindowOptions(
-      center: true,
-      backgroundColor: Colors.transparent,
-      skipTaskbar: false,
-      title: 'IwrQk',
-      // Show the native title bar on desktop for easier window control
-      titleBarStyle: TitleBarStyle.normal,
-    );
-
-    windowManager.waitUntilReadyToShow(windowOptions, () async {
-      await windowManager.show();
-      await windowManager.focus();
-    });
   }
 
   runApp(TranslationProvider(child: const MainApp()));

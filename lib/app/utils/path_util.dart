@@ -1,19 +1,16 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:get/get.dart';
 import 'package:path_provider/path_provider.dart';
 
 class PathUtil {
   static late Directory tempDir;
 
-  /// visible on ios&windows&macos
   static Directory? appDocDir;
 
-  /// visible on windows
   static Directory? appSupportDir;
 
-  /// visible on android
+  /// The app's folder on shared storage, which other apps can see.
   static Directory? externalStorageDir;
 
   static Directory? systemDownloadDir;
@@ -33,16 +30,10 @@ class PathUtil {
   }
 
   static Directory getVisibleDir() {
-    if (Platform.isAndroid && externalStorageDir != null) {
-      return externalStorageDir!;
-    }
-    if (GetPlatform.isWindows && appSupportDir != null) {
-      return appSupportDir!;
-    }
-    if (GetPlatform.isLinux && appSupportDir != null) {
-      return appSupportDir!;
-    }
-    return appDocDir ?? appSupportDir ?? systemDownloadDir!;
+    return externalStorageDir ??
+        appDocDir ??
+        appSupportDir ??
+        systemDownloadDir!;
   }
 
   /// Turns [name], such as a video title, into a usable file or folder name.

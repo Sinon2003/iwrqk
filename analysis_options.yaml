@@ -2,11 +2,6 @@ analyzer:
   exclude:
     - build/**
     - android/**
-    - ios/**
-    - web/**
-    - windows/**
-    - macos/**
-    - linux/**
     # Vendored upstream plugin (dependency override), not maintained here.
     - third_party/flutter_inappwebview_android/**
 include: package:flutter_lints/flutter.yaml

@@ -70,7 +70,6 @@ class _PLVideoPlayerState extends State<PLVideoPlayer>
   late bool enableQuickDouble;
   late bool enableBackgroundPlay;
   late double screenWidth;
-  late final bool _brightnessSupported = !GetPlatform.isLinux;
 
   // 用于记录上一次全屏切换手势触发时间，避免误触
   DateTime? lastFullScreenToggleTime;
@@ -141,20 +140,18 @@ class _PLVideoPlayerState extends State<PLVideoPlayer>
       } catch (_) {}
     });
 
-    if (_brightnessSupported) {
-      Future.microtask(() async {
-        try {
-          _ctr.brightnessValue.value = await ScreenBrightness().application;
-          ScreenBrightness().onApplicationScreenBrightnessChanged.listen((
-            double value,
-          ) {
-            if (mounted) {
-              _ctr.brightnessValue.value = value;
-            }
-          });
-        } catch (_) {}
-      });
-    }
+    Future.microtask(() async {
+      try {
+        _ctr.brightnessValue.value = await ScreenBrightness().application;
+        ScreenBrightness().onApplicationScreenBrightnessChanged.listen((
+          double value,
+        ) {
+          if (mounted) {
+            _ctr.brightnessValue.value = value;
+          }
+        });
+      } catch (_) {}
+    });
   }
 
   Future<void> setVolume(double value) async {
@@ -175,9 +172,6 @@ class _PLVideoPlayerState extends State<PLVideoPlayer>
   }
 
   Future<void> setBrightness(double value) async {
-    if (!_brightnessSupported) {
-      return;
-    }
     try {
       await ScreenBrightness().setApplicationScreenBrightness(value);
     } catch (_) {}
@@ -523,9 +517,6 @@ class _PLVideoPlayerState extends State<PLVideoPlayer>
               }
               if (tapPosition < sectionWidth) {
                 // 左边区域 👈
-                if (!_brightnessSupported) {
-                  return;
-                }
                 final double level =
                     (c.isFullScreen.value
                         ? Get.size.height

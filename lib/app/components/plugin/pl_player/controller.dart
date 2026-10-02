@@ -15,7 +15,6 @@ import 'package:screen_brightness/screen_brightness.dart';
 
 import '../../../data/providers/storage_provider.dart';
 import '../../../data/services/config_service.dart';
-import '../../../data/services/discord_rpc_service.dart';
 import '../../../data/services/plugin/pl_player/service_locator.dart';
 import '../../../utils/log_util.dart';
 import '../../../utils/parallel_range_proxy.dart';
@@ -385,9 +384,7 @@ class PlPlayerController {
     if (dataSource.audioSource != '' && dataSource.audioSource != null) {
       await pp.setProperty(
         'audio-files',
-        GetPlatform.isWindows
-            ? dataSource.audioSource!.replaceAll(';', '\\;')
-            : dataSource.audioSource!.replaceAll(':', '\\:'),
+        dataSource.audioSource!.replaceAll(':', '\\:'),
       );
     } else {
       await pp.setProperty('audio-files', '');
@@ -397,9 +394,7 @@ class PlPlayerController {
     if (dataSource.subFiles != '' && dataSource.subFiles != null) {
       await pp.setProperty(
         'sub-files',
-        GetPlatform.isWindows
-            ? dataSource.subFiles!.replaceAll(';', '\\;')
-            : dataSource.subFiles!.replaceAll(':', '\\:'),
+        dataSource.subFiles!.replaceAll(':', '\\:'),
       );
       await pp.setProperty("subs-with-matching-audio", "no");
       await pp.setProperty("sub-forced-only", "yes");
@@ -600,9 +595,6 @@ class PlPlayerController {
       // 媒体通知监听
       onPlayerStatusChanged.listen((event) {
         videoPlayerServiceHandler.onStatusChange(event, isBuffering.value);
-        if (Get.isRegistered<DiscordRpcService>()) {
-          Get.find<DiscordRpcService>().onPlayerStatusChange(event);
-        }
       }),
       onPositionChanged.listen((event) {
         EasyThrottle.throttle(
@@ -610,9 +602,6 @@ class PlPlayerController {
           const Duration(seconds: 1),
           () => videoPlayerServiceHandler.onPositionChange(event),
         );
-        if (Get.isRegistered<DiscordRpcService>()) {
-          Get.find<DiscordRpcService>().onPositionChange(event);
-        }
       }),
     ]);
   }
@@ -826,9 +815,6 @@ class PlPlayerController {
 
   /// 亮度
   Future<void> getCurrentBrightness() async {
-    if (GetPlatform.isLinux) {
-      return;
-    }
     try {
       _currentBrightness.value = await ScreenBrightness().application;
     } catch (e) {
@@ -838,10 +824,6 @@ class PlPlayerController {
   }
 
   Future<void> setBrightness(double brightnes) async {
-    if (GetPlatform.isLinux) {
-      brightness.value = brightnes;
-      return;
-    }
     try {
       brightness.value = brightnes;
       ScreenBrightness().setApplicationScreenBrightness(brightnes);
@@ -852,9 +834,6 @@ class PlPlayerController {
   }
 
   Future<void> resetBrightness() async {
-    if (GetPlatform.isLinux) {
-      return;
-    }
     try {
       await ScreenBrightness().resetApplicationScreenBrightness();
     } catch (e) {
