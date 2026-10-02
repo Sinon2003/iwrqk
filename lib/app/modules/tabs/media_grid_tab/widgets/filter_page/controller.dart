@@ -20,10 +20,7 @@ class FilterController extends GetxController {
 
   final FilterBottomSheetRepository repository = FilterBottomSheetRepository();
 
-  final GlobalKey tagsBoxKey = GlobalKey();
-
   final TextEditingController tagEditingController = TextEditingController();
-  final GlobalKey tagEditingControllerKey = GlobalKey();
   final FocusNode tagFocusNode = FocusNode();
 
   final RxList<String> _selectedTags = <String>[].obs;

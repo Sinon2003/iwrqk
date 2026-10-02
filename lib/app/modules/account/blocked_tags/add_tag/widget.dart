@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iwrqk/i18n/strings.g.dart';
 
+import '../../../../components/suggestion_panel.dart';
 import '../../../../components/tag_catalog.dart';
 import '../../../../components/tag_label.dart';
 import 'controller.dart';
@@ -29,7 +30,6 @@ class AddTagPage extends GetWidget<AddTagController> {
             VoidCallback onFieldSubmitted,
           ) {
             return Container(
-              key: controller.tagEditingControllerKey,
               decoration: BoxDecoration(
                 color: Theme.of(context).colorScheme.secondaryContainer,
                 borderRadius: BorderRadius.circular(12),
@@ -63,64 +63,13 @@ class AddTagPage extends GetWidget<AddTagController> {
             AutocompleteOnSelected<String> onSelected,
             Iterable<String> options,
           ) {
-            RenderBox inputRenderBox =
-                controller.tagEditingControllerKey.currentContext!
-                        .findRenderObject()
-                    as RenderBox;
-            RenderBox tagsRenderBox =
-                controller.tagsBoxKey.currentContext!.findRenderObject()
-                    as RenderBox;
-
-            return Transform.translate(
-              offset: const Offset(0, -12),
-              child: Align(
-                alignment: Alignment.topLeft,
-                child: Container(
-                  width: inputRenderBox.size.width,
-                  height: options.length * 56 + 10,
-                  constraints: BoxConstraints(
-                    maxHeight:
-                        tagsRenderBox.size.height -
-                        inputRenderBox.size.height -
-                        32,
-                  ),
-                  child: Card(
-                    elevation: 0,
-                    margin: EdgeInsets.zero,
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.vertical(
-                        bottom: Radius.circular(8),
-                      ),
-                    ),
-                    color: Theme.of(context).colorScheme.secondaryContainer,
-                    clipBehavior: Clip.antiAlias,
-                    child: Container(
-                      margin: const EdgeInsets.only(top: 8),
-                      decoration: BoxDecoration(
-                        border: Border(
-                          top: BorderSide(
-                            color: Theme.of(context).colorScheme.outline,
-                          ),
-                        ),
-                      ),
-                      child: ListView.builder(
-                        padding: EdgeInsets.zero,
-                        itemCount: options.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          final String option = options.elementAt(index);
-                          return InkWell(
-                            onTap: () {
-                              onSelected.call(option);
-                              controller.addTag(option);
-                            },
-                            child: TagOptionTile(option),
-                          );
-                        },
-                      ),
-                    ),
-                  ),
-                ),
-              ),
+            return SuggestionPanel<String>(
+              options: options,
+              itemBuilder: (context, option) => TagOptionTile(option),
+              onPick: (option) {
+                onSelected.call(option);
+                controller.addTag(option);
+              },
             );
           },
     );
@@ -156,9 +105,7 @@ class AddTagPage extends GetWidget<AddTagController> {
           ),
         ],
       ),
-      // The suggestions are sized against this box, which fills the page.
       body: CustomScrollView(
-        key: controller.tagsBoxKey,
         keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
         slivers: [
           SliverPadding(

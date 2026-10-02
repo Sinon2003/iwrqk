@@ -8,10 +8,7 @@ class AddTagController extends GetxController {
   final AddTagRepository repository = AddTagRepository();
   final TagNameService _tagNames = Get.find();
 
-  final GlobalKey tagsBoxKey = GlobalKey();
-
   final TextEditingController tagEditingController = TextEditingController();
-  final GlobalKey tagEditingControllerKey = GlobalKey();
   final FocusNode tagFocusNode = FocusNode();
 
   final RxList<String> _selectedTags = <String>[].obs;
