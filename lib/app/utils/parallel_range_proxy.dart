@@ -6,6 +6,7 @@ import 'dart:math';
 import 'package:flutter/foundation.dart';
 
 import 'log_util.dart';
+import 'transfer_baseline.dart';
 
 /// Start with a continuous request. Keep parallel ranges only when a short
 /// trial improves throughput. HttpOverrides and the system VPN still apply.
@@ -57,13 +58,23 @@ class ParallelRangeProxy {
 
   /// Playback can skip a trial when one connection exceeds the selected
   /// file's average bitrate with room to spare. Old persisted URLs still work.
-  Future<String> wrap(String url, {Duration? duration}) async {
+  Future<String> wrap(
+    String url, {
+    Duration? duration,
+    bool eager = false,
+  }) async {
     if (!serves(url)) throw ArgumentError("Not served by this proxy");
     final server = await start();
     _speeds.remove(url);
     final encoded = base64Url.encode(utf8.encode(url));
     final seconds = duration?.inSeconds ?? 0;
-    final query = seconds > 0 ? "?duration=$seconds" : "";
+    final parameters = {
+      if (seconds > 0) 'duration': '$seconds',
+      if (eager) 'eager': '1',
+    };
+    final query = parameters.isEmpty
+        ? ''
+        : '?${Uri(queryParameters: parameters).query}';
     return "http://${server.address.address}:${server.port}/v/$encoded$query";
   }
 
@@ -298,13 +309,17 @@ class ParallelRangeProxy {
         onBytes: meter.add,
       );
       final sample = Stopwatch()..start();
+      final recent = TransferBaseline(sampleDuration);
       var sampleBytes = 0;
       var trialSize = chunkSize;
       double baseline = 0;
       final seconds = int.tryParse(
         request.uri.queryParameters["duration"] ?? "",
       );
-      final requiredSpeed = seconds != null && seconds > 0
+      final requiredSpeed =
+          request.uri.queryParameters['eager'] != '1' &&
+              seconds != null &&
+              seconds > 0
           ? total / seconds * 1.5
           : null;
       var canTrial = parallel > 1;
@@ -322,10 +337,14 @@ class ParallelRangeProxy {
         cursor += part.length;
         sent += part.length;
         sampleBytes += part.length;
+        if (recent.expired(sample.elapsed)) canTrial = false;
+        final current = canTrial
+            ? recent.add(part.length, sample.elapsed)
+            : null;
         if (canTrial &&
-            sample.elapsed >= sampleDuration &&
+            current != null &&
             sampleBytes >= min(chunkSize, 512 * 1024)) {
-          baseline = sampleBytes / (sample.elapsedMicroseconds / 1e6);
+          baseline = current;
           if (requiredSpeed != null && baseline >= requiredSpeed) {
             canTrial = false;
             continue;
