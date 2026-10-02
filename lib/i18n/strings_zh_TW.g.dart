@@ -621,6 +621,15 @@ class Translations$settings$zh_TW extends Translations$settings$en {
 	@override String get experimental => '實驗性功能';
 	@override String get accelerated_transfer => '加速下載與播放';
 	@override String get accelerated_transfer_desc => '嘗試改善受限線路的播放和下載速度，並行沒有收益時自動使用單一連線。下載時需保持應用程式執行';
+	@override String get playback_preload => '播放預載';
+	@override String get playback_preload_desc => '預載越多，快轉等待越少。完整影片使用暫存空間，保留已快取的回看範圍，關閉影片後清除。對新開啟的影片生效。';
+	@override String get preload_30 => '30 秒（預設）';
+	@override String get preload_60 => '1 分鐘';
+	@override String get preload_180 => '3 分鐘';
+	@override String get preload_600 => '10 分鐘';
+	@override String get preload_entire => '完整影片';
+	@override String preload_memory({required Object size}) => '影片記憶體快取上限 ${size} MiB';
+	@override String get preload_temporary => '暫存空間，關閉影片後清除';
 	@override String get preferred_quality => '預設畫質';
 	@override String get quality_auto => '自動';
 	@override String get quality_highest => '畫質優先';
@@ -1239,6 +1248,15 @@ extension on TranslationsZhTw {
 			'settings.experimental' => '實驗性功能',
 			'settings.accelerated_transfer' => '加速下載與播放',
 			'settings.accelerated_transfer_desc' => '嘗試改善受限線路的播放和下載速度，並行沒有收益時自動使用單一連線。下載時需保持應用程式執行',
+			'settings.playback_preload' => '播放預載',
+			'settings.playback_preload_desc' => '預載越多，快轉等待越少。完整影片使用暫存空間，保留已快取的回看範圍，關閉影片後清除。對新開啟的影片生效。',
+			'settings.preload_30' => '30 秒（預設）',
+			'settings.preload_60' => '1 分鐘',
+			'settings.preload_180' => '3 分鐘',
+			'settings.preload_600' => '10 分鐘',
+			'settings.preload_entire' => '完整影片',
+			'settings.preload_memory' => ({required Object size}) => '影片記憶體快取上限 ${size} MiB',
+			'settings.preload_temporary' => '暫存空間，關閉影片後清除',
 			'settings.preferred_quality' => '預設畫質',
 			'settings.quality_auto' => '自動',
 			'settings.quality_highest' => '畫質優先',

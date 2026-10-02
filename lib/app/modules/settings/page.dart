@@ -12,6 +12,7 @@ import '../../data/providers/storage_provider.dart';
 import '../../data/services/update_service.dart';
 import '../../utils/log_util.dart';
 import '../../utils/quality_picker.dart';
+import '../../utils/playback_cache.dart';
 import '../home/controller.dart';
 import 'controller.dart';
 import 'widgets/custom_color_page.dart';
@@ -29,6 +30,7 @@ class SettingsPage extends GetView<SettingsController> {
     required IconData iconData,
     required T currentOption,
     required Map<T, String> options,
+    Map<T, String>? optionDescriptions,
     required void Function(T) onSelected,
   }) {
     Rx<T> selected = currentOption.obs;
@@ -61,6 +63,9 @@ class SettingsPage extends GetView<SettingsController> {
                         () => RadioListTile<T>(
                           value: entry.key,
                           title: Text(entry.value),
+                          subtitle: optionDescriptions?[entry.key] != null
+                              ? Text(optionDescriptions![entry.key]!)
+                              : null,
                           groupValue: selected.value,
                           onChanged: (T? value) {
                             if (value != null) {
@@ -281,6 +286,38 @@ class SettingsPage extends GetView<SettingsController> {
         onSelected: (value) {
           controller.configService.preferredQuality = value;
         },
+      ),
+    );
+  }
+
+  Widget _buildPreloadSetting(BuildContext context) {
+    final options = {
+      PlaybackPreload.seconds30: t.settings.preload_30,
+      PlaybackPreload.minute1: t.settings.preload_60,
+      PlaybackPreload.minutes3: t.settings.preload_180,
+      PlaybackPreload.minutes10: t.settings.preload_600,
+      PlaybackPreload.entireVideo: t.settings.preload_entire,
+    };
+    final descriptions = {
+      for (final option in PlaybackPreload.values)
+        option: option.diskCache
+            ? t.settings.preload_temporary
+            : t.settings.preload_memory(
+                size: (option.forwardBytes + option.backwardBytes) >> 20,
+              ),
+    };
+    return Obx(
+      () => _buildMultiSetting<PlaybackPreload>(
+        context,
+        title: t.settings.playback_preload,
+        description:
+            '${options[controller.configService.playbackPreload]}\n'
+            '${t.settings.playback_preload_desc}',
+        iconData: Icons.slow_motion_video,
+        currentOption: controller.configService.playbackPreload,
+        options: options,
+        optionDescriptions: descriptions,
+        onSelected: (value) => controller.configService.playbackPreload = value,
       ),
     );
   }
@@ -614,6 +651,7 @@ class SettingsPage extends GetView<SettingsController> {
           _buildSetProxyButton(context),
           SettingTitle(title: t.settings.player),
           _buildPreferredQualitySetting(context),
+          _buildPreloadSetting(context),
           _buildAutoPlaySetting(context),
           _buildBackgroundPlaySetting(context),
           if (GetPlatform.isWindows || GetPlatform.isLinux)

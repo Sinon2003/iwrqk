@@ -1215,6 +1215,33 @@ class Translations$settings$en {
 	/// en: 'Tries to improve playback and downloads on constrained connections, returning to one connection if parallel transfers do not help. Keep the app open while downloading'
 	String get accelerated_transfer_desc => 'Tries to improve playback and downloads on constrained connections, returning to one connection if parallel transfers do not help. Keep the app open while downloading';
 
+	/// en: 'Playback preload'
+	String get playback_preload => 'Playback preload';
+
+	/// en: 'More preloading makes seeking smoother. Full video uses temporary storage and keeps cached sections for seeking back; it is cleared when the video is closed. Applies to newly opened videos.'
+	String get playback_preload_desc => 'More preloading makes seeking smoother. Full video uses temporary storage and keeps cached sections for seeking back; it is cleared when the video is closed. Applies to newly opened videos.';
+
+	/// en: '30 seconds (default)'
+	String get preload_30 => '30 seconds (default)';
+
+	/// en: '1 minute'
+	String get preload_60 => '1 minute';
+
+	/// en: '3 minutes'
+	String get preload_180 => '3 minutes';
+
+	/// en: '10 minutes'
+	String get preload_600 => '10 minutes';
+
+	/// en: 'Full video'
+	String get preload_entire => 'Full video';
+
+	/// en: 'Up to $size MiB of memory for video cache'
+	String preload_memory({required Object size}) => 'Up to ${size} MiB of memory for video cache';
+
+	/// en: 'Temporary storage, cleared when the video closes'
+	String get preload_temporary => 'Temporary storage, cleared when the video closes';
+
 	/// en: 'Default quality'
 	String get preferred_quality => 'Default quality';
 
@@ -2058,6 +2085,15 @@ extension on Translations {
 			'settings.experimental' => 'Experimental',
 			'settings.accelerated_transfer' => 'Accelerated downloads and playback',
 			'settings.accelerated_transfer_desc' => 'Tries to improve playback and downloads on constrained connections, returning to one connection if parallel transfers do not help. Keep the app open while downloading',
+			'settings.playback_preload' => 'Playback preload',
+			'settings.playback_preload_desc' => 'More preloading makes seeking smoother. Full video uses temporary storage and keeps cached sections for seeking back; it is cleared when the video is closed. Applies to newly opened videos.',
+			'settings.preload_30' => '30 seconds (default)',
+			'settings.preload_60' => '1 minute',
+			'settings.preload_180' => '3 minutes',
+			'settings.preload_600' => '10 minutes',
+			'settings.preload_entire' => 'Full video',
+			'settings.preload_memory' => ({required Object size}) => 'Up to ${size} MiB of memory for video cache',
+			'settings.preload_temporary' => 'Temporary storage, cleared when the video closes',
 			'settings.preferred_quality' => 'Default quality',
 			'settings.quality_auto' => 'Auto',
 			'settings.quality_highest' => 'Best quality',

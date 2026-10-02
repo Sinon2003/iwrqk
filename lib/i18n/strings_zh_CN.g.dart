@@ -621,6 +621,15 @@ class Translations$settings$zh_CN extends Translations$settings$en {
 	@override String get experimental => '实验性功能';
 	@override String get accelerated_transfer => '加速下载与播放';
 	@override String get accelerated_transfer_desc => '尝试改善受限线路的播放和下载速度，并行无收益时自动使用单连接。下载时需保持应用运行';
+	@override String get playback_preload => '播放预加载';
+	@override String get playback_preload_desc => '预加载越多，快进等待越少。完整视频使用临时存储，保留已缓存的回看范围，关闭视频后清理。对新打开的视频生效。';
+	@override String get preload_30 => '30 秒（默认）';
+	@override String get preload_60 => '1 分钟';
+	@override String get preload_180 => '3 分钟';
+	@override String get preload_600 => '10 分钟';
+	@override String get preload_entire => '完整视频';
+	@override String preload_memory({required Object size}) => '视频内存缓存上限 ${size} MiB';
+	@override String get preload_temporary => '临时存储，关闭视频后清理';
 	@override String get preferred_quality => '默认清晰度';
 	@override String get quality_auto => '自动';
 	@override String get quality_highest => '画质优先';
@@ -1239,6 +1248,15 @@ extension on TranslationsZhCn {
 			'settings.experimental' => '实验性功能',
 			'settings.accelerated_transfer' => '加速下载与播放',
 			'settings.accelerated_transfer_desc' => '尝试改善受限线路的播放和下载速度，并行无收益时自动使用单连接。下载时需保持应用运行',
+			'settings.playback_preload' => '播放预加载',
+			'settings.playback_preload_desc' => '预加载越多，快进等待越少。完整视频使用临时存储，保留已缓存的回看范围，关闭视频后清理。对新打开的视频生效。',
+			'settings.preload_30' => '30 秒（默认）',
+			'settings.preload_60' => '1 分钟',
+			'settings.preload_180' => '3 分钟',
+			'settings.preload_600' => '10 分钟',
+			'settings.preload_entire' => '完整视频',
+			'settings.preload_memory' => ({required Object size}) => '视频内存缓存上限 ${size} MiB',
+			'settings.preload_temporary' => '临时存储，关闭视频后清理',
 			'settings.preferred_quality' => '默认清晰度',
 			'settings.quality_auto' => '自动',
 			'settings.quality_highest' => '画质优先',

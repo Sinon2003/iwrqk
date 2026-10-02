@@ -5,6 +5,7 @@ import 'package:iwrqk/i18n/strings.g.dart';
 
 import '../../const/widget.dart';
 import '../../utils/quality_picker.dart';
+import '../../utils/playback_cache.dart';
 import '../../utils/playback_bandwidth.dart';
 import '../enums/translation_display_mode.dart';
 import '../enums/translation_engine.dart';
@@ -43,6 +44,7 @@ abstract class ConfigKey {
   static const String preferredQuality = "preferredQuality";
   static const String playbackThroughput = "playbackThroughput";
   static const String playbackBandwidth = "playbackBandwidth";
+  static const String playbackPreload = "playbackPreload";
 }
 
 class ConfigService extends GetxService {
@@ -138,6 +140,13 @@ class ConfigService extends GetxService {
   }
 
   PlaybackBandwidth _playbackBandwidth = PlaybackBandwidth();
+  final Rx<PlaybackPreload> _playbackPreload = PlaybackPreload.seconds30.obs;
+  PlaybackPreload get playbackPreload => _playbackPreload.value;
+  set playbackPreload(PlaybackPreload value) {
+    _playbackPreload.value = value;
+    setting[ConfigKey.playbackPreload] = value.name;
+  }
+
   double? playbackSpeedFor(String url) =>
       _playbackBandwidth.speedFor(url, accelerated: acceleratedTransfer);
 
@@ -276,6 +285,9 @@ class ConfigService extends GetxService {
     );
     _playbackBandwidth = PlaybackBandwidth.fromJson(
       setting.get(ConfigKey.playbackBandwidth),
+    );
+    _playbackPreload.value = PlaybackPreload.fromSetting(
+      setting.get(ConfigKey.playbackPreload),
     );
   }
 }

@@ -10,6 +10,7 @@ import 'package:get/get.dart';
 import 'package:iwrqk/i18n/strings.g.dart';
 import 'package:media_kit/media_kit.dart';
 import 'package:media_kit_video/media_kit_video.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:screen_brightness/screen_brightness.dart';
 
 import '../../../data/providers/storage_provider.dart';
@@ -18,10 +19,13 @@ import '../../../data/services/discord_rpc_service.dart';
 import '../../../data/services/plugin/pl_player/service_locator.dart';
 import '../../../utils/log_util.dart';
 import '../../../utils/parallel_range_proxy.dart';
+import '../../../utils/playback_cache.dart';
 import 'index.dart';
 
 class PlPlayerController {
   Player? _videoPlayerController;
+  PlaybackPreload playbackPreload = PlaybackPreload.seconds30;
+  DateTime? sourceOpenedAt;
   VideoController? _videoController;
 
   GStorageConfig setting = StorageProvider.config;
@@ -417,6 +421,9 @@ class PlPlayerController {
     // Only the upstream requests use the app proxy; loopback stays local.
     // Sources needing custom headers continue to play directly.
     String? videoSource = dataSource.videoSource;
+    playbackPreload = dataSource.type == DataSourceType.network
+        ? Get.find<ConfigService>().playbackPreload
+        : PlaybackPreload.seconds30;
     final bool accelerated =
         Get.find<ConfigService>().acceleratedTransfer &&
         dataSource.type == DataSourceType.network &&
@@ -427,18 +434,22 @@ class PlPlayerController {
       videoSource = await ParallelRangeProxy.instance.wrap(
         videoSource,
         duration: dataSource.duration,
+        eager: playbackPreload.eager,
       );
       await pp.setProperty("http-proxy", "");
     }
 
-    // media_kit enables disk caching by default, where max-bytes limits only
-    // metadata. Use bounded memory and an explicit time budget in both modes.
-    await pp.setProperty("cache", "yes");
-    await pp.setProperty("cache-on-disk", "no");
-    await pp.setProperty("cache-secs", "30");
-    await pp.setProperty("demuxer-readahead-secs", "30");
-    await pp.setProperty("demuxer-max-bytes", "${32 * 1024 * 1024}");
-    await pp.setProperty("demuxer-max-back-bytes", "${8 * 1024 * 1024}");
+    // A reused player must receive the complete policy, including when moving
+    // back from full disk preloading to a bounded memory cache.
+    for (final property in playbackPreload.properties.entries) {
+      await pp.setProperty(property.key, property.value);
+    }
+    if (playbackPreload.diskCache) {
+      await pp.setProperty(
+        'demuxer-cache-dir',
+        (await getTemporaryDirectory()).path,
+      );
+    }
     // Let the proxy's five-second watchdog recover before mpv gives up.
     await pp.setProperty("network-timeout", accelerated ? "20" : "10");
 
@@ -465,6 +476,7 @@ class PlPlayerController {
         play: false,
       );
     }
+    sourceOpenedAt = DateTime.now();
     await player.open(
       Media(videoSource!, httpHeaders: dataSource.httpHeaders),
       play: false,

@@ -621,6 +621,15 @@ class _Translations$settings$ja extends Translations$settings$en {
 	@override String get experimental => '実験的な機能';
 	@override String get accelerated_transfer => 'ダウンロードと再生の高速化';
 	@override String get accelerated_transfer_desc => '速度が制限された回線で再生とダウンロードの改善を試み、並列転送に効果がなければ単一接続に戻します。ダウンロード中はアプリを開いたままにしてください';
+	@override String get playback_preload => '先読み';
+	@override String get playback_preload_desc => '先読みを増やすとシーク時の待ち時間が減ります。動画全体は一時ストレージに保存し、キャッシュ内の巻き戻しにも使えます。動画を閉じると削除されます。次に開く動画から適用されます。';
+	@override String get preload_30 => '30 秒（既定）';
+	@override String get preload_60 => '1 分';
+	@override String get preload_180 => '3 分';
+	@override String get preload_600 => '10 分';
+	@override String get preload_entire => '動画全体';
+	@override String preload_memory({required Object size}) => '動画キャッシュのメモリ上限 ${size} MiB';
+	@override String get preload_temporary => '一時ストレージ、動画を閉じると削除';
 	@override String get preferred_quality => '既定の画質';
 	@override String get quality_auto => '自動';
 	@override String get quality_highest => '画質優先';
@@ -1239,6 +1248,15 @@ extension on TranslationsJa {
 			'settings.experimental' => '実験的な機能',
 			'settings.accelerated_transfer' => 'ダウンロードと再生の高速化',
 			'settings.accelerated_transfer_desc' => '速度が制限された回線で再生とダウンロードの改善を試み、並列転送に効果がなければ単一接続に戻します。ダウンロード中はアプリを開いたままにしてください',
+			'settings.playback_preload' => '先読み',
+			'settings.playback_preload_desc' => '先読みを増やすとシーク時の待ち時間が減ります。動画全体は一時ストレージに保存し、キャッシュ内の巻き戻しにも使えます。動画を閉じると削除されます。次に開く動画から適用されます。',
+			'settings.preload_30' => '30 秒（既定）',
+			'settings.preload_60' => '1 分',
+			'settings.preload_180' => '3 分',
+			'settings.preload_600' => '10 分',
+			'settings.preload_entire' => '動画全体',
+			'settings.preload_memory' => ({required Object size}) => '動画キャッシュのメモリ上限 ${size} MiB',
+			'settings.preload_temporary' => '一時ストレージ、動画を閉じると削除',
 			'settings.preferred_quality' => '既定の画質',
 			'settings.quality_auto' => '自動',
 			'settings.quality_highest' => '画質優先',
