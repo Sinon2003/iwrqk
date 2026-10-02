@@ -220,7 +220,8 @@
     "pending": "保留中",
     "unfriend": "友達解除",
     "accept": "承認",
-    "reject": "拒否"
+    "reject": "拒否",
+    "unfriend_confirm": "$name さんとのフレンドを解除しますか？"
   },
   "blocked_tags": {
     "add_blocked_tag": "ブロックされたタグを追加",

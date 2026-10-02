@@ -775,6 +775,9 @@ class Translations$friend$en {
 
 	/// en: 'Reject'
 	String get reject => 'Reject';
+
+	/// en: 'Remove $name from your friends?'
+	String unfriend_confirm({required Object name}) => 'Remove ${name} from your friends?';
 }
 
 // Path: blocked_tags
@@ -1930,6 +1933,7 @@ extension on Translations {
 			'friend.unfriend' => 'Unfriend',
 			'friend.accept' => 'Accept',
 			'friend.reject' => 'Reject',
+			'friend.unfriend_confirm' => ({required Object name}) => 'Remove ${name} from your friends?',
 			'blocked_tags.add_blocked_tag' => 'Add blocked tag',
 			'blocked_tags.blocked_tag' => 'Blocked tag',
 			'download.create_download_task' => 'Create download task',

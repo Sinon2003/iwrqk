@@ -419,6 +419,7 @@ class Translations$friend$zh_CN extends Translations$friend$en {
 	@override String get unfriend => '解除好友';
 	@override String get accept => '接受';
 	@override String get reject => '拒绝';
+	@override String unfriend_confirm({required Object name}) => '确定解除与 ${name} 的好友关系吗？';
 }
 
 // Path: blocked_tags
@@ -1111,6 +1112,7 @@ extension on TranslationsZhCn {
 			'friend.unfriend' => '解除好友',
 			'friend.accept' => '接受',
 			'friend.reject' => '拒绝',
+			'friend.unfriend_confirm' => ({required Object name}) => '确定解除与 ${name} 的好友关系吗？',
 			'blocked_tags.add_blocked_tag' => '添加屏蔽标签',
 			'blocked_tags.blocked_tag' => '屏蔽标签',
 			'download.create_download_task' => '创建下载任务',

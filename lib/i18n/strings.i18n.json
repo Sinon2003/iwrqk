@@ -226,7 +226,8 @@
     "pending": "Pending",
     "unfriend": "Unfriend",
     "accept": "Accept",
-    "reject": "Reject"
+    "reject": "Reject",
+    "unfriend_confirm": "Remove $name from your friends?"
   },
   "blocked_tags": {
     "add_blocked_tag": "Add blocked tag",

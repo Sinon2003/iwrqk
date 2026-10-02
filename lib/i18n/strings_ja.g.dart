@@ -419,6 +419,7 @@ class _Translations$friend$ja extends Translations$friend$en {
 	@override String get unfriend => '友達解除';
 	@override String get accept => '承認';
 	@override String get reject => '拒否';
+	@override String unfriend_confirm({required Object name}) => '${name} さんとのフレンドを解除しますか？';
 }
 
 // Path: blocked_tags
@@ -1111,6 +1112,7 @@ extension on TranslationsJa {
 			'friend.unfriend' => '友達解除',
 			'friend.accept' => '承認',
 			'friend.reject' => '拒否',
+			'friend.unfriend_confirm' => ({required Object name}) => '${name} さんとのフレンドを解除しますか？',
 			'blocked_tags.add_blocked_tag' => 'ブロックされたタグを追加',
 			'blocked_tags.blocked_tag' => 'ブロックされたタグ',
 			'download.create_download_task' => 'ダウンロードタスクの作成',

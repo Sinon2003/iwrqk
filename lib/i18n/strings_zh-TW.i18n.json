@@ -220,7 +220,8 @@
     "pending": "待處理",
     "unfriend": "解除好友關係",
     "accept": "接受",
-    "reject": "拒絕"
+    "reject": "拒絕",
+    "unfriend_confirm": "確定解除與 $name 的好友關係嗎？"
   },
   "blocked_tags": {
     "add_blocked_tag": "新增封鎖標籤",
