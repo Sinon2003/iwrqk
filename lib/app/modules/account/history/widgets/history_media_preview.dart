@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iwrqk/i18n/strings.g.dart';
 
+import '../../../../components/multiple_selection.dart';
 import '../../../../components/network_image.dart';
 import '../../../../data/enums/types.dart';
 import '../../../../data/models/offline/history_media.dart';
@@ -146,50 +147,9 @@ class HistoryMediaPreview extends StatelessWidget {
             child: _buildBadges(context),
           ),
           Obx(
-            () => Positioned.fill(
-              child: AnimatedOpacity(
-                opacity: historyController.enableMultipleSelection ? 1 : 0,
-                duration: const Duration(milliseconds: 200),
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8),
-                    color: Colors.black.withAlpha(
-                      ((historyController.enableMultipleSelection && checked
-                                  ? 0.6
-                                  : 0) *
-                              255)
-                          .round(),
-                    ),
-                  ),
-                  child: Center(
-                    child: SizedBox(
-                      width: 34,
-                      height: 34,
-                      child: AnimatedScale(
-                        scale: checked ? 1 : 0,
-                        duration: const Duration(milliseconds: 250),
-                        curve: Curves.easeInOut,
-                        child: Container(
-                          clipBehavior: Clip.antiAlias,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(32),
-                            color:
-                                (Theme.of(context).brightness ==
-                                            Brightness.light
-                                        ? Colors.white
-                                        : Colors.black)
-                                    .withAlpha((0.8 * 255).round()),
-                          ),
-                          child: Icon(
-                            Icons.check,
-                            color: Theme.of(context).colorScheme.primary,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
+            () => CheckedOverlay(
+              selecting: historyController.enableMultipleSelection,
+              checked: checked,
             ),
           ),
         ],

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iwrqk/i18n/strings.g.dart';
 
+import '../../../../components/multiple_selection.dart';
 import '../../../../components/network_image.dart';
 import '../../../../data/enums/download_task_status.dart';
 import '../../../../data/enums/types.dart';
@@ -334,55 +335,13 @@ class DownloadMediaPreview extends StatelessWidget {
             child: _buildBottomBadges(context),
           ),
           Positioned(top: 4, right: 6, child: _buildTopBadge(context)),
-          if (downloadsController != null) ...[
+          if (downloadsController != null)
             Obx(
-              () => Positioned.fill(
-                child: AnimatedOpacity(
-                  opacity: downloadsController!.enableMultipleSelection ? 1 : 0,
-                  duration: const Duration(milliseconds: 200),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8),
-                      color: Colors.black.withValues(
-                        alpha:
-                            downloadsController!.enableMultipleSelection &&
-                                checked
-                            ? 0.6
-                            : 0,
-                      ),
-                    ),
-                    child: Center(
-                      child: SizedBox(
-                        width: 34,
-                        height: 34,
-                        child: AnimatedScale(
-                          scale: checked ? 1 : 0,
-                          duration: const Duration(milliseconds: 250),
-                          curve: Curves.easeInOut,
-                          child: Container(
-                            clipBehavior: Clip.antiAlias,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(32),
-                              color:
-                                  (Theme.of(context).brightness ==
-                                              Brightness.light
-                                          ? Colors.white
-                                          : Colors.black)
-                                      .withValues(alpha: 0.8),
-                            ),
-                            child: Icon(
-                              Icons.check,
-                              color: Theme.of(context).colorScheme.primary,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
+              () => CheckedOverlay(
+                selecting: downloadsController!.enableMultipleSelection,
+                checked: checked,
               ),
             ),
-          ],
         ],
       ),
     );

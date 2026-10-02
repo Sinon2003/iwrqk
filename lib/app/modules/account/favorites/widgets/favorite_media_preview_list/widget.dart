@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 
 import '../../../../../components/iwr_refresh/widget.dart';
 import '../../../../../components/media_preview/media_flat_preview.dart';
+import '../../../../../components/multiple_selection.dart';
 import '../../../../../data/enums/types.dart';
 import '../../../../../data/models/media/media.dart';
 import '../../controller.dart';
@@ -52,49 +53,9 @@ class _FavoriteMediaPreviewListState extends State<FavoriteMediaPreviewList>
                 _parentController.enableMultipleSelection = true;
                 _parentController.toggleChecked(media.id);
               },
-        coverOverlay: Positioned.fill(
-          child: AnimatedOpacity(
-            opacity: _parentController.enableMultipleSelection ? 1 : 0,
-            duration: const Duration(milliseconds: 200),
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8),
-                color: Colors.black.withAlpha(
-                  ((_parentController.enableMultipleSelection && checked
-                              ? 0.6
-                              : 0) *
-                          255)
-                      .round(),
-                ),
-              ),
-              child: Center(
-                child: SizedBox(
-                  width: 34,
-                  height: 34,
-                  child: AnimatedScale(
-                    scale: checked ? 1 : 0,
-                    duration: const Duration(milliseconds: 250),
-                    curve: Curves.easeInOut,
-                    child: Container(
-                      clipBehavior: Clip.antiAlias,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(32),
-                        color:
-                            (Theme.of(context).brightness == Brightness.light
-                                    ? Colors.white
-                                    : Colors.black)
-                                .withAlpha((0.8 * 255).round()),
-                      ),
-                      child: Icon(
-                        Icons.check,
-                        color: Theme.of(context).colorScheme.primary,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
+        coverOverlay: CheckedOverlay(
+          selecting: _parentController.enableMultipleSelection,
+          checked: checked,
         ),
       );
     });

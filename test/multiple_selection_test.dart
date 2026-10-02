@@ -93,4 +93,52 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text('home'), findsOneWidget);
   });
+
+  testWidgets(
+    'the cover overlay ticks ticked records, in selection mode only',
+    (tester) async {
+      var taps = 0;
+      Future<void> pumpRow({required bool selecting, required bool checked}) {
+        return tester.pumpWidget(
+          MaterialApp(
+            home: Scaffold(
+              body: InkWell(
+                onTap: () => taps++,
+                child: SizedBox(
+                  width: 160,
+                  height: 90,
+                  child: Stack(
+                    children: [
+                      CheckedOverlay(selecting: selecting, checked: checked),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+        );
+      }
+
+      double shown() =>
+          tester.widget<AnimatedOpacity>(find.byType(AnimatedOpacity)).opacity;
+      double tick() =>
+          tester.widget<AnimatedScale>(find.byType(AnimatedScale)).scale;
+
+      await pumpRow(selecting: false, checked: true);
+      expect(shown(), 0);
+
+      await pumpRow(selecting: true, checked: false);
+      await tester.pumpAndSettle();
+      expect(shown(), 1);
+      expect(tick(), 0);
+
+      await pumpRow(selecting: true, checked: true);
+      await tester.pumpAndSettle();
+      expect(tick(), 1);
+
+      // The row under it still gets the tap that ticks or unticks.
+      await tester.tap(find.byType(InkWell));
+      expect(taps, 1);
+    },
+  );
 }
