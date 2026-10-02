@@ -26,15 +26,14 @@ class AddTagController extends GetxController {
   }
 
   void addTag(String tag) {
-    if (selectedTags.contains(tag)) {
+    if (_selectedTags.contains(tag)) {
       return;
     }
-    selectedTags.add(tag);
-    update();
+    _selectedTags.add(tag);
+    tagEditingController.clear();
   }
 
   void removeTag(String tag) {
-    selectedTags.remove(tag);
-    update();
+    _selectedTags.remove(tag);
   }
 }

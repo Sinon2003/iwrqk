@@ -19,9 +19,6 @@ class AddTagPage extends GetWidget<AddTagController> {
         }
         return controller.autoCompleteTags(textEditingValue.text);
       },
-      onSelected: (String selection) {
-        controller.tagEditingController.text = selection;
-      },
       fieldViewBuilder:
           (
             BuildContext context,
@@ -157,28 +154,33 @@ class AddTagPage extends GetWidget<AddTagController> {
           ),
         ],
       ),
-      body: SingleChildScrollView(
+      // The suggestions are sized against this box, so it fills the page: a
+      // scroll view alone is only as tall as its content, which left them
+      // no room.
+      body: SizedBox.expand(
         key: controller.tagsBoxKey,
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(height: 16),
-            _buildTagAutocomplete(context),
-            Obx(
-              () => Padding(
-                padding: const EdgeInsets.only(top: 16),
-                child: Wrap(
-                  spacing: 8,
-                  runSpacing: 8,
-                  children: List.generate(
-                    controller.selectedTags.length,
-                    (index) => _buildTagClip(context, index),
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(height: 16),
+              _buildTagAutocomplete(context),
+              Obx(
+                () => Padding(
+                  padding: const EdgeInsets.only(top: 16),
+                  child: Wrap(
+                    spacing: 8,
+                    runSpacing: 8,
+                    children: List.generate(
+                      controller.selectedTags.length,
+                      (index) => _buildTagClip(context, index),
+                    ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
