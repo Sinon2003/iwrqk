@@ -10,16 +10,28 @@ import 'package:open_file/open_file.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
+import '../../utils/display_util.dart';
 import '../../utils/log_util.dart';
 import '../../utils/path_util.dart';
 import '../models/app_release.dart';
 import '../providers/config_provider.dart';
+import '../providers/storage_provider.dart';
 
-/// Updates the app from this project's releases without leaving it: the APK
-/// for this device downloads in the app, then the system installer opens to
-/// install it over the current version.
+/// What the user answered when offered an update.
+enum _Answer { update, later, skip }
+
+/// Updates the app from this project's releases without leaving it: the user
+/// is shown what a release brings, and on their word the APK for this device
+/// downloads in the app and the system installer opens to install it over
+/// the current version.
 class UpdateService extends GetxService with WidgetsBindingObserver {
   static const _dialogTag = "update";
+
+  /// How long the check on launch waits before asking the site again.
+  static const checkInterval = Duration(hours: 24);
+
+  /// How long "later" keeps a version from being offered on launch.
+  static const laterInterval = Duration(days: 3);
 
   /// Download progress from 0 to 1 while an update downloads.
   final Rxn<double> progress = Rxn();
@@ -53,7 +65,7 @@ class UpdateService extends GetxService with WidgetsBindingObserver {
     }
   }
 
-  /// Looks for a newer release and, when there is one, starts updating.
+  /// Looks for a newer release because the user asked, and offers it.
   Future<void> checkForUpdate() async {
     if (progress.value != null) {
       _showProgress();
@@ -77,8 +89,167 @@ class UpdateService extends GetxService with WidgetsBindingObserver {
       launchUrlString(release.pageUrl, mode: LaunchMode.externalApplication);
       return;
     }
-    _release = release;
-    await _download(asset);
+    if (await _offer(release, asset, onLaunch: false) == _Answer.update) {
+      await _download(release, asset);
+    }
+  }
+
+  /// Offers a release with new features when the app opens, unasked.
+  ///
+  /// Releases that only fix things wait for the user to check. A version put
+  /// off with "later" is offered again after [laterInterval], a skipped one
+  /// never, and the site is asked at most once per [checkInterval]. [canAsk]
+  /// tells whether the user is still where a dialog would not interrupt.
+  Future<void> offerOnLaunch({required bool Function() canAsk}) async {
+    if (progress.value != null) return;
+    final config = StorageProvider.config;
+    final now = DateTime.now();
+    final checkedAt = _time(config[StorageKey.updateCheckedAt]);
+    if (checkedAt != null && now.difference(checkedAt).abs() < checkInterval) {
+      return;
+    }
+    try {
+      _currentVersion = (await PackageInfo.fromPlatform()).version;
+      final result = await ConfigProvider.getLatestRelease();
+      if (!result.success) return;
+      final release = result.data!;
+      final asset =
+          shouldOffer(
+            current: _currentVersion,
+            latest: release.version,
+            skipped: config[StorageKey.updateSkippedVersion],
+            laterVersion: config[StorageKey.updateLaterVersion],
+            laterUntil: _time(config[StorageKey.updateLaterUntil]),
+            now: now,
+          )
+          ? await _assetForDevice(release)
+          : null;
+      if (asset == null) {
+        config[StorageKey.updateCheckedAt] = now.millisecondsSinceEpoch;
+        return;
+      }
+      // The next launch asks again when this one has moved on.
+      if (!canAsk()) return;
+      config[StorageKey.updateCheckedAt] = now.millisecondsSinceEpoch;
+
+      switch (await _offer(release, asset, onLaunch: true)) {
+        case _Answer.update:
+          await _download(release, asset);
+        case _Answer.later:
+          // Counted from the answer; the dialog may have been open a while.
+          config[StorageKey.updateLaterVersion] = release.version;
+          config[StorageKey.updateLaterUntil] = DateTime.now()
+              .add(laterInterval)
+              .millisecondsSinceEpoch;
+        case _Answer.skip:
+          config[StorageKey.updateSkippedVersion] = release.version;
+      }
+    } catch (e, stackTrace) {
+      LogUtil.warning('Update check on launch failed', e, stackTrace);
+    }
+  }
+
+  static DateTime? _time(dynamic milliseconds) => milliseconds is int
+      ? DateTime.fromMillisecondsSinceEpoch(milliseconds)
+      : null;
+
+  /// Whether the check on launch offers [latest] to an app at [current].
+  @visibleForTesting
+  static bool shouldOffer({
+    required String current,
+    required String latest,
+    required DateTime now,
+    String? skipped,
+    String? laterVersion,
+    DateTime? laterUntil,
+  }) {
+    if (!isFeatureRelease(current, latest)) return false;
+    if (latest == skipped) return false;
+    final putOff =
+        latest == laterVersion &&
+        laterUntil != null &&
+        now.isBefore(laterUntil);
+    return !putOff;
+  }
+
+  /// Whether [latest] is ahead of [current] in its first or second number,
+  /// as releases with new features are; the third counts fixes.
+  @visibleForTesting
+  static bool isFeatureRelease(String current, String latest) {
+    final from = _numbers(current);
+    final to = _numbers(latest);
+    if (from == null || to == null) return false;
+    return to[0] > from[0] || (to[0] == from[0] && to[1] > from[1]);
+  }
+
+  /// The three numbers of an "X.Y.Z" version, or null when it is not one.
+  static List<int>? _numbers(String version) {
+    final numbers = [
+      for (final part in version.replaceFirst('v', '').split('.'))
+        int.tryParse(part),
+    ];
+    if (numbers.length != 3 || numbers.contains(null)) return null;
+    return numbers.cast<int>();
+  }
+
+  /// Shows what [release] brings and asks what to do with it. On launch the
+  /// user can also put it off or skip it; closing the dialog puts it off.
+  Future<_Answer> _offer(
+    AppRelease release,
+    AppReleaseAsset asset, {
+    required bool onLaunch,
+  }) async {
+    final changelog = release.changelog(
+      chinese: LocaleSettings.currentLocale.languageCode == "zh",
+    );
+    final answer = await Get.dialog<_Answer>(
+      AlertDialog(
+        // Wide enough for the three answers to sit on one line.
+        insetPadding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
+        title: Text(t.message.update.update_available),
+        content: SizedBox(
+          width: Get.width * 0.8,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(t.message.update.current_version(version: _currentVersion)),
+              Text(t.message.update.latest_version(version: release.version)),
+              Text(
+                t.message.update.download_size(
+                  size: DisplayUtil.getDisplayFileSizeWithUnit(asset.size),
+                ),
+              ),
+              if (changelog.isNotEmpty) ...[
+                const SizedBox(height: 16),
+                ConstrainedBox(
+                  constraints: const BoxConstraints(maxHeight: 240),
+                  child: SingleChildScrollView(child: Text(changelog)),
+                ),
+              ],
+            ],
+          ),
+        ),
+        actions: [
+          if (onLaunch)
+            TextButton(
+              onPressed: () => Get.back(result: _Answer.skip),
+              child: Text(t.message.update.skip_version),
+            ),
+          TextButton(
+            onPressed: () => Get.back(result: _Answer.later),
+            child: Text(
+              onLaunch ? t.message.update.later : t.notifications.cancel,
+            ),
+          ),
+          TextButton(
+            onPressed: () => Get.back(result: _Answer.update),
+            child: Text(t.message.update.update_now),
+          ),
+        ],
+      ),
+    );
+    return answer ?? _Answer.later;
   }
 
   /// Stops a download in progress.
@@ -88,9 +259,8 @@ class UpdateService extends GetxService with WidgetsBindingObserver {
 
   /// The APK built for this device's processor, or the universal one.
   Future<AppReleaseAsset?> _assetForDevice(AppRelease release) async {
-    final abis = Platform.isAndroid
-        ? (await DeviceInfoPlugin().androidInfo).supportedAbis
-        : <String>[];
+    if (!Platform.isAndroid) return null;
+    final abis = (await DeviceInfoPlugin().androidInfo).supportedAbis;
     for (final abi in [...abis, "universal"]) {
       for (final asset in release.assets) {
         if (asset.name == "iwrqk-${release.version}-$abi.apk") return asset;
@@ -99,7 +269,7 @@ class UpdateService extends GetxService with WidgetsBindingObserver {
     return null;
   }
 
-  Future<void> _download(AppReleaseAsset asset) async {
+  Future<void> _download(AppRelease release, AppReleaseAsset asset) async {
     final file = File("${PathUtil.tempDir.path}/updates/${asset.name}");
     // A finished download of this version needs no second one.
     if (await file.exists() && await file.length() == asset.size) {
@@ -108,7 +278,12 @@ class UpdateService extends GetxService with WidgetsBindingObserver {
     }
     final partial = File("${file.path}.part");
     await partial.parent.create(recursive: true);
+    // Earlier versions' downloads have served their purpose.
+    await for (final old in partial.parent.list()) {
+      await old.delete(recursive: true);
+    }
 
+    _release = release;
     progress.value = 0;
     _cancelToken = CancelToken();
     _showProgress();
@@ -156,26 +331,21 @@ class UpdateService extends GetxService with WidgetsBindingObserver {
     }
   }
 
+  /// The download's progress; what the release brings was shown before it.
   void _showProgress() {
     final release = _release;
     if (release == null) return;
-    final changelog = release.changelog(
-      chinese: LocaleSettings.currentLocale.languageCode == "zh",
-    );
     SmartDialog.show(
       tag: _dialogTag,
       clickMaskDismiss: false,
       builder: (context) => AlertDialog(
-        title: Text(t.message.update.update_available),
+        title: Text(t.message.update.latest_version(version: release.version)),
         content: SizedBox(
           width: Get.width * 0.8,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(t.message.update.current_version(version: _currentVersion)),
-              Text(t.message.update.latest_version(version: release.version)),
-              const SizedBox(height: 16),
               Obx(() => LinearProgressIndicator(value: progress.value)),
               const SizedBox(height: 8),
               Obx(
@@ -185,13 +355,6 @@ class UpdateService extends GetxService with WidgetsBindingObserver {
                   ),
                 ),
               ),
-              if (changelog.isNotEmpty) ...[
-                const SizedBox(height: 16),
-                ConstrainedBox(
-                  constraints: const BoxConstraints(maxHeight: 240),
-                  child: SingleChildScrollView(child: Text(changelog)),
-                ),
-              ],
             ],
           ),
         ),

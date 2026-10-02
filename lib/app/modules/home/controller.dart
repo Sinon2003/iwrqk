@@ -10,6 +10,7 @@ import 'package:listen_sharing_intent/listen_sharing_intent.dart';
 import '../../data/providers/api_provider.dart';
 import '../../data/services/account_service.dart';
 import '../../data/services/config_service.dart';
+import '../../data/services/update_service.dart';
 import '../../data/services/user_service.dart';
 import '../../routes/pages.dart';
 import '../../utils/log_util.dart';
@@ -113,6 +114,17 @@ class HomeController extends GetxController {
     Get.engine.addPostFrameCallback((_) {
       _initSharingIntent();
     });
+  }
+
+  @override
+  void onReady() {
+    super.onReady();
+    // A release with new features is offered here, while the user has not
+    // gone anywhere yet.
+    Get.find<UpdateService>().offerOnLaunch(
+      canAsk: () =>
+          Get.currentRoute == AppRoutes.home && Get.isDialogOpen != true,
+    );
   }
 
   @override

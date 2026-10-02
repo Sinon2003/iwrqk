@@ -888,6 +888,10 @@ class Translations$message$update$zh_CN extends Translations$message$update$en {
 	@override String get download_in_background => '后台下载';
 	@override String get download_failed => '更新下载失败';
 	@override String get install_failed => '无法打开安装程序';
+	@override String download_size({required Object size}) => '下载大小：${size}';
+	@override String get update_now => '立即更新';
+	@override String get later => '稍后再说';
+	@override String get skip_version => '跳过此版本';
 }
 
 // Path: error.account
@@ -1308,6 +1312,10 @@ extension on TranslationsZhCn {
 			'message.update.download_in_background' => '后台下载',
 			'message.update.download_failed' => '更新下载失败',
 			'message.update.install_failed' => '无法打开安装程序',
+			'message.update.download_size' => ({required Object size}) => '下载大小：${size}',
+			'message.update.update_now' => '立即更新',
+			'message.update.later' => '稍后再说',
+			'message.update.skip_version' => '跳过此版本',
 			'error.retry' => '加载失败，点击重试',
 			'error.fetch_failed' => '无法获取视频链接',
 			'error.fetch_user_info_failed' => '无法获取用户信息',

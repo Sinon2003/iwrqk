@@ -474,7 +474,11 @@
       "downloading": "Downloading: $percent%",
       "download_in_background": "Hide",
       "download_failed": "Could not download the update",
-      "install_failed": "Could not open the installer"
+      "install_failed": "Could not open the installer",
+      "download_size": "Download size: $size",
+      "update_now": "Update now",
+      "later": "Later",
+      "skip_version": "Skip this version"
     }
   },
   "error": {

@@ -76,7 +76,7 @@ Android 签名从环境变量或被忽略的 `android/keystore.properties` 读�
 
 ### 发布步骤
 
-1. 改 `pubspec.yaml` 的 `version`（如 `2.4.1+4`），写两份更新日志：`changelogs/v<完整版本>.md`（中文，标题为"更新内容""注意"）和 `changelogs/v<完整版本>.en.md`（英文，标题为 Changelog、Attention）。
+1. 改 `pubspec.yaml` 的 `version`（如 `2.4.1+4`）。版本号前两位有变化的发布，应用会在用户启动时主动提示更新；只改第三位的不会，所以按这次发布想不想打扰用户来定版本号。再写两份更新日志：`changelogs/v<完整版本>.md`（中文，标题为"更新内容""注意"）和 `changelogs/v<完整版本>.en.md`（英文，标题为 Changelog、Attention）。
 2. `flutter build apk --release`，把新包装到测试机上验证。
 3. `dart run tool/release.dart`：在 `build/release/v<版本>/` 生成按 `iwrqk-<版本>-<ABI>.apk` 命名的 APK、`SHA256SUMS.txt` 和 `notes.md`。应用内更新按这个文件名找安装包。
 4. 打 `v<版本>` 标签（不带 `+N`）并推送，再用脚本打印的 `gh release create` 命令发布。

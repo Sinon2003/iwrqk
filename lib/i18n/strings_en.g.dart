@@ -1675,6 +1675,18 @@ class Translations$message$update$en {
 
 	/// en: 'Could not open the installer'
 	String get install_failed => 'Could not open the installer';
+
+	/// en: 'Download size: $size'
+	String download_size({required Object size}) => 'Download size: ${size}';
+
+	/// en: 'Update now'
+	String get update_now => 'Update now';
+
+	/// en: 'Later'
+	String get later => 'Later';
+
+	/// en: 'Skip this version'
+	String get skip_version => 'Skip this version';
 }
 
 // Path: error.account
@@ -2119,6 +2131,10 @@ extension on Translations {
 			'message.update.download_in_background' => 'Hide',
 			'message.update.download_failed' => 'Could not download the update',
 			'message.update.install_failed' => 'Could not open the installer',
+			'message.update.download_size' => ({required Object size}) => 'Download size: ${size}',
+			'message.update.update_now' => 'Update now',
+			'message.update.later' => 'Later',
+			'message.update.skip_version' => 'Skip this version',
 			'error.retry' => 'Load failed, click to retry.',
 			'error.fetch_failed' => 'Failed to fetch video links.',
 			'error.fetch_user_info_failed' => 'Failed to fetch user info.',

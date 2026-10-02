@@ -55,6 +55,8 @@ flowchart LR
 - 内容翻译由 [TranslateProvider](../../lib/app/data/providers/translate_provider.dart) 调用免 Key 的网页翻译接口，翻译源见 [TranslationEngine](../../lib/app/data/enums/translation_engine.dart)（Google、火山、腾讯交互翻译、Yandex）。目标语言跟随 App 语言并按各源映射；长文本按行切分，每个源有各自的单次上限。这些都是非官方接口，可能随时变化，失败时提示并写日志。默认源、启用列表与显示方式（替换原文或显示在原文下方，默认替换）存于 `ConfigService`，默认源始终处于启用状态。界面状态由 [TranslationMixin](../../lib/app/components/translation_mixin.dart) 管理：按源缓存、收起与展开（替换模式下为显示原文）、换源；译文由 [TranslatedContent](../../lib/app/components/translated_content.dart) 显示。视频简介、评论、论坛帖子共用这一套。
 - 应用内更新由 [UpdateService](../../lib/app/data/services/update_service.dart) 负责。更新地址在 [const/config.dart](../../lib/app/const/config.dart)，指向本仓库 `Sinon2003/iwrqk` 的 GitHub Releases。[ConfigProvider](../../lib/app/data/providers/config_provider.dart) 取列表第一项（预发布版本也算），去掉标签的 `v` 后按段比较整数，所以发布标签须为 `vX.Y.Z` 纯数字格式；没有任何 Release 时提示检查失败。
     - 有新版时按设备支持的 ABI 找附件 `iwrqk-<版本>-<ABI>.apk`，找不到再用 `iwrqk-<版本>-universal.apk`，都没有才打开 Release 页面。发布时附件须保持这个命名。
+    - 找到新版后先弹窗询问，列出版本、下载大小和更新说明，用户确认才下载；手动检查（系统设置 → 检查更新）对任何更新的版本都询问。
+    - 首页就绪时调用 `offerOnLaunch` 主动提示，只针对版本号前两位领先的发布（如 2.4.x → 2.5.0），只改第三位的修复版本留给手动检查。每 24 小时最多向 GitHub 查询一次；“稍后再说”或直接关掉弹窗后 3 天内不再提示该版本，“跳过此版本”之后不再提示该版本，更新的版本照常提示。这些记忆存在 `StorageKey.update*` 几个键里。用户已经离开首页或有其他弹窗时这次不弹，下次启动再问。
     - APK 用 Dio 下载到临时目录（沿用应用代理），核对大小后用 `open_file` 调起系统安装器覆盖安装；应用不在前台时等回到前台再调起。manifest 为此声明 `REQUEST_INSTALL_PACKAGES`，首次安装要用户允许"安装未知应用"。
 
 ## 存储与配置

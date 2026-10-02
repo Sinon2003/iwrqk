@@ -888,6 +888,10 @@ class _Translations$message$update$ja extends Translations$message$update$en {
 	@override String get download_in_background => 'バックグラウンドで続行';
 	@override String get download_failed => 'アップデートをダウンロードできませんでした';
 	@override String get install_failed => 'インストーラーを開けませんでした';
+	@override String download_size({required Object size}) => 'ダウンロードサイズ：${size}';
+	@override String get update_now => '今すぐ更新';
+	@override String get later => 'あとで';
+	@override String get skip_version => 'このバージョンをスキップ';
 }
 
 // Path: error.account
@@ -1308,6 +1312,10 @@ extension on TranslationsJa {
 			'message.update.download_in_background' => 'バックグラウンドで続行',
 			'message.update.download_failed' => 'アップデートをダウンロードできませんでした',
 			'message.update.install_failed' => 'インストーラーを開けませんでした',
+			'message.update.download_size' => ({required Object size}) => 'ダウンロードサイズ：${size}',
+			'message.update.update_now' => '今すぐ更新',
+			'message.update.later' => 'あとで',
+			'message.update.skip_version' => 'このバージョンをスキップ',
 			'error.retry' => '読み込みに失敗しました。再試行する',
 			'error.fetch_failed' => 'ビデオリンクを取得できません',
 			'error.fetch_user_info_failed' => 'ユーザー情報を取得できません',

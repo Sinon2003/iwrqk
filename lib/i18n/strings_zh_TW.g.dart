@@ -888,6 +888,10 @@ class Translations$message$update$zh_TW extends Translations$message$update$en {
 	@override String get download_in_background => '背景下載';
 	@override String get download_failed => '更新下載失敗';
 	@override String get install_failed => '無法開啟安裝程式';
+	@override String download_size({required Object size}) => '下載大小：${size}';
+	@override String get update_now => '立即更新';
+	@override String get later => '稍後再說';
+	@override String get skip_version => '跳過此版本';
 }
 
 // Path: error.account
@@ -1308,6 +1312,10 @@ extension on TranslationsZhTw {
 			'message.update.download_in_background' => '背景下載',
 			'message.update.download_failed' => '更新下載失敗',
 			'message.update.install_failed' => '無法開啟安裝程式',
+			'message.update.download_size' => ({required Object size}) => '下載大小：${size}',
+			'message.update.update_now' => '立即更新',
+			'message.update.later' => '稍後再說',
+			'message.update.skip_version' => '跳過此版本',
 			'error.retry' => '載入失敗，點擊重試',
 			'error.fetch_failed' => '無法獲取影片連結',
 			'error.fetch_user_info_failed' => '無法獲取使用者資訊',

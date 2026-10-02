@@ -30,6 +30,12 @@ abstract class StorageKey {
   static const String proxyHost = "proxyHost";
   static const String proxyPort = "proxyPort";
   static const String toAiSite = "toAiSite";
+
+  // What the update check on launch remembers; see UpdateService.
+  static const String updateCheckedAt = "updateCheckedAt";
+  static const String updateSkippedVersion = "updateSkippedVersion";
+  static const String updateLaterVersion = "updateLaterVersion";
+  static const String updateLaterUntil = "updateLaterUntil";
 }
 
 abstract class PLPlayerConfigKey {

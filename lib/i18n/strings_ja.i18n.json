@@ -468,7 +468,11 @@
       "downloading": "ダウンロード中：$percent%",
       "download_in_background": "バックグラウンドで続行",
       "download_failed": "アップデートをダウンロードできませんでした",
-      "install_failed": "インストーラーを開けませんでした"
+      "install_failed": "インストーラーを開けませんでした",
+      "download_size": "ダウンロードサイズ：$size",
+      "update_now": "今すぐ更新",
+      "later": "あとで",
+      "skip_version": "このバージョンをスキップ"
     }
   },
   "error": {
