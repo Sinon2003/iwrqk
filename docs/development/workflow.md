@@ -74,6 +74,7 @@
 
 - 站点的标签全集来自 `GET https://apiq.iwara.tv/tags?page=<N>&limit=50`：每页最多 50 个，响应里的 `count` 是总数。接口在 Cloudflare 之后，要在已打开 iwara.tv 的浏览器里请求，不要绕过校验。
 - 核对译名时用 `GET /videos?tags=<id>&rating=all&sort=views` 看该标签下的视频标题和同时出现的标签。不少 id 在站内的实际用法与字面不同，例如拼错的角色名、与歌曲同名的动作；名称要对得上实际用法。
+- 到官网或 wiki 查官方译名时，一次只查一个站，页面之间留间隔，优先找能覆盖多个名字的列表页；不要并行或用脚本批量抓取，出现拦截页或人机验证就停。2026-10 曾因并行抓取触发 `wiki.biligame.com` 的防护，本机 IP 被拦。
 - 补完后运行 `flutter test test/tag_names_test.dart`，确认两个文件的 id 一致且有序。书写约定见[编码惯例](conventions.md#标签名称表)。
 
 ## 构建与发布现状
