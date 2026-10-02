@@ -43,7 +43,10 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 
-# Local progress tracker for long tasks (see AGENTS.md).
+# Notes for working on this checkout: the guidelines, the development
+# handbook and the progress tracker of long tasks. They stay local.
+/AGENTS.md
+/docs/
 /TODO.md
 
 # Local secrets (test accounts, signing passwords, tokens). Never commit.
