@@ -253,7 +253,8 @@
     "videos_count": "$numVideo 本のビデオ",
     "videos_count_plural": "$numVideo 本のビデオ",
     "delete": "プレイリストを削除",
-    "delete_confirm": "このプレイリストを削除しますか？中の動画は削除されません。"
+    "delete_confirm": "このプレイリストを削除しますか？中の動画は削除されません。",
+    "delete_selected_confirm": "選択した $num 件のプレイリストを削除しますか？中の動画は削除されません。"
   },
   "channel": {
     "administration": "管理者",

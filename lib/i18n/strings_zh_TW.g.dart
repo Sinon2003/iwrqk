@@ -473,6 +473,7 @@ class Translations$playlist$zh_TW extends Translations$playlist$en {
 	@override String videos_count_plural({required Object numVideo}) => '${numVideo} 個影片';
 	@override String get delete => '刪除播放清單';
 	@override String get delete_confirm => '確定刪除這個播放清單嗎？清單裡的影片不會被刪除。';
+	@override String delete_selected_confirm({required Object num}) => '確定刪除選取的 ${num} 個播放清單嗎？清單裡的影片不會被刪除。';
 }
 
 // Path: channel
@@ -1139,6 +1140,7 @@ extension on TranslationsZhTw {
 			'playlist.videos_count_plural' => ({required Object numVideo}) => '${numVideo} 個影片',
 			'playlist.delete' => '刪除播放清單',
 			'playlist.delete_confirm' => '確定刪除這個播放清單嗎？清單裡的影片不會被刪除。',
+			'playlist.delete_selected_confirm' => ({required Object num}) => '確定刪除選取的 ${num} 個播放清單嗎？清單裡的影片不會被刪除。',
 			'channel.administration' => '管理者',
 			'channel.announcements' => '公告',
 			'channel.feedback' => '回饋',

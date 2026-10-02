@@ -473,6 +473,7 @@ class _Translations$playlist$ja extends Translations$playlist$en {
 	@override String videos_count_plural({required Object numVideo}) => '${numVideo} 本のビデオ';
 	@override String get delete => 'プレイリストを削除';
 	@override String get delete_confirm => 'このプレイリストを削除しますか？中の動画は削除されません。';
+	@override String delete_selected_confirm({required Object num}) => '選択した ${num} 件のプレイリストを削除しますか？中の動画は削除されません。';
 }
 
 // Path: channel
@@ -1139,6 +1140,7 @@ extension on TranslationsJa {
 			'playlist.videos_count_plural' => ({required Object numVideo}) => '${numVideo} 本のビデオ',
 			'playlist.delete' => 'プレイリストを削除',
 			'playlist.delete_confirm' => 'このプレイリストを削除しますか？中の動画は削除されません。',
+			'playlist.delete_selected_confirm' => ({required Object num}) => '選択した ${num} 件のプレイリストを削除しますか？中の動画は削除されません。',
 			'channel.administration' => '管理者',
 			'channel.announcements' => 'お知らせ',
 			'channel.feedback' => 'フィードバック',

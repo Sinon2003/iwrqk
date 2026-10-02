@@ -253,7 +253,8 @@
     "videos_count": "$numVideo 个视频",
     "videos_count_plural": "$numVideo 个视频",
     "delete": "删除播放列表",
-    "delete_confirm": "确定删除这个播放列表吗？列表里的视频不会被删除。"
+    "delete_confirm": "确定删除这个播放列表吗？列表里的视频不会被删除。",
+    "delete_selected_confirm": "确定删除选中的 $num 个播放列表吗？列表里的视频不会被删除。"
   },
   "channel": {
     "administration": "管理者",

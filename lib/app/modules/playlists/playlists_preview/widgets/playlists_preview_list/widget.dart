@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 
 import '../../../../../components/iwr_refresh/widget.dart';
 import '../../../../../data/models/playlist/playlist.dart';
+import '../../controller.dart';
 import '../playlist_preview.dart';
 import 'controller.dart';
 
@@ -24,6 +25,7 @@ class PlaylistsPreviewList extends StatefulWidget {
 
 class _PlaylistsPreviewListState extends State<PlaylistsPreviewList>
     with AutomaticKeepAliveClientMixin {
+  final PlaylistsPreviewController _parentController = Get.find();
   late PlaylistsPreviewListController _controller;
   final ScrollController _scrollController = ScrollController();
 
@@ -48,11 +50,27 @@ class _PlaylistsPreviewListState extends State<PlaylistsPreviewList>
               delegate: SliverChildBuilderDelegate((context, index) {
                 PlaylistModel playlist = _controller.data[index];
 
-                return PlaylistPreview(
-                  playlistId: playlist.id,
-                  title: playlist.title,
-                  videosCount: playlist.numVideos,
-                  requireMyself: widget.requireMyself,
+                // Only the owner's playlists can be ticked, to delete them.
+                return Obx(
+                  () => PlaylistPreview(
+                    playlistId: playlist.id,
+                    title: playlist.title,
+                    videosCount: playlist.numVideos,
+                    requireMyself: widget.requireMyself,
+                    selecting: _parentController.enableMultipleSelection,
+                    checked: _parentController.checked.contains(playlist.id),
+                    onTap: _parentController.enableMultipleSelection
+                        ? () => _parentController.toggleChecked(playlist.id)
+                        : null,
+                    onLongPress:
+                        !widget.requireMyself ||
+                            _parentController.enableMultipleSelection
+                        ? null
+                        : () {
+                            _parentController.enableMultipleSelection = true;
+                            _parentController.toggleChecked(playlist.id);
+                          },
+                  ),
                 );
               }, childCount: _controller.data.length),
             ),

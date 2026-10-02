@@ -883,6 +883,9 @@ class Translations$playlist$en {
 
 	/// en: 'Delete this playlist? The videos in it are not deleted.'
 	String get delete_confirm => 'Delete this playlist? The videos in it are not deleted.';
+
+	/// en: 'Delete the selected playlists ($num)? The videos in them stay.'
+	String delete_selected_confirm({required Object num}) => 'Delete the selected playlists (${num})? The videos in them stay.';
 }
 
 // Path: channel
@@ -1960,6 +1963,7 @@ extension on Translations {
 			'playlist.videos_count_plural' => ({required Object numVideo}) => '${numVideo} videos',
 			'playlist.delete' => 'Delete playlist',
 			'playlist.delete_confirm' => 'Delete this playlist? The videos in it are not deleted.',
+			'playlist.delete_selected_confirm' => ({required Object num}) => 'Delete the selected playlists (${num})? The videos in them stay.',
 			'channel.administration' => 'Administration',
 			'channel.announcements' => 'Announcements',
 			'channel.feedback' => 'Feedback',

@@ -253,7 +253,8 @@
     "videos_count": "$numVideo 個影片",
     "videos_count_plural": "$numVideo 個影片",
     "delete": "刪除播放清單",
-    "delete_confirm": "確定刪除這個播放清單嗎？清單裡的影片不會被刪除。"
+    "delete_confirm": "確定刪除這個播放清單嗎？清單裡的影片不會被刪除。",
+    "delete_selected_confirm": "確定刪除選取的 $num 個播放清單嗎？清單裡的影片不會被刪除。"
   },
   "channel": {
     "administration": "管理者",

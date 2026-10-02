@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iwrqk/i18n/strings.g.dart';
 
+import '../../../../components/multiple_selection.dart';
 import '../../../../components/network_image.dart';
 import '../../../../const/iwara.dart';
 import '../controller.dart';
@@ -12,26 +13,41 @@ class PlaylistPreview extends StatelessWidget {
   final int videosCount;
   final bool requireMyself;
 
+  /// Whether the page is in selection mode, and this playlist ticked.
+  final bool selecting;
+  final bool checked;
+
+  /// Replaces opening the playlist, as ticking does in selection mode.
+  final VoidCallback? onTap;
+  final VoidCallback? onLongPress;
+
   const PlaylistPreview({
     super.key,
     required this.playlistId,
     required this.title,
     required this.videosCount,
     this.requireMyself = false,
+    this.selecting = false,
+    this.checked = false,
+    this.onTap,
+    this.onLongPress,
   });
+
+  Future<void> _open() async {
+    final deleted = await Get.toNamed(
+      "/playlistDetail?playlistId=$playlistId&requireMyself=$requireMyself",
+      arguments: {"title": title},
+    );
+    if (deleted == true && Get.isRegistered<PlaylistsPreviewController>()) {
+      Get.find<PlaylistsPreviewController>().refreshData();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () async {
-        final deleted = await Get.toNamed(
-          "/playlistDetail?playlistId=$playlistId&requireMyself=$requireMyself",
-          arguments: {"title": title},
-        );
-        if (deleted == true && Get.isRegistered<PlaylistsPreviewController>()) {
-          Get.find<PlaylistsPreviewController>().refreshData();
-        }
-      },
+      onTap: onTap ?? _open,
+      onLongPress: onLongPress,
       child: Container(
         constraints: const BoxConstraints(maxHeight: 116),
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
@@ -39,20 +55,25 @@ class PlaylistPreview extends StatelessWidget {
           children: [
             Container(
               constraints: const BoxConstraints(maxWidth: 168),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(6),
-                child: AspectRatio(
-                  aspectRatio: 16 / 9,
-                  child: Container(
-                    color: Colors.black,
-                    alignment: Alignment.center,
-                    child: const NetworkImg(
-                      imageUrl: IwaraConst.defaultCoverUrl,
+              child: Stack(
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(6),
+                    child: AspectRatio(
                       aspectRatio: 16 / 9,
-                      fit: BoxFit.cover,
+                      child: Container(
+                        color: Colors.black,
+                        alignment: Alignment.center,
+                        child: const NetworkImg(
+                          imageUrl: IwaraConst.defaultCoverUrl,
+                          aspectRatio: 16 / 9,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
                     ),
                   ),
-                ),
+                  CheckedOverlay(selecting: selecting, checked: checked),
+                ],
               ),
             ),
             Expanded(

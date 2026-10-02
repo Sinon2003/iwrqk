@@ -259,7 +259,8 @@
     "videos_count": "$numVideo video",
     "videos_count_plural": "$numVideo videos",
     "delete": "Delete playlist",
-    "delete_confirm": "Delete this playlist? The videos in it are not deleted."
+    "delete_confirm": "Delete this playlist? The videos in it are not deleted.",
+    "delete_selected_confirm": "Delete the selected playlists ($num)? The videos in them stay."
   },
   "channel": {
     "administration": "Administration",
