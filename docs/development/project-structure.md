@@ -28,6 +28,7 @@ third_party/flutter_inappwebview_android/  依赖覆盖：兼容 AGP 9 的上游
 android/ windows/             平台工程；有对应构建工作流（不维护 iOS，已移除 ios/）
 linux/ macos/ web/             其他平台工程；可用性需分别验证
 assets/launcher/              应用图标源素材
+assets/tags/                  标签名称表：每种语言一个 JSON，标签 id → 名称
 doc/                          README 使用的截图和图标
 docs/development/             本开发手册的主题文档
 changelogs/                    历史更新记录
@@ -53,6 +54,7 @@ secrets/                      被忽略的本地凭据；仅提交示例模板
 | 设置、主题、语言、代理、站点切换 | [modules/settings/controller.dart](../../lib/app/modules/settings/controller.dart)、[data/services/config_service.dart](../../lib/app/data/services/config_service.dart) |
 | 实验性加速下载与播放 | [utils/parallel_range_proxy.dart](../../lib/app/utils/parallel_range_proxy.dart)，接入点在 `components/plugin/pl_player/controller.dart` 与 `data/services/download_service.dart` |
 | 播放预加载与自动清晰度 | [utils/playback_cache.dart](../../lib/app/utils/playback_cache.dart)、`quality_picker.dart`、`playback_bandwidth.dart`；原生采样在 `components/plugin/pl_player/utils/playback_monitor.dart` |
+| 标签的中文名称与按名称查找 | [utils/tag_names.dart](../../lib/app/utils/tag_names.dart)、[data/services/tag_name_service.dart](../../lib/app/data/services/tag_name_service.dart)、[components/tag_label.dart](../../lib/app/components/tag_label.dart)；数据在仓库根的 `assets/tags/` |
 
 ## 文件职责与入口选择
 

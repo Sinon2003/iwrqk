@@ -10,7 +10,7 @@
 
 1. 初始化 Flutter binding 和 `MediaKit`。
 2. 初始化 `PathUtil` → `StorageProvider` → `LogUtil`，再设置代理、音频服务和 `ConfigProvider`。
-3. 调用 [initGetx()](../../lib/getx.dart) 注册配置、Discord RPC、账号、下载、预览、用户服务，以及共享对话框控制器。
+3. 调用 [initGetx()](../../lib/getx.dart) 注册配置、标签名称、Discord RPC、账号、下载、预览、用户服务，以及共享对话框控制器。
 4. 设置屏幕方向、系统栏、语言；桌面端初始化窗口。
 5. 用 `TranslationProvider` 包裹 `MainApp`，由 `GetMaterialApp` 加载主题和路由，初始路由为 splash。
 
@@ -73,6 +73,15 @@ flowchart LR
 [ConfigService](../../lib/app/data/services/config_service.dart) 将部分设置映射为响应式状态；持久化键分布在 `StorageKey`、`PLPlayerConfigKey`、`ConfigKey` 和 `DynamicConfigKey`。例如 `accpetedRules` 是现有存储键，修正拼写需要同时设计旧数据读取或迁移。
 
 历史和下载模型在 `data/models/offline/` 及 `data/models/download_task.dart`。修改模型要检查缓存 JSON 和重启后的恢复路径，而不只检查新 API 响应。
+
+## 标签名称
+
+站点的标签只有英文 id（如 `school_swimsuit`），没有显示名。应用自带按语言的名称表 `assets/tags/<语言>.json`，目前有 zh-CN 和 zh-TW，各覆盖站点 `GET /tags` 列出的全部标签。[TagNameService](../../lib/app/data/services/tag_name_service.dart) 在第一次用到时按当前界面语言加载，[TagNames](../../lib/app/utils/tag_names.dart) 负责查名称和按名称查找。
+
+- 名称表不走 Slang。标签是站点的数据而不是界面文案：三千多个，是界面文案（每种语言四百多条）的数倍，并随站点增长；要按 id 动态查、按名称反查，查不到时回退到 id 而不是英文文案。放进 Slang 的话，作为基准语言的英文和没有译名的日文也得各带一张没有内容的表，整张表会编进每种语言的生成代码，按名称反查仍然要另外实现。
+- 名称只影响显示和查找。筛选条件、屏蔽列表、请求参数和点击标签复制的内容始终是 id；表里没有的标签（例如站点新增的）直接显示 id。
+- 开关是 `ConfigService.localizedTags`（设置里的“标签显示中文”，默认开），只在有名称表的界面语言下出现。界面统一用 [TagLabel / TagOptionTile](../../lib/app/components/tag_label.dart) 显示标签；它们在 `Obx` 中读取，开关变化、语言切换和名称表加载完成都会刷新。
+- 筛选页与屏蔽标签的输入框共用 `TagNames.complete`：输入含非 ASCII 字符时只在名称表里查找（站点的补全接口只认识 id），其余情况先列站点补全的结果，再补上名称表里按名称或 id 匹配到的标签。候选项同时显示名称和 id，用来区分名称相近的标签。
 
 ## 播放、下载与平台行为
 
