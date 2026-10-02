@@ -52,14 +52,22 @@
 
 这张表用于挑选与本次修改相关的场景，不要求每次执行全量回归。
 
+### 登录回归
+
+- `flutter test test/auth_client_test.dart test/account_login_test.dart test/loading_dialog_test.dart test/network_failure_test.dart` 验证总网络时限、正文不结束、取消与实际连接释放、失败后重试、迟到响应、令牌交换失败不保存半成品会话、界面重建只运行一次任务，以及网络提示与账号错误的区分。
+- Android 真机验证断网 / 关闭 VPN 后登录能结束等待并提示错误；恢复网络后在同一进程再次登录，确认重新发送 `/user/login` 和 `/user/token`。测试后恢复代理与账号状态。不要用重启应用掩盖重试失败，也不要把节点立即拒绝连接等同于应用未发请求。
+
 ### 加速传输回归
 
 - `flutter test test/parallel_range_proxy_test.dart test/parallel_range_proxy_adaptive_test.dart test/playback_monitor_test.dart` 覆盖续传、断流、超时、Range 校验、无 Range 服务、并行收益与降级，以及测速和卡顿反馈。
 - `flutter test test/parallel_range_proxy_regression_test.dart` 使用 4 MiB 段验证真实预取（小段容易全落在套接字缓冲里），并覆盖六个读取方、额外连接预算、多次有进展的断流、无进展重试上限、FIN 半关闭和初始非法响应清理。
+- `flutter test test/transfer_baseline_test.dart test/parallel_range_proxy_startup_test.dart` 检查慢启动后的稳定基线，以及共享带宽下默认预加载保持单流、完整预加载试探后无收益回退。后者采用生产 3 秒窗口与 MiB 级分段，不用瞬时小文件代替。
+- `flutter test test/playback_cache_test.dart test/playback_monitor_test.dart test/playback_bandwidth_test.dart` 检查预加载配置兼容、缓存 JSON 字节与时间阈值、短填充下限、真正网络进展才重新采样，以及长视频后逐步衰减的置信度。
 - `flutter test test/quality_picker_test.dart test/playback_bandwidth_test.dart test/playback_monitor_test.dart test/file_model_test.dart` 覆盖实际 Source 码率、缓存填满后停止采样、重复上游窗口、网速估计的主机 / 模式隔离和过期、旧记录兼容。自动清晰度是起播选择；验证时分别关闭 / 开启加速，观察正常播放的填充样本和下个视频的选择，不为取样主动下载其他档位。
 - 真机测速固定资源、清晰度、字节区间和 VPN 节点，交替测量原始连续请求与应用代理。检查响应状态、字节数和散列一致后再比较用时；同时记录首段正文到达时间，HTTP 响应头到达时间不能代替它。
 - 区分“单连接限速”“整条线路共享带宽”“建连 / 请求延迟高”：它们对并行的反应不同。对照请求必须走同一出口；切换节点后重新采样，避免把线路变化归因于代码。
 - 加速下载仍依赖应用进程内的代理，测试前后台、暂停 / 恢复和进程重启；它不等价于可脱离应用进程持续运行的原生后台多线程下载。
+- 预加载真机验证需覆盖默认 → 更长 → 完整 → 默认，以及开 / 关加速。完整模式等待缓存覆盖整段后断开测试上游，再前跳 / 回看并核对没有新请求；区分解码等待与网络缓冲。核对实际 mpv 参数、缓存范围、临时文件生命周期和切换后的恢复，不能只看进度条。缓存测试服务可用本机文件；实际代理 / CDN 另用适量真实样本验证。
 
 ## 构建与发布现状
 

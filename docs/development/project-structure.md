@@ -52,6 +52,7 @@ secrets/                      被忽略的本地凭据；仅提交示例模板
 | 播放列表与论坛帖子 | `modules/playlists/`、`modules/forum/` |
 | 设置、主题、语言、代理、站点切换 | [modules/settings/controller.dart](../../lib/app/modules/settings/controller.dart)、[data/services/config_service.dart](../../lib/app/data/services/config_service.dart) |
 | 实验性加速下载与播放 | [utils/parallel_range_proxy.dart](../../lib/app/utils/parallel_range_proxy.dart)，接入点在 `components/plugin/pl_player/controller.dart` 与 `data/services/download_service.dart` |
+| 播放预加载与自动清晰度 | [utils/playback_cache.dart](../../lib/app/utils/playback_cache.dart)、`quality_picker.dart`、`playback_bandwidth.dart`；原生采样在 `components/plugin/pl_player/utils/playback_monitor.dart` |
 
 ## 文件职责与入口选择
 
