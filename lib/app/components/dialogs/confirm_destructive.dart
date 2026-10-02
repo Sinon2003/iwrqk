@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iwrqk/i18n/strings.g.dart';
 
-/// Asks before deleting something that cannot be brought back, and tells
-/// whether the user went ahead.
-Future<bool> confirmDelete(String message) async {
+/// Asks before something that cannot be taken back, and tells whether the
+/// user went ahead. [action] labels the button that does it; without one it
+/// reads "Delete".
+Future<bool> confirmDestructive(String message, {String? action}) async {
   final confirmed = await Get.dialog<bool>(
     Builder(
       builder: (context) => AlertDialog(
@@ -19,7 +20,7 @@ Future<bool> confirmDelete(String message) async {
             style: TextButton.styleFrom(
               foregroundColor: Theme.of(context).colorScheme.error,
             ),
-            child: Text(t.records.delete),
+            child: Text(action ?? t.records.delete),
           ),
         ],
       ),

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../../../i18n/strings.g.dart';
-import '../../../../components/dialogs/confirm_delete.dart';
+import '../../../../components/dialogs/confirm_destructive.dart';
 import '../../../../components/network_image.dart';
 import '../../../../data/enums/download_task_status.dart';
 import '../../../../data/enums/types.dart';
@@ -44,7 +44,7 @@ class DownloadTaskDialog extends StatelessWidget {
 
   /// Deleting takes the file with it, so it asks first.
   Future<void> _delete() async {
-    if (!await confirmDelete(t.download.delete_confirm)) return;
+    if (!await confirmDestructive(t.download.delete_confirm)) return;
     onDeleted?.call(taskId);
     Get.back();
   }

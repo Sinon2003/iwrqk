@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iwrqk/i18n/strings.g.dart';
 
-import '../../../components/dialogs/confirm_delete.dart';
+import '../../../components/dialogs/confirm_destructive.dart';
 import '../../../components/multiple_selection.dart';
 import '../../../data/services/user_service.dart';
 import 'widgets/favorite_media_preview_list/controller.dart';
@@ -46,13 +46,15 @@ class FavoritesController extends GetxController
   }
 
   Future<void> unfavoriteAll() async {
-    if (!await confirmDelete(t.records.delete_all_favorites_confirm)) return;
+    if (!await confirmDestructive(t.records.delete_all_favorites_confirm)) {
+      return;
+    }
     await _currentList?.unfavoriteAll();
   }
 
   Future<void> deleteChecked() async {
     if (checked.isEmpty) return;
-    if (!await confirmDelete(
+    if (!await confirmDestructive(
       t.records.delete_selected_confirm(num: checkedCount),
     )) {
       return;

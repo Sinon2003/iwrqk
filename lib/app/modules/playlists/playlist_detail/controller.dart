@@ -3,7 +3,7 @@ import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:get/get.dart';
 import 'package:iwrqk/i18n/strings.g.dart';
 
-import '../../../components/dialogs/confirm_delete.dart';
+import '../../../components/dialogs/confirm_destructive.dart';
 import '../../../components/multiple_selection.dart';
 import '../../../data/providers/api_provider.dart';
 import '../../../data/services/user_service.dart';
@@ -45,14 +45,16 @@ class PlaylistDetailController extends GetxController with MultipleSelection {
   }
 
   Future<void> removeAllFromPlaylist() async {
-    if (!await confirmDelete(t.records.delete_all_playlist_confirm)) return;
+    if (!await confirmDestructive(t.records.delete_all_playlist_confirm)) {
+      return;
+    }
     childController.showLoading();
     await childController.removeAllFromPlaylist();
   }
 
   Future<void> deleteChecked() async {
     if (checked.isEmpty) return;
-    if (!await confirmDelete(
+    if (!await confirmDestructive(
       t.records.delete_selected_confirm(num: checkedCount),
     )) {
       return;

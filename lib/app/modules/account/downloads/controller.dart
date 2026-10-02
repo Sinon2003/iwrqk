@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iwrqk/i18n/strings.g.dart';
 
-import '../../../components/dialogs/confirm_delete.dart';
+import '../../../components/dialogs/confirm_destructive.dart';
 import '../../../components/multiple_selection.dart';
 import '../../../data/enums/download_task_status.dart';
 import '../../../data/models/download_task.dart';
@@ -58,7 +58,7 @@ class DownloadsController extends GetxController
 
   Future<void> deleteChecked() async {
     if (checked.isEmpty) return;
-    if (!await confirmDelete(
+    if (!await confirmDestructive(
       t.download.delete_selected_confirm(num: checkedCount),
     )) {
       return;
@@ -69,7 +69,7 @@ class DownloadsController extends GetxController
   }
 
   Future<void> deleteAll() async {
-    if (!await confirmDelete(t.download.delete_all_confirm)) return;
+    if (!await confirmDestructive(t.download.delete_all_confirm)) return;
     await _delete((task) => true);
   }
 

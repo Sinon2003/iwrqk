@@ -21,7 +21,7 @@
 - 新增的监听、StreamSubscription、Timer、动画 / 输入控制器等，由拥有者在 `dispose` / `onClose` 等适当位置释放。播放器还需检查跨页面共享和前后台切换，避免提前销毁共享资源。
 - UI 沿用 Material 3、`Theme.of(context).colorScheme`、现有公共组件和 `SmartDialog` 提示；列表优先复用 `IwrRefresh` 的加载、空态、失败与登录提示。
 - 列表页的多选（下载、历史、收藏、播放列表）共用 [MultipleSelection](../../lib/app/components/multiple_selection.dart) 和 `selectionAppBar`：勾选的 id 是可观察的集合，列表的每一行在自己的 `Obx` 里读取，因为懒加载的行不在外层 `Obx` 的追踪范围内。同一份数据分标签显示时，“反选”只传当前标签显示的 id。
-- 删除记录、文件或账号数据前用 [confirmDelete](../../lib/app/components/dialogs/confirm_delete.dart) 询问，文案写清会删掉什么。
+- 删除记录、文件或账号数据，以及解除好友这类不易撤回的操作，执行前用 [confirmDestructive](../../lib/app/components/dialogs/confirm_destructive.dart) 询问，文案写清后果；不是删除时用 `action` 指定确认按钮的文字。
 
 ## 模型与错误处理
 
