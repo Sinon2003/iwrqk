@@ -35,7 +35,8 @@ mixin MultipleSelection on GetxController {
 }
 
 /// The app bar of a page in selection mode: how many records are ticked, and
-/// what to do with them.
+/// what to do with them. While it shows, the back key leaves selection mode
+/// like its close button, and only the next press leaves the page.
 AppBar selectionAppBar(
   BuildContext context, {
   required int count,
@@ -46,9 +47,15 @@ AppBar selectionAppBar(
   return AppBar(
     titleSpacing: 0,
     centerTitle: false,
-    leading: IconButton(
-      onPressed: onClose,
-      icon: const Icon(Icons.close_outlined),
+    leading: PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, _) {
+        if (!didPop) onClose();
+      },
+      child: IconButton(
+        onPressed: onClose,
+        icon: const Icon(Icons.close_outlined),
+      ),
     ),
     title: Text(
       t.records.selected_num(num: count),

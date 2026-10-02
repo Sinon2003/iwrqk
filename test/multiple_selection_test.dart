@@ -1,5 +1,7 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get/get.dart';
+import 'package:iwrqk/app/components/app_bar_switcher.dart';
 import 'package:iwrqk/app/components/multiple_selection.dart';
 
 class _Page extends GetxController with MultipleSelection {}
@@ -46,5 +48,49 @@ void main() {
     expect(counts.last, 0);
     expect(counts, contains(1));
     expect(counts, contains(2));
+  });
+
+  testWidgets('the back key leaves selection mode before the page', (
+    tester,
+  ) async {
+    final page = _Page();
+    await tester.pumpWidget(
+      MaterialApp(
+        home: const Scaffold(body: Text('home')),
+        routes: {
+          '/records': (context) => Obx(
+            () => Scaffold(
+              appBar: AppBarSwitcher(
+                visible: page.enableMultipleSelection,
+                primary: AppBar(title: const Text('records')),
+                secondary: selectionAppBar(
+                  context,
+                  count: page.checkedCount,
+                  onClose: page.exitMultipleSelection,
+                  onInvert: () {},
+                  onDelete: () {},
+                ),
+              ),
+            ),
+          ),
+        },
+      ),
+    );
+    tester.state<NavigatorState>(find.byType(Navigator)).pushNamed('/records');
+    await tester.pumpAndSettle();
+
+    page
+      ..enableMultipleSelection = true
+      ..toggleChecked('a');
+    await tester.pumpAndSettle();
+    await tester.binding.handlePopRoute();
+    await tester.pumpAndSettle();
+    expect(page.enableMultipleSelection, isFalse);
+    expect(page.checked, isEmpty);
+    expect(find.text('records'), findsOneWidget);
+
+    await tester.binding.handlePopRoute();
+    await tester.pumpAndSettle();
+    expect(find.text('home'), findsOneWidget);
   });
 }
