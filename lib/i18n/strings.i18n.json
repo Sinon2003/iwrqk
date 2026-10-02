@@ -497,13 +497,9 @@
       "invalid_captcha": "Invalid captcha."
     },
     "network": {
-      "offline": "The network or proxy is not working: other sites cannot be reached either. Check your network or switch proxy nodes, then try again ($cause)",
-      "site_unreachable": "Iwara cannot be reached, though other sites can. Iwara may be down, or the current proxy node cannot reach it; try again later or switch nodes ($cause)",
+      "offline": "The network or proxy is not working. Check your network or switch proxy nodes, then try again.",
       "server": "Iwara's server reported an error (HTTP $status). Try again later",
-      "cause_handshake": "TLS handshake failed",
-      "cause_lookup": "address lookup failed",
-      "cause_connection": "connection failed",
-      "cause_timeout": "timed out"
+      "invalid_response": "Iwara returned an invalid login response. Please try again."
     }
   }
 }

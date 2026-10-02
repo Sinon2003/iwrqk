@@ -5,6 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:iwrqk/app/data/providers/network/network_failure.dart';
+import 'package:iwrqk/i18n/strings.g.dart';
 
 DioException dioException(DioExceptionType type, {Object? error, int? status}) {
   final options = RequestOptions(path: '/videos');
@@ -95,34 +96,21 @@ void main() {
   });
 
   group('describe', () {
-    setUp(NetworkFailure.forgetProbe);
-
-    test('blames the network or proxy when other sites fail too', () async {
-      NetworkFailure.probeOthers = () async => false;
+    test('describes the failed request without probing other sites', () async {
       final failure = await NetworkFailure.describe(cutHandshake);
-      expect(failure!.message, contains('network or proxy is not working'));
-      expect(failure.message, contains('TLS handshake failed'));
+      expect(failure!.message, t.error.network.offline);
     });
 
-    test('says only Iwara is out of reach when other sites answer', () async {
-      NetworkFailure.probeOthers = () async => true;
-      final failure = await NetworkFailure.describe(cutHandshake);
-      expect(failure!.message, contains('Iwara cannot be reached'));
-    });
-
-    test('asks other sites once for a burst of failures', () async {
-      var probes = 0;
-      NetworkFailure.probeOthers = () async {
-        probes++;
-        return false;
-      };
-      await NetworkFailure.describe(cutHandshake);
-      await NetworkFailure.describe(TimeoutException('too slow'));
-      expect(probes, 1);
+    test('uses the requested concise Chinese message for timeouts', () async {
+      await LocaleSettings.setLocale(AppLocale.zhCn);
+      addTearDown(() => LocaleSettings.setLocale(AppLocale.en));
+      final failure = await NetworkFailure.describe(
+        TimeoutException('too slow'),
+      );
+      expect(failure!.message, '网络或代理不通。请检查网络，或更换代理节点后重试。');
     });
 
     test('reports a server error with its status, without probing', () async {
-      NetworkFailure.probeOthers = () async => fail('should not probe');
       final failure = await NetworkFailure.describe(
         dioException(DioExceptionType.badResponse, status: 502),
       );

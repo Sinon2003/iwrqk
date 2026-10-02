@@ -1,8 +1,7 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart' show FormData, MultipartFile;
-import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+import 'package:iwrqk/i18n/strings.g.dart';
 import 'package:iwrqk/app/const/iwara.dart';
 import 'package:iwrqk/app/data/providers/storage_provider.dart';
 
@@ -29,56 +28,24 @@ import '../models/rule.dart';
 import '../models/tag.dart';
 import '../models/user.dart';
 import '../../utils/log_util.dart';
+import 'network/auth_client.dart';
 import 'network/network_failure.dart';
 import 'network/network_provider.dart';
 
 class ApiProvider {
   static NetworkProvider networkProvider = NetworkProvider();
 
-  static Future<ApiResult<String>> login(String email, String password) async {
-    String? message;
-    String? token;
-    // await networkProvider.post(
-    //   "/user/login",
-    //   data: {
-    //     "email": email,
-    //     "password": password,
-    //   },
-    // ).then((value) {
-    //   if (value.data["message"] != null) {
-    //     message = value.data["message"];
-    //   } else {
-    //     token = value.data["token"];
-    //   }
-    // }).catchError((e, stackTrace) {
-    //   debugPrint("Login error: $e $stackTrace");
-    //   message = e.toString();
-    // });
-
-    //TODO: I don't know why it works (dio -> fail, http -> success)
-    final url = "https://${IwaraConst.apiHost}/user/login";
-    try {
-      final res = await http.post(
-        Uri.parse(url),
-        body: json.encode({"email": email, "password": password}),
-        headers: {"Content-Type": "application/json"},
-      );
-      if (res.statusCode == 200) {
-        final data = json.decode(res.body);
-        if (data["message"] != null) {
-          message = data["message"];
-        } else {
-          token = data["token"];
-        }
-      } else {
-        message = "Login failed with status code: ${res.statusCode}";
-      }
-    } catch (e, stackTrace) {
-      debugPrint("Login error: $e $stackTrace");
-      message = (await NetworkFailure.describe(e))?.message ?? e.toString();
-    }
-    return ApiResult(data: token, success: message == null, message: message);
-  }
+  static Future<ApiResult<String>> login(
+    String email,
+    String password, {
+    AuthClient? client,
+  }) => _authRequest(
+    "/user/login",
+    "token",
+    client: client,
+    body: json.encode({"email": email, "password": password}),
+    headers: {"Content-Type": "application/json"},
+  );
 
   static Future<ApiResult<void>> register(
     String captchaId,
@@ -110,54 +77,92 @@ class ApiProvider {
     return ApiResult(data: null, success: success, message: message);
   }
 
-  static Future<ApiResult<String>> getAccessToken() async {
-    String? message;
-    String? accessToken;
-    // await networkProvider.post("/user/token").then((value) {
-    //   if (value.data["message"] != null) {
-    //     throw value.data["message"];
-    //   } else {
-    //     accessToken = value.data["accessToken"];
-    //   }
-    // }).catchError((e, stackTrace) {
-    //   message = e.toString();
-    // });
-
-    //TODO: I don't know why it works
-    final String? token = await StorageProvider.userToken.get();
-    if (token == null || token.isEmpty) {
+  static Future<ApiResult<String>> getAccessToken({
+    String? token,
+    AuthClient? client,
+  }) async {
+    final userToken = token ?? await StorageProvider.userToken.get();
+    if (userToken == null || userToken.isEmpty) {
       return ApiResult(
         data: null,
         success: false,
-        message: "No user token found",
+        message: t.account.require_login,
       );
     }
-
-    try {
-      final response = await http.post(
-        Uri.parse("https://${IwaraConst.apiHost}/user/token"),
-        headers: {"Authorization": "Bearer $token"},
-      );
-      if (response.statusCode == 200) {
-        final data = json.decode(response.body);
-        if (data["message"] != null) {
-          message = data["message"];
-        } else {
-          accessToken = data["accessToken"];
-        }
-      } else {
-        message =
-            "Failed to get access token with status code: ${response.statusCode}";
-      }
-    } catch (e, stackTrace) {
-      debugPrint("Get access token error: $e $stackTrace");
-      message = (await NetworkFailure.describe(e))?.message ?? e.toString();
-    }
-    return ApiResult(
-      data: accessToken,
-      success: message == null,
-      message: message,
+    return _authRequest(
+      "/user/token",
+      "accessToken",
+      client: client,
+      headers: {"Authorization": "Bearer $userToken"},
     );
+  }
+
+  // Keep authentication on http: it has a separate compatibility path from Dio.
+  static Future<ApiResult<String>> _authRequest(
+    String path,
+    String tokenKey, {
+    AuthClient? client,
+    Map<String, String>? headers,
+    Object? body,
+  }) async {
+    final connection = client ?? AuthClient();
+    final watch = Stopwatch()..start();
+    LogUtil.debug("Authentication $path started");
+    try {
+      final response = await connection.post(
+        Uri.parse("https://${IwaraConst.apiHost}$path"),
+        headers: headers,
+        body: body,
+      );
+      if (response.statusCode >= 500) {
+        return ApiResult(
+          data: null,
+          success: false,
+          message: t.error.network.server(status: response.statusCode),
+        );
+      }
+      Map? data;
+      try {
+        final decoded = json.decode(response.body);
+        if (decoded is Map) data = decoded;
+      } on FormatException {
+        // HTML challenges and empty responses are not successful logins.
+      }
+      final message = data?["message"];
+      final token = data?[tokenKey];
+      if (message is String && message.isNotEmpty) {
+        return ApiResult(data: null, success: false, message: message);
+      }
+      if (response.statusCode == 200 && token is String && token.isNotEmpty) {
+        return ApiResult(data: token, success: true);
+      }
+      return ApiResult(
+        data: null,
+        success: false,
+        message: response.statusCode == 200
+            ? t.error.network.invalid_response
+            : t.error.network.server(status: response.statusCode),
+      );
+    } catch (e, stackTrace) {
+      // Never log response bodies, submitted credentials or authorization headers.
+      LogUtil.warning(
+        "Authentication $path failed (${e.runtimeType})",
+        null,
+        stackTrace,
+      );
+      return ApiResult(
+        data: null,
+        success: false,
+        message:
+            (await NetworkFailure.describe(e))?.message ??
+            t.error.network.invalid_response,
+      );
+    } finally {
+      if (client == null) connection.close();
+      LogUtil.debug(
+        "Authentication $path finished in ${watch.elapsedMilliseconds} ms",
+      );
+    }
   }
 
   static Future<ApiResult<List<RuleModel>>> getRules() async {

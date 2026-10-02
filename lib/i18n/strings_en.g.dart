@@ -1727,26 +1727,14 @@ class Translations$error$network$en {
 
 	// Translations
 
-	/// en: 'The network or proxy is not working: other sites cannot be reached either. Check your network or switch proxy nodes, then try again ($cause)'
-	String offline({required Object cause}) => 'The network or proxy is not working: other sites cannot be reached either. Check your network or switch proxy nodes, then try again (${cause})';
-
-	/// en: 'Iwara cannot be reached, though other sites can. Iwara may be down, or the current proxy node cannot reach it; try again later or switch nodes ($cause)'
-	String site_unreachable({required Object cause}) => 'Iwara cannot be reached, though other sites can. Iwara may be down, or the current proxy node cannot reach it; try again later or switch nodes (${cause})';
+	/// en: 'The network or proxy is not working. Check your network or switch proxy nodes, then try again.'
+	String get offline => 'The network or proxy is not working. Check your network or switch proxy nodes, then try again.';
 
 	/// en: 'Iwara's server reported an error (HTTP $status). Try again later'
 	String server({required Object status}) => 'Iwara\'s server reported an error (HTTP ${status}). Try again later';
 
-	/// en: 'TLS handshake failed'
-	String get cause_handshake => 'TLS handshake failed';
-
-	/// en: 'address lookup failed'
-	String get cause_lookup => 'address lookup failed';
-
-	/// en: 'connection failed'
-	String get cause_connection => 'connection failed';
-
-	/// en: 'timed out'
-	String get cause_timeout => 'timed out';
+	/// en: 'Iwara returned an invalid login response. Please try again.'
+	String get invalid_response => 'Iwara returned an invalid login response. Please try again.';
 }
 
 /// The flat map containing all translations for locale <en>.
@@ -2159,13 +2147,9 @@ extension on Translations {
 			'error.account.invalid_login' => 'Invalid email or password.',
 			'error.account.invalid_host' => 'Invalid host.',
 			'error.account.invalid_captcha' => 'Invalid captcha.',
-			'error.network.offline' => ({required Object cause}) => 'The network or proxy is not working: other sites cannot be reached either. Check your network or switch proxy nodes, then try again (${cause})',
-			'error.network.site_unreachable' => ({required Object cause}) => 'Iwara cannot be reached, though other sites can. Iwara may be down, or the current proxy node cannot reach it; try again later or switch nodes (${cause})',
+			'error.network.offline' => 'The network or proxy is not working. Check your network or switch proxy nodes, then try again.',
 			'error.network.server' => ({required Object status}) => 'Iwara\'s server reported an error (HTTP ${status}). Try again later',
-			'error.network.cause_handshake' => 'TLS handshake failed',
-			'error.network.cause_lookup' => 'address lookup failed',
-			'error.network.cause_connection' => 'connection failed',
-			'error.network.cause_timeout' => 'timed out',
+			'error.network.invalid_response' => 'Iwara returned an invalid login response. Please try again.',
 			_ => null,
 		};
 	}

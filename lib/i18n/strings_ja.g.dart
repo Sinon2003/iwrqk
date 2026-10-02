@@ -917,13 +917,9 @@ class _Translations$error$network$ja extends Translations$error$network$en {
 	final TranslationsJa _root; // ignore: unused_field
 
 	// Translations
-	@override String offline({required Object cause}) => 'ネットワークまたはプロキシに接続できません。他のサイトにもつながりません。ネットワークを確認するか、プロキシのノードを切り替えてから再試行してください（${cause}）';
-	@override String site_unreachable({required Object cause}) => 'Iwara に接続できませんが、他のサイトにはつながります。Iwara の障害か、現在のプロキシのノードから Iwara に届かない可能性があります。しばらくしてから再試行するか、ノードを切り替えてください（${cause}）';
+	@override String get offline => 'ネットワークまたはプロキシに接続できません。ネットワークを確認するか、プロキシのノードを切り替えてから再試行してください。';
 	@override String server({required Object status}) => 'Iwara のサーバーでエラーが発生しました（HTTP ${status}）。しばらくしてから再試行してください';
-	@override String get cause_handshake => 'TLS ハンドシェイク失敗';
-	@override String get cause_lookup => '名前解決の失敗';
-	@override String get cause_connection => '接続失敗';
-	@override String get cause_timeout => 'タイムアウト';
+	@override String get invalid_response => 'Iwara から無効なログイン応答が返されました。再試行してください。';
 }
 
 /// The flat map containing all translations for locale <ja>.
@@ -1332,13 +1328,9 @@ extension on TranslationsJa {
 			'error.account.invalid_login' => '無効なメールアドレスまたはパスワード',
 			'error.account.invalid_host' => '無効なホスト名',
 			'error.account.invalid_captcha' => '無効なキャプチャ',
-			'error.network.offline' => ({required Object cause}) => 'ネットワークまたはプロキシに接続できません。他のサイトにもつながりません。ネットワークを確認するか、プロキシのノードを切り替えてから再試行してください（${cause}）',
-			'error.network.site_unreachable' => ({required Object cause}) => 'Iwara に接続できませんが、他のサイトにはつながります。Iwara の障害か、現在のプロキシのノードから Iwara に届かない可能性があります。しばらくしてから再試行するか、ノードを切り替えてください（${cause}）',
+			'error.network.offline' => 'ネットワークまたはプロキシに接続できません。ネットワークを確認するか、プロキシのノードを切り替えてから再試行してください。',
 			'error.network.server' => ({required Object status}) => 'Iwara のサーバーでエラーが発生しました（HTTP ${status}）。しばらくしてから再試行してください',
-			'error.network.cause_handshake' => 'TLS ハンドシェイク失敗',
-			'error.network.cause_lookup' => '名前解決の失敗',
-			'error.network.cause_connection' => '接続失敗',
-			'error.network.cause_timeout' => 'タイムアウト',
+			'error.network.invalid_response' => 'Iwara から無効なログイン応答が返されました。再試行してください。',
 			_ => null,
 		};
 	}

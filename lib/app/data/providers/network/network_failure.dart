@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:iwrqk/i18n/strings.g.dart';
 
@@ -12,10 +11,8 @@ enum NetworkFailureCause { handshake, addressLookup, connection, timeout }
 /// A request that failed for network reasons, worded for the person using
 /// the app instead of as an exception.
 ///
-/// The message says whether the network or proxy is down or only Iwara is
-/// out of reach, which calls for different fixes, and ends with the
-/// technical cause. Most people reach the site through a proxy, where a
-/// failing node shows up as a TLS handshake cut short.
+/// A failed request cannot determine whether other sites or a replacement VPN
+/// node work. Describe that request without additional probes or cached verdicts.
 class NetworkFailure implements Exception {
   const NetworkFailure(this.message);
 
@@ -33,19 +30,8 @@ class NetworkFailure implements Exception {
       return NetworkFailure(t.error.network.server(status: status));
     }
 
-    final cause = causeOf(error);
-    if (cause == null) return null;
-    final causeName = switch (cause) {
-      NetworkFailureCause.handshake => t.error.network.cause_handshake,
-      NetworkFailureCause.addressLookup => t.error.network.cause_lookup,
-      NetworkFailureCause.connection => t.error.network.cause_connection,
-      NetworkFailureCause.timeout => t.error.network.cause_timeout,
-    };
-    return NetworkFailure(
-      await othersReachable()
-          ? t.error.network.site_unreachable(cause: causeName)
-          : t.error.network.offline(cause: causeName),
-    );
+    if (causeOf(error) == null) return null;
+    return NetworkFailure(t.error.network.offline);
   }
 
   /// Classifies [error]; null when it is not a network failure.
@@ -93,50 +79,5 @@ class NetworkFailure implements Exception {
       return NetworkFailureCause.connection;
     }
     return null;
-  }
-
-  /// Asks an unrelated site for a tiny answer.
-  @visibleForTesting
-  static Future<bool> Function() probeOthers = _probeOthers;
-
-  static Future<bool>? _probe;
-  static DateTime? _probedAt;
-
-  @visibleForTesting
-  static void forgetProbe() {
-    _probe = null;
-    _probedAt = null;
-  }
-
-  /// Whether an unrelated site answers, which tells a dead network or proxy
-  /// from Iwara alone being out of reach. Failures come in bursts, so one
-  /// answer serves the next half minute.
-  static Future<bool> othersReachable() {
-    final probedAt = _probedAt;
-    final probe = _probe;
-    if (probe != null &&
-        probedAt != null &&
-        DateTime.now().difference(probedAt) < const Duration(seconds: 30)) {
-      return probe;
-    }
-    _probedAt = DateTime.now();
-    return _probe = probeOthers();
-  }
-
-  static Future<bool> _probeOthers() async {
-    const timeout = Duration(seconds: 4);
-    final client = HttpClient()..connectionTimeout = timeout;
-    try {
-      final request = await client.getUrl(
-        Uri.parse("https://www.gstatic.com/generate_204"),
-      );
-      final response = await request.close().timeout(timeout);
-      await response.drain<void>();
-      return true;
-    } catch (_) {
-      return false;
-    } finally {
-      client.close(force: true);
-    }
   }
 }

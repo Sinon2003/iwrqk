@@ -14,6 +14,7 @@ class LoginController extends GetxController {
   final TextEditingController passwordController = TextEditingController();
   String? account;
   String? password;
+  bool _submitting = false;
 
   final RxBool _passwordVisibility = false.obs;
 
@@ -25,7 +26,7 @@ class LoginController extends GetxController {
   void onInit() {
     super.onInit();
     StorageProvider.savedUserAccountPassword.get().then((value) {
-      if (value != null) {
+      if (!isClosed && value != null) {
         accountController.text = value["account"];
         passwordController.text = value["password"];
       }
@@ -36,36 +37,48 @@ class LoginController extends GetxController {
     _passwordVisibility.value = !_passwordVisibility.value;
   }
 
-  void login(BuildContext context) {
+  Future<void> login(BuildContext context) async {
+    if (_submitting || isClosed) return;
     if (!formKey.currentState!.validate()) return;
     formKey.currentState!.save();
+    final submittedAccount = account!;
+    final submittedPassword = password!;
+    _submitting = true;
 
-    Get.dialog(
-      LoadingDialog(
-        task: () async {
-          await _accountService
-              .login(account: account!, password: password!)
-              .then((value) {
-                if (!value.success) {
-                  throw DisplayUtil.getErrorMessage(value.message!);
-                }
-              });
-        },
-        onSuccess: () {
-          Get.offNamedUntil(AppRoutes.splash, (route) => false);
-          StorageProvider.savedUserAccountPassword.set({
-            "account": account,
-            "password": password,
-          });
-        },
-        successMessage: t.message.account.login_success,
-      ),
-      barrierDismissible: false,
-    );
+    try {
+      await Get.dialog(
+        LoadingDialog(
+          task: () async {
+            await _accountService
+                .login(account: submittedAccount, password: submittedPassword)
+                .then((value) {
+                  if (!value.success) {
+                    throw DisplayUtil.getErrorMessage(value.message!);
+                  }
+                });
+          },
+          onCancel: _accountService.cancelLogin,
+          onSuccess: () {
+            Get.offNamedUntil(AppRoutes.splash, (route) => false);
+            StorageProvider.savedUserAccountPassword.set({
+              "account": submittedAccount,
+              "password": submittedPassword,
+            });
+          },
+          successMessage: t.message.account.login_success,
+        ),
+        barrierDismissible: false,
+      );
+    } finally {
+      _submitting = false;
+    }
   }
 
   @override
   void onClose() {
+    _accountService.cancelLogin();
+    accountController.dispose();
+    passwordController.dispose();
     super.onClose();
     if (!_accountService.isLogin) {
       cancel();

@@ -917,13 +917,9 @@ class Translations$error$network$zh_TW extends Translations$error$network$en {
 	final TranslationsZhTw _root; // ignore: unused_field
 
 	// Translations
-	@override String offline({required Object cause}) => '網路或代理不通，其他網站也連不上。請檢查網路，或更換代理節點後重試（${cause}）';
-	@override String site_unreachable({required Object cause}) => '連不上 Iwara，但其他網站正常。可能是 Iwara 暫時故障，或目前的代理節點無法存取 Iwara，請稍後重試或更換節點（${cause}）';
+	@override String get offline => '網路或代理不通。請檢查網路，或更換代理節點後重試。';
 	@override String server({required Object status}) => 'Iwara 伺服器出錯（HTTP ${status}），請稍後重試';
-	@override String get cause_handshake => 'TLS 交握失敗';
-	@override String get cause_lookup => '網域解析失敗';
-	@override String get cause_connection => '連線失敗';
-	@override String get cause_timeout => '連線逾時';
+	@override String get invalid_response => 'Iwara 傳回無效的登入回應，請重試。';
 }
 
 /// The flat map containing all translations for locale <zh-TW>.
@@ -1332,13 +1328,9 @@ extension on TranslationsZhTw {
 			'error.account.invalid_login' => '郵箱或密碼錯誤',
 			'error.account.invalid_host' => '無效的主機名',
 			'error.account.invalid_captcha' => '驗證碼錯誤',
-			'error.network.offline' => ({required Object cause}) => '網路或代理不通，其他網站也連不上。請檢查網路，或更換代理節點後重試（${cause}）',
-			'error.network.site_unreachable' => ({required Object cause}) => '連不上 Iwara，但其他網站正常。可能是 Iwara 暫時故障，或目前的代理節點無法存取 Iwara，請稍後重試或更換節點（${cause}）',
+			'error.network.offline' => '網路或代理不通。請檢查網路，或更換代理節點後重試。',
 			'error.network.server' => ({required Object status}) => 'Iwara 伺服器出錯（HTTP ${status}），請稍後重試',
-			'error.network.cause_handshake' => 'TLS 交握失敗',
-			'error.network.cause_lookup' => '網域解析失敗',
-			'error.network.cause_connection' => '連線失敗',
-			'error.network.cause_timeout' => '連線逾時',
+			'error.network.invalid_response' => 'Iwara 傳回無效的登入回應，請重試。',
 			_ => null,
 		};
 	}

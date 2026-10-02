@@ -1,19 +1,23 @@
+import 'dart:async';
+
 import 'package:get/get.dart';
 
 class LoadingDialogController extends GetxController with StateMixin {
-  late Function() _task;
+  bool _started = false;
 
-  void init(Function() task) {
-    _task = task;
-    _runTask();
+  void init(FutureOr<void> Function() task) {
+    if (_started || isClosed) return;
+    _started = true;
+    change(null, status: RxStatus.loading());
+    _runTask(task);
   }
 
-  Future<void> _runTask() async {
+  Future<void> _runTask(FutureOr<void> Function() task) async {
     try {
-      await _task();
-      change(null, status: RxStatus.success());
+      await task();
+      if (!isClosed) change(null, status: RxStatus.success());
     } catch (e) {
-      change(null, status: RxStatus.error(e.toString()));
+      if (!isClosed) change(null, status: RxStatus.error(e.toString()));
     }
   }
 }

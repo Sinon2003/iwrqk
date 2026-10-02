@@ -6,9 +6,16 @@ import 'package:iwrqk/i18n/strings.g.dart';
 
 import '../enums/result.dart';
 import '../providers/api_provider.dart';
+import '../providers/network/auth_client.dart';
 import '../providers/storage_provider.dart';
 
 class AccountService extends GetxService {
+  AccountService({AuthClient Function()? createAuthClient})
+    : _createAuthClient = createAuthClient ?? AuthClient.new;
+
+  final AuthClient Function() _createAuthClient;
+  AuthClient? _loginClient;
+  int _loginAttempt = 0;
   String? token;
   String? accessToken;
 
@@ -21,6 +28,7 @@ class AccountService extends GetxService {
   }
 
   void reset() {
+    cancelLogin();
     token = null;
     accessToken = null;
     isLogin = false;
@@ -48,24 +56,26 @@ class AccountService extends GetxService {
     }
   }
 
-  Future<ApiResult<void>> _login(String account, String password) async {
-    ApiResult<dynamic> results = await ApiProvider.login(account, password);
-
-    if (results.success) {
-      token = results.data;
-      await StorageProvider.userToken.set(token!);
-    }
-
-    return ApiResult(
-      data: null,
-      success: results.success,
-      message: results.message,
-    );
-  }
-
   Future<ApiResult<void>> getAccessToken() async {
-    ApiResult<dynamic> results = await ApiProvider.getAccessToken();
+    final currentToken = token;
+    if (currentToken == null) {
+      return ApiResult(
+        data: null,
+        success: false,
+        message: t.account.require_login,
+      );
+    }
+    ApiResult<dynamic> results = await ApiProvider.getAccessToken(
+      token: currentToken,
+    );
 
+    if (currentToken != token) {
+      return ApiResult(
+        data: null,
+        success: false,
+        message: t.account.require_login,
+      );
+    }
     if (results.success) {
       accessToken = results.data;
     }
@@ -86,17 +96,52 @@ class AccountService extends GetxService {
     required String account,
     required String password,
   }) async {
-    ApiResult<void> results = await _login(account, password);
-
-    if (results.success) {
-      results = await getAccessToken();
-    }
-
-    if (results.success) {
+    cancelLogin();
+    final attempt = _loginAttempt;
+    final client = _loginClient = _createAuthClient();
+    try {
+      final login = await ApiProvider.login(account, password, client: client);
+      if (!login.success) {
+        return ApiResult(data: null, success: false, message: login.message);
+      }
+      final access = await ApiProvider.getAccessToken(
+        token: login.data,
+        client: client,
+      );
+      if (!access.success) {
+        return ApiResult(data: null, success: false, message: access.message);
+      }
+      if (attempt != _loginAttempt) {
+        return ApiResult(
+          data: null,
+          success: false,
+          message: t.error.network.offline,
+        );
+      }
+      // Publish the session only after both requests succeed. A timeout in the
+      // token exchange must not leave a half-saved account for the next retry.
+      await StorageProvider.userToken.set(login.data!);
+      if (attempt != _loginAttempt) {
+        return ApiResult(
+          data: null,
+          success: false,
+          message: t.error.network.offline,
+        );
+      }
+      token = login.data;
+      accessToken = access.data;
       isLogin = true;
+      return ApiResult(data: null, success: true);
+    } finally {
+      client.close();
+      if (identical(_loginClient, client)) _loginClient = null;
     }
+  }
 
-    return results;
+  void cancelLogin() {
+    _loginAttempt++;
+    _loginClient?.close();
+    _loginClient = null;
   }
 
   Future<bool> canLoginFromCache() async {

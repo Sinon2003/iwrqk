@@ -1,7 +1,6 @@
 import 'package:get/get.dart';
 
 import 'app/components/dialogs/edit_playlis_dialog/controller.dart';
-import 'app/components/dialogs/loading_dialog/controller.dart';
 import 'app/components/edit_comment_bottom_sheet/controller.dart';
 import 'app/data/services/account_service.dart';
 import 'app/data/services/config_service.dart';
@@ -24,7 +23,6 @@ void initGetx() {
   Get.put(UserService());
   Get.put(UpdateService());
 
-  Get.create(() => LoadingDialogController());
   Get.create(() => FilterController());
   Get.create(() => CreateVideoDownloadDialogController());
   Get.create(() => EditPlaylistDialogController());
