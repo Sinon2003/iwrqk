@@ -72,7 +72,9 @@
     "security": "アカウントのセキュリティ",
     "manage_on_web": "メールアドレス・パスワードの変更、アカウント削除",
     "manage_on_web_desc": "Iwara のウェブサイトで行います",
-    "blocked_users": "ブロックしたユーザー"
+    "blocked_users": "ブロックしたユーザー",
+    "saved": "保存しました",
+    "description_hint": "自己紹介を書いてみましょう"
   },
   "notification_list": {
     "title": "通知",

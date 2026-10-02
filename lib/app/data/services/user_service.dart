@@ -706,7 +706,8 @@ class UserService extends GetxService {
   }
 
   /// Applies an account or profile change, then reloads the user so every
-  /// page shows the new values.
+  /// page shows the new values. It counts as done once the change has been
+  /// read back from the site; a toast says what went wrong otherwise.
   Future<bool> _updateAccount(Future<ApiResult<void>> Function() update) async {
     if (!accountService.isLogin || user == null) {
       SmartDialog.showToast(t.account.require_login);
@@ -717,8 +718,7 @@ class UserService extends GetxService {
       SmartDialog.showToast(DisplayUtil.getErrorMessage(result.message!));
       return false;
     }
-    await getUser();
-    return true;
+    return getUser();
   }
 
   Future<bool> updateName(String name) {

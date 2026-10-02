@@ -73,22 +73,36 @@ class AccountSettingsPage extends GetView<AccountSettingsController> {
     required String title,
     required String initialValue,
     required void Function(String) onSave,
+    String? hint,
     bool multiline = false,
   }) async {
     final textController = TextEditingController(text: initialValue);
     final value = await Get.dialog<String>(
       AlertDialog(
         title: Text(title),
+        // Scrolls, so the keyboard does not push the buttons out of reach.
+        scrollable: true,
+        insetPadding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
         content: SizedBox(
           width: Get.width * 0.8,
           child: TextField(
             controller: textController,
             autofocus: true,
-            minLines: multiline ? 5 : 1,
-            maxLines: multiline ? 12 : 1,
+            minLines: multiline ? 6 : 1,
+            maxLines: multiline ? 10 : 1,
             keyboardType: multiline
                 ? TextInputType.multiline
                 : TextInputType.text,
+            textCapitalization: TextCapitalization.sentences,
+            decoration: InputDecoration(
+              hintText: hint,
+              // A box shows where the text goes; a bare underline several
+              // lines down does not.
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+              contentPadding: const EdgeInsets.all(14),
+            ),
           ),
         ),
         actions: [
@@ -152,6 +166,7 @@ class AccountSettingsPage extends GetView<AccountSettingsController> {
           title: t.profile.description,
           initialValue: controller.description,
           onSave: controller.changeDescription,
+          hint: t.account_settings.description_hint,
           multiline: true,
         ),
       ),

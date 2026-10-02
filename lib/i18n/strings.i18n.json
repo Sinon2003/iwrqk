@@ -78,7 +78,9 @@
     "security": "Account security",
     "manage_on_web": "Change email or password, or delete the account",
     "manage_on_web_desc": "Opens the Iwara website",
-    "blocked_users": "Blocked users"
+    "blocked_users": "Blocked users",
+    "saved": "Saved",
+    "description_hint": "Say something about yourself"
   },
   "notification_list": {
     "title": "Notifications",

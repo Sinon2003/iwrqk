@@ -54,11 +54,20 @@ class AccountSettingsController extends GetxController with StateMixin {
   }
 
   /// Shows the change at once, like the app's own settings, and saves it in
-  /// the background. When saving fails, the service says why and the page
-  /// goes back to what the site has.
-  Future<void> _save(void Function() show, Future<bool> Function() save) async {
+  /// the background. When saving fails, the service says why. Either way the
+  /// page ends up showing what was last read from the site.
+  ///
+  /// A switch shows by itself that it took; text does not, so [confirm] says
+  /// so once the change has been read back.
+  Future<void> _save(
+    void Function() show,
+    Future<bool> Function() save, {
+    bool confirm = false,
+  }) async {
     show();
-    if (!await save()) _syncFromService();
+    final saved = await save();
+    _syncFromService();
+    if (saved && confirm) SmartDialog.showToast(t.account_settings.saved);
   }
 
   /// Uploads take a while, so they keep a loading dialog.
@@ -92,6 +101,7 @@ class AccountSettingsController extends GetxController with StateMixin {
     await _save(
       () => _name.value = newName,
       () => _userService.updateName(newName),
+      confirm: true,
     );
   }
 
@@ -100,6 +110,7 @@ class AccountSettingsController extends GetxController with StateMixin {
     await _save(
       () => _description.value = value,
       () => _userService.updateDescription(value),
+      confirm: true,
     );
   }
 

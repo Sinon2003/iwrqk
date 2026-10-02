@@ -327,6 +327,12 @@ class Translations$account_settings$en {
 
 	/// en: 'Blocked users'
 	String get blocked_users => 'Blocked users';
+
+	/// en: 'Saved'
+	String get saved => 'Saved';
+
+	/// en: 'Say something about yourself'
+	String get description_hint => 'Say something about yourself';
 }
 
 // Path: notification_list
@@ -1816,6 +1822,8 @@ extension on Translations {
 			'account_settings.manage_on_web' => 'Change email or password, or delete the account',
 			'account_settings.manage_on_web_desc' => 'Opens the Iwara website',
 			'account_settings.blocked_users' => 'Blocked users',
+			'account_settings.saved' => 'Saved',
+			'account_settings.description_hint' => 'Say something about yourself',
 			'notification_list.title' => 'Notifications',
 			'notification_list.mark_read' => 'Mark as read',
 			'notification_list.mark_all_read' => 'Mark all as read',
