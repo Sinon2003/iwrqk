@@ -225,6 +225,12 @@ class Translations$records$en {
 
 	/// en: 'Remove every video from this playlist?'
 	String get delete_all_playlist_confirm => 'Remove every video from this playlist?';
+
+	/// en: 'What your account watched, on every device'
+	String get cloud_history_desc => 'What your account watched, on every device';
+
+	/// en: 'What was watched on this device; can be searched and deleted'
+	String get local_history_desc => 'What was watched on this device; can be searched and deleted';
 }
 
 // Path: account
@@ -1764,6 +1770,8 @@ extension on Translations {
 			'records.delete_all_history_confirm' => 'Clear this device\'s history?',
 			'records.delete_all_favorites_confirm' => 'Remove everything in this list from your favorites?',
 			'records.delete_all_playlist_confirm' => 'Remove every video from this playlist?',
+			'records.cloud_history_desc' => 'What your account watched, on every device',
+			'records.local_history_desc' => 'What was watched on this device; can be searched and deleted',
 			'account.captcha' => 'Captcha',
 			'account.login' => 'Login',
 			'account.logout' => 'Logout',

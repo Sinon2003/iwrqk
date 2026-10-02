@@ -13,21 +13,74 @@ import 'widgets/site_history_list/widget.dart';
 class HistoryPage extends GetView<HistoryController> {
   const HistoryPage({super.key});
 
-  Widget _buildSourceTabBar(BuildContext context) {
-    return Container(
-      padding: MediaQuery.of(context).padding.copyWith(top: 0, bottom: 0),
-      child: TabBar(
-        controller: controller.sourceController,
-        tabs: [
-          Tab(
-            icon: const Icon(Icons.cloud_outlined),
-            text: t.records.cloud_history,
+  /// A chip next to the title that says whose history is showing and opens
+  /// the choice between the two. It takes a fraction of the room a row of
+  /// tabs did, and the menu has space to say what each one is.
+  Widget _buildSourceMenu(BuildContext context) {
+    final theme = Theme.of(context);
+    final sources = [
+      (
+        index: HistoryController.cloudTab,
+        icon: Icons.cloud_outlined,
+        label: t.records.cloud_history,
+        description: t.records.cloud_history_desc,
+      ),
+      (
+        index: HistoryController.localTab,
+        icon: Icons.smartphone,
+        label: t.records.local_history,
+        description: t.records.local_history_desc,
+      ),
+    ];
+    final current = sources[controller.showingLocal ? 1 : 0];
+
+    return MenuAnchor(
+      menuChildren: [
+        for (final source in sources)
+          MenuItemButton(
+            leadingIcon: Icon(source.icon),
+            trailingIcon: Icon(
+              Icons.check,
+              color: source.index == current.index
+                  ? theme.colorScheme.primary
+                  : Colors.transparent,
+            ),
+            onPressed: () =>
+                controller.sourceController.animateTo(source.index),
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 260),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(source.label),
+                    Text(
+                      source.description,
+                      style: theme.textTheme.bodySmall?.copyWith(
+                        color: theme.colorScheme.outline,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
           ),
-          Tab(
-            icon: const Icon(Icons.smartphone),
-            text: t.records.local_history,
-          ),
-        ],
+      ],
+      builder: (context, menu, _) => ActionChip(
+        avatar: Icon(current.icon, size: 18),
+        label: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(current.label),
+            const Icon(Icons.arrow_drop_down, size: 18),
+          ],
+        ),
+        labelPadding: const EdgeInsets.only(left: 2),
+        visualDensity: VisualDensity.compact,
+        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+        onPressed: () => menu.isOpen ? menu.close() : menu.open(),
       ),
     );
   }
@@ -39,9 +92,10 @@ class HistoryPage extends GetView<HistoryController> {
   }) {
     return Container(
       padding: MediaQuery.of(context).padding.copyWith(top: 0, bottom: 0),
-      child: TabBar.secondary(
+      child: TabBar(
         controller: controller,
         isScrollable: true,
+        indicatorSize: TabBarIndicatorSize.label,
         dividerColor: Colors.transparent,
         tabAlignment: TabAlignment.center,
         splashBorderRadius: BorderRadius.circular(8),
@@ -111,7 +165,16 @@ class HistoryPage extends GetView<HistoryController> {
         appBar: AppBarSwitcher(
           visible: controller.enableMultipleSelection,
           primary: AppBar(
-            title: Text(t.user.history),
+            title: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Flexible(
+                  child: Text(t.user.history, overflow: TextOverflow.ellipsis),
+                ),
+                const SizedBox(width: 10),
+                _buildSourceMenu(context),
+              ],
+            ),
             // Searching and deleting only work on this device's history.
             actions: [
               if (controller.showingLocal) ...[
@@ -154,25 +217,18 @@ class HistoryPage extends GetView<HistoryController> {
             onDelete: controller.deleteChecked,
           ),
         ),
-        body: Column(
-          children: [
-            _buildSourceTabBar(context),
-            Expanded(
-              child: SafeArea(
-                top: false,
-                bottom: false,
-                child: TabBarView(
-                  controller: controller.sourceController,
-                  // Swipes switch the inner tabs; the source switches by tab.
-                  physics: const NeverScrollableScrollPhysics(),
-                  children: [
-                    _buildCloudHistory(context),
-                    _buildLocalHistory(context),
-                  ],
-                ),
-              ),
-            ),
-          ],
+        body: SafeArea(
+          top: false,
+          bottom: false,
+          child: TabBarView(
+            controller: controller.sourceController,
+            // Swipes switch the inner tabs; the source switches by its menu.
+            physics: const NeverScrollableScrollPhysics(),
+            children: [
+              _buildCloudHistory(context),
+              _buildLocalHistory(context),
+            ],
+          ),
         ),
       ),
     );

@@ -46,7 +46,9 @@
     "delete_selected_confirm": "Delete the selected items ($num)?",
     "delete_all_history_confirm": "Clear this device's history?",
     "delete_all_favorites_confirm": "Remove everything in this list from your favorites?",
-    "delete_all_playlist_confirm": "Remove every video from this playlist?"
+    "delete_all_playlist_confirm": "Remove every video from this playlist?",
+    "cloud_history_desc": "What your account watched, on every device",
+    "local_history_desc": "What was watched on this device; can be searched and deleted"
   },
   "account": {
     "captcha": "Captcha",

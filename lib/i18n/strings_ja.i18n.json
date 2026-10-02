@@ -40,7 +40,9 @@
     "delete_selected_confirm": "選択した $num 件を削除しますか？",
     "delete_all_history_confirm": "この端末の履歴をすべて削除しますか？",
     "delete_all_favorites_confirm": "このリストの内容をすべてお気に入りから外しますか？",
-    "delete_all_playlist_confirm": "このプレイリストからすべての動画を外しますか？"
+    "delete_all_playlist_confirm": "このプレイリストからすべての動画を外しますか？",
+    "cloud_history_desc": "アカウントがすべての端末で視聴した履歴",
+    "local_history_desc": "この端末で視聴した履歴。検索と削除ができます"
   },
   "account": {
     "captcha": "キャプチャ",

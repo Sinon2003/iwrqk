@@ -151,6 +151,8 @@ class _Translations$records$ja extends Translations$records$en {
 	@override String get delete_all_history_confirm => 'この端末の履歴をすべて削除しますか？';
 	@override String get delete_all_favorites_confirm => 'このリストの内容をすべてお気に入りから外しますか？';
 	@override String get delete_all_playlist_confirm => 'このプレイリストからすべての動画を外しますか？';
+	@override String get cloud_history_desc => 'アカウントがすべての端末で視聴した履歴';
+	@override String get local_history_desc => 'この端末で視聴した履歴。検索と削除ができます';
 }
 
 // Path: account
@@ -957,6 +959,8 @@ extension on TranslationsJa {
 			'records.delete_all_history_confirm' => 'この端末の履歴をすべて削除しますか？',
 			'records.delete_all_favorites_confirm' => 'このリストの内容をすべてお気に入りから外しますか？',
 			'records.delete_all_playlist_confirm' => 'このプレイリストからすべての動画を外しますか？',
+			'records.cloud_history_desc' => 'アカウントがすべての端末で視聴した履歴',
+			'records.local_history_desc' => 'この端末で視聴した履歴。検索と削除ができます',
 			'account.captcha' => 'キャプチャ',
 			'account.login' => 'ログイン',
 			'account.logout' => 'ログアウト',

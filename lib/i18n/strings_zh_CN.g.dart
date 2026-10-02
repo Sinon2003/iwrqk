@@ -151,6 +151,8 @@ class Translations$records$zh_CN extends Translations$records$en {
 	@override String get delete_all_history_confirm => '确定清空本机的历史记录吗？';
 	@override String get delete_all_favorites_confirm => '确定把这个列表里的内容全部取消收藏吗？';
 	@override String get delete_all_playlist_confirm => '确定移除这个播放列表里的全部视频吗？';
+	@override String get cloud_history_desc => '账号在所有设备上的观看记录';
+	@override String get local_history_desc => '这台设备上的观看记录，可搜索和删除';
 }
 
 // Path: account
@@ -957,6 +959,8 @@ extension on TranslationsZhCn {
 			'records.delete_all_history_confirm' => '确定清空本机的历史记录吗？',
 			'records.delete_all_favorites_confirm' => '确定把这个列表里的内容全部取消收藏吗？',
 			'records.delete_all_playlist_confirm' => '确定移除这个播放列表里的全部视频吗？',
+			'records.cloud_history_desc' => '账号在所有设备上的观看记录',
+			'records.local_history_desc' => '这台设备上的观看记录，可搜索和删除',
 			'account.captcha' => '验证码',
 			'account.login' => '登录',
 			'account.logout' => '登出',
