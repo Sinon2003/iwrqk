@@ -367,13 +367,9 @@ class Translations$player$zh_TW extends Translations$player$en {
 	final TranslationsZhTw _root; // ignore: unused_field
 
 	// Translations
-	@override String current_item({required Object item}) => '目前: ${item}';
 	@override String get quality => '畫質';
-	@override String get select_quality => '選擇畫質';
 	@override String get playback_speed => '播放速度';
-	@override String get select_playback_speed => '選擇播放速度';
 	@override String get aspect_ratio => '長寬比';
-	@override String get select_aspect_ratio => '選擇長寬比';
 	@override late final Translations$player$aspect_ratios$zh_TW aspect_ratios = Translations$player$aspect_ratios$zh_TW.internal(_root);
 	@override String seconds({required Object value}) => '${value} 秒';
 	@override String get double_speed => '2 倍';
@@ -1118,13 +1114,9 @@ extension on TranslationsZhTw {
 			'media.updated_at' => ({required Object time}) => '更新於 ${time}',
 			'media.detail' => '詳細',
 			'media.comments' => '評論',
-			'player.current_item' => ({required Object item}) => '目前: ${item}',
 			'player.quality' => '畫質',
-			'player.select_quality' => '選擇畫質',
 			'player.playback_speed' => '播放速度',
-			'player.select_playback_speed' => '選擇播放速度',
 			'player.aspect_ratio' => '長寬比',
-			'player.select_aspect_ratio' => '選擇長寬比',
 			'player.aspect_ratios.contain' => '包含',
 			'player.aspect_ratios.cover' => '覆蓋',
 			'player.aspect_ratios.fill' => '填滿',

@@ -673,26 +673,14 @@ class Translations$player$en {
 
 	// Translations
 
-	/// en: 'Current: $item'
-	String current_item({required Object item}) => 'Current: ${item}';
-
 	/// en: 'Quality'
 	String get quality => 'Quality';
-
-	/// en: 'Select quality'
-	String get select_quality => 'Select quality';
 
 	/// en: 'Playback speed'
 	String get playback_speed => 'Playback speed';
 
-	/// en: 'Select playback speed'
-	String get select_playback_speed => 'Select playback speed';
-
 	/// en: 'Aspect ratio'
 	String get aspect_ratio => 'Aspect ratio';
-
-	/// en: 'Select aspect ratio'
-	String get select_aspect_ratio => 'Select aspect ratio';
 
 	late final Translations$player$aspect_ratios$en aspect_ratios = Translations$player$aspect_ratios$en.internal(_root);
 
@@ -1993,13 +1981,9 @@ extension on Translations {
 			'media.updated_at' => ({required Object time}) => 'Updated at ${time}',
 			'media.detail' => 'Detail',
 			'media.comments' => 'Comments',
-			'player.current_item' => ({required Object item}) => 'Current: ${item}',
 			'player.quality' => 'Quality',
-			'player.select_quality' => 'Select quality',
 			'player.playback_speed' => 'Playback speed',
-			'player.select_playback_speed' => 'Select playback speed',
 			'player.aspect_ratio' => 'Aspect ratio',
-			'player.select_aspect_ratio' => 'Select aspect ratio',
 			'player.aspect_ratios.contain' => 'Contain',
 			'player.aspect_ratios.cover' => 'Cover',
 			'player.aspect_ratios.fill' => 'Fill',

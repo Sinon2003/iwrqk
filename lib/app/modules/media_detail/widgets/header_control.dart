@@ -6,8 +6,6 @@ import 'package:iwrqk/i18n/strings.g.dart';
 
 import '../../../components/plugin/pl_player/index.dart';
 import '../../../data/models/download_task.dart';
-import '../../../data/models/resolution.dart';
-import '../../../data/providers/storage_provider.dart';
 import '../../../routes/pages.dart';
 import '../controller.dart';
 
@@ -30,21 +28,9 @@ class HeaderControl extends StatefulWidget implements PreferredSizeWidget {
 }
 
 class _HeaderControlState extends State<HeaderControl> {
-  List<ResolutionModel> resolutions = [];
-  List<PlaySpeed> playSpeed = PlaySpeed.values;
-  static const TextStyle subTitleStyle = TextStyle(fontSize: 14);
   static const TextStyle titleStyle = TextStyle(fontSize: 16);
   Size get preferredSize => const Size(double.infinity, kToolbarHeight);
-  late List<double> speedsList;
   double buttonSpace = 8;
-  GStorageConfig setting = StorageProvider.config;
-
-  @override
-  void initState() {
-    super.initState();
-    resolutions = widget.videoDetailCtr!.resolutions;
-    speedsList = widget.controller!.speedsList;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -151,7 +137,7 @@ class _HeaderControlState extends State<HeaderControl> {
               () => SizedBox(
                 height: 34,
                 child: TextButton(
-                  onPressed: () => showSetSpeedSheet(),
+                  onPressed: () => showOptions(quality: false, fit: false),
                   child: Text('${controller.playbackSpeed}X', style: textStyle),
                 ),
               ),
@@ -162,7 +148,7 @@ class _HeaderControlState extends State<HeaderControl> {
               child: TextButton(
                 onPressed: widget.videoDetailCtr!.isOffline
                     ? null
-                    : () => showResolutionSheet(),
+                    : () => showOptions(speed: false, fit: false),
                 child: Text(
                   widget.videoDetailCtr!.isOffline
                       ? (widget.videoDetailCtr!.taskData as VideoDownloadTask)
@@ -178,274 +164,181 @@ class _HeaderControlState extends State<HeaderControl> {
           ],
           ComBtn(
             icon: const Icon(Icons.more_vert_outlined, color: Colors.white),
-            fuc: () => showSettingSheet(),
+            fuc: () => showOptions(),
           ),
         ],
       ),
     );
   }
 
-  /// 设置面板
-  void showSettingSheet() {
-    showModalBottomSheet(
-      elevation: 0,
+  /// Offers what can be changed while the video plays, each as a row of
+  /// choices that take effect on a tap.
+  ///
+  /// In landscape it comes in from the right and leaves the picture in view;
+  /// a sheet at the bottom would cover most of it and show three rows. Held
+  /// upright it is a sheet as tall as what it holds.
+  void showOptions({bool quality = true, bool speed = true, bool fit = true}) {
+    Widget options(BuildContext context) => SingleChildScrollView(
+      padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+      child: _buildOptions(context, quality: quality, speed: speed, fit: fit),
+    );
+
+    if (MediaQuery.orientationOf(context) == Orientation.portrait) {
+      showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        constraints: BoxConstraints(maxHeight: Get.height * 0.7),
+        builder: (context) => SafeArea(child: options(context)),
+      );
+      return;
+    }
+
+    showGeneralDialog(
       context: context,
-      backgroundColor: Colors.transparent,
-      builder: (_) {
-        return Container(
-          height: Get.height * 0.6,
-          clipBehavior: Clip.hardEdge,
-          decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.surface,
-            borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
+      barrierDismissible: true,
+      barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
+      barrierColor: Colors.black26,
+      transitionDuration: const Duration(milliseconds: 200),
+      pageBuilder: (context, _, _) => Material(
+        color: Theme.of(context).colorScheme.surface,
+        borderRadius: const BorderRadius.horizontal(left: Radius.circular(16)),
+        clipBehavior: Clip.antiAlias,
+        child: SafeArea(
+          left: false,
+          child: SizedBox(
+            width: (MediaQuery.sizeOf(context).width * 0.5).clamp(0, 360),
+            height: double.infinity,
+            child: options(context),
           ),
-          child: Column(
-            children: <Widget>[
-              SizedBox(
-                height: 36,
-                child: Center(
-                  child: Container(
-                    width: 32,
-                    height: 4,
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).colorScheme.onSecondaryContainer
-                          .withAlpha((0.5 * 255).round()),
-                      borderRadius: const BorderRadius.all(Radius.circular(4)),
-                    ),
-                  ),
-                ),
-              ),
-              Expanded(
-                child: Material(
-                  child: ListView(
-                    children: [
-                      ListTile(
-                        leading: const Icon(Icons.hd),
-                        title: Text(t.player.quality, style: titleStyle),
-                        subtitle: Text(
-                          t.player.current_item(
-                            item: widget.videoDetailCtr!.isOffline
-                                ? (widget.videoDetailCtr!.taskData
-                                          as VideoDownloadTask)
-                                      .resolutionName
-                                : widget
-                                      .videoDetailCtr!
-                                      .resolutions[widget
-                                          .videoDetailCtr!
-                                          .resolutionIndex]
-                                      .name,
-                          ),
-                          style: subTitleStyle,
-                        ),
-                        onTap: widget.videoDetailCtr!.isOffline
-                            ? null
-                            : () => {Get.back(), showResolutionSheet()},
-                      ),
-                      ListTile(
-                        leading: const Icon(Icons.speed),
-                        title: Text(t.player.playback_speed, style: titleStyle),
-                        subtitle: Text(
-                          t.player.current_item(
-                            item: '${widget.controller!.playbackSpeed}X',
-                          ),
-                          style: subTitleStyle,
-                        ),
-                        onTap: () => {Get.back(), showSetSpeedSheet()},
-                      ),
-                      ListTile(
-                        leading: const Icon(Icons.rectangle),
-                        title: Text(t.player.aspect_ratio, style: titleStyle),
-                        subtitle: Text(
-                          t.player.current_item(
-                            item: widget.controller!.videoFitDEsc.value,
-                          ),
-                          style: subTitleStyle,
-                        ),
-                        onTap: () => {Get.back(), showVideoFitSheet()},
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
+        ),
+      ),
+      transitionBuilder: (context, animation, _, child) => Align(
+        alignment: Alignment.centerRight,
+        child: SlideTransition(
+          position: Tween(begin: const Offset(1, 0), end: Offset.zero).animate(
+            CurvedAnimation(parent: animation, curve: Curves.easeOutCubic),
           ),
-        );
-      },
-      clipBehavior: Clip.hardEdge,
-      isScrollControlled: true,
+          child: child,
+        ),
+      ),
     );
   }
 
-  void showSetSpeedSheet() {
-    final double currentSpeed = widget.controller!.playbackSpeed;
-    showModalBottomSheet(
-      context: context,
-      elevation: 0,
-      backgroundColor: Colors.transparent,
-      builder: (BuildContext context) {
-        return Container(
-          height: Get.height * 0.6,
-          padding: EdgeInsets.only(bottom: Get.mediaQuery.padding.bottom),
-          clipBehavior: Clip.hardEdge,
-          decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.surface,
-            borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
-          ),
-          child: Column(
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 12),
-                child: Text(t.player.select_playback_speed, style: titleStyle),
-              ),
-              Expanded(
-                child: Material(
-                  child: ListView(
-                    children: [
-                      for (final double i in speedsList) ...<Widget>[
-                        if (i == currentSpeed) ...<Widget>[
-                          ListTile(
-                            title: Text(i.toString()),
-                            trailing: Icon(
-                              Icons.check,
-                              color: Theme.of(context).colorScheme.primary,
-                            ),
-                            onTap: () async {
-                              await widget.controller!.setPlaybackSpeed(i);
-                              Get.back();
-                            },
-                          ),
-                        ] else ...[
-                          ListTile(
-                            title: Text(i.toString()),
-                            onTap: () async {
-                              await widget.controller!.setPlaybackSpeed(i);
-                              Get.back();
-                            },
-                          ),
-                        ],
-                      ],
-                    ],
-                  ),
+  Widget _buildOptions(
+    BuildContext context, {
+    required bool quality,
+    required bool speed,
+    required bool fit,
+  }) {
+    final player = widget.controller!;
+    final detail = widget.videoDetailCtr!;
+    void close() => Navigator.of(context).pop();
+
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        if (quality)
+          // A download has the one resolution it was saved in.
+          detail.isOffline
+              ? _buildChoices<String>(
+                  context,
+                  icon: Icons.hd,
+                  title: t.player.quality,
+                  values: [
+                    (detail.taskData as VideoDownloadTask).resolutionName,
+                  ],
+                  isCurrent: (_) => true,
+                  label: (name) => name,
+                  onPick: null,
+                )
+              : _buildChoices<int>(
+                  context,
+                  icon: Icons.hd,
+                  title: t.player.quality,
+                  values: List.generate(detail.resolutions.length, (i) => i),
+                  isCurrent: (index) => index == detail.resolutionIndex,
+                  label: (index) => detail.resolutions[index].name,
+                  onPick: (index) {
+                    close();
+                    // Only this video; the default is the preferred quality
+                    // in the app settings.
+                    detail.resolutionIndex = index;
+                    detail.updatePlayer();
+                  },
                 ),
-              ),
-            ],
+        if (speed)
+          _buildChoices<double>(
+            context,
+            icon: Icons.speed,
+            title: t.player.playback_speed,
+            values: player.speedsList,
+            isCurrent: (value) => value == player.playbackSpeed,
+            label: (value) => '${value}X',
+            onPick: (value) {
+              close();
+              player.setPlaybackSpeed(value);
+            },
           ),
-        );
-      },
+        if (fit)
+          _buildChoices<Map<String, dynamic>>(
+            context,
+            icon: Icons.aspect_ratio,
+            title: t.player.aspect_ratio,
+            values: player.videoFitType,
+            isCurrent: (value) => value['attr'] == player.videoFit.value,
+            label: (value) => value['desc'],
+            onPick: (value) {
+              close();
+              player.videoFit.value = value['attr'];
+              player.videoFitDEsc.value = value['desc'];
+              player.setVideoFit();
+            },
+          ),
+      ],
     );
   }
 
-  void showVideoFitSheet() {
-    showModalBottomSheet(
-      context: context,
-      elevation: 0,
-      backgroundColor: Colors.transparent,
-      builder: (BuildContext context) {
-        return Container(
-          height: Get.height * 0.6,
-          padding: EdgeInsets.only(bottom: Get.mediaQuery.padding.bottom),
-          clipBehavior: Clip.hardEdge,
-          decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.surface,
-            borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
-          ),
-          child: Column(
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 12),
-                child: Text(t.player.select_aspect_ratio, style: titleStyle),
-              ),
-              Expanded(
-                child: Material(
-                  child: ListView(
-                    children: [
-                      for (final i in widget.controller!.videoFitType)
-                        ListTile(
-                          title: Text(i['desc']),
-                          trailing:
-                              i['attr'] == widget.controller!.videoFit.value
-                              ? Icon(
-                                  Icons.check,
-                                  color: Theme.of(context).colorScheme.primary,
-                                )
-                              : null,
-                          onTap: () async {
-                            widget.controller!.videoFit.value = i['attr'];
-                            widget.controller!.videoFitDEsc.value = i['desc'];
-                            widget.controller!.setVideoFit();
-                            Get.back();
-                          },
-                        ),
-                    ],
-                  ),
-                ),
-              ),
+  /// One thing to choose: what it is, and its values side by side with the
+  /// one in use marked. Without [onPick] it only shows what is in use.
+  Widget _buildChoices<T>(
+    BuildContext context, {
+    required IconData icon,
+    required String title,
+    required List<T> values,
+    required bool Function(T value) isCurrent,
+    required String Function(T value) label,
+    required void Function(T value)? onPick,
+  }) {
+    final theme = Theme.of(context);
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Icon(icon, size: 20, color: theme.colorScheme.onSurfaceVariant),
+              const SizedBox(width: 8),
+              Text(title, style: theme.textTheme.titleSmall),
             ],
           ),
-        );
-      },
-    );
-  }
-
-  void showResolutionSheet() {
-    List<ResolutionModel> resolutions = widget.videoDetailCtr!.resolutions;
-
-    showModalBottomSheet(
-      context: context,
-      elevation: 0,
-      backgroundColor: Colors.transparent,
-      builder: (BuildContext context) {
-        return Container(
-          height: 300,
-          padding: EdgeInsets.only(bottom: Get.mediaQuery.padding.bottom),
-          clipBehavior: Clip.hardEdge,
-          decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.surface,
-            borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
-          ),
-          child: Column(
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 12),
-                child: Text(t.player.select_quality, style: titleStyle),
-              ),
-              Expanded(
-                child: Material(
-                  child: ListView(
-                    children: [
-                      for (final ResolutionModel i in resolutions) ...<Widget>[
-                        ListTile(
-                          title: Text(i.name),
-                          trailing:
-                              i ==
-                                  widget.videoDetailCtr!.resolutions[widget
-                                      .videoDetailCtr!
-                                      .resolutionIndex]
-                              ? Icon(
-                                  Icons.check,
-                                  color: Theme.of(context).colorScheme.primary,
-                                )
-                              : null,
-                          onTap: () async {
-                            int index = resolutions.indexOf(i);
-
-                            // Only this video; the default is the preferred
-                            // quality in the app settings.
-                            widget.videoDetailCtr!.resolutionIndex = index;
-                            widget.videoDetailCtr!.updatePlayer();
-
-                            Get.back();
-                          },
-                        ),
-                      ],
-                    ],
-                  ),
+          const SizedBox(height: 8),
+          Wrap(
+            spacing: 8,
+            runSpacing: 4,
+            children: [
+              for (final value in values)
+                ChoiceChip(
+                  label: Text(label(value)),
+                  selected: isCurrent(value),
+                  showCheckmark: false,
+                  onSelected: onPick == null ? null : (_) => onPick(value),
                 ),
-              ),
             ],
           ),
-        );
-      },
+        ],
+      ),
     );
   }
 }

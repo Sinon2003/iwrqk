@@ -367,13 +367,9 @@ class _Translations$player$ja extends Translations$player$en {
 	final TranslationsJa _root; // ignore: unused_field
 
 	// Translations
-	@override String current_item({required Object item}) => '現在：${item}';
 	@override String get quality => '画質';
-	@override String get select_quality => '画質を選択';
 	@override String get playback_speed => '再生速度';
-	@override String get select_playback_speed => '再生速度を選択';
 	@override String get aspect_ratio => 'アスペクト比';
-	@override String get select_aspect_ratio => 'アスペクト比を選択';
 	@override late final _Translations$player$aspect_ratios$ja aspect_ratios = _Translations$player$aspect_ratios$ja._(_root);
 	@override String seconds({required Object value}) => '${value} 秒';
 	@override String get double_speed => '2 倍';
@@ -1118,13 +1114,9 @@ extension on TranslationsJa {
 			'media.updated_at' => ({required Object time}) => '${time} に更新',
 			'media.detail' => '詳細',
 			'media.comments' => 'コメント',
-			'player.current_item' => ({required Object item}) => '現在：${item}',
 			'player.quality' => '画質',
-			'player.select_quality' => '画質を選択',
 			'player.playback_speed' => '再生速度',
-			'player.select_playback_speed' => '再生速度を選択',
 			'player.aspect_ratio' => 'アスペクト比',
-			'player.select_aspect_ratio' => 'アスペクト比を選択',
 			'player.aspect_ratios.contain' => '含む',
 			'player.aspect_ratios.cover' => 'カバー',
 			'player.aspect_ratios.fill' => 'フィル',

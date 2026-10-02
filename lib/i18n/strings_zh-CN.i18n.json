@@ -182,13 +182,9 @@
     "comments": "评论"
   },
   "player": {
-    "current_item": "当前: $item",
     "quality": "画质",
-    "select_quality": "选择画质",
     "playback_speed": "播放速度",
-    "select_playback_speed": "选择播放速度",
     "aspect_ratio": "宽高比",
-    "select_aspect_ratio": "选择宽高比",
     "aspect_ratios": {
       "contain": "包含",
       "cover": "覆盖",
