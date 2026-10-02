@@ -32,6 +32,62 @@ void main() {
     expect(PlaybackMonitor.estimate([0, double.nan, double.infinity]), isNull);
   });
 
+  test('short fills use arrived bytes instead of the slow startup window', () {
+    expect(
+      PlaybackMonitor.estimate([490e3, 2.61e6], fillingFloor: 3e6),
+      2.61e6,
+    );
+    expect(PlaybackMonitor.estimate([2.61e6], fillingFloor: 3e6), 2.61e6);
+    expect(PlaybackMonitor.estimate([], fillingFloor: 3e6), 3e6);
+    expect(PlaybackMonitor.estimate([100e6], fillingFloor: 2e6), 2e6);
+    expect(PlaybackMonitor.estimate([100e6]), isNull);
+    expect(PlaybackMonitor.estimate([], fillingFloor: double.infinity), isNull);
+  });
+
+  testWidgets('only fresh network cache progress restarts passive learning', (
+    tester,
+  ) async {
+    final buffering = StreamController<bool>();
+    final player = _Player(buffering.stream);
+    final values = <double>[];
+    var end = 30.0;
+    var reading = false;
+    var window = 0;
+    final monitor = PlaybackMonitor(
+      player,
+      startedAt: DateTime.now().subtract(const Duration(seconds: 2)),
+      readSample: () => PlaybackSample(
+        TransferSpeed(3e6, DateTime(2026).add(Duration(seconds: window++))),
+        cacheFull: !reading,
+        loadedBytes: 6e6,
+        reading: reading,
+        cacheEnd: reading ? end++ : end,
+      ),
+      onSpeed: values.add,
+      onStall: () {},
+      lastSeekAt: () => null,
+    )..start();
+    await tester.pump(const Duration(seconds: 1));
+    expect(values.length, 1);
+    for (var i = 0; i < 40; i++) {
+      await tester.pump(const Duration(seconds: 1));
+    }
+    expect(values.length, 1); // A full cache cannot refresh the timestamp.
+    reading = true;
+    end = 60;
+    for (var i = 0; i < 30; i++) {
+      await tester.pump(const Duration(seconds: 1));
+    }
+    expect(values.length, 2);
+    player.state = player.state.copyWith(playing: false);
+    end = 90;
+    await tester.pump(const Duration(minutes: 6));
+    expect(values.length, 2);
+    monitor.dispose();
+    unawaited(buffering.close());
+    await tester.pump();
+  });
+
   testWidgets(
     'a stall reduction is never overwritten by earlier speed samples',
     (tester) async {

@@ -1,14 +1,16 @@
 import 'dart:async';
+import 'dart:convert';
+import 'dart:math';
 
 import 'package:flutter/foundation.dart';
 import 'package:media_kit/media_kit.dart';
 
 import '../../../../utils/parallel_range_proxy.dart';
+import '../../../../utils/playback_cache.dart';
 import '../../../../utils/log_util.dart';
 
-/// Watches an online playback for the automatic resolution choice: how fast
-/// the video downloads while the player fills its buffer, and whether
-/// playback stalls afterwards.
+/// Learns from real buffer fills. Once full, check infrequently for new network
+/// activity; cached playback and pauses cannot renew an old bandwidth sample.
 class PlaybackMonitor {
   PlaybackMonitor(
     this._player, {
@@ -17,38 +19,33 @@ class PlaybackMonitor {
     required this.lastSeekAt,
     this.readSpeed,
     this.readSample,
-  });
+    this.preload = PlaybackPreload.seconds30,
+    DateTime? startedAt,
+  }) : _startedAt = startedAt ?? DateTime.now();
 
   final Player _player;
-
-  /// Receives a conservative estimate, in bytes per second.
   final void Function(double bytesPerSecond) onSpeed;
-
-  /// Called at most once, when playback stops to wait for data.
   final void Function() onStall;
-
-  /// When playback last jumped; waiting for data right after is expected.
   final DateTime? Function() lastSeekAt;
+  final PlaybackPreload preload;
+  final DateTime _startedAt;
 
-  /// For accelerated playback, measure distinct upstream windows, not localhost.
+  /// Accelerated playback measures the upstream, never the localhost burst.
   final FutureOr<TransferSpeed?> Function()? readSpeed;
 
   @visibleForTesting
   final FutureOr<PlaybackSample?> Function()? readSample;
 
-  /// The player downloads fastest while it fills its buffer, early on.
   static const _samples = 12;
-
   Timer? _sampler;
   StreamSubscription<bool>? _buffering;
   Timer? _stallTimer;
-  int _sampled = 0;
+  int _sampled = 0, _idleTicks = 0;
   final List<double> _speeds = [];
-  bool _stalled = false;
-  bool _disposed = false;
-  bool _reading = false;
-  bool _reported = false;
+  bool _stalled = false, _disposed = false, _reading = false;
+  bool _reported = false, _initial = true;
   DateTime? _lastMeasurement;
+  double? _cacheEnd;
 
   void start() {
     _sampler = Timer.periodic(const Duration(seconds: 1), (_) => _sample());
@@ -65,13 +62,17 @@ class PlaybackMonitor {
   }
 
   Future<void> _sample() async {
-    if (_disposed || _stalled || _reported || _reading) return;
-    if (_sampled++ >= _samples) {
+    if (_disposed || _stalled || _reading) return;
+    if (!_player.state.playing || _player.state.completed || _recentSeek()) {
+      return;
+    }
+    // These are local property reads, not requests or speed-test downloads.
+    if (_reported && ++_idleTicks < 15) return;
+    _idleTicks = 0;
+    if (!_reported && _sampled++ >= _samples) {
       _report();
       return;
     }
-    if (!_player.state.playing || _player.state.completed) return;
-    if (_recentSeek()) return;
     _reading = true;
     try {
       final sample = readSample != null
@@ -79,24 +80,51 @@ class PlaybackMonitor {
           : await _readSample();
       if (_disposed ||
           _stalled ||
-          _reported ||
           sample == null ||
-          _recentSeek()) {
+          _recentSeek() ||
+          !_player.state.playing ||
+          _player.state.completed) {
         return;
       }
+      final previousEnd = _cacheEnd;
+      _cacheEnd = sample.cacheEnd ?? _cacheEnd;
+      if (_reported) {
+        // Seeing a nonzero cached rate is insufficient: the cache must actually
+        // be advancing while the demuxer reads, outside a seek.
+        if (!sample.reading ||
+            sample.cacheEnd == null ||
+            previousEnd == null ||
+            sample.cacheEnd! <= previousEnd) {
+          return;
+        }
+        _reported = false;
+        _sampled = 1;
+      }
       final measurement = sample.speed;
-      if (measurement != null &&
+      final advancing =
+          sample.cacheEnd != null &&
+          previousEnd != null &&
+          sample.cacheEnd! > previousEnd;
+      if ((_initial || advancing) &&
+          measurement != null &&
           measurement.measuredAt != _lastMeasurement &&
           measurement.bytesPerSecond.isFinite &&
           measurement.bytesPerSecond > 0) {
         _lastMeasurement = measurement.measuredAt;
         _speeds.add(measurement.bytesPerSecond);
       }
-      // Keep the last filling window, then stop. Later reads merely replenish
-      // the bounded cache at the video's bitrate, regardless of link capacity.
-      if (sample.cacheFull) _report();
+      if (sample.cacheFull) {
+        final elapsed =
+            DateTime.now().difference(_startedAt).inMicroseconds / 1e6;
+        // Packet bytes already cached provide a conservative end-to-end floor,
+        // even when a fast route fills the whole buffer in less than one window.
+        final floor = _initial && sample.loadedBytes > 0 && elapsed > 0
+            ? sample.loadedBytes / max(elapsed, .25)
+            : null;
+        _report(full: true, fillingFloor: floor);
+      }
     } catch (_) {
-      // The player went away between samples.
+      // A source can close while native properties are being read.
     } finally {
       _reading = false;
     }
@@ -105,45 +133,60 @@ class PlaybackMonitor {
   Future<PlaybackSample?> _readSample() async {
     final platform = _player.platform;
     if (platform is! NativePlayer) return null;
-    final values = await Future.wait([
-      platform.getProperty('demuxer-cache-idle'),
-      platform.getProperty('demuxer-cache-duration'),
-      platform.getProperty('demuxer-cache-state/fw-bytes'),
-    ]);
-    final full =
-        values[0] == 'yes' ||
-        (double.tryParse(values[1]) ?? 0) >= 27 ||
-        (int.tryParse(values[2]) ?? 0) >= 28 * 1024 * 1024;
-    TransferSpeed? speed;
-    if (readSpeed != null) {
-      speed = await readSpeed!();
-    } else {
-      final rate = double.tryParse(await platform.getProperty('cache-speed'));
-      if (rate != null) speed = TransferSpeed(rate, DateTime.now());
+    final raw = await platform.getProperty('demuxer-cache-state');
+    Map<String, dynamic> state = {};
+    try {
+      final parsed = jsonDecode(raw);
+      if (parsed is Map<String, dynamic>) state = parsed;
+    } on FormatException {
+      // Older backends may only expose the individual properties.
     }
-    return PlaybackSample(speed, cacheFull: full);
+    if (state.isEmpty) {
+      state = {
+        'idle': await platform.getProperty('demuxer-cache-idle') == 'yes',
+        'cache-duration': double.tryParse(
+          await platform.getProperty('demuxer-cache-duration'),
+        ),
+        'raw-input-rate': double.tryParse(
+          await platform.getProperty('cache-speed'),
+        ),
+      };
+    }
+    final speed = readSpeed != null
+        ? await readSpeed!()
+        : TransferSpeed(
+            PlaybackSample.number(state['raw-input-rate']),
+            DateTime.now(),
+          );
+    return PlaybackSample.fromState(state, preload: preload, speed: speed);
   }
 
-  void _report() {
+  void _report({bool full = false, double? fillingFloor}) {
     if (_reported) return;
     _reported = true;
-    _sampler?.cancel();
-    if (!_stalled && _speeds.length >= 2) {
-      final speed = estimate(_speeds);
-      if (speed != null) onSpeed(speed);
-    }
+    // A brief refill is often consumption-limited. It cannot replace an
+    // earlier capacity observation with the video's bitrate.
+    final speed = !_initial && _speeds.length < 3
+        ? null
+        : estimate(_speeds, fillingFloor: full ? fillingFloor : null);
+    if (!_stalled && speed != null) onSpeed(speed);
     LogUtil.debug(
       'Playback sampling finished: ${_speeds.length} filling windows',
     );
     _speeds.clear();
+    _initial = false;
   }
 
   @visibleForTesting
-  static double? estimate(List<double> samples) {
+  static double? estimate(List<double> samples, {double? fillingFloor}) {
     final valid = samples.where((s) => s.isFinite && s > 0).toList()..sort();
-    // The second fastest window rejects one isolated burst without allowing
-    // many consumption-limited samples to drown out the initial buffer fill.
-    return valid.length < 2 ? null : valid[valid.length - 2];
+    if (valid.length >= 3) return valid[valid.length - 2];
+    if (fillingFloor != null && fillingFloor.isFinite && fillingFloor > 0) {
+      // Short fills cannot use the second-highest rule: it selects startup.
+      // Bound a single peak by bytes that really arrived since opening.
+      return valid.isEmpty ? fillingFloor : min(valid.last, fillingFloor);
+    }
+    return valid.length == 2 ? valid.first : null;
   }
 
   bool _recentSeek() {
@@ -159,7 +202,6 @@ class PlaybackMonitor {
       return;
     }
     if (_stalled || _disposed) return;
-    // The first load and waiting after a seek are not stalls.
     if (_player.state.position < const Duration(seconds: 2)) return;
     if (_recentSeek() || !_player.state.playing || _player.state.completed) {
       return;
@@ -175,8 +217,6 @@ class PlaybackMonitor {
               const Duration(seconds: 2)) {
         return;
       }
-      // Brief rebuffering, pause and seeks must not poison the next choice.
-      // Settle earlier samples before lowering the estimate, never afterwards.
       _report();
       _stalled = true;
       onStall();
@@ -185,7 +225,46 @@ class PlaybackMonitor {
 }
 
 class PlaybackSample {
-  const PlaybackSample(this.speed, {this.cacheFull = false});
+  const PlaybackSample(
+    this.speed, {
+    this.cacheFull = false,
+    this.loadedBytes = 0,
+    this.reading = false,
+    this.cacheEnd,
+  });
+
   final TransferSpeed? speed;
   final bool cacheFull;
+  final double loadedBytes;
+  final bool reading;
+  final double? cacheEnd;
+
+  /// Read the parent JSON property: some shipped mpv versions return an empty
+  /// string for node subpaths such as demuxer-cache-state/fw-bytes.
+  factory PlaybackSample.fromState(
+    Map<String, dynamic> state, {
+    required PlaybackPreload preload,
+    TransferSpeed? speed,
+  }) {
+    final idle = state['idle'] == true;
+    final eof = state['eof'] == true;
+    final seconds = preload.seconds;
+    final full =
+        idle ||
+        eof ||
+        (seconds != null && number(state['cache-duration']) >= seconds * .95) ||
+        number(state['fw-bytes']) >= preload.forwardBytes * .95;
+    return PlaybackSample(
+      speed,
+      cacheFull: full,
+      loadedBytes: number(
+        state[preload.diskCache ? 'file-cache-bytes' : 'total-bytes'],
+      ),
+      reading: !idle && !eof,
+      cacheEnd: state['cache-end'] is num ? number(state['cache-end']) : null,
+    );
+  }
+
+  static double number(dynamic value) =>
+      value is num && value.isFinite && value > 0 ? value.toDouble() : 0;
 }

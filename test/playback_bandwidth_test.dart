@@ -50,13 +50,13 @@ void main() {
       url,
       1e5,
       accelerated: false,
-      now: now.add(const Duration(minutes: 6)),
+      now: now.add(PlaybackBandwidth.lifetime + const Duration(minutes: 1)),
     );
     expect(
       history.speedFor(
         url,
         accelerated: false,
-        now: now.add(const Duration(minutes: 6)),
+        now: now.add(PlaybackBandwidth.lifetime + const Duration(minutes: 1)),
       ),
       1e5,
     );
@@ -88,6 +88,36 @@ void main() {
       1.6e6,
     );
   });
+
+  test(
+    'long playback decays confidence without expiring abruptly at five minutes',
+    () {
+      final history = PlaybackBandwidth()
+        ..record(url, 3e6, accelerated: true, now: now);
+      double? at(int minutes) => history.speedFor(
+        url,
+        accelerated: true,
+        now: now.add(Duration(minutes: minutes)),
+      );
+      expect(at(5), 3e6);
+      expect(at(10), 2.7e6);
+      expect(at(20), 2.1e6);
+      expect(at(30), isNull);
+      final restored = PlaybackBandwidth.fromJson(history.toJson());
+      expect(
+        restored.speedFor(
+          url,
+          accelerated: true,
+          now: now.add(const Duration(minutes: 10)),
+        ),
+        2.7e6,
+      );
+      expect(
+        history.toJson()['samples'].values.single['at'],
+        now.toIso8601String(),
+      );
+    },
+  );
 
   test('ignores invalid or legacy unscoped estimates', () {
     for (final json in [

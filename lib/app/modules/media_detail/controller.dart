@@ -482,6 +482,8 @@ class MediaDetailController extends GetxController
       );
       _playbackMonitor = PlaybackMonitor(
         player,
+        preload: plPlayerController.playbackPreload,
+        startedAt: plPlayerController.sourceOpenedAt,
         readSpeed: accelerated
             ? () => ParallelRangeProxy.instance.sampleFor(source)
             : null,

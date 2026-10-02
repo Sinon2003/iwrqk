@@ -1,9 +1,10 @@
 import 'quality_picker.dart';
 
 /// Recent passive observations, scoped to a CDN host and transfer mode. A VPN
-/// node can change outside the app, so old observations expire quickly.
+/// node can change outside the app, so confidence fades without fresh reads.
 class PlaybackBandwidth {
-  static const lifetime = Duration(minutes: 5);
+  static const freshFor = Duration(minutes: 5);
+  static const lifetime = Duration(minutes: 30);
   final Map<String, (double, DateTime)> _samples = {};
 
   String _key(String url, bool accelerated) =>
@@ -21,9 +22,19 @@ class PlaybackBandwidth {
       return age >= Duration.zero && age < lifetime;
     }
 
+    double adjusted((double, DateTime) sample) {
+      final age = at.difference(sample.$2);
+      if (age <= freshFor) return sample.$1;
+      // A long video should not cause a sudden drop to the unknown budget at
+      // minute five. Decay toward 50% confidence, then expire after 30 minutes.
+      final fraction =
+          (age - freshFor).inSeconds / (lifetime - freshFor).inSeconds;
+      return sample.$1 * (1 - .5 * fraction);
+    }
+
     final key = _key(url, accelerated);
     final sample = _samples[key];
-    if (sample != null && fresh(sample)) return sample.$1;
+    if (sample != null && fresh(sample)) return adjusted(sample);
     if (!allowOtherHosts) return null;
     // Iwara assigns different CDN hosts to variants and rotates them on reopen.
     // For an unseen host, use the latest route observation with a further 20%
@@ -36,7 +47,7 @@ class PlaybackBandwidth {
             )
             .toList()
           ..sort((a, b) => b.value.$2.compareTo(a.value.$2));
-    return recent.isEmpty ? null : recent.first.value.$1 * .8;
+    return recent.isEmpty ? null : adjusted(recent.first.value) * .8;
   }
 
   void record(
