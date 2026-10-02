@@ -154,6 +154,11 @@ class Translations$records$zh_CN extends Translations$records$en {
 	@override String get delete_all_playlist_confirm => '确定移除这个播放列表里的全部视频吗？';
 	@override String get cloud_history_desc => '账号在所有设备上的观看记录';
 	@override String get local_history_desc => '这台设备上的观看记录，可搜索和删除';
+	@override String get cloud_history_title => '云端历史';
+	@override String get local_history_title => '本机历史';
+	@override String get search_local_history => '搜索本机历史';
+	@override String get search_local_history_hint => '输入标题或作者，在本机的观看记录里查找';
+	@override String search_no_result({required Object keyword}) => '没有找到与“${keyword}”相关的记录';
 }
 
 // Path: account
@@ -998,6 +1003,11 @@ extension on TranslationsZhCn {
 			'records.delete_all_playlist_confirm' => '确定移除这个播放列表里的全部视频吗？',
 			'records.cloud_history_desc' => '账号在所有设备上的观看记录',
 			'records.local_history_desc' => '这台设备上的观看记录，可搜索和删除',
+			'records.cloud_history_title' => '云端历史',
+			'records.local_history_title' => '本机历史',
+			'records.search_local_history' => '搜索本机历史',
+			'records.search_local_history_hint' => '输入标题或作者，在本机的观看记录里查找',
+			'records.search_no_result' => ({required Object keyword}) => '没有找到与“${keyword}”相关的记录',
 			'account.captcha' => '验证码',
 			'account.login' => '登录',
 			'account.logout' => '登出',

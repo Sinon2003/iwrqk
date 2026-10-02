@@ -48,7 +48,12 @@
     "delete_all_favorites_confirm": "Remove everything in this list from your favorites?",
     "delete_all_playlist_confirm": "Remove every video from this playlist?",
     "cloud_history_desc": "What your account watched, on every device",
-    "local_history_desc": "What was watched on this device; can be searched and deleted"
+    "local_history_desc": "What was watched on this device; can be searched and deleted",
+    "cloud_history_title": "Cloud history",
+    "local_history_title": "Device history",
+    "search_local_history": "Search this device's history",
+    "search_local_history_hint": "Type a title or an uploader to look through what was watched on this device",
+    "search_no_result": "Nothing found for \"$keyword\""
   },
   "account": {
     "captcha": "Captcha",

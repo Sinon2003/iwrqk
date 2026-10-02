@@ -42,7 +42,12 @@
     "delete_all_favorites_confirm": "このリストの内容をすべてお気に入りから外しますか？",
     "delete_all_playlist_confirm": "このプレイリストからすべての動画を外しますか？",
     "cloud_history_desc": "アカウントがすべての端末で視聴した履歴",
-    "local_history_desc": "この端末で視聴した履歴。検索と削除ができます"
+    "local_history_desc": "この端末で視聴した履歴。検索と削除ができます",
+    "cloud_history_title": "クラウドの履歴",
+    "local_history_title": "この端末の履歴",
+    "search_local_history": "この端末の履歴を検索",
+    "search_local_history_hint": "タイトルまたは投稿者を入力して、この端末の視聴履歴を検索します",
+    "search_no_result": "「$keyword」に一致する履歴はありません"
   },
   "account": {
     "captcha": "キャプチャ",

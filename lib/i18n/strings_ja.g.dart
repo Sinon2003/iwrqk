@@ -154,6 +154,11 @@ class _Translations$records$ja extends Translations$records$en {
 	@override String get delete_all_playlist_confirm => 'このプレイリストからすべての動画を外しますか？';
 	@override String get cloud_history_desc => 'アカウントがすべての端末で視聴した履歴';
 	@override String get local_history_desc => 'この端末で視聴した履歴。検索と削除ができます';
+	@override String get cloud_history_title => 'クラウドの履歴';
+	@override String get local_history_title => 'この端末の履歴';
+	@override String get search_local_history => 'この端末の履歴を検索';
+	@override String get search_local_history_hint => 'タイトルまたは投稿者を入力して、この端末の視聴履歴を検索します';
+	@override String search_no_result({required Object keyword}) => '「${keyword}」に一致する履歴はありません';
 }
 
 // Path: account
@@ -998,6 +1003,11 @@ extension on TranslationsJa {
 			'records.delete_all_playlist_confirm' => 'このプレイリストからすべての動画を外しますか？',
 			'records.cloud_history_desc' => 'アカウントがすべての端末で視聴した履歴',
 			'records.local_history_desc' => 'この端末で視聴した履歴。検索と削除ができます',
+			'records.cloud_history_title' => 'クラウドの履歴',
+			'records.local_history_title' => 'この端末の履歴',
+			'records.search_local_history' => 'この端末の履歴を検索',
+			'records.search_local_history_hint' => 'タイトルまたは投稿者を入力して、この端末の視聴履歴を検索します',
+			'records.search_no_result' => ({required Object keyword}) => '「${keyword}」に一致する履歴はありません',
 			'account.captcha' => 'キャプチャ',
 			'account.login' => 'ログイン',
 			'account.logout' => 'ログアウト',

@@ -154,6 +154,11 @@ class Translations$records$zh_TW extends Translations$records$en {
 	@override String get delete_all_playlist_confirm => '確定移除這個播放清單裡的全部影片嗎？';
 	@override String get cloud_history_desc => '帳號在所有裝置上的觀看紀錄';
 	@override String get local_history_desc => '這台裝置上的觀看紀錄，可搜尋和刪除';
+	@override String get cloud_history_title => '雲端歷史';
+	@override String get local_history_title => '本機歷史';
+	@override String get search_local_history => '搜尋本機歷史';
+	@override String get search_local_history_hint => '輸入標題或作者，在本機的觀看紀錄裡尋找';
+	@override String search_no_result({required Object keyword}) => '沒有找到與「${keyword}」相關的紀錄';
 }
 
 // Path: account
@@ -998,6 +1003,11 @@ extension on TranslationsZhTw {
 			'records.delete_all_playlist_confirm' => '確定移除這個播放清單裡的全部影片嗎？',
 			'records.cloud_history_desc' => '帳號在所有裝置上的觀看紀錄',
 			'records.local_history_desc' => '這台裝置上的觀看紀錄，可搜尋和刪除',
+			'records.cloud_history_title' => '雲端歷史',
+			'records.local_history_title' => '本機歷史',
+			'records.search_local_history' => '搜尋本機歷史',
+			'records.search_local_history_hint' => '輸入標題或作者，在本機的觀看紀錄裡尋找',
+			'records.search_no_result' => ({required Object keyword}) => '沒有找到與「${keyword}」相關的紀錄',
 			'account.captcha' => '驗證碼',
 			'account.login' => '登入',
 			'account.logout' => '登出',

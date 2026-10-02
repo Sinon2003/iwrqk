@@ -42,7 +42,12 @@
     "delete_all_favorites_confirm": "确定把这个列表里的内容全部取消收藏吗？",
     "delete_all_playlist_confirm": "确定移除这个播放列表里的全部视频吗？",
     "cloud_history_desc": "账号在所有设备上的观看记录",
-    "local_history_desc": "这台设备上的观看记录，可搜索和删除"
+    "local_history_desc": "这台设备上的观看记录，可搜索和删除",
+    "cloud_history_title": "云端历史",
+    "local_history_title": "本机历史",
+    "search_local_history": "搜索本机历史",
+    "search_local_history_hint": "输入标题或作者，在本机的观看记录里查找",
+    "search_no_result": "没有找到与“$keyword”相关的记录"
   },
   "account": {
     "captcha": "验证码",

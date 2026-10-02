@@ -232,6 +232,21 @@ class Translations$records$en {
 
 	/// en: 'What was watched on this device; can be searched and deleted'
 	String get local_history_desc => 'What was watched on this device; can be searched and deleted';
+
+	/// en: 'Cloud history'
+	String get cloud_history_title => 'Cloud history';
+
+	/// en: 'Device history'
+	String get local_history_title => 'Device history';
+
+	/// en: 'Search this device's history'
+	String get search_local_history => 'Search this device\'s history';
+
+	/// en: 'Type a title or an uploader to look through what was watched on this device'
+	String get search_local_history_hint => 'Type a title or an uploader to look through what was watched on this device';
+
+	/// en: 'Nothing found for "$keyword"'
+	String search_no_result({required Object keyword}) => 'Nothing found for "${keyword}"';
 }
 
 // Path: account
@@ -1863,6 +1878,11 @@ extension on Translations {
 			'records.delete_all_playlist_confirm' => 'Remove every video from this playlist?',
 			'records.cloud_history_desc' => 'What your account watched, on every device',
 			'records.local_history_desc' => 'What was watched on this device; can be searched and deleted',
+			'records.cloud_history_title' => 'Cloud history',
+			'records.local_history_title' => 'Device history',
+			'records.search_local_history' => 'Search this device\'s history',
+			'records.search_local_history_hint' => 'Type a title or an uploader to look through what was watched on this device',
+			'records.search_no_result' => ({required Object keyword}) => 'Nothing found for "${keyword}"',
 			'account.captcha' => 'Captcha',
 			'account.login' => 'Login',
 			'account.logout' => 'Logout',

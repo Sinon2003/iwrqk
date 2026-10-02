@@ -13,21 +13,23 @@ import 'widgets/site_history_list/widget.dart';
 class HistoryPage extends GetView<HistoryController> {
   const HistoryPage({super.key});
 
-  /// A chip next to the title that says whose history is showing and opens
-  /// the choice between the two. It takes a fraction of the room a row of
-  /// tabs did, and the menu has space to say what each one is.
-  Widget _buildSourceMenu(BuildContext context) {
+  /// The title says whose history is showing and opens the choice between
+  /// the two. It needs no room of its own next to the buttons, and the menu
+  /// has space to say what each one is.
+  Widget _buildSourceTitle(BuildContext context) {
     final theme = Theme.of(context);
     final sources = [
       (
         index: HistoryController.cloudTab,
         icon: Icons.cloud_outlined,
+        title: t.records.cloud_history_title,
         label: t.records.cloud_history,
         description: t.records.cloud_history_desc,
       ),
       (
         index: HistoryController.localTab,
         icon: Icons.smartphone,
+        title: t.records.local_history_title,
         label: t.records.local_history,
         description: t.records.local_history_desc,
       ),
@@ -68,19 +70,21 @@ class HistoryPage extends GetView<HistoryController> {
             ),
           ),
       ],
-      builder: (context, menu, _) => ActionChip(
-        avatar: Icon(current.icon, size: 18),
-        label: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(current.label),
-            const Icon(Icons.arrow_drop_down, size: 18),
-          ],
+      builder: (context, menu, _) => InkWell(
+        borderRadius: BorderRadius.circular(8),
+        onTap: () => menu.isOpen ? menu.close() : menu.open(),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 6),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Flexible(
+                child: Text(current.title, overflow: TextOverflow.ellipsis),
+              ),
+              const Icon(Icons.arrow_drop_down),
+            ],
+          ),
         ),
-        labelPadding: const EdgeInsets.only(left: 2),
-        visualDensity: VisualDensity.compact,
-        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-        onPressed: () => menu.isOpen ? menu.close() : menu.open(),
       ),
     );
   }
@@ -165,16 +169,7 @@ class HistoryPage extends GetView<HistoryController> {
         appBar: AppBarSwitcher(
           visible: controller.enableMultipleSelection,
           primary: AppBar(
-            title: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Flexible(
-                  child: Text(t.user.history, overflow: TextOverflow.ellipsis),
-                ),
-                const SizedBox(width: 10),
-                _buildSourceMenu(context),
-              ],
-            ),
+            title: _buildSourceTitle(context),
             // Searching and deleting only work on this device's history.
             actions: [
               if (controller.showingLocal) ...[
