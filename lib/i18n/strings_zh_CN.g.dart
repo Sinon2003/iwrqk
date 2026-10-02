@@ -198,7 +198,7 @@ class Translations$account_settings$zh_CN extends Translations$account_settings$
 	@override String get manage_on_web => '修改邮箱、密码或注销账号';
 	@override String get manage_on_web_desc => '在 Iwara 网页上操作';
 	@override String get blocked_users => '屏蔽的用户';
-	@override String get saved => '已保存';
+	@override String get saved => '修改成功';
 	@override String get description_hint => '介绍一下自己';
 }
 
@@ -1024,7 +1024,7 @@ extension on TranslationsZhCn {
 			'account_settings.manage_on_web' => '修改邮箱、密码或注销账号',
 			'account_settings.manage_on_web_desc' => '在 Iwara 网页上操作',
 			'account_settings.blocked_users' => '屏蔽的用户',
-			'account_settings.saved' => '已保存',
+			'account_settings.saved' => '修改成功',
 			'account_settings.description_hint' => '介绍一下自己',
 			'notification_list.title' => '通知',
 			'notification_list.mark_read' => '标为已读',

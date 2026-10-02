@@ -73,7 +73,7 @@
     "manage_on_web": "修改電子郵件、密碼或刪除帳號",
     "manage_on_web_desc": "在 Iwara 網頁上操作",
     "blocked_users": "封鎖的使用者",
-    "saved": "已儲存",
+    "saved": "修改成功",
     "description_hint": "介紹一下自己"
   },
   "notification_list": {

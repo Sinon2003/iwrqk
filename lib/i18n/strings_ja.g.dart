@@ -198,7 +198,7 @@ class _Translations$account_settings$ja extends Translations$account_settings$en
 	@override String get manage_on_web => 'メールアドレス・パスワードの変更、アカウント削除';
 	@override String get manage_on_web_desc => 'Iwara のウェブサイトで行います';
 	@override String get blocked_users => 'ブロックしたユーザー';
-	@override String get saved => '保存しました';
+	@override String get saved => '変更しました';
 	@override String get description_hint => '自己紹介を書いてみましょう';
 }
 
@@ -1024,7 +1024,7 @@ extension on TranslationsJa {
 			'account_settings.manage_on_web' => 'メールアドレス・パスワードの変更、アカウント削除',
 			'account_settings.manage_on_web_desc' => 'Iwara のウェブサイトで行います',
 			'account_settings.blocked_users' => 'ブロックしたユーザー',
-			'account_settings.saved' => '保存しました',
+			'account_settings.saved' => '変更しました',
 			'account_settings.description_hint' => '自己紹介を書いてみましょう',
 			'notification_list.title' => '通知',
 			'notification_list.mark_read' => '既読にする',

@@ -73,7 +73,7 @@
     "manage_on_web": "修改邮箱、密码或注销账号",
     "manage_on_web_desc": "在 Iwara 网页上操作",
     "blocked_users": "屏蔽的用户",
-    "saved": "已保存",
+    "saved": "修改成功",
     "description_hint": "介绍一下自己"
   },
   "notification_list": {
