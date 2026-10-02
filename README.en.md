@@ -34,6 +34,7 @@ Once installed, "App settings → Check Update" downloads and installs new versi
 - ✅ Friends manager
 - ✅ Account settings: avatar, profile header, nickname, description, content and notification preferences
 - ✅ Blocklist for tags; premium members can block users
+- ✅ Tags in Chinese: all of the site's 3000-odd tags are translated into Simplified and Traditional Chinese, to browse by group or find by typing Chinese (can be turned off in the app settings)
 - ✅ Watch history, both the account's on the site and this device's
 - ✅ Translation of video descriptions, comments and posts (Google, Volcengine, Tencent TranSmart, Yandex)
 - ✅ Login, logout, register
